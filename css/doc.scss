@@ -2,40 +2,8 @@
 layout: null
 permalink: /css/doc.css
 ---
-/* Overrides to default mandoc styling for HTML renders of RGBDS man pages */
 
-html {
-	/* Reduce contrast */
-	background-color: #f8f8f8;
-	color: #222;
-
-	/* Override `mandoc.css`'s sowe can put it on <body> instead */
-	max-width: none;
-}
-
-body {
-	/* Improve readability */
-	font-size: 16px;
-	line-height: 1.4;
-	text-align: justify;
-}
-@media print {
-	body {
-		/* Make font slightly smaller for printing */
-		font-size: 14px;
-	}
-}
-
-code, pre {
-	font-size: smaller;
-}
-
-pre {
-	/* Avoid horizontal page scrolling on mobile */
-	overflow: auto;
-}
-
-/* Separate lines in tables */
+// Separate lines in tables
 table.Bl-column {
 	border-collapse: collapse;
 
@@ -46,12 +14,12 @@ table.Bl-column {
 	}
 
 	th {
-		/* Apply `.Sy` style to table headers */
+		// Apply `.Sy` style to table headers
 		font-style: normal;
 		font-weight: bold;
 	}
 	td, th {
-		/* Add horizontal spacing between columns */
+		// Add horizontal spacing between columns
 		padding: 2px 7px 0;
 	}
 }
