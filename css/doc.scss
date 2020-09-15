@@ -14,23 +14,13 @@ html {
 }
 
 body {
-	/* Center body horizontally (requires <html> to span full width) */
-	margin: 0 auto;
-	/* `mandoc.css`'s default, but it's applied to <html> there */
-	max-width: 65em;
-
 	/* Improve readability */
 	font-size: 16px;
 	line-height: 1.4;
 	text-align: justify;
-
-	/* Prevent text from bumping sides on mobile devices */
-	padding: 10px 20px 10px 10px;
 }
 @media print {
 	body {
-		/* Max width doesn't make sense for print */
-		max-width: none;
 		/* Make font slightly smaller for printing */
 		font-size: 14px;
 	}
