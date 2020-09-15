@@ -109,8 +109,9 @@ Note that options can be abbreviated as long as the abbreviation is unambiguous:
     <var class="Ar" title="Ar">depend_file</var>,
     <b class="Fl" title="Fl">-</b><b class="Fl" title="Fl">-dependfile</b>
     <var class="Ar" title="Ar">depend_file</var></dt>
-  <dd class="It-tag">Print <a class="Xr" title="Xr">make(1)</a> dependencies to
-      <var class="Ar" title="Ar">depend_file</var>.</dd>
+  <dd class="It-tag">Print
+      <a class="Xr" title="Xr" href="make.1.html;https://linux.die.net/man/1/make">make(1)</a>
+      dependencies to <var class="Ar" title="Ar">depend_file</var>.</dd>
   <dt class="It-tag"><a class="selflink" href="#MG"><b class="Fl" title="Fl" id="MG">-MG</b></a></dt>
   <dd class="It-tag">To be used in conjunction with
       <b class="Fl" title="Fl">-M</b>. This makes
@@ -123,27 +124,27 @@ Note that options can be abbreviated as long as the abbreviation is unambiguous:
   <dt class="It-tag"><a class="selflink" href="#MP"><b class="Fl" title="Fl" id="MP">-MP</b></a></dt>
   <dd class="It-tag">When enabled, this causes a phony target to be added for
       each dependency other than the main file. This prevents
-      <a class="Xr" title="Xr">make(1)</a> from erroring out when dependency
-      files are deleted.</dd>
+      <a class="Xr" title="Xr" href="make.1.html;https://linux.die.net/man/1/make">make(1)</a>
+      from erroring out when dependency files are deleted.</dd>
   <dt class="It-tag"><a class="selflink" href="#MT"><b class="Fl" title="Fl" id="MT">-MT</b></a>
     <var class="Ar" title="Ar">target_file</var></dt>
   <dd class="It-tag">Add a target to the rules emitted by
       <b class="Fl" title="Fl">-M</b>. The exact string provided will be
       written, including spaces and special characters.
     <div class="D1"><code class="Li"><b class="Fl" title="Fl">-MT</b>
-      <b class="Fl" title="Fl">-fileA</b> <b class="Fl" title="Fl">-MT</b>
-      <b class="Fl" title="Fl">-fileB</b></code></div>
+      <span class="No">fileA</span> <b class="Fl" title="Fl">-MT</b>
+      <span class="No">fileB</span></code></div>
     is equivalent to
     <div class="D1"><code class="Li"><b class="Fl" title="Fl">-MT</b>
-      <b class="Fl" title="Fl">-'fileA</b>
-      <b class="Fl" title="Fl">-fileB'</b>.</code></div>
+      <span class="No">'fileA fileB'</span>.</code></div>
     If neither this nor <b class="Fl" title="Fl">-MQ</b> is specified, the
       output file name is used.</dd>
   <dt class="It-tag"><a class="selflink" href="#MQ"><b class="Fl" title="Fl" id="MQ">-MQ</b></a>
     <var class="Ar" title="Ar">target_file</var></dt>
   <dd class="It-tag">Same as <b class="Fl" title="Fl">-MT</b>, but additionally
-      escapes any special <a class="Xr" title="Xr">make(1)</a> characters,
-      essentially &#x2018;$&#x2019;.</dd>
+      escapes any special
+      <a class="Xr" title="Xr" href="make.1.html;https://linux.die.net/man/1/make">make(1)</a>
+      characters, essentially &#x2018;$&#x2019;.</dd>
   <dt class="It-tag"><a class="selflink" href="#o"><b class="Fl" title="Fl" id="o">-o</b></a>
     <var class="Ar" title="Ar">out_file</var>,
     <b class="Fl" title="Fl">-</b><b class="Fl" title="Fl">-output</b>
@@ -221,8 +222,8 @@ The following warnings are actual warning flags; with each description, the
   <dd class="It-tag">Warns when
       <b class="Ic" title="Ic">WARN</b><span class="No">-type</span> assertions
       fail. (See &#x201C;Aborting the assembly process&#x201D; in
-      <a class="Xr" title="Xr">rgbasm(5)</a> for
-      <b class="Ic" title="Ic">ASSERT</b>).</dd>
+      <a class="Xr" title="Xr" href="rgbasm.5.html;https://linux.die.net/man/5/rgbasm">rgbasm(5)</a>
+      for <b class="Ic" title="Ic">ASSERT</b>).</dd>
   <dt class="It-tag"><a class="selflink" href="#Wbuiltin-args"><b class="Fl" title="Fl" id="Wbuiltin-args">-Wbuiltin-args</b></a></dt>
   <dd class="It-tag">Warn about incorrect arguments to built-in functions, such
       as <b class="Fn" title="Fn">STRSUB</b>() with indexes outside of the
@@ -260,8 +261,8 @@ The following warnings are actual warning flags; with each description, the
   <dt class="It-tag"><a class="selflink" href="#Wno-user"><b class="Fl" title="Fl" id="Wno-user">-Wno-user</b></a></dt>
   <dd class="It-tag">Warn when the <b class="Ic" title="Ic">WARN</b> built-in is
       executed. (See &#x201C;Aborting the assembly process&#x201D; in
-      <a class="Xr" title="Xr">rgbasm(5)</a> for
-      <b class="Ic" title="Ic">WARN</b>).</dd>
+      <a class="Xr" title="Xr" href="rgbasm.5.html;https://linux.die.net/man/5/rgbasm">rgbasm(5)</a>
+      for <b class="Ic" title="Ic">WARN</b>).</dd>
 </dl>
 <h1 class="Sh" title="Sh" id="EXAMPLES"><a class="selflink" href="#EXAMPLES">EXAMPLES</a></h1>
 You can assemble a source file in two ways.
@@ -274,17 +275,21 @@ Pipes way:
 <div class="D1"><code class="Li">$ rgbasm -o bar.o - &lt; foo.asm</code></div>
 <div class="Pp"></div>
 The resulting object file is not yet a usable ROM image&#x2014;it must first be
-  run through <a class="Xr" title="Xr">rgblink(1)</a> and then
-  <a class="Xr" title="Xr">rgbfix(1)</a>.
+  run through
+  <a class="Xr" title="Xr" href="rgblink.1.html;https://linux.die.net/man/1/rgblink">rgblink(1)</a>
+  and then
+  <a class="Xr" title="Xr" href="rgbfix.1.html;https://linux.die.net/man/1/rgbfix">rgbfix(1)</a>.
 <h1 class="Sh" title="Sh" id="BUGS"><a class="selflink" href="#BUGS">BUGS</a></h1>
 Please report bugs on
-  <a class="Lk" title="Lk" href="https://github.com/rednex/rgbds/issues">GitHub</a>.
+  <a class="Lk" title="Lk" href="https://github.com/gbdev/rgbds/issues">GitHub</a>.
 <h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="selflink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr" title="Xr">rgbasm(5)</a>, <a class="Xr" title="Xr">rgbfix(1)</a>,
-  <a class="Xr" title="Xr">rgblink(1)</a>,
-  <a class="Xr" title="Xr">rgbds(5)</a>, <a class="Xr" title="Xr">rgbds(7)</a>,
-  <a class="Xr" title="Xr">gbz80(7)</a>
+<a class="Xr" title="Xr" href="rgbasm.5.html;https://linux.die.net/man/5/rgbasm">rgbasm(5)</a>,
+  <a class="Xr" title="Xr" href="rgbfix.1.html;https://linux.die.net/man/1/rgbfix">rgbfix(1)</a>,
+  <a class="Xr" title="Xr" href="rgblink.1.html;https://linux.die.net/man/1/rgblink">rgblink(1)</a>,
+  <a class="Xr" title="Xr" href="rgbds.5.html;https://linux.die.net/man/5/rgbds">rgbds(5)</a>,
+  <a class="Xr" title="Xr" href="rgbds.7.html;https://linux.die.net/man/7/rgbds">rgbds(7)</a>,
+  <a class="Xr" title="Xr" href="gbz80.7.html;https://linux.die.net/man/7/gbz80">gbz80(7)</a>
 <h1 class="Sh" title="Sh" id="HISTORY"><a class="selflink" href="#HISTORY">HISTORY</a></h1>
 <b class="Nm" title="Nm">rgbasm</b> was originally written by Carsten
   S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
@@ -293,6 +298,6 @@ Please report bugs on
 <table class="foot">
   <tr>
     <td class="foot-date">July 8, 2019</td>
-    <td class="foot-os">Debian</td>
+    <td class="foot-os">Linux</td>
   </tr>
 </table>

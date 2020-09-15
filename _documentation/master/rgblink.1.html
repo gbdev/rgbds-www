@@ -38,9 +38,10 @@ description: RGBDS master — Game Boy linker
 </table>
 <h1 class="Sh" title="Sh" id="DESCRIPTION"><a class="selflink" href="#DESCRIPTION">DESCRIPTION</a></h1>
 The <b class="Nm" title="Nm">rgblink</b> program links RGB object files,
-  typically created by <a class="Xr" title="Xr">rgbasm(1)</a>, into a single
-  Game Boy ROM file. The format is documented in
-  <a class="Xr" title="Xr">rgbds(5)</a>.
+  typically created by
+  <a class="Xr" title="Xr" href="rgbasm.1.html;https://linux.die.net/man/1/rgbasm">rgbasm(1)</a>,
+  into a single Game Boy ROM file. The format is documented in
+  <a class="Xr" title="Xr" href="rgbds.5.html;https://linux.die.net/man/5/rgbds">rgbds(5)</a>.
 <div class="Pp"></div>
 ROM0 sections are placed in the first 16 KiB of the output ROM, and ROMX
   sections are placed in any 16 KiB &#x201C;bank&#x201D; except the first. If
@@ -77,8 +78,8 @@ Note that options can be abbreviated as long as the abbreviation is unambiguous:
   <dd class="It-tag">Specify a linker script file that tells the linker how
       sections must be placed in the ROM. The attributes assigned in the linker
       script must be consistent with any assigned in the code. See
-      <a class="Xr" title="Xr">rgblink(5)</a> for more information about the
-      linker script format.</dd>
+      <a class="Xr" title="Xr" href="rgblink.5.html;https://linux.die.net/man/5/rgblink">rgblink(5)</a>
+      for more information about the linker script format.</dd>
   <dt class="It-tag"><a class="selflink" href="#m"><b class="Fl" title="Fl" id="m">-m</b></a>
     <var class="Ar" title="Ar">map_file</var>,
     <b class="Fl" title="Fl">-</b><b class="Fl" title="Fl">-map</b>
@@ -141,7 +142,8 @@ Note that options can be abbreviated as long as the abbreviation is unambiguous:
   <dd class="It-tag">Disables padding the end of the final file. This option
       automatically enables <b class="Fl" title="Fl">-t</b>. You can use this
       when not not making a ROM. When making a ROM, be careful that not using
-      this is not a replacement for <a class="Xr" title="Xr">rgbfix(1)</a>'s
+      this is not a replacement for
+      <a class="Xr" title="Xr" href="rgbfix.1.html;https://linux.die.net/man/1/rgbfix">rgbfix(1)</a>'s
       <b class="Fl" title="Fl">-p</b> option!</dd>
 </dl>
 <h1 class="Sh" title="Sh" id="EXAMPLES"><a class="selflink" href="#EXAMPLES">EXAMPLES</a></h1>
@@ -152,8 +154,8 @@ All you need for a basic ROM is an object file, which can be made into a ROM
 <div class="Pp"></div>
 The resulting <var class="Ar" title="Ar">bar.gb</var> will not have correct
   checksums (unless you put them in the assembly source). You should use
-  <a class="Xr" title="Xr">rgbfix(1)</a> to fix these so that the program will
-  actually run in a Game Boy:
+  <a class="Xr" title="Xr" href="rgbfix.1.html;https://linux.die.net/man/1/rgbfix">rgbfix(1)</a>
+  to fix these so that the program will actually run in a Game Boy:
 <div class="Pp"></div>
 <div class="D1"><code class="Li">$ rgbfix -v bar.gb</code></div>
 <div class="Pp"></div>
@@ -163,12 +165,14 @@ Here is a more complete example:
   0xFF obj/title.o obj/engine.o</code></div>
 <h1 class="Sh" title="Sh" id="BUGS"><a class="selflink" href="#BUGS">BUGS</a></h1>
 Please report bugs on
-  <a class="Lk" title="Lk" href="https://github.com/rednex/rgbds/issues">GitHub</a>.
+  <a class="Lk" title="Lk" href="https://github.com/gbdev/rgbds/issues">GitHub</a>.
 <h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="selflink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr" title="Xr">rgbasm(1)</a>, <a class="Xr" title="Xr">rgblink(5)</a>,
-  <a class="Xr" title="Xr">rgbfix(1)</a>, <a class="Xr" title="Xr">rgbds(5)</a>,
-  <a class="Xr" title="Xr">rgbds(7)</a>
+<a class="Xr" title="Xr" href="rgbasm.1.html;https://linux.die.net/man/1/rgbasm">rgbasm(1)</a>,
+  <a class="Xr" title="Xr" href="rgblink.5.html;https://linux.die.net/man/5/rgblink">rgblink(5)</a>,
+  <a class="Xr" title="Xr" href="rgbfix.1.html;https://linux.die.net/man/1/rgbfix">rgbfix(1)</a>,
+  <a class="Xr" title="Xr" href="rgbds.5.html;https://linux.die.net/man/5/rgbds">rgbds(5)</a>,
+  <a class="Xr" title="Xr" href="rgbds.7.html;https://linux.die.net/man/7/rgbds">rgbds(7)</a>
 <h1 class="Sh" title="Sh" id="HISTORY"><a class="selflink" href="#HISTORY">HISTORY</a></h1>
 <b class="Nm" title="Nm">rgblink</b> was originally written by Carsten
   S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
@@ -177,6 +181,6 @@ Please report bugs on
 <table class="foot">
   <tr>
     <td class="foot-date">November 26, 2019</td>
-    <td class="foot-os">Debian</td>
+    <td class="foot-os">Linux</td>
   </tr>
 </table>
