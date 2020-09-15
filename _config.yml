@@ -15,8 +15,9 @@ keywords:
   - asm
 baseurl: "/"
 url: ""
+logo: /assets/rgbds.png
 twitter:
-  card: summary
+  card: summary_large_image
   username: gbdev0
 author: gbdev0
 social:
@@ -24,6 +25,13 @@ social:
   links:
     - https://twitter.com/gbdev0
     - https://github.com/gbdev
+
+# Front matter defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/rgbds.png
 
 # Build settings
 markdown: kramdown
