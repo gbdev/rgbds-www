@@ -11,219 +11,229 @@ description: RGBDS master — language documentation
   </tr>
 </table>
 <div class="manual-text">
-<section class="Sh">
-<h1 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h1>
-<code class="Nm">rgbasm</code> &#x2014;
-<div class="Nd">language documentation</div>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+<h1 class="Sh" title="Sh" id="NAME"><a class="selflink" href="#NAME">NAME</a></h1>
+<b class="Nm" title="Nm">rgbasm</b> &#x2014;
+  <span class="Nd" title="Nd">language documentation</span>
+<h1 class="Sh" title="Sh" id="DESCRIPTION"><a class="selflink" href="#DESCRIPTION">DESCRIPTION</a></h1>
 This is the full description of the language used by
-  <a class="Xr">rgbasm(1)</a>. The description of the instructions supported by
-  the Game Boy CPU is in <a class="Xr">gbz80(7)</a>.
-<p class="Pp">It is strongly recommended to have some familiarity with the Game
-    Boy hardware before reading this document. RGBDS is specifically targeted at
-    the Game Boy, and thus a lot of its features tie directly to its concepts.
-    This document is not intended to be a Game Boy hardware reference.</p>
-<p class="Pp">Generally, &#x201C;the linker&#x201D; will refer to
-    <a class="Xr">rgblink(1)</a>, but any program that processes RGB object
-    files (described in <a class="Xr">rgbds(5)</a>) can be used in its
-  place.</p>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h1>
+  <a class="Xr" title="Xr">rgbasm(1)</a>. The description of the instructions
+  supported by the Game Boy CPU is in <a class="Xr" title="Xr">gbz80(7)</a>.
+<div class="Pp"></div>
+It is strongly recommended to have some familiarity with the Game Boy hardware
+  before reading this document. RGBDS is specifically targeted at the Game Boy,
+  and thus a lot of its features tie directly to its concepts. This document is
+  not intended to be a Game Boy hardware reference.
+<div class="Pp"></div>
+Generally, &#x201C;the linker&#x201D; will refer to
+  <a class="Xr" title="Xr">rgblink(1)</a>, but any program that processes RGB
+  object files (described in <a class="Xr" title="Xr">rgbds(5)</a>) can be used
+  in its place.
+<h1 class="Sh" title="Sh" id="SYNTAX"><a class="selflink" href="#SYNTAX">SYNTAX</a></h1>
 The syntax is line&#x2010;based, just as in any other assembler, meaning that
   you do one instruction or pseudo&#x2010;op per line:
-<p class="Pp"></p>
-<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>]
-  [<var class="Ar">instruction</var>]
-  [<var class="Ar">;&#x00A0;comment</var>]</code></div>
-<p class="Pp">Example:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+<div class="D1"><code class="Li">[<span class="Op"><var class="Ar" title="Ar">label</var></span>]
+  [<span class="Op"><var class="Ar" title="Ar">instruction</var></span>]
+  [<span class="Op"><var class="Ar" title="Ar">;&#x00A0;comment</var></span>]</code></div>
+<div class="Pp"></div>
+Example:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 John: ld a,87 ;Weee
 </pre>
 </div>
-<p class="Pp">All reserved keywords (pseudo&#x2010;ops, mnemonics, registers
-    etc.) are case&#x2010;insensitive, all identifiers (symbol names) are
-    case-sensitive.</p>
-<p class="Pp">Comments are used to give humans information about the code, such
-    as explanations. The assembler <i class="Em">always</i> ignores comments and
-    their contents.</p>
-<p class="Pp">There are two syntaxes for comments. The most common is that
-    anything that follows a semicolon &#x2018;<code class="Li">;</code>&#x2019;
-    not inside a string, is a comment until the end of the line. The other is
-    that lines beginning with a &#x2018;<code class="Li">*</code>&#x2019; (not
-    even spaces before it) are ignored. This second syntax is deprecated (will
-    be removed in a future version) and should be replaced with the first
-  one.</p>
-<p class="Pp">Sometimes lines can be too long and it may be necessary to split
-    them. To do so, put a backslash at the end of the line:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-    DB 1, 2, 3,&#x00A0;\
-       4, 5, 6,&#x00A0;\&#x00A0;;&#x00A0;Put it before any comments
+<div class="Pp"></div>
+All reserved keywords (pseudo&#x2010;ops, mnemonics, registers etc.) are
+  case&#x2010;insensitive, all identifiers (symbol names) are case-sensitive.
+<div class="Pp"></div>
+Comments are used to give humans information about the code, such as
+  explanations. The assembler <i class="Em" title="Em">always</i> ignores
+  comments and their contents.
+<div class="Pp"></div>
+There are two syntaxes for comments. The most common is that anything that
+  follows a semicolon &#x2018;<code class="Li">;</code>&#x2019; not inside a
+  string, is a comment until the end of the line. The other is that lines
+  beginning with a &#x2018;<code class="Li">*</code>&#x2019; (not even spaces
+  before it) are ignored. This second syntax is deprecated (will be removed in a
+  future version) and should be replaced with the first one.
+<div class="Pp"></div>
+Sometimes lines can be too long and it may be necessary to split them. To do so,
+  put a backslash at the end of the line:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+    DB 1, 2, 3,&#x00A0;\ 
+       4, 5, 6,&#x00A0;\&#x00A0;;&#x00A0;Put it before any comments 
        7, 8, 9
 </pre>
 </div>
-<p class="Pp">This works anywhere in the code except inside of strings. To split
-    strings it is needed to use <code class="Fn">STRCAT</code>() like this:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-    db STRCAT(&quot;Hello &quot;,&#x00A0;\
+<div class="Pp"></div>
+This works anywhere in the code except inside of strings. To split strings it is
+  needed to use <b class="Fn" title="Fn">STRCAT</b>() like this:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+    db STRCAT(&quot;Hello &quot;,&#x00A0;\ 
               &quot;world!&quot;)
 </pre>
 </div>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="EXPRESSIONS"><a class="permalink" href="#EXPRESSIONS">EXPRESSIONS</a></h1>
+<h1 class="Sh" title="Sh" id="EXPRESSIONS"><a class="selflink" href="#EXPRESSIONS">EXPRESSIONS</a></h1>
 An expression can be composed of many things. Numerical expressions are always
   evaluated using signed 32-bit math. Zero is considered to be the only
   &quot;false&quot; number, all non-zero numbers (including negative) are
   &quot;true&quot;.
-<p class="Pp">An expression is said to be &quot;constant&quot; if
-    <code class="Nm">rgbasm</code> knows its value. This is generally always the
-    case, unless a label is involved, as explained in the
-    <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section.</p>
-<p class="Pp">The instructions in the macro-language generally require constant
-    expressions.</p>
-<section class="Ss">
-<h2 class="Ss" id="Numeric_Formats"><a class="permalink" href="#Numeric_Formats">Numeric
+<div class="Pp"></div>
+An expression is said to be &quot;constant&quot; if
+  <b class="Nm" title="Nm">rgbasm</b> knows its value. This is generally always
+  the case, unless a label is involved, as explained in the
+  <a class="Sx" title="Sx" href="#SYMBOLS">SYMBOLS</a> section.
+<div class="Pp"></div>
+The instructions in the macro-language generally require constant expressions.
+<h2 class="Ss" title="Ss" id="Numeric_Formats"><a class="selflink" href="#Numeric_Formats">Numeric
   Formats</a></h2>
 There are a number of numeric formats.
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">Format type</b></td>
-    <td><b class="Sy">Prefix</b></td>
-    <td><b class="Sy">Accepted characters</b></td>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 25.80ex;"/>
+    <col style="min-width: 6.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Format type</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Prefix</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Accepted characters</b></td>
   </tr>
-  <tr>
-    <td>Hexadecimal</td>
-    <td>$</td>
-    <td>0123456789ABCDEF</td>
+  <tr class="It-column">
+    <td class="It-column">Hexadecimal</td>
+    <td class="It-column">$</td>
+    <td class="It-column">0123456789ABCDEF</td>
   </tr>
-  <tr>
-    <td>Decimal</td>
-    <td>none</td>
-    <td>0123456789</td>
+  <tr class="It-column">
+    <td class="It-column">Decimal</td>
+    <td class="It-column">none</td>
+    <td class="It-column">0123456789</td>
   </tr>
-  <tr>
-    <td>Octal</td>
-    <td>&amp;</td>
-    <td>01234567</td>
+  <tr class="It-column">
+    <td class="It-column">Octal</td>
+    <td class="It-column">&amp;</td>
+    <td class="It-column">01234567</td>
   </tr>
-  <tr>
-    <td>Binary</td>
-    <td>%</td>
-    <td>01</td>
+  <tr class="It-column">
+    <td class="It-column">Binary</td>
+    <td class="It-column">%</td>
+    <td class="It-column">01</td>
   </tr>
-  <tr>
-    <td>Fixed point (16.16)</td>
-    <td>none</td>
-    <td>01234.56789</td>
+  <tr class="It-column">
+    <td class="It-column">Fixed point (16.16)</td>
+    <td class="It-column">none</td>
+    <td class="It-column">01234.56789</td>
   </tr>
-  <tr>
-    <td>Character constant</td>
-    <td>none</td>
-    <td>&quot;ABYZ&quot;</td>
+  <tr class="It-column">
+    <td class="It-column">Character constant</td>
+    <td class="It-column">none</td>
+    <td class="It-column">&quot;ABYZ&quot;</td>
   </tr>
-  <tr>
-    <td>Gameboy graphics</td>
-    <td>`</td>
-    <td>0123</td>
+  <tr class="It-column">
+    <td class="It-column">Gameboy graphics</td>
+    <td class="It-column">`</td>
+    <td class="It-column">0123</td>
   </tr>
 </table>
-<p class="Pp">The &quot;character constant&quot; form yields the value the
-    character maps to in the current charmap. For example, by default (refer to
-    <a class="Xr">ascii(7)</a>) &#x2018;&quot;A&quot;&#x2019; yields 65. See
-    <a class="Sx" href="#Character_maps">Character maps</a> for information on
-    charmaps.</p>
-<p class="Pp">The last one, Gameboy graphics, is quite interesting and useful.
-    After the backtick, 8 digits between 0 and 3 are expected, corresponding to
-    pixel values. The resulting value is the two bytes of tile data that would
-    produce that row of pixels. For example, &#x2018;`01012323&#x2019; is
-    equivalent to &#x2018;$0F55&#x2019;.</p>
-<p class="Pp">You can also use symbols, which are implicitly replaced with their
-    value.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Operators"><a class="permalink" href="#Operators">Operators</a></h2>
+<div class="Pp"></div>
+The &quot;character constant&quot; form yields the value the character maps to
+  in the current charmap. For example, by default (refer to
+  <a class="Xr" title="Xr">ascii(7)</a>) &#x2018;&quot;A&quot;&#x2019; yields
+  65. See <a class="Sx" title="Sx" href="#Character_maps">Character maps</a> for
+  information on charmaps.
+<div class="Pp"></div>
+The last one, Gameboy graphics, is quite interesting and useful. After the
+  backtick, 8 digits between 0 and 3 are expected, corresponding to pixel
+  values. The resulting value is the two bytes of tile data that would produce
+  that row of pixels. For example, &#x2018;`01012323&#x2019; is equivalent to
+  &#x2018;$0F55&#x2019;.
+<div class="Pp"></div>
+You can also use symbols, which are implicitly replaced with their value.
+<h2 class="Ss" title="Ss" id="Operators"><a class="selflink" href="#Operators">Operators</a></h2>
 A great number of operators you can use in expressions are available (listed
   from highest to lowest precedence):
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">Operator</b></td>
-    <td><b class="Sy">Meaning</b></td>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="min-width: 15.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Operator</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Meaning</b></td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#(__&amp;)"><code class="Li" id="(__&amp;)">(
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#(_)"><code class="Li" id="(_)">(
       )</code></a></td>
-    <td>Precedence override</td>
+    <td class="It-column">Precedence override</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#FUNC()"><code class="Li" id="FUNC()">FUNC()</code></a></td>
-    <td>Built-in function call</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#FUNC()"><code class="Li" id="FUNC()">FUNC()</code></a></td>
+    <td class="It-column">Built-in function call</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#~_+_-"><code class="Li" id="~_+_-">~ +
-      -</code></a></td>
-    <td>Unary complement/plus/minus</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#~_+_-"><code class="Li" id="~_+_-">~
+      + -</code></a></td>
+    <td class="It-column">Unary complement/plus/minus</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#*_/__"><code class="Li" id="*_/__">* /
-      %</code></a></td>
-    <td>Multiply/divide/modulo</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#*_/_%"><code class="Li" id="*_/_%">*
+      / %</code></a></td>
+    <td class="It-column">Multiply/divide/modulo</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#_____"><code class="Li" id="_____">&lt;&lt;
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#&lt;&lt;_&gt;&gt;"><code class="Li" id="&lt;&lt;_&gt;&gt;">&lt;&lt;
       &gt;&gt;</code></a></td>
-    <td>Shift left/right</td>
+    <td class="It-column">Shift left/right</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#&amp;__&amp;___"><code class="Li" id="&amp;__&amp;___">&amp;
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#&amp;_|_^"><code class="Li" id="&amp;_|_^">&amp;
       | ^</code></a></td>
-    <td>Binary and/or/xor</td>
+    <td class="It-column">Binary and/or/xor</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#+_-"><code class="Li" id="+_-">+
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#+_-"><code class="Li" id="+_-">+
       -</code></a></td>
-    <td>Add/subtract</td>
+    <td class="It-column">Add/subtract</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#!=_==__=__=____"><code class="Li" id="!=_==__=__=____">!=
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#!=_==_&lt;=_&gt;=_&lt;_&gt;"><code class="Li" id="!=_==_&lt;=_&gt;=_&lt;_&gt;">!=
       == &lt;= &gt;= &lt; &gt;</code></a></td>
-    <td>Comparison</td>
+    <td class="It-column">Comparison</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#&amp;&amp;___"><code class="Li" id="&amp;&amp;___">&amp;&amp;
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#&amp;&amp;_||"><code class="Li" id="&amp;&amp;_||">&amp;&amp;
       ||</code></a></td>
-    <td>Boolean and/or</td>
+    <td class="It-column">Boolean and/or</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#!"><code class="Li" id="!">!</code></a></td>
-    <td>Unary not</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#!"><code class="Li" id="!">!</code></a></td>
+    <td class="It-column">Unary not</td>
   </tr>
 </table>
-<p class="Pp"><code class="Ic">~</code> complements a value by inverting all its
-    bits.</p>
-<p class="Pp"><code class="Ic">%</code> is used to get the remainder of the
-    corresponding division. &#x2018;5 % 2&#x2019; is 1.</p>
-<p class="Pp">Shifting works by shifting all bits in the left operand either
-    left (&#x2018;&lt;&lt;&#x2019;) or right (&#x2018;&gt;&gt;&#x2019;) by the
-    right operand's amount. When shifting left, all newly-inserted bits are
-    reset; when shifting right, they are copies of the original most significant
-    bit instead. This makes &#x2018;a &lt;&lt; b&#x2019; and &#x2018;a &gt;&gt;
-    b&#x2019; equivalent to multiplying and dividing by 2 to the power of b,
-    respectively.</p>
-<p class="Pp">Comparison operators return 0 if the comparison is false, and 1
-    otherwise.</p>
-<p class="Pp">Unlike in a lot of languages, and for technical reasons,
-    <code class="Nm">rgbasm</code> still evaluates both operands of
-    &#x2018;&amp;&amp;&#x2019; and &#x2018;||&#x2019;.</p>
-<p class="Pp">! returns 1 if the operand was 0, and 0 otherwise.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Fixed__u2010_point_Expressions"><a class="permalink" href="#Fixed__u2010_point_Expressions">Fixed&#x2010;point
+<div class="Pp"></div>
+<b class="Ic" title="Ic">~</b> complements a value by inverting all its bits.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">%</b> is used to get the remainder of the corresponding
+  division. &#x2018;5 % 2&#x2019; is 1.
+<div class="Pp"></div>
+Shifting works by shifting all bits in the left operand either left
+  (&#x2018;&lt;&lt;&#x2019;) or right (&#x2018;&gt;&gt;&#x2019;) by the right
+  operand's amount. When shifting left, all newly-inserted bits are reset; when
+  shifting right, they are copies of the original most significant bit instead.
+  This makes &#x2018;a &lt;&lt; b&#x2019; and &#x2018;a &gt;&gt; b&#x2019;
+  equivalent to multiplying and dividing by 2 to the power of b, respectively.
+<div class="Pp"></div>
+Comparison operators return 0 if the comparison is false, and 1 otherwise.
+<div class="Pp"></div>
+Unlike in a lot of languages, and for technical reasons,
+  <b class="Nm" title="Nm">rgbasm</b> still evaluates both operands of
+  &#x2018;&amp;&amp;&#x2019; and &#x2018;||&#x2019;.
+<div class="Pp"></div>
+! returns 1 if the operand was 0, and 0 otherwise.
+<h2 class="Ss" title="Ss" id="Fixed&#x2010;point_Expressions"><a class="selflink" href="#Fixed&#x2010;point_Expressions">Fixed&#x2010;point
   Expressions</a></h2>
 Fixed-point numbers are basically normal (32-bit) integers, which count
   65536th's instead of entire units, offering better precision than integers but
@@ -234,83 +244,86 @@ Fixed-point numbers are basically normal (32-bit) integers, which count
   whether the operands are integers or fixed-point. You can easily truncate a
   fixed-point number into an integer by shifting it right by 16 bits. It follows
   that you can convert an integer to a fixed-point number by shifting it left.
-<p class="Pp">The following functions are designed to operate with fixed-point
-    numbers:</p>
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">Name</b></td>
-    <td><b class="Sy">Operation</b></td>
+<div class="Pp"></div>
+The following functions are designed to operate with fixed-point numbers:
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="min-width: 11.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Name</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Operation</b></td>
   </tr>
-  <tr>
-    <td><code class="Fn">DIV</code>(<var class="Fa">x</var>,
-      <var class="Fa">y</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">DIV</b>(<var class="Fa" title="Fa">x</var>,
+      <var class="Fa" title="Fa">y</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>x</mi><mo>&#x00F7;</mo><mi>y</mi></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">MUL</code>(<var class="Fa">x</var>,
-      <var class="Fa">y</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">MUL</b>(<var class="Fa" title="Fa">x</var>,
+      <var class="Fa" title="Fa">y</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>x</mi><mo>&#x00D7;</mo><mi>y</mi></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">SIN</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">SIN</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>sin</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">COS</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">COS</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>cos</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">TAN</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">TAN</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>tan</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">ASIN</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">ASIN</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>asin</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">ACOS</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">ACOS</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>acos</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">ATAN</code>(<var class="Fa">x</var>)</td>
-    <td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">ATAN</b>(<var class="Fa" title="Fa">x</var>)</td>
+    <td class="It-column">
     <math class="eqn">
       <mrow><mi>atan</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
-  <tr>
-    <td><code class="Fn">ATAN2</code>(<var class="Fa">x</var>,
-      <var class="Fa">y</var>)</td>
-    <td>Angle between
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">ATAN2</b>(<var class="Fa" title="Fa">x</var>,
+      <var class="Fa" title="Fa">y</var>)</td>
+    <td class="It-column">Angle between
     <math class="eqn">
       <mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow>
     </math>
@@ -321,24 +334,24 @@ Fixed-point numbers are basically normal (32-bit) integers, which count
     </td>
   </tr>
 </table>
-<p class="Pp">These functions are useful for automatic generation of various
-    tables. Example: assuming a circle has 65536.0 degrees, and sine values are
-    in range [-1.0 ;&#x00A0;1.0]:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-;&#x00A0;--
-;&#x00A0;-- Generate a 256-byte sine table with values between 0 and 128
-;&#x00A0;--
-ANGLE = 0.0
-      REPT 256
-      db MUL(64.0, SIN(ANGLE) + 1.0) &gt;&gt; 16
-ANGLE = ANGLE + 256.0 ; 256 = 65536 / table_len, with table_len = 256
+<div class="Pp"></div>
+These functions are useful for automatic generation of various tables. Example:
+  assuming a circle has 65536.0 degrees, and sine values are in range [-1.0
+  ;&#x00A0;1.0]:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+;&#x00A0;-- 
+;&#x00A0;-- Generate a 256-byte sine table with values between 0 and 128 
+;&#x00A0;-- 
+ANGLE = 0.0 
+      REPT 256 
+      db MUL(64.0, SIN(ANGLE) + 1.0) &gt;&gt; 16 
+ANGLE = ANGLE + 256.0 ; 256 = 65536 / table_len, with table_len = 256 
       ENDR
 </pre>
 </div>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="String_Expressions"><a class="permalink" href="#String_Expressions">String
+<h2 class="Ss" title="Ss" id="String_Expressions"><a class="selflink" href="#String_Expressions">String
   Expressions</a></h2>
 The most basic string expression is any number of characters contained in double
   quotes (&#x2018;<code class="Li">&quot;for instance&quot;</code>&#x2019;). The
@@ -346,1395 +359,1515 @@ The most basic string expression is any number of characters contained in double
   that it causes the character following it to be &#x201C;escaped&#x201D;,
   meaning that it is treated differently from normal. There are a number of
   escape sequences you can use within a string:
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">String</b></td>
-    <td><b class="Sy">Meaning</b></td>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="min-width: 9.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">String</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Meaning</b></td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\\</code>&#x2019;</td>
-    <td>Produces a backslash</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\\</code>&#x2019;</td>
+    <td class="It-column">Produces a backslash</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\&quot;</code>&#x2019;</td>
-    <td>Produces a double quote without terminating</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\&quot;</code>&#x2019;</td>
+    <td class="It-column">Produces a double quote without terminating</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\,</code>&#x2019;</td>
-    <td>Comma</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\,</code>&#x2019;</td>
+    <td class="It-column">Comma</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\{</code>&#x2019;</td>
-    <td>Curly bracket left</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\{</code>&#x2019;</td>
+    <td class="It-column">Curly bracket left</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\}</code>&#x2019;</td>
-    <td>Curly bracket right</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\}</code>&#x2019;</td>
+    <td class="It-column">Curly bracket right</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\n</code>&#x2019;</td>
-    <td>Newline ($0A)</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\n</code>&#x2019;</td>
+    <td class="It-column">Newline ($0A)</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\r</code>&#x2019;</td>
-    <td>Carriage return ($0D)</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\r</code>&#x2019;</td>
+    <td class="It-column">Carriage return ($0D)</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\t</code>&#x2019;</td>
-    <td>Tab ($09)</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\t</code>&#x2019;</td>
+    <td class="It-column">Tab ($09)</td>
   </tr>
-  <tr>
-    <td>&#x201C;\1&#x201D; &#x2013; &#x201C;\9&#x201D;</td>
-    <td>Macro argument (Only the body of a macro, see
-      <a class="Sx" href="#Invoking_macros">Invoking macros</a>)</td>
+  <tr class="It-column">
+    <td class="It-column">&#x201C;\1&#x201D; &#x2013; &#x201C;\9&#x201D;</td>
+    <td class="It-column">Macro argument (Only the body of a macro, see
+      <a class="Sx" title="Sx" href="#Invoking_macros">Invoking macros</a>)</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
-    <td>Label name suffix (Only in the body of macros and REPTs)</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">\@</code>&#x2019;</td>
+    <td class="It-column">Label name suffix (Only in the body of macros and
+      REPTs)</td>
   </tr>
 </table>
 (Note that some of those can be used outside of strings, when noted further in
   this document.)
-<p class="Pp">A funky feature is
-    &#x2018;<code class="Li">{symbol}</code>&#x2019; within a string, called
-    &#x201C;symbol interpolation&#x201D;. This will paste
-    <var class="Ar">symbol</var>'s contents as a string. If it's a string
-    symbol, the string is simply inserted. If it's a numeric symbol, its value
-    is converted to hexadecimal notation with a dollar sign &#x2018;$&#x2019;
-    prepended.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-TOPIC equs &quot;life, the universe, and everything&quot;
-ANSWER = 42
-;&#x00A0;Prints &quot;The answer to life, the universe, and everything is $2A&quot;
+<div class="Pp"></div>
+A funky feature is &#x2018;<code class="Li">{symbol}</code>&#x2019; within a
+  string, called &#x201C;symbol interpolation&#x201D;. This will paste
+  <var class="Ar" title="Ar">symbol</var>'s contents as a string. If it's a
+  string symbol, the string is simply inserted. If it's a numeric symbol, its
+  value is converted to hexadecimal notation with a dollar sign
+  &#x2018;$&#x2019; prepended.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+TOPIC equs &quot;life, the universe, and everything&quot; 
+ANSWER = 42 
+;&#x00A0;Prints &quot;The answer to life, the universe, and everything is $2A&quot; 
 PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
 </pre>
 </div>
-<p class="Pp">Symbol interpolations can be nested, too!</p>
-<p class="Pp">It's possible to change the way numeric symbols are converted by
-    specifying a print type like so:
-    &#x2018;<code class="Li">{d:symbol}</code>&#x2019;. Valid print types
-  are:</p>
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">Print type</b></td>
-    <td><b class="Sy">Format</b></td>
-    <td><b class="Sy">Example</b></td>
+<div class="Pp"></div>
+Symbol interpolations can be nested, too!
+<div class="Pp"></div>
+It's possible to change the way numeric symbols are converted by specifying a
+  print type like so: &#x2018;<code class="Li">{d:symbol}</code>&#x2019;. Valid
+  print types are:
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 15.00ex;"/>
+    <col style="width: 28.20ex;"/>
+    <col style="min-width: 7.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Print type</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Format</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Example</b></td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">d</code>&#x2019;</td>
-    <td>Decimal</td>
-    <td>42</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">d</code>&#x2019;</td>
+    <td class="It-column">Decimal</td>
+    <td class="It-column">42</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">x</code>&#x2019;</td>
-    <td>Lowercase hexadecimal</td>
-    <td>2a</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">x</code>&#x2019;</td>
+    <td class="It-column">Lowercase hexadecimal</td>
+    <td class="It-column">2a</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">X</code>&#x2019;</td>
-    <td>Uppercase hexadecimal</td>
-    <td>2A</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">X</code>&#x2019;</td>
+    <td class="It-column">Uppercase hexadecimal</td>
+    <td class="It-column">2A</td>
   </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">b</code>&#x2019;</td>
-    <td>Binary</td>
-    <td>101010</td>
+  <tr class="It-column">
+    <td class="It-column">&#x2018;<code class="Li">b</code>&#x2019;</td>
+    <td class="It-column">Binary</td>
+    <td class="It-column">101010</td>
   </tr>
 </table>
-<p class="Pp">Note that print types should only be used with numeric values, not
-    strings.</p>
-<p class="Pp">HINT: The <code class="Ic">{symbol}</code> construct can also be
-    used outside strings. The symbol's value is again inserted directly.</p>
-<p class="Pp">The following functions operate on string expressions. Most of
-    them return a string, however some of these functions actually return an
-    integer and can be used as part of an integer expression!</p>
+<div class="Pp"></div>
+Note that print types should only be used with numeric values, not strings.
+<div class="Pp"></div>
+HINT: The <b class="Ic" title="Ic">{symbol}</b> construct can also be used
+  outside strings. The symbol's value is again inserted directly.
+<div class="Pp"></div>
+The following functions operate on string expressions. Most of them return a
+  string, however some of these functions actually return an integer and can be
+  used as part of an integer expression!
 <table class="Bl-column">
-  <tr>
-    <td><b class="Sy">Name</b></td>
-    <td><b class="Sy">Operation</b></td>
+  <colgroup>
+    <col style="min-width: 21.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Name</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Operation</b></td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRLEN</code>(<var class="Fa">string</var>)</td>
-    <td>Returns the number of characters in <var class="Ar">string</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRLEN</b>(<var class="Fa" title="Fa">string</var>)</td>
+    <td class="It-column">Returns the number of characters in
+      <var class="Ar" title="Ar">string</var>.</td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRCAT</code>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Appends <var class="Ar">str2</var> <span class="No">to</span>
-      <var class="Ar">str1</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRCAT</b>(<var class="Fa" title="Fa">str1</var>,
+      <var class="Fa" title="Fa">str2</var>)</td>
+    <td class="It-column">Appends <var class="Ar" title="Ar">str2</var>
+      <span class="No">to</span> <var class="Ar" title="Ar">str1</var>.</td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRCMP</code>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Returns -1 if <var class="Ar">str1</var> <span class="No">is
-      alphabetically lower than</span> <var class="Ar">str2</var> ,
-      <span class="No">zero if they match, 1 if</span>
-      <var class="Ar">str1</var> <span class="No">is greater than</span>
-      <var class="Ar">str2</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRCMP</b>(<var class="Fa" title="Fa">str1</var>,
+      <var class="Fa" title="Fa">str2</var>)</td>
+    <td class="It-column">Returns negative if
+      <var class="Ar" title="Ar">str1</var> <span class="No">is alphabetically
+      lower than</span> <var class="Ar" title="Ar">str2</var> ,
+      <span class="No">zero if they match, positive if</span>
+      <var class="Ar" title="Ar">str1</var> <span class="No">is greater
+      than</span> <var class="Ar" title="Ar">str2</var>.</td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRIN</code>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Returns the position of <var class="Ar">str2</var>
-      <span class="No">in</span> <var class="Ar">str1</var> <span class="No">or
-      zero if it's not present</span> (first character is position 1).</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRIN</b>(<var class="Fa" title="Fa">str1</var>,
+      <var class="Fa" title="Fa">str2</var>)</td>
+    <td class="It-column">Returns the position of
+      <var class="Ar" title="Ar">str2</var> <span class="No">in</span>
+      <var class="Ar" title="Ar">str1</var> <span class="No">or zero if it's not
+      present</span> (first character is position 1).</td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRSUB</code>(<var class="Fa">str</var>,
-      <var class="Fa">pos</var>, <var class="Fa">len</var>)</td>
-    <td>Returns a substring from <var class="Ar">str</var>
-      <span class="No">starting at</span> <var class="Ar">pos</var> (first
-      character is position 1) and <var class="Ar">len</var>
-      <span class="No">characters long.</span></td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRSUB</b>(<var class="Fa" title="Fa">str</var>,
+      <var class="Fa" title="Fa">pos</var>,
+      <var class="Fa" title="Fa">len</var>)</td>
+    <td class="It-column">Returns a substring from
+      <var class="Ar" title="Ar">str</var> <span class="No">starting at</span>
+      <var class="Ar" title="Ar">pos</var> (first character is position 1) and
+      <var class="Ar" title="Ar">len</var> <span class="No">characters
+      long.</span></td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRUPR</code>(<var class="Fa">str</var>)</td>
-    <td>Converts all characters in <var class="Ar">str</var> <span class="No">to
-      capitals and returns the new string.</span></td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRUPR</b>(<var class="Fa" title="Fa">str</var>)</td>
+    <td class="It-column">Converts all characters in
+      <var class="Ar" title="Ar">str</var> <span class="No">to capitals and
+      returns the new string.</span></td>
   </tr>
-  <tr>
-    <td><code class="Fn">STRLWR</code>(<var class="Fa">str</var>)</td>
-    <td>Converts all characters in <var class="Ar">str</var> <span class="No">to
-      lower case and returns the new string.</span></td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">STRLWR</b>(<var class="Fa" title="Fa">str</var>)</td>
+    <td class="It-column">Converts all characters in
+      <var class="Ar" title="Ar">str</var> <span class="No">to lower case and
+      returns the new string.</span></td>
   </tr>
 </table>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Character_maps"><a class="permalink" href="#Character_maps">Character
+<h2 class="Ss" title="Ss" id="Character_maps"><a class="selflink" href="#Character_maps">Character
   maps</a></h2>
 When writing text that is meant to be displayed in the Game Boy, the characters
   used in the source code may have a different encoding than the default of
   ASCII. For example, the tiles used for uppercase letters may be placed
   starting at tile index 128, which makes it difficult to add text strings to
   the ROM.
-<p class="Pp">Character maps allow mapping strings up to 16 characters long to
-    an abitrary 8-bit value:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-CHARMAP &quot;&lt;LF&gt;&quot;, 10
-CHARMAP &quot;&amp;iacute&quot;, 20
+<div class="Pp"></div>
+Character maps allow mapping strings up to 16 characters long to an abitrary
+  8-bit value:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+CHARMAP &quot;&lt;LF&gt;&quot;, 10 
+CHARMAP &quot;&amp;iacute&quot;, 20 
 CHARMAP &quot;A&quot;, 128
 </pre>
 </div>
 By default, a character map contains ASCII encoding.
-<p class="Pp">It is possible to create multiple character maps and then switch
-    between them as desired. This can be used to encode debug information in
-    ASCII and use a different encoding for other purposes, for example.
-    Initially, there is one character map called &#x2018;main&#x2019; and it is
-    automatically selected as the current character map from the beginning.
-    There is also a character map stack that can be used to save and restore
-    which character map is currently active.</p>
+<div class="Pp"></div>
+It is possible to create multiple character maps and then switch between them as
+  desired. This can be used to encode debug information in ASCII and use a
+  different encoding for other purposes, for example. Initially, there is one
+  character map called &#x2018;main&#x2019; and it is automatically selected as
+  the current character map from the beginning. There is also a character map
+  stack that can be used to save and restore which character map is currently
+  active.
 <table class="Bl-column">
-  <tr>
-    <td><b class="Sy">Command</b></td>
-    <td><b class="Sy">Meaning</b></td>
+  <colgroup>
+    <col style="min-width: 25.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Command</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Meaning</b></td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#NEWCHARMAP"><code class="Ic" id="NEWCHARMAP">NEWCHARMAP</code></a>
-      <var class="Ar">name</var></td>
-    <td>Creates a new, empty character map called
-      <var class="Ar">name</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#NEWCHARMAP"><b class="Ic" title="Ic" id="NEWCHARMAP">NEWCHARMAP</b></a>
+      <var class="Ar" title="Ar">name</var></td>
+    <td class="It-column">Creates a new, empty character map called
+      <var class="Ar" title="Ar">name</var>.</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#NEWCHARMAP_2"><code class="Ic" id="NEWCHARMAP_2">NEWCHARMAP</code></a>
-      <var class="Ar">name</var>, <var class="Ar">basename</var></td>
-    <td>Creates a new character map called <var class="Ar">name</var>,
-      <span class="No">copied from character map</span>
-      <var class="Ar">basename</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#NEWCHARMAP"><b class="Ic" title="Ic" id="NEWCHARMAP">NEWCHARMAP</b></a>
+      <var class="Ar" title="Ar">name</var>,
+      <var class="Ar" title="Ar">basename</var></td>
+    <td class="It-column">Creates a new character map called
+      <var class="Ar" title="Ar">name</var>, <span class="No">copied from
+      character map</span> <var class="Ar" title="Ar">basename</var>.</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#SETCHARMAP"><code class="Ic" id="SETCHARMAP">SETCHARMAP</code></a>
-      <var class="Ar">name</var></td>
-    <td>Switch to character map <var class="Ar">name</var>.</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#SETCHARMAP"><b class="Ic" title="Ic" id="SETCHARMAP">SETCHARMAP</b></a>
+      <var class="Ar" title="Ar">name</var></td>
+    <td class="It-column">Switch to character map
+      <var class="Ar" title="Ar">name</var>.</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#PUSHC"><code class="Ic" id="PUSHC">PUSHC</code></a></td>
-    <td>Push the current character map onto the stack.</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#PUSHC"><b class="Ic" title="Ic" id="PUSHC">PUSHC</b></a></td>
+    <td class="It-column">Push the current character map onto the stack.</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#POPC"><code class="Ic" id="POPC">POPC</code></a></td>
-    <td>Pop a character map off the stack and switch to it.</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#POPC"><b class="Ic" title="Ic" id="POPC">POPC</b></a></td>
+    <td class="It-column">Pop a character map off the stack and switch to
+      it.</td>
   </tr>
 </table>
-<p class="Pp"><b class="Sy">Note:</b> Character maps affect all strings in the
-    file from the point in which they are defined, until switching to a
-    different character map. This means that any string that the code may want
-    to print as debug information will also be affected by it.</p>
-<p class="Pp"><b class="Sy">Note:</b> The output value of a mapping can be 0. If
-    this happens, the assembler will treat this as the end of the string and the
-    rest of it will be trimmed.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Other_functions"><a class="permalink" href="#Other_functions">Other
+<div class="Pp"></div>
+<b class="Sy" title="Sy">Note:</b> Character maps affect all strings in the file
+  from the point in which they are defined, until switching to a different
+  character map. This means that any string that the code may want to print as
+  debug information will also be affected by it.
+<div class="Pp"></div>
+<b class="Sy" title="Sy">Note:</b> The output value of a mapping can be 0. If
+  this happens, the assembler will treat this as the end of the string and the
+  rest of it will be trimmed.
+<h2 class="Ss" title="Ss" id="Other_functions"><a class="selflink" href="#Other_functions">Other
   functions</a></h2>
 There are a few other functions that do various useful things:
 <table class="Bl-column">
-  <tr>
-    <td><b class="Sy">Name</b></td>
-    <td><b class="Sy">Operation</b></td>
+  <colgroup>
+    <col style="min-width: 10.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Name</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Operation</b></td>
   </tr>
-  <tr>
-    <td><code class="Fn">BANK</code>(<var class="Fa">arg</var>)</td>
-    <td>Returns a bank number. If <var class="Ar">arg</var> is the symbol
-      <code class="Ic">@</code>, this function returns the bank of the current
-      section. If <var class="Ar">arg</var> is a string, it returns the bank of
-      the section that has that name. If <var class="Ar">arg</var> is a label,
-      it returns the bank number the label is in. The result may be constant if
-      <code class="Nm">rgbasm</code> is able to compute it.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">BANK</b>(<var class="Fa" title="Fa">arg</var>)</td>
+    <td class="It-column">Returns a bank number. If
+      <var class="Ar" title="Ar">arg</var> is the symbol
+      <b class="Ic" title="Ic">@</b>, this function returns the bank of the
+      current section. If <var class="Ar" title="Ar">arg</var> is a string, it
+      returns the bank of the section that has that name. If
+      <var class="Ar" title="Ar">arg</var> is a label, it returns the bank
+      number the label is in. The result may be constant if
+      <b class="Nm" title="Nm">rgbasm</b> is able to compute it.</td>
   </tr>
-  <tr>
-    <td><code class="Fn">DEF</code>(<var class="Fa">label</var>)</td>
-    <td>Returns TRUE (1) if <var class="Ar">label</var> has been defined, FALSE
-      (0) otherwise. String symbols are not expanded within the
-      parentheses.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">DEF</b>(<var class="Fa" title="Fa">label</var>)</td>
+    <td class="It-column">Returns TRUE (1) if
+      <var class="Ar" title="Ar">label</var> has been defined, FALSE (0)
+      otherwise. String symbols are not expanded within the parentheses.</td>
   </tr>
-  <tr>
-    <td><code class="Fn">HIGH</code>(<var class="Fa">arg</var>)</td>
-    <td>Returns the top 8 bits of the operand if <var class="Ar">arg</var>
-      <span class="No">is a label or constant, or the top 8-bit register if it
-      is a 16-bit register.</span></td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">HIGH</b>(<var class="Fa" title="Fa">arg</var>)</td>
+    <td class="It-column">Returns the top 8 bits of the operand if
+      <var class="Ar" title="Ar">arg</var> <span class="No">is a label or
+      constant, or the top 8-bit register if it is a 16-bit
+      register.</span></td>
   </tr>
-  <tr>
-    <td><code class="Fn">LOW</code>(<var class="Fa">arg</var>)</td>
-    <td>Returns the bottom 8 bits of the operand if <var class="Ar">arg</var>
-      <span class="No">is a label or constant, or the bottom 8-bit register if
-      it is a 16-bit register</span> (<code class="Cm">AF</code>
-      <span class="No">isn't a valid register for this function</span>).</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">LOW</b>(<var class="Fa" title="Fa">arg</var>)</td>
+    <td class="It-column">Returns the bottom 8 bits of the operand if
+      <var class="Ar" title="Ar">arg</var> <span class="No">is a label or
+      constant, or the bottom 8-bit register if it is a 16-bit register</span>
+      (<b class="Cm" title="Cm">AF</b> <span class="No">isn't a valid register
+      for this function</span>).</td>
   </tr>
-  <tr>
-    <td><code class="Fn">ISCONST</code>(<var class="Fa">arg</var>)</td>
-    <td>Returns 1 if <var class="Ar">arg</var>'s value is known by RGBASM (e.g.
-      if it can be an argument to <code class="Ic">IF</code>), or 0 if only
-      RGBLINK can compute its value.</td>
+  <tr class="It-column">
+    <td class="It-column"><b class="Fn" title="Fn">ISCONST</b>(<var class="Fa" title="Fa">arg</var>)</td>
+    <td class="It-column">Returns 1 if <var class="Ar" title="Ar">arg</var>'s
+      value is known by RGBASM (e.g. if it can be an argument to
+      <b class="Ic" title="Ic">IF</b>), or 0 if only RGBLINK can compute its
+      value.</td>
   </tr>
 </table>
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="SECTIONS"><a class="permalink" href="#SECTIONS">SECTIONS</a></h1>
+<h1 class="Sh" title="Sh" id="SECTIONS"><a class="selflink" href="#SECTIONS">SECTIONS</a></h1>
 Before you can start writing code, you must define a section. This tells the
   assembler what kind of information follows and, if it is code, where to put
   it.
-<p class="Pp"></p>
-<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
-  <var class="Ar">type</var></code></div>
-<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
-  <var class="Ar">type</var>, <var class="Ar">options</var></code></div>
-<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
-  <var class="Ar">type</var>[<var class="Ar">addr</var>]</code></div>
-<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
-  <var class="Ar">type</var>[<var class="Ar">addr</var>],
-  <var class="Ar">options</var></code></div>
-<p class="Pp"><var class="Ar">name</var> is a string enclosed in double quotes,
-    and can be a new name or the name of an existing section. If the type
-    doesn't match, an error occurs. All other sections must have a unique name,
-    even in different source files, or the linker will treat it as an error.</p>
-<p class="Pp">Possible section <var class="Ar">type</var>s are as follows:</p>
+<div class="Pp"></div>
+<div class="D1"><code class="Li">SECTION <var class="Ar" title="Ar">name</var>,
+  <var class="Ar" title="Ar">type</var></code></div>
+<div class="D1"><code class="Li">SECTION <var class="Ar" title="Ar">name</var>,
+  <var class="Ar" title="Ar">type</var>,
+  <var class="Ar" title="Ar">options</var></code></div>
+<div class="D1"><code class="Li">SECTION <var class="Ar" title="Ar">name</var>,
+  <var class="Ar" title="Ar">type</var>[<var class="Ar" title="Ar">addr</var>]</code></div>
+<div class="D1"><code class="Li">SECTION <var class="Ar" title="Ar">name</var>,
+  <var class="Ar" title="Ar">type</var>[<var class="Ar" title="Ar">addr</var>],
+  <var class="Ar" title="Ar">options</var></code></div>
+<div class="Pp"></div>
+<var class="Ar" title="Ar">name</var> is a string enclosed in double quotes, and
+  can be a new name or the name of an existing section. If the type doesn't
+  match, an error occurs. All other sections must have a unique name, even in
+  different source files, or the linker will treat it as an error.
+<div class="Pp"></div>
+Possible section <var class="Ar" title="Ar">type</var>s are as follows:
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#ROM0"><code class="Ic" id="ROM0">ROM0</code></a></dt>
-  <dd>A ROM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$0000</span> to <span class="Ad">$3FFF</span>, or
-      <span class="Ad">$0000</span> to <span class="Ad">$7FFF</span> if tiny ROM
-      mode is enabled in the linker.</dd>
-  <dt><a class="permalink" href="#ROMX"><code class="Ic" id="ROMX">ROMX</code></a></dt>
-  <dd>A banked ROM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$4000</span> to <span class="Ad">$7FFF</span>.
-      <var class="Ar">bank</var> can range from 1 to 511. Becomes an alias for
-      <code class="Ic">ROM0</code> if tiny ROM mode is enabled in the
-    linker.</dd>
-  <dt><a class="permalink" href="#VRAM"><code class="Ic" id="VRAM">VRAM</code></a></dt>
-  <dd>A banked video RAM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$8000</span> to <span class="Ad">$9FFF</span>.
-      <var class="Ar">bank</var> can be 0 or 1, but bank 1 is unavailable if DMG
-      mode is enabled in the linker.</dd>
-  <dt><a class="permalink" href="#SRAM"><code class="Ic" id="SRAM">SRAM</code></a></dt>
-  <dd>A banked external (save) RAM section. <var class="Ar">addr</var> can range
-      from <span class="Ad">$A000</span> to <span class="Ad">$BFFF</span>.
-      <var class="Ar">bank</var> can range from 0 to 15.</dd>
-  <dt><a class="permalink" href="#WRAM0"><code class="Ic" id="WRAM0">WRAM0</code></a></dt>
-  <dd>A general-purpose RAM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$C000</span> to <span class="Ad">$CFFF</span>, or
-      <span class="Ad">$C000</span> to <span class="Ad">$DFFF</span> if WRAM0
-      mode is enabled in the linker.</dd>
-  <dt><a class="permalink" href="#WRAMX"><code class="Ic" id="WRAMX">WRAMX</code></a></dt>
-  <dd>A banked general-purpose RAM section. <var class="Ar">addr</var> can range
-      from <span class="Ad">$D000</span> to <span class="Ad">$DFFF</span>.
-      <var class="Ar">bank</var> can range from 1 to 7. Becomes an alias for
-      <code class="Ic">WRAM0</code> if WRAM0 mode is enabled in the linker.</dd>
-  <dt><a class="permalink" href="#OAM"><code class="Ic" id="OAM">OAM</code></a></dt>
-  <dd>An object attribute RAM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$FE00</span> to <span class="Ad">$FE9F</span>.</dd>
-  <dt><a class="permalink" href="#HRAM"><code class="Ic" id="HRAM">HRAM</code></a></dt>
-  <dd>A high RAM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$FF80</span> to <span class="Ad">$FFFE</span>.
-    <p class="Pp"><b class="Sy">Note</b>: While <code class="Nm">rgbasm</code>
-        will automatically optimize <code class="Ic">ld</code> instructions to
-        the smaller and faster <code class="Ic">ldh</code> (see
-        <a class="Xr">gbz80(7)</a>) whenever possible, it is generally unable to
-        do so when a label is involved. Using the <code class="Ic">ldh</code>
-        instruction directly is recommended. This forces the assembler to emit a
-        <code class="Ic">ldh</code> instruction and the linker to check if the
-        value is in the correct range.</p>
-  </dd>
+  <dt class="It-tag"><a class="selflink" href="#ROM0"><b class="Ic" title="Ic" id="ROM0">ROM0</b></a></dt>
+  <dd class="It-tag">A ROM section. <var class="Ar" title="Ar">addr</var> can
+      range from <i class="Ad">$0000</i> to <i class="Ad">$3FFF</i>, or
+      <i class="Ad">$0000</i> to <i class="Ad">$7FFF</i> if tiny ROM mode is
+      enabled in the linker.</dd>
+  <dt class="It-tag"><a class="selflink" href="#ROMX"><b class="Ic" title="Ic" id="ROMX">ROMX</b></a></dt>
+  <dd class="It-tag">A banked ROM section. <var class="Ar" title="Ar">addr</var>
+      can range from <i class="Ad">$4000</i> to <i class="Ad">$7FFF</i>.
+      <var class="Ar" title="Ar">bank</var> can range from 1 to 511. Becomes an
+      alias for <b class="Ic" title="Ic">ROM0</b> if tiny ROM mode is enabled in
+      the linker.</dd>
+  <dt class="It-tag"><a class="selflink" href="#VRAM"><b class="Ic" title="Ic" id="VRAM">VRAM</b></a></dt>
+  <dd class="It-tag">A banked video RAM section.
+      <var class="Ar" title="Ar">addr</var> can range from
+      <i class="Ad">$8000</i> to <i class="Ad">$9FFF</i>.
+      <var class="Ar" title="Ar">bank</var> can be 0 or 1, but bank 1 is
+      unavailable if DMG mode is enabled in the linker.</dd>
+  <dt class="It-tag"><a class="selflink" href="#SRAM"><b class="Ic" title="Ic" id="SRAM">SRAM</b></a></dt>
+  <dd class="It-tag">A banked external (save) RAM section.
+      <var class="Ar" title="Ar">addr</var> can range from
+      <i class="Ad">$A000</i> to <i class="Ad">$BFFF</i>.
+      <var class="Ar" title="Ar">bank</var> can range from 0 to 15.</dd>
+  <dt class="It-tag"><a class="selflink" href="#WRAM0"><b class="Ic" title="Ic" id="WRAM0">WRAM0</b></a></dt>
+  <dd class="It-tag">A general-purpose RAM section.
+      <var class="Ar" title="Ar">addr</var> can range from
+      <i class="Ad">$C000</i> to <i class="Ad">$CFFF</i>, or
+      <i class="Ad">$C000</i> to <i class="Ad">$DFFF</i> if WRAM0 mode is
+      enabled in the linker.</dd>
+  <dt class="It-tag"><a class="selflink" href="#WRAMX"><b class="Ic" title="Ic" id="WRAMX">WRAMX</b></a></dt>
+  <dd class="It-tag">A banked general-purpose RAM section.
+      <var class="Ar" title="Ar">addr</var> can range from
+      <i class="Ad">$D000</i> to <i class="Ad">$DFFF</i>.
+      <var class="Ar" title="Ar">bank</var> can range from 1 to 7. Becomes an
+      alias for <b class="Ic" title="Ic">WRAM0</b> if WRAM0 mode is enabled in
+      the linker.</dd>
+  <dt class="It-tag"><a class="selflink" href="#OAM"><b class="Ic" title="Ic" id="OAM">OAM</b></a></dt>
+  <dd class="It-tag">An object attribute RAM section.
+      <var class="Ar" title="Ar">addr</var> can range from
+      <i class="Ad">$FE00</i> to <i class="Ad">$FE9F</i>.</dd>
+  <dt class="It-tag"><a class="selflink" href="#HRAM"><b class="Ic" title="Ic" id="HRAM">HRAM</b></a></dt>
+  <dd class="It-tag">A high RAM section. <var class="Ar" title="Ar">addr</var>
+      can range from <i class="Ad">$FF80</i> to <i class="Ad">$FFFE</i>.
+    <div class="Pp"></div>
+    <b class="Sy" title="Sy">Note</b>: While <b class="Nm" title="Nm">rgbasm</b>
+      will automatically optimize <b class="Ic" title="Ic">ld</b> instructions
+      to the smaller and faster <b class="Ic" title="Ic">ldh</b> (see
+      <a class="Xr" title="Xr">gbz80(7)</a>) whenever possible, it is generally
+      unable to do so when a label is involved. Using the
+      <b class="Ic" title="Ic">ldh</b> instruction directly is recommended. This
+      forces the assembler to emit a <b class="Ic" title="Ic">ldh</b>
+      instruction and the linker to check if the value is in the correct
+    range.</dd>
 </dl>
-<p class="Pp">Since RGBDS produces ROMs, code and data can only be placed in
-    <code class="Ic">ROM0</code> and <code class="Ic">ROMX</code> sections. To
-    put some in RAM, have it stored in ROM, and copy it to RAM.</p>
-<p class="Pp"><var class="Ar">option</var>s are comma-separated and may
-  include:</p>
+<div class="Pp"></div>
+Since RGBDS produces ROMs, code and data can only be placed in
+  <b class="Ic" title="Ic">ROM0</b> and <b class="Ic" title="Ic">ROMX</b>
+  sections. To put some in RAM, have it stored in ROM, and copy it to RAM.
+<div class="Pp"></div>
+<var class="Ar" title="Ar">option</var>s are comma-separated and may include:
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#BANK"><code class="Ic" id="BANK">BANK</code></a>[<var class="Ar">bank</var>]</dt>
-  <dd>Specify which <var class="Ar">bank</var> for the linker to place the
-      section in. See above for possible values for <var class="Ar">bank</var>,
-      depending on <var class="Ar">type</var>.</dd>
-  <dt><a class="permalink" href="#ALIGN"><code class="Ic" id="ALIGN">ALIGN</code></a>[<var class="Ar">align</var>,
-    <var class="Ar">offset</var>]</dt>
-  <dd>Place the section at an address whose <var class="Ar">align</var>
-      least&#x2010;significant bits are equal to <var class="Ar">offset</var>.
-      (Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a
-      shorthand for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+  <dt class="It-tag"><a class="selflink" href="#BANK"><b class="Ic" title="Ic" id="BANK">BANK</b></a>[<var class="Ar" title="Ar">bank</var>]</dt>
+  <dd class="It-tag">Specify which <var class="Ar" title="Ar">bank</var> for the
+      linker to place the section in. See above for possible values for
+      <var class="Ar" title="Ar">bank</var>, depending on
+      <var class="Ar" title="Ar">type</var>.</dd>
+  <dt class="It-tag"><a class="selflink" href="#ALIGN"><b class="Ic" title="Ic" id="ALIGN">ALIGN</b></a>[<var class="Ar" title="Ar">align</var>,
+    <var class="Ar" title="Ar">offset</var>]</dt>
+  <dd class="It-tag">Place the section at an address whose
+      <var class="Ar" title="Ar">align</var> least&#x2010;significant bits are
+      equal to <var class="Ar" title="Ar">offset</var>. (Note that
+      <b class="Ic" title="Ic">ALIGN</b>[<var class="Ar" title="Ar">align</var>]
+      is a shorthand for
+      <b class="Ic" title="Ic">ALIGN</b>[<var class="Ar" title="Ar">align</var>,
       <span class="No">0</span>]). This option can be used with
-      [<var class="Ar">addr</var>], as long as they don't contradict eachother.
-      It's also possible to request alignment in the middle of a section, see
-      <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
-    below.</dd>
+      [<var class="Ar" title="Ar">addr</var>], as long as they don't contradict
+      eachother. It's also possible to request alignment in the middle of a
+      section, see
+      <a class="Sx" title="Sx" href="#Requesting_alignment">Requesting
+      alignment</a> below.</dd>
 </dl>
-<p class="Pp">If [<var class="Ar">addr</var>] is not specified, the section is
-    considered &#x201C;floating&#x201D;; the linker will automatically calculate
-    an appropriate address for the section. Similarly, if
-    <code class="Ic">BANK</code>[<var class="Ar">bank</var>] is not specified,
-    the linker will automatically find a bank with enough space.</p>
-<p class="Pp">Sections can also be placed by using a linker script file. The
-    format is described in <a class="Xr">rgblink(5)</a>. They allow the user to
-    place floating sections in the desired bank in the order specified in the
-    script. This is useful if the sections can't be placed at an address
-    manually because the size may change, but they have to be together.</p>
-<p class="Pp">Section examples:</p>
+<div class="Pp"></div>
+If [<var class="Ar" title="Ar">addr</var>] is not specified, the section is
+  considered &#x201C;floating&#x201D;; the linker will automatically calculate
+  an appropriate address for the section. Similarly, if
+  <b class="Ic" title="Ic">BANK</b>[<var class="Ar" title="Ar">bank</var>] is
+  not specified, the linker will automatically find a bank with enough space.
+<div class="Pp"></div>
+Sections can also be placed by using a linker script file. The format is
+  described in <a class="Xr" title="Xr">rgblink(5)</a>. They allow the user to
+  place floating sections in the desired bank in the order specified in the
+  script. This is useful if the sections can't be placed at an address manually
+  because the size may change, but they have to be together.
+<div class="Pp"></div>
+Section examples:
 <ul class="Bl-item">
-  <li>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+  <li class="It-item">
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
 SECTION &quot;Cool Stuff&quot;,ROMX
     </pre>
     </div>
     This switches to the section called &#x201C;CoolStuff&#x201D;, creating it
       if it doesn't already exist. It can end up in any ROM bank. Code and data
       may follow.</li>
-  <li>If it is needed, the the base address of the section can be specified:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+  <li class="It-item">If it is needed, the the base address of the section can
+      be specified:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
 SECTION &quot;Cool Stuff&quot;,ROMX[$4567]
     </pre>
     </div>
   </li>
-  <li>An example with a fixed bank:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+  <li class="It-item">An example with a fixed bank:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
 SECTION &quot;Cool Stuff&quot;,ROMX[$4567],BANK[3]
     </pre>
     </div>
   </li>
-  <li>And if you want to force only the section's bank, and not its position
-      within the bank, that's also possible:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+  <li class="It-item">And if you want to force only the section's bank, and not
+      its position within the bank, that's also possible:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
 SECTION &quot;Cool Stuff&quot;,ROMX,BANK[7]
     </pre>
     </div>
   </li>
-  <li>Alignment examples: The first one could be useful for defining an OAM
-      buffer to be DMA'd, since it must be aligned to 256 bytes. The second
-      could also be appropriate for GBC HDMA, or for an optimized copy code that
-      requires alignment.
-    <div class="Bd Pp Bd-indent">
-    <pre>
-SECTION &quot;OAM Data&quot;,WRAM0,ALIGN[8] ;&#x00A0;align to 256 bytes
+  <li class="It-item">Alignment examples: The first one could be useful for
+      defining an OAM buffer to be DMA'd, since it must be aligned to 256 bytes.
+      The second could also be appropriate for GBC HDMA, or for an optimized
+      copy code that requires alignment.
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+SECTION &quot;OAM Data&quot;,WRAM0,ALIGN[8] ;&#x00A0;align to 256 bytes 
 SECTION &quot;VRAM Data&quot;,ROMX,BANK[2],ALIGN[4] ;&#x00A0;align to 16 bytes
     </pre>
     </div>
   </li>
 </ul>
-<section class="Ss">
-<h2 class="Ss" id="Section_Stack"><a class="permalink" href="#Section_Stack">Section
+<h2 class="Ss" title="Ss" id="Section_Stack"><a class="selflink" href="#Section_Stack">Section
   Stack</a></h2>
-<code class="Ic">POPS</code> and <code class="Ic">PUSHS</code> provide the
-  interface to the section stack. The number of entries in the stack is limited
-  only by the amount of memory in your machine.
-<p class="Pp"><code class="Ic">PUSHS</code> will push the current section
-    context on the section stack. <code class="Ic">POPS</code> can then later be
-    used to restore it. Useful for defining sections in included files when you
-    don't want to override the section context at the point the file was
-    included.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="RAM_Code"><a class="permalink" href="#RAM_Code">RAM
+<b class="Ic" title="Ic">POPS</b> and <b class="Ic" title="Ic">PUSHS</b> provide
+  the interface to the section stack. The number of entries in the stack is
+  limited only by the amount of memory in your machine.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">PUSHS</b> will push the current section context on the
+  section stack. <b class="Ic" title="Ic">POPS</b> can then later be used to
+  restore it. Useful for defining sections in included files when you don't want
+  to override the section context at the point the file was included.
+<h2 class="Ss" title="Ss" id="RAM_Code"><a class="selflink" href="#RAM_Code">RAM
   Code</a></h2>
 Sometimes you want to have some code in RAM. But then you can't simply put it in
   a RAM section, you have to store it in ROM and copy it to RAM at some point.
-<p class="Pp">This means the code (or data) will not be stored in the place it
-    gets executed. Luckily, <code class="Ic">LOAD</code> blocks are the perfect
-    solution to that. Here's an example of how to use them:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-SECTION &quot;LOAD example&quot;, ROMX
-CopyCode:
-    ld de, RAMCode
-    ld hl, RAMLocation
-    ld c, RAMLocation.end - RAMLocation
-.loop
-    ld a, [de]
-    inc de
-    ld [hli], a
-    dec c
-    jr nz, .loop
-    ret
-
-RAMCode:
-  LOAD &quot;RAM code&quot;, WRAM0
-RAMLocation:
-    ld hl, .string
-    ld de, $9864
-.copy
-    ld a, [hli]
-    ld [de], a
-    inc de
-    and a
-    jr nz, .copy
-    ret
-
-.string
-    db &quot;Hello World!&quot;, 0
-.end
+<div class="Pp"></div>
+This means the code (or data) will not be stored in the place it gets executed.
+  Luckily, <b class="Ic" title="Ic">LOAD</b> blocks are the perfect solution to
+  that. Here's an example of how to use them:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+SECTION &quot;LOAD example&quot;, ROMX 
+CopyCode: 
+    ld de, RAMCode 
+    ld hl, RAMLocation 
+    ld c, RAMLocation.end - RAMLocation 
+.loop 
+    ld a, [de] 
+    inc de 
+    ld [hli], a 
+    dec c 
+    jr nz, .loop 
+    ret 
+ 
+RAMCode: 
+  LOAD &quot;RAM code&quot;, WRAM0 
+RAMLocation: 
+    ld hl, .string 
+    ld de, $9864 
+.copy 
+    ld a, [hli] 
+    ld [de], a 
+    inc de 
+    and a 
+    jr nz, .copy 
+    ret 
+ 
+.string 
+    db &quot;Hello World!&quot;, 0 
+.end 
   ENDL
 </pre>
 </div>
-<p class="Pp">A <code class="Ic">LOAD</code> block feels similar to a
-    <code class="Ic">SECTION</code> declaration because it creates a new one.
-    All data and code generated within such a block is placed in the current
-    section like usual, but all labels are created as if they were placed in
-    this newly-created section.</p>
-<p class="Pp">In the example above, all of the code and data will end up in the
-    &quot;LOAD example&quot; section. You will notice the
-    &#x2018;RAMCode&#x2019; and &#x2018;RAMLocation&#x2019; labels. The former
-    is situated in ROM, where the code is stored, the latter in RAM, where the
-    code will be loaded.</p>
-<p class="Pp">You cannot nest <code class="Ic">LOAD</code> blocks, nor can you
-    change the current section within them.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Unionized_Sections"><a class="permalink" href="#Unionized_Sections">Unionized
+<div class="Pp"></div>
+A <b class="Ic" title="Ic">LOAD</b> block feels similar to a
+  <b class="Ic" title="Ic">SECTION</b> declaration because it creates a new one.
+  All data and code generated within such a block is placed in the current
+  section like usual, but all labels are created as if they were placed in this
+  newly-created section.
+<div class="Pp"></div>
+In the example above, all of the code and data will end up in the &quot;LOAD
+  example&quot; section. You will notice the &#x2018;RAMCode&#x2019; and
+  &#x2018;RAMLocation&#x2019; labels. The former is situated in ROM, where the
+  code is stored, the latter in RAM, where the code will be loaded.
+<div class="Pp"></div>
+You cannot nest <b class="Ic" title="Ic">LOAD</b> blocks, nor can you change the
+  current section within them.
+<h2 class="Ss" title="Ss" id="Unionized_Sections"><a class="selflink" href="#Unionized_Sections">Unionized
   Sections</a></h2>
 When you're tight on RAM, you may want to define overlapping blocks of
-  variables, as explained in the <a class="Sx" href="#Unions">Unions</a>
-  section. However, the <code class="Ic">UNION</code> keyword only works within
-  a single file, which prevents e.g. defining temporary variables on a single
-  memory area across several files. Unionized sections solve this problem. To
-  declare an unionized section, add a <code class="Ic">UNION</code> keyword
-  after the <code class="Ic">SECTION</code> one; the declaration is otherwise
-  not different. Unionized sections follow some different rules from normal
+  variables, as explained in the
+  <a class="Sx" title="Sx" href="#Unions">Unions</a> section. However, the
+  <b class="Ic" title="Ic">UNION</b> keyword only works within a single file,
+  which prevents e.g. defining temporary variables on a single memory area
+  across several files. Unionized sections solve this problem. To declare an
+  unionized section, add a <b class="Ic" title="Ic">UNION</b> keyword after the
+  <b class="Ic" title="Ic">SECTION</b> one; the declaration is otherwise not
+  different. Unionized sections follow some different rules from normal
   sections:
-<ul class="Bl-bullet Bd-indent">
-  <li>The same unionized section (= having the same name) can be declared
-      several times per <code class="Nm">rgbasm</code> invocation, and across
-      several invocations. Different declarations are treated and merged
-      identically whether within the same invocation, or different ones.</li>
-  <li>If one section has been declared as unionized, all sections with the same
-      name must be declared unionized as well.</li>
-  <li>All declarations must have the same type. For example, even if
-      <a class="Xr">rgblink(1)</a>'s <code class="Fl">-w</code> flag is used,
-      <code class="Ic">WRAM0</code> and <code class="Ic">WRAMX</code> types are
-      still considered different.</li>
-  <li>Different constraints (alignment, bank, etc.) can be specified for each
-      unionized section declaration, but they must all be compatible. For
-      example, alignment must be compatible with any fixed address, all
-      specified banks must be the same, etc.</li>
-  <li>Unionized sections cannot have type <code class="Ic">ROM0</code> or
-      <code class="Ic">ROMX</code>.</li>
+<ul class="Bl-bullet" style="margin-left: 6.00ex;">
+  <li class="It-bullet">The same unionized section (= having the same name) can
+      be declared several times per <b class="Nm" title="Nm">rgbasm</b>
+      invocation, and across several invocations. Different declarations are
+      treated and merged identically whether within the same invocation, or
+      different ones.</li>
+  <li class="It-bullet">If one section has been declared as unionized, all
+      sections with the same name must be declared unionized as well.</li>
+  <li class="It-bullet">All declarations must have the same type. For example,
+      even if <a class="Xr" title="Xr">rgblink(1)</a>'s
+      <b class="Fl" title="Fl">-w</b> flag is used,
+      <b class="Ic" title="Ic">WRAM0</b> and <b class="Ic" title="Ic">WRAMX</b>
+      types are still considered different.</li>
+  <li class="It-bullet">Different constraints (alignment, bank, etc.) can be
+      specified for each unionized section declaration, but they must all be
+      compatible. For example, alignment must be compatible with any fixed
+      address, all specified banks must be the same, etc.</li>
+  <li class="It-bullet">Unionized sections cannot have type
+      <b class="Ic" title="Ic">ROM0</b> or
+    <b class="Ic" title="Ic">ROMX</b>.</li>
 </ul>
-<p class="Pp">Different declarations of the same unionized section are not
-    appended, but instead overlaid on top of eachother, just like
-    <a class="Sx" href="#Unions">Unions</a>. Similarly, the size of an unionized
-    section is the largest of all its declarations.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Section_Fragments"><a class="permalink" href="#Section_Fragments">Section
+<div class="Pp"></div>
+Different declarations of the same unionized section are not appended, but
+  instead overlaid on top of eachother, just like
+  <a class="Sx" title="Sx" href="#Unions">Unions</a>. Similarly, the size of an
+  unionized section is the largest of all its declarations.
+<h2 class="Ss" title="Ss" id="Section_Fragments"><a class="selflink" href="#Section_Fragments">Section
   Fragments</a></h2>
 Section fragments are sections with a small twist: when several of the same name
   are encountered, they are concatenated instead of producing an error. This
   works within the same file (paralleling the behavior &quot;plain&quot;
   sections has in previous versions), but also across object files. However,
-  similarly to <a class="Sx" href="#Unionized_Sections">Unionized Sections</a>,
-  some rules must be followed:
-<ul class="Bl-bullet Bd-indent">
-  <li>If one section has been declared as fragment, all sections with the same
-      name must be declared fragments as well.</li>
-  <li>All declarations must have the same type. For example, even if
-      <a class="Xr">rgblink(1)</a>'s <code class="Fl">-w</code> flag is used,
-      <code class="Ic">WRAM0</code> and <code class="Ic">WRAMX</code> types are
-      still considered different.</li>
-  <li>Different constraints (alignment, bank, etc.) can be specified for each
-      unionized section declaration, but they must all be compatible. For
-      example, alignment must be compatible with any fixed address, all
-      specified banks must be the same, etc.</li>
-  <li>A section fragment may not be unionized; after all, that wouldn't make
-      much sense.</li>
+  similarly to <a class="Sx" title="Sx" href="#Unionized_Sections">Unionized
+  Sections</a>, some rules must be followed:
+<ul class="Bl-bullet" style="margin-left: 6.00ex;">
+  <li class="It-bullet">If one section has been declared as fragment, all
+      sections with the same name must be declared fragments as well.</li>
+  <li class="It-bullet">All declarations must have the same type. For example,
+      even if <a class="Xr" title="Xr">rgblink(1)</a>'s
+      <b class="Fl" title="Fl">-w</b> flag is used,
+      <b class="Ic" title="Ic">WRAM0</b> and <b class="Ic" title="Ic">WRAMX</b>
+      types are still considered different.</li>
+  <li class="It-bullet">Different constraints (alignment, bank, etc.) can be
+      specified for each unionized section declaration, but they must all be
+      compatible. For example, alignment must be compatible with any fixed
+      address, all specified banks must be the same, etc.</li>
+  <li class="It-bullet">A section fragment may not be unionized; after all, that
+      wouldn't make much sense.</li>
 </ul>
-<p class="Pp">When RGBASM merges two fragments, the one encountered later is
-    appended to the one encountered earlier.</p>
-<p class="Pp">When RGBLINK merges two fragments, the one whose file was
-    specified last is appended to the one whose file was specified first. For
-    example, assuming &#x2018;<code class="Li">bar.o</code>&#x2019;,
-    &#x2018;<code class="Li">baz.o</code>&#x2019;, and
-    &#x2018;<code class="Li">foo.o</code>&#x2019; all contain a fragment with
-    the same name, the command</p>
-<div class="Bd Bd-indent"><code class="Li">rgblink -o rom.gb baz.o foo.o
+<div class="Pp"></div>
+When RGBASM merges two fragments, the one encountered later is appended to the
+  one encountered earlier.
+<div class="Pp"></div>
+When RGBLINK merges two fragments, the one whose file was specified last is
+  appended to the one whose file was specified first. For example, assuming
+  &#x2018;<code class="Li">bar.o</code>&#x2019;,
+  &#x2018;<code class="Li">baz.o</code>&#x2019;, and
+  &#x2018;<code class="Li">foo.o</code>&#x2019; all contain a fragment with the
+  same name, the command
+<div class="D1"><code class="Li">rgblink -o rom.gb baz.o foo.o
   bar.o</code></div>
 would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
   first, followed by the one from &#x2018;<code class="Li">foo.o</code>&#x2019;,
   and the one from &#x2018;<code class="Li">bar.o</code>&#x2019; last.
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="SYMBOLS"><a class="permalink" href="#SYMBOLS">SYMBOLS</a></h1>
+<h1 class="Sh" title="Sh" id="SYMBOLS"><a class="selflink" href="#SYMBOLS">SYMBOLS</a></h1>
 RGBDS supports several types of symbols:
 <dl class="Bl-hang">
-  <dt><b class="Sy">Label</b></dt>
-  <dd>Numerical symbol designating a memory location. May or may not have a
-      value known at assembly time.</dd>
-  <dt><b class="Sy">Constant</b></dt>
-  <dd>Numerical symbol whose value has to be known at assembly time.</dd>
-  <dt><b class="Sy">Macro</b></dt>
-  <dd>A block of <code class="Nm">rgbasm</code> code that can be invoked
-    later.</dd>
-  <dt><b class="Sy">String equate</b></dt>
-  <dd>String symbol that can be evaluated, similarly to a macro.</dd>
+  <dt class="It-hang"><b class="Sy" title="Sy">Label</b></dt>
+  <dd class="It-hang">Numerical symbol designating a memory location. May or may
+      not have a value known at assembly time.</dd>
+  <dt class="It-hang"><b class="Sy" title="Sy">Constant</b></dt>
+  <dd class="It-hang">Numerical symbol whose value has to be known at assembly
+      time.</dd>
+  <dt class="It-hang"><b class="Sy" title="Sy">Macro</b></dt>
+  <dd class="It-hang">A block of <b class="Nm" title="Nm">rgbasm</b> code that
+      can be invoked later.</dd>
+  <dt class="It-hang"><b class="Sy" title="Sy">String equate</b></dt>
+  <dd class="It-hang">String symbol that can be evaluated, similarly to a
+    macro.</dd>
 </dl>
-<p class="Pp">Symbol names can contain letters, numbers, underscores, hashes and
-    &#x2018;@&#x2019;. However, they must begin with either a letter, a number,
-    or an underscore. Periods are allowed exclusively for labels, as described
-    below. A symbol cannot have the same name as a reserved keyword.
-    <i class="Em">In the line where a symbol is defined there mustn't be any
-    whitespace before it</i>, otherwise <code class="Nm">rgbasm</code> will
-    treat it as a macro invocation.</p>
+<div class="Pp"></div>
+Symbol names can contain letters, numbers, underscores, hashes and
+  &#x2018;@&#x2019;. However, they must begin with either a letter, a number, or
+  an underscore. Periods are allowed exclusively for labels, as described below.
+  A symbol cannot have the same name as a reserved keyword.
+  <i class="Em" title="Em">In the line where a symbol is defined there mustn't
+  be any whitespace before it</i>, otherwise <b class="Nm" title="Nm">rgbasm</b>
+  will treat it as a macro invocation.
 <dl class="Bl-tag">
-  <dt><b class="Sy">Label declaration</b></dt>
-  <dd>One of the assembler's main tasks is to keep track of addresses for you,
-      so you can work with meaningful names instead of &quot;magic&quot;
-      numbers.
-    <p class="Pp">This can be done in a number of ways:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
-GlobalLabel ;&#x00A0;This syntax is deprecated,
-AnotherGlobal: ;&#x00A0;please use this instead
-.locallabel
-.yet_a_local:
-AnotherGlobal.with_another_local:
-ThisWillBeExported:: ;&#x00A0;Note the two colons
+  <dt class="It-tag"><b class="Sy" title="Sy">Label declaration</b></dt>
+  <dd class="It-tag">One of the assembler's main tasks is to keep track of
+      addresses for you, so you can work with meaningful names instead of
+      &quot;magic&quot; numbers.
+    <div class="Pp"></div>
+    This can be done in a number of ways:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+GlobalLabel ;&#x00A0;This syntax is deprecated, 
+AnotherGlobal: ;&#x00A0;please use this instead 
+.locallabel 
+.yet_a_local: 
+AnotherGlobal.with_another_local: 
+ThisWillBeExported:: ;&#x00A0;Note the two colons 
 ThisWillBeExported.too::
     </pre>
     </div>
-    <p class="Pp">Declaring a label (global or local) with
-        &#x2018;<code class="Li">::</code>&#x2019; does an
-        <code class="Ic">EXPORT</code> at the same time. (See
-        <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
-        importing symbols</a> below).</p>
-    <p class="Pp">Any label whose name does not contain a period is a global
-        label, others are locals. Declaring a global label sets it as the
-        current label scope until the next one; any local label whose first
-        character is a period will have the global label's name implicitly
-        prepended. Local labels can be declared as
-        &#x2018;<code class="Li">scope.local:</code>&#x2019; or simply as as
-        &#x2018;<code class="Li">.local:</code>&#x2019;. If the former notation
-        is used, then &#x2018;<code class="Li">scope</code>&#x2019; must be the
-        actual current scope.</p>
-    <p class="Pp">Local labels may have whitespace before their declaration as
-        the only exception to the rule.</p>
-    <p class="Pp">A label's location (and thus value) is usually not determined
-        until the linking stage, so labels usually cannot be used as constants.
-        However, if the section in which the label is declared has a fixed base
-        address, its value is known at assembly time.</p>
-    <p class="Pp"><code class="Nm">rgbasm</code> is able to compute the
-        subtraction of two labels either if both are constant as described
-        above, or if both belong to the same section.</p>
-  </dd>
-  <dt><a class="permalink" href="#EQU"><code class="Ic" id="EQU">EQU</code></a></dt>
-  <dd><a class="permalink" href="#EQU_2"><code class="Ic" id="EQU_2">EQU</code></a>
-      allows defining constant symbols. Unlike <code class="Ic">SET</code>
+    <div class="Pp"></div>
+    Declaring a label (global or local) with
+      &#x2018;<code class="Li">::</code>&#x2019; does an
+      <b class="Ic" title="Ic">EXPORT</b> at the same time. (See
+      <a class="Sx" title="Sx" href="#Exporting_and_importing_symbols">Exporting
+      and importing symbols</a> below).
+    <div class="Pp"></div>
+    Any label whose name does not contain a period is a global label, others are
+      locals. Declaring a global label sets it as the current label scope until
+      the next one; any local label whose first character is a period will have
+      the global label's name implicitly prepended. Local labels can be declared
+      as &#x2018;<code class="Li">scope.local:</code>&#x2019; or simply as as
+      &#x2018;<code class="Li">.local:</code>&#x2019;. If the former notation is
+      used, then &#x2018;<code class="Li">scope</code>&#x2019; must be the
+      actual current scope.
+    <div class="Pp"></div>
+    Local labels may have whitespace before their declaration as the only
+      exception to the rule.
+    <div class="Pp"></div>
+    A label's location (and thus value) is usually not determined until the
+      linking stage, so labels usually cannot be used as constants. However, if
+      the section in which the label is declared has a fixed base address, its
+      value is known at assembly time.
+    <div class="Pp"></div>
+    <b class="Nm" title="Nm">rgbasm</b> is able to compute the subtraction of
+      two labels either if both are constant as described above, or if both
+      belong to the same section.</dd>
+  <dt class="It-tag"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></dt>
+  <dd class="It-tag"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a>
+      allows defining constant symbols. Unlike <b class="Ic" title="Ic">SET</b>
       below, constants defined this way cannot be redefined. They can, for
       example, be used for things such as bit definitions of hardware registers.
-    <div class="Bd Pp Bd-indent">
-    <pre>
-SCREEN_WIDTH   equ 160 ;&#x00A0;In pixels
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+SCREEN_WIDTH   equ 160 ;&#x00A0;In pixels 
 SCREEN_HEIGHT  equ 144
     </pre>
     </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></dt>
-  <dd><a class="permalink" href="#SET_2"><code class="Ic" id="SET_2">SET</code></a>,
-      or its synonym <code class="Ic">=</code>, defines constant symbols like
-      <code class="Ic">EQU</code>, but those constants can be re-defined. This
-      is useful for variables in macros, for counters, etc.
-    <div class="Bd Pp Bd-indent">
-    <pre>
-ARRAY_SIZE EQU 4
-COUNT      SET 2
-COUNT      SET ARRAY_SIZE+COUNT
-;&#x00A0;COUNT now has the value 6
+    <div class="Pp"></div>
+    Note that colons &#x2018;<code class="Li">:</code>&#x2019; following the
+      name are not allowed.</dd>
+  <dt class="It-tag"><a class="selflink" href="#SET"><b class="Ic" title="Ic" id="SET">SET</b></a></dt>
+  <dd class="It-tag"><a class="selflink" href="#SET"><b class="Ic" title="Ic" id="SET">SET</b></a>,
+      or its synonym <b class="Ic" title="Ic">=</b>, defines constant symbols
+      like <b class="Ic" title="Ic">EQU</b>, but those constants can be
+      re-defined. This is useful for variables in macros, for counters, etc.
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+ARRAY_SIZE EQU 4 
+COUNT      SET 2 
+COUNT      SET ARRAY_SIZE+COUNT 
+;&#x00A0;COUNT now has the value 6 
 COUNT      = COUNT + 1
     </pre>
     </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#RSSET"><code class="Ic" id="RSSET">RSSET</code></a>,
-    <code class="Ic">RSRESET</code>, <code class="Ic">RB</code>,
-    <code class="Ic">RW</code></dt>
-  <dd>The RS group of commands is a handy way of defining structures:
-    <div class="Bd Pp Bd-indent">
-    <pre>
-              RSRESET
-str_pStuff    RW   1
-str_tData     RB   256
-str_bCount    RB   1
+    <div class="Pp"></div>
+    Note that colons &#x2018;<code class="Li">:</code>&#x2019; following the
+      name are not allowed.</dd>
+  <dt class="It-tag"><a class="selflink" href="#RSSET"><b class="Ic" title="Ic" id="RSSET">RSSET</b></a>,
+    <b class="Ic" title="Ic">RSRESET</b>, <b class="Ic" title="Ic">RB</b>,
+    <b class="Ic" title="Ic">RW</b></dt>
+  <dd class="It-tag">The RS group of commands is a handy way of defining
+      structures:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+              RSRESET 
+str_pStuff    RW   1 
+str_tData     RB   256 
+str_bCount    RB   1 
 str_SIZEOF    RB   0
     </pre>
     </div>
-    <p class="Pp">The example defines four constants as if by:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
-str_pStuff EQU 0
-str_tData  EQU 2
-str_bCount EQU 258
+    <div class="Pp"></div>
+    The example defines four constants as if by:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+str_pStuff EQU 0 
+str_tData  EQU 2 
+str_bCount EQU 258 
 str_SIZEOF EQU 259
     </pre>
     </div>
-    <p class="Pp">There are five commands in the RS group of commands:</p>
+    <div class="Pp"></div>
+    There are five commands in the RS group of commands:
     <table class="Bl-column">
-      <tr>
-        <td><b class="Sy">Command</b></td>
-        <td><b class="Sy">Meaning</b></td>
+      <colgroup>
+        <col style="min-width: 15.00ex;"/>
+      </colgroup>
+      <tr class="It-column">
+        <td class="It-column"><b class="Sy" title="Sy">Command</b></td>
+        <td class="It-column"><b class="Sy" title="Sy">Meaning</b></td>
       </tr>
-      <tr>
-        <td><a class="permalink" href="#RSRESET"><code class="Ic" id="RSRESET">RSRESET</code></a></td>
-        <td>Equivalent to &#x2018;<code class="Li">RSSET 0</code>&#x2019;.</td>
+      <tr class="It-column">
+        <td class="It-column"><a class="selflink" href="#RSRESET"><b class="Ic" title="Ic" id="RSRESET">RSRESET</b></a></td>
+        <td class="It-column">Equivalent to &#x2018;<code class="Li">RSSET
+          0</code>&#x2019;.</td>
       </tr>
-      <tr>
-        <td><a class="permalink" href="#RSSET_2"><code class="Ic" id="RSSET_2">RSSET</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the <code class="Ic">_RS</code> <span class="No">counter
-          to</span> <var class="Ar">constexpr</var>.</td>
+      <tr class="It-column">
+        <td class="It-column"><a class="selflink" href="#RSSET"><b class="Ic" title="Ic" id="RSSET">RSSET</b></a>
+          <var class="Ar" title="Ar">constexpr</var></td>
+        <td class="It-column">Sets the <b class="Ic" title="Ic">_RS</b>
+          <span class="No">counter to</span>
+          <var class="Ar" title="Ar">constexpr</var>.</td>
       </tr>
-      <tr>
-        <td><a class="permalink" href="#RB"><code class="Ic" id="RB">RB</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">to</span> <code class="Ic">_RS</code>.</td>
+      <tr class="It-column">
+        <td class="It-column"><a class="selflink" href="#RB"><b class="Ic" title="Ic" id="RB">RB</b></a>
+          <var class="Ar" title="Ar">constexpr</var></td>
+        <td class="It-column">Sets the preceding symbol to
+          <b class="Ic" title="Ic">_RS</b> <span class="No">and adds</span>
+          <var class="Ar" title="Ar">constexpr</var> <span class="No">to</span>
+          <b class="Ic" title="Ic">_RS</b>.</td>
       </tr>
-      <tr>
-        <td><a class="permalink" href="#RW"><code class="Ic" id="RW">RW</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">* 2 to</span> <code class="Ic">_RS</code>.</td>
+      <tr class="It-column">
+        <td class="It-column"><a class="selflink" href="#RW"><b class="Ic" title="Ic" id="RW">RW</b></a>
+          <var class="Ar" title="Ar">constexpr</var></td>
+        <td class="It-column">Sets the preceding symbol to
+          <b class="Ic" title="Ic">_RS</b> <span class="No">and adds</span>
+          <var class="Ar" title="Ar">constexpr</var> <span class="No">* 2
+          to</span> <b class="Ic" title="Ic">_RS</b>.</td>
       </tr>
-      <tr>
-        <td><a class="permalink" href="#RL"><code class="Ic" id="RL">RL</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">* 4 to</span> <code class="Ic">_RS</code>. (In
-          practice, this one cannot be used due to a bug).</td>
+      <tr class="It-column">
+        <td class="It-column"><a class="selflink" href="#RL"><b class="Ic" title="Ic" id="RL">RL</b></a>
+          <var class="Ar" title="Ar">constexpr</var></td>
+        <td class="It-column">Sets the preceding symbol to
+          <b class="Ic" title="Ic">_RS</b> <span class="No">and adds</span>
+          <var class="Ar" title="Ar">constexpr</var> <span class="No">* 4
+          to</span> <b class="Ic" title="Ic">_RS</b>. (In practice, this one
+          cannot be used due to a bug).</td>
       </tr>
     </table>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#EQUS"><code class="Ic" id="EQUS">EQUS</code></a></dt>
-  <dd><a class="permalink" href="#EQUS_2"><code class="Ic" id="EQUS_2">EQUS</code></a>
+    <div class="Pp"></div>
+    Note that colons &#x2018;<code class="Li">:</code>&#x2019; following the
+      name are not allowed.</dd>
+  <dt class="It-tag"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></dt>
+  <dd class="It-tag"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a>
       is used to define string symbols. Wherever the assembler meets a string
       symbol its name is replaced with its value. If you are familiar with C you
-      can think of it as similar to <code class="Fd">#define .</code>
-    <div class="Bd Pp Bd-indent">
-    <pre>
-COUNTREG EQUS &quot;[hl+]&quot;
-    ld a,COUNTREG
-
-PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
+      can think of it as similar to <b class="Fd" title="Fd">#define .</b>
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+COUNTREG EQUS &quot;[hl+]&quot; 
+    ld a,COUNTREG 
+ 
+PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot; 
     db PLAYER_NAME
     </pre>
     </div>
-    <p class="Pp">This will be interpreted as:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
-    ld a,[hl+]
+    <div class="Pp"></div>
+    This will be interpreted as:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+    ld a,[hl+] 
     db &quot;John&quot;
     </pre>
     </div>
-    <p class="Pp">String symbols can also be used to define small one-line
-        macros:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+    <div class="Pp"></div>
+    String symbols can also be used to define small one-line macros:
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
 pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
     </pre>
     </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed. String equates can't be exported or
-        imported.</p>
-    <p class="Pp"><b class="Sy">Important note</b>: An
-        <code class="Ic">EQUS</code> can be expanded to a string that contains
-        another <code class="Ic">EQUS</code> and it will be expanded as well. If
-        this creates an infinite loop, <code class="Nm">rgbasm</code> will error
-        out once a certain depth is reached. See the <code class="Fl">-r</code>
-        command-line option in <a class="Xr">rgbasm(1)</a>. Also, a macro can
-        contain an <code class="Ic">EQUS</code> which calls the same macro,
-        which causes the same problem.</p>
-  </dd>
-  <dt><a class="permalink" href="#MACRO"><code class="Ic" id="MACRO">MACRO</code></a></dt>
-  <dd>One of the best features of an assembler is the ability to write macros
-      for it. Macros can be called with arguments, and can react depending on
-      input using <code class="Ic">IF</code> constructs.
-    <div class="Bd Pp Bd-indent">
-    <pre>
-MyMacro: MACRO
-         ld   a,80
-         call MyFunc
+    <div class="Pp"></div>
+    Note that colons &#x2018;<code class="Li">:</code>&#x2019; following the
+      name are not allowed. String equates can't be exported or imported.
+    <div class="Pp"></div>
+    <b class="Sy" title="Sy">Important note</b>: An
+      <b class="Ic" title="Ic">EQUS</b> can be expanded to a string that
+      contains another <b class="Ic" title="Ic">EQUS</b> and it will be expanded
+      as well. If this creates an infinite loop,
+      <b class="Nm" title="Nm">rgbasm</b> will error out once a certain depth is
+      reached. See the <b class="Fl" title="Fl">-r</b> command-line option in
+      <a class="Xr" title="Xr">rgbasm(1)</a>. Also, a macro can contain an
+      <b class="Ic" title="Ic">EQUS</b> which calls the same macro, which causes
+      the same problem.</dd>
+  <dt class="It-tag"><a class="selflink" href="#MACRO"><b class="Ic" title="Ic" id="MACRO">MACRO</b></a></dt>
+  <dd class="It-tag">One of the best features of an assembler is the ability to
+      write macros for it. Macros can be called with arguments, and can react
+      depending on input using <b class="Ic" title="Ic">IF</b> constructs.
+    <div class="Pp"></div>
+    <div class="Bd" style="margin-left: 5.00ex;">
+    <pre class="Li">
+MyMacro: MACRO 
+         ld   a,80 
+         call MyFunc 
          ENDM
     </pre>
     </div>
-    <p class="Pp">Note that a single colon
-        &#x2018;<code class="Li">:</code>&#x2019; following the macro's name is
-        required. Macros can't be exported or imported.</p>
-  </dd>
+    <div class="Pp"></div>
+    Note that a single colon &#x2018;<code class="Li">:</code>&#x2019; following
+      the macro's name is required. Macros can't be exported or imported.</dd>
 </dl>
-<section class="Ss">
-<h2 class="Ss" id="Exporting_and_importing_symbols"><a class="permalink" href="#Exporting_and_importing_symbols">Exporting
+<h2 class="Ss" title="Ss" id="Exporting_and_importing_symbols"><a class="selflink" href="#Exporting_and_importing_symbols">Exporting
   and importing symbols</a></h2>
 Importing and exporting of symbols is a feature that is very useful when your
   project spans many source files and, for example, you need to jump to a
   routine defined in another file.
-<p class="Pp">Exporting of symbols has to be done manually, importing is done
-    automatically if <code class="Nm">rgbasm</code> finds a symbol it does not
-    know about.</p>
-<p class="Pp">The following will cause <var class="Ar">symbol1</var>,
-    <var class="Ar">symbol2</var> and so on to be accessible to other files
-    during the link process:</p>
-<div class="Bd Bd-indent"><code class="Li"><code class="Ic">EXPORT</code>
-  <var class="Ar">symbol1</var> [, <var class="Ar">symbol2</var>,
+<div class="Pp"></div>
+Exporting of symbols has to be done manually, importing is done automatically if
+  <b class="Nm" title="Nm">rgbasm</b> finds a symbol it does not know about.
+<div class="Pp"></div>
+The following will cause <var class="Ar" title="Ar">symbol1</var>,
+  <var class="Ar" title="Ar">symbol2</var> and so on to be accessible to other
+  files during the link process:
+<div class="D1"><code class="Li"><b class="Ic" title="Ic">EXPORT</b>
+  <var class="Ar" title="Ar">symbol1</var> [,
+  <var class="Ar" title="Ar">symbol2</var>,
   <span class="No">...</span>]</code></div>
-<p class="Pp"><code class="Ic">GLOBAL</code> is a deprecated synonym for
-    <code class="Ic">EXPORT</code>, do not use it.</p>
-<p class="Pp">Note also that only exported symbols will appear in symbol and map
-    files produced by <a class="Xr">rgblink(1)</a>.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Purging_symbols"><a class="permalink" href="#Purging_symbols">Purging
+<div class="Pp"></div>
+<b class="Ic" title="Ic">GLOBAL</b> is a deprecated synonym for
+  <b class="Ic" title="Ic">EXPORT</b>, do not use it.
+<div class="Pp"></div>
+Note also that only exported symbols will appear in symbol and map files
+  produced by <a class="Xr" title="Xr">rgblink(1)</a>.
+<h2 class="Ss" title="Ss" id="Purging_symbols"><a class="selflink" href="#Purging_symbols">Purging
   symbols</a></h2>
-<code class="Ic">PURGE</code> allows you to completely remove a symbol from the
-  symbol table as if it had never existed. <i class="Em">USE WITH EXTREME
-  CAUTION!!!</i> I can't stress this enough, <b class="Sy">you seriously need to
-  know what you are doing</b>. DON'T purge a symbol that you use in expressions
-  the linker needs to calculate. When not sure, it's probably not safe to purge
-  anything other than string symbols, macros, and constants.
-<div class="Bd Pp Bd-indent">
-<pre>
-Kamikaze EQUS  &quot;I don't want to live anymore&quot;
-AOLer    EQUS  &quot;Me too&quot;
+<b class="Ic" title="Ic">PURGE</b> allows you to completely remove a symbol from
+  the symbol table as if it had never existed. <i class="Em" title="Em">USE WITH
+  EXTREME CAUTION!!!</i> I can't stress this enough,
+  <b class="Sy" title="Sy">you seriously need to know what you are doing</b>.
+  DON'T purge a symbol that you use in expressions the linker needs to
+  calculate. When not sure, it's probably not safe to purge anything other than
+  string symbols, macros, and constants.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+Kamikaze EQUS  &quot;I don't want to live anymore&quot; 
+AOLer    EQUS  &quot;Me too&quot; 
          PURGE Kamikaze, AOLer
 </pre>
 </div>
-<p class="Pp">Note that, as an exception, string symbols in the argument list of
-    a <code class="Ic">PURGE</code> command <i class="Em">will not be
-    expanded</i>.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Predeclared_Symbols"><a class="permalink" href="#Predeclared_Symbols">Predeclared
+<div class="Pp"></div>
+Note that, as an exception, string symbols in the argument list of a
+  <b class="Ic" title="Ic">PURGE</b> command <i class="Em" title="Em">will not
+  be expanded</i>.
+<h2 class="Ss" title="Ss" id="Predeclared_Symbols"><a class="selflink" href="#Predeclared_Symbols">Predeclared
   Symbols</a></h2>
 The following symbols are defined by the assembler:
-<table class="Bl-column Bd-indent">
-  <tr>
-    <td><b class="Sy">Type</b></td>
-    <td><b class="Sy">Name</b></td>
-    <td><b class="Sy">Contents</b></td>
+<table class="Bl-column" style="margin-left: 6.00ex;">
+  <colgroup>
+    <col style="width: 7.80ex;"/>
+    <col style="min-width: 18.00ex;"/>
+  </colgroup>
+  <tr class="It-column">
+    <td class="It-column"><b class="Sy" title="Sy">Type</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Name</b></td>
+    <td class="It-column"><b class="Sy" title="Sy">Contents</b></td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_3"><code class="Ic" id="EQU_3">EQU</code></a></td>
-    <td><a class="permalink" href="#@"><code class="Dv" id="@">@</code></a></td>
-    <td>PC value (essentially, the current memory address)</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#@"><code class="Dv" title="Dv" id="@">@</code></a></td>
+    <td class="It-column">PC value (essentially, the current memory
+      address)</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_4"><code class="Ic" id="EQU_4">EQU</code></a></td>
-    <td><a class="permalink" href="#_PI"><code class="Dv" id="_PI">_PI</code></a></td>
-    <td>Fixed point &#x03C0;</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#_PI"><code class="Dv" title="Dv" id="_PI">_PI</code></a></td>
+    <td class="It-column">Fixed point &#x03C0;</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#SET_3"><code class="Ic" id="SET_3">SET</code></a></td>
-    <td><a class="permalink" href="#_RS"><code class="Dv" id="_RS">_RS</code></a></td>
-    <td>_RS Counter</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#SET"><b class="Ic" title="Ic" id="SET">SET</b></a></td>
+    <td class="It-column"><a class="selflink" href="#_RS"><code class="Dv" title="Dv" id="_RS">_RS</code></a></td>
+    <td class="It-column">_RS Counter</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_5"><code class="Ic" id="EQU_5">EQU</code></a></td>
-    <td><a class="permalink" href="#_NARG"><code class="Dv" id="_NARG">_NARG</code></a></td>
-    <td>Number of arguments passed to macro</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#_NARG"><code class="Dv" title="Dv" id="_NARG">_NARG</code></a></td>
+    <td class="It-column">Number of arguments passed to macro</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_6"><code class="Ic" id="EQU_6">EQU</code></a></td>
-    <td><a class="permalink" href="#__LINE__"><code class="Dv" id="__LINE__">__LINE__</code></a></td>
-    <td>The current line number</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__LINE__"><code class="Dv" title="Dv" id="__LINE__">__LINE__</code></a></td>
+    <td class="It-column">The current line number</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQUS_3"><code class="Ic" id="EQUS_3">EQUS</code></a></td>
-    <td><a class="permalink" href="#__FILE__"><code class="Dv" id="__FILE__">__FILE__</code></a></td>
-    <td>The current filename</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__FILE__"><code class="Dv" title="Dv" id="__FILE__">__FILE__</code></a></td>
+    <td class="It-column">The current filename</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQUS_4"><code class="Ic" id="EQUS_4">EQUS</code></a></td>
-    <td><a class="permalink" href="#__DATE__"><code class="Dv" id="__DATE__">__DATE__</code></a></td>
-    <td>Today's date</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__DATE__"><code class="Dv" title="Dv" id="__DATE__">__DATE__</code></a></td>
+    <td class="It-column">Today's date</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQUS_5"><code class="Ic" id="EQUS_5">EQUS</code></a></td>
-    <td><a class="permalink" href="#__TIME__"><code class="Dv" id="__TIME__">__TIME__</code></a></td>
-    <td>The current time</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__TIME__"><code class="Dv" title="Dv" id="__TIME__">__TIME__</code></a></td>
+    <td class="It-column">The current time</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQUS_6"><code class="Ic" id="EQUS_6">EQUS</code></a></td>
-    <td><a class="permalink" href="#__ISO_8601_LOCAL__"><code class="Dv" id="__ISO_8601_LOCAL__">__ISO_8601_LOCAL__</code></a></td>
-    <td>ISO 8601 timestamp (local)</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__ISO_8601_LOCAL__"><code class="Dv" title="Dv" id="__ISO_8601_LOCAL__">__ISO_8601_LOCAL__</code></a></td>
+    <td class="It-column">ISO 8601 timestamp (local)</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQUS_7"><code class="Ic" id="EQUS_7">EQUS</code></a></td>
-    <td><a class="permalink" href="#__ISO_8601_UTC__"><code class="Dv" id="__ISO_8601_UTC__">__ISO_8601_UTC__</code></a></td>
-    <td>ISO 8601 timestamp (UTC)</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQUS"><b class="Ic" title="Ic" id="EQUS">EQUS</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__ISO_8601_UTC__"><code class="Dv" title="Dv" id="__ISO_8601_UTC__">__ISO_8601_UTC__</code></a></td>
+    <td class="It-column">ISO 8601 timestamp (UTC)</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_7"><code class="Ic" id="EQU_7">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_YEAR__"><code class="Dv" id="__UTC_YEAR__">__UTC_YEAR__</code></a></td>
-    <td>Today's year</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_YEAR__"><code class="Dv" title="Dv" id="__UTC_YEAR__">__UTC_YEAR__</code></a></td>
+    <td class="It-column">Today's year</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_8"><code class="Ic" id="EQU_8">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_MONTH__"><code class="Dv" id="__UTC_MONTH__">__UTC_MONTH__</code></a></td>
-    <td>Today's month number, 1&#x2013;12</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_MONTH__"><code class="Dv" title="Dv" id="__UTC_MONTH__">__UTC_MONTH__</code></a></td>
+    <td class="It-column">Today's month number, 1&#x2013;12</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_9"><code class="Ic" id="EQU_9">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_DAY__"><code class="Dv" id="__UTC_DAY__">__UTC_DAY__</code></a></td>
-    <td>Today's day of the month, 1&#x2013;31</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_DAY__"><code class="Dv" title="Dv" id="__UTC_DAY__">__UTC_DAY__</code></a></td>
+    <td class="It-column">Today's day of the month, 1&#x2013;31</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_10"><code class="Ic" id="EQU_10">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_HOUR__"><code class="Dv" id="__UTC_HOUR__">__UTC_HOUR__</code></a></td>
-    <td>Current hour, 0&#x2013;23</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_HOUR__"><code class="Dv" title="Dv" id="__UTC_HOUR__">__UTC_HOUR__</code></a></td>
+    <td class="It-column">Current hour, 0&#x2013;23</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_11"><code class="Ic" id="EQU_11">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_MINUTE__"><code class="Dv" id="__UTC_MINUTE__">__UTC_MINUTE__</code></a></td>
-    <td>Current minute, 0&#x2013;59</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_MINUTE__"><code class="Dv" title="Dv" id="__UTC_MINUTE__">__UTC_MINUTE__</code></a></td>
+    <td class="It-column">Current minute, 0&#x2013;59</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_12"><code class="Ic" id="EQU_12">EQU</code></a></td>
-    <td><a class="permalink" href="#__UTC_SECOND__"><code class="Dv" id="__UTC_SECOND__">__UTC_SECOND__</code></a></td>
-    <td>Current second, 0&#x2013;59</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__UTC_SECOND__"><code class="Dv" title="Dv" id="__UTC_SECOND__">__UTC_SECOND__</code></a></td>
+    <td class="It-column">Current second, 0&#x2013;59</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_13"><code class="Ic" id="EQU_13">EQU</code></a></td>
-    <td><a class="permalink" href="#__RGBDS_MAJOR__"><code class="Dv" id="__RGBDS_MAJOR__">__RGBDS_MAJOR__</code></a></td>
-    <td>Major version number of RGBDS</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__RGBDS_MAJOR__"><code class="Dv" title="Dv" id="__RGBDS_MAJOR__">__RGBDS_MAJOR__</code></a></td>
+    <td class="It-column">Major version number of RGBDS</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_14"><code class="Ic" id="EQU_14">EQU</code></a></td>
-    <td><a class="permalink" href="#__RGBDS_MINOR__"><code class="Dv" id="__RGBDS_MINOR__">__RGBDS_MINOR__</code></a></td>
-    <td>Minor version number of RGBDS</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__RGBDS_MINOR__"><code class="Dv" title="Dv" id="__RGBDS_MINOR__">__RGBDS_MINOR__</code></a></td>
+    <td class="It-column">Minor version number of RGBDS</td>
   </tr>
-  <tr>
-    <td><a class="permalink" href="#EQU_15"><code class="Ic" id="EQU_15">EQU</code></a></td>
-    <td><a class="permalink" href="#__RGBDS_PATCH__"><code class="Dv" id="__RGBDS_PATCH__">__RGBDS_PATCH__</code></a></td>
-    <td>Patch version number of RGBDS</td>
+  <tr class="It-column">
+    <td class="It-column"><a class="selflink" href="#EQU"><b class="Ic" title="Ic" id="EQU">EQU</b></a></td>
+    <td class="It-column"><a class="selflink" href="#__RGBDS_PATCH__"><code class="Dv" title="Dv" id="__RGBDS_PATCH__">__RGBDS_PATCH__</code></a></td>
+    <td class="It-column">Patch version number of RGBDS</td>
   </tr>
 </table>
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="DEFINING_DATA"><a class="permalink" href="#DEFINING_DATA">DEFINING
+<h1 class="Sh" title="Sh" id="DEFINING_DATA"><a class="selflink" href="#DEFINING_DATA">DEFINING
   DATA</a></h1>
-<section class="Ss">
-<h2 class="Ss" id="Declaring_variables_in_a_RAM_section"><a class="permalink" href="#Declaring_variables_in_a_RAM_section">Declaring
+<h2 class="Ss" title="Ss" id="Declaring_variables_in_a_RAM_section"><a class="selflink" href="#Declaring_variables_in_a_RAM_section">Declaring
   variables in a RAM section</a></h2>
-<code class="Ic">DS</code> allocates a number of empty bytes. This is the
+<b class="Ic" title="Ic">DS</b> allocates a number of empty bytes. This is the
   preferred method of allocating space in a RAM section. You can also use
-  <code class="Ic">DB</code>, <code class="Ic">DW</code> and
-  <code class="Ic">DL</code> without any arguments instead (see
-  <a class="Sx" href="#Defining_constant_data">Defining constant data</a>
-  below).
-<div class="Bd Pp Bd-indent">
-<pre>
+  <b class="Ic" title="Ic">DB</b>, <b class="Ic" title="Ic">DW</b> and
+  <b class="Ic" title="Ic">DL</b> without any arguments instead (see
+  <a class="Sx" title="Sx" href="#Defining_constant_data">Defining constant
+  data</a> below).
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 DS 42 ;&#x00A0;Allocates 42 bytes
 </pre>
 </div>
-<p class="Pp">Empty space in RAM sections will not be initialized. In ROM
-    sections, it will be filled with the value passed to the
-    <code class="Fl">-p</code> command-line option, except when using overlays
-    with <code class="Fl">-O</code>.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Defining_constant_data"><a class="permalink" href="#Defining_constant_data">Defining
+<div class="Pp"></div>
+Empty space in RAM sections will not be initialized. In ROM sections, it will be
+  filled with the value passed to the <b class="Fl" title="Fl">-p</b>
+  command-line option, except when using overlays with
+  <b class="Fl" title="Fl">-O</b>.
+<h2 class="Ss" title="Ss" id="Defining_constant_data"><a class="selflink" href="#Defining_constant_data">Defining
   constant data</a></h2>
-<code class="Ic">DB</code> defines a list of bytes that will be stored in the
-  final image. Ideal for tables and text. Note that strings are not
+<b class="Ic" title="Ic">DB</b> defines a list of bytes that will be stored in
+  the final image. Ideal for tables and text. Note that strings are not
   zero-terminated!
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 DB 1,2,3,4,&quot;This is a string&quot;
 </pre>
 </div>
-<p class="Pp"><code class="Ic">DS</code> can also be used to fill a region of
-    memory with some value. The following produces 42 times the byte $FF:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+<b class="Ic" title="Ic">DS</b> can also be used to fill a region of memory with
+  some value. The following produces 42 times the byte $FF:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 DS 42, $FF
 </pre>
 </div>
-<p class="Pp">Alternatively, you can use <code class="Ic">DW</code> to store a
-    list of words (16-bit) or <code class="Ic">DL</code> to store a list of
-    double-words/longs (32-bit). Strings are not allowed as arguments to
-    <code class="Ic">DW</code> and <code class="Ic">DL</code>.</p>
-<p class="Pp">You can also use <code class="Ic">DB</code>,
-    <code class="Ic">DW</code> and <code class="Ic">DL</code> without arguments,
-    or leaving empty elements at any point in the list. This works exactly like
-    <code class="Ic">DS 1</code>, <code class="Ic">DS 2</code> and
-    <code class="Ic">DS 4</code> respectively. Consequently, no-argument
-    <code class="Ic">DB</code>, <code class="Ic">DW</code> and
-    <code class="Ic">DL</code> can be used in a <code class="Ic">WRAM0</code> /
-    <code class="Ic">WRAMX</code> / <code class="Ic">HRAM</code> /
-    <code class="Ic">VRAM</code> / <code class="Ic">SRAM</code> section.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Including_binary_files"><a class="permalink" href="#Including_binary_files">Including
+<div class="Pp"></div>
+Alternatively, you can use <b class="Ic" title="Ic">DW</b> to store a list of
+  words (16-bit) or <b class="Ic" title="Ic">DL</b> to store a list of
+  double-words/longs (32-bit). Strings are not allowed as arguments to
+  <b class="Ic" title="Ic">DW</b> and <b class="Ic" title="Ic">DL</b>.
+<div class="Pp"></div>
+You can also use <b class="Ic" title="Ic">DB</b>,
+  <b class="Ic" title="Ic">DW</b> and <b class="Ic" title="Ic">DL</b> without
+  arguments, or leaving empty elements at any point in the list. This works
+  exactly like <b class="Ic" title="Ic">DS 1</b>, <b class="Ic" title="Ic">DS
+  2</b> and <b class="Ic" title="Ic">DS 4</b> respectively. Consequently,
+  no-argument <b class="Ic" title="Ic">DB</b>, <b class="Ic" title="Ic">DW</b>
+  and <b class="Ic" title="Ic">DL</b> can be used in a
+  <b class="Ic" title="Ic">WRAM0</b> / <b class="Ic" title="Ic">WRAMX</b> /
+  <b class="Ic" title="Ic">HRAM</b> / <b class="Ic" title="Ic">VRAM</b> /
+  <b class="Ic" title="Ic">SRAM</b> section.
+<h2 class="Ss" title="Ss" id="Including_binary_files"><a class="selflink" href="#Including_binary_files">Including
   binary files</a></h2>
 You probably have some graphics, level data, etc. you'd like to include. Use
-  <code class="Ic">INCBIN</code> to include a raw binary file as it is. If the
-  file isn't found in the current directory, the include-path list passed to
-  <a class="Xr">rgbasm(1)</a> (see the <code class="Fl">-i</code> option) on the
-  command line will be searched.
-<div class="Bd Pp Bd-indent">
-<pre>
-INCBIN &quot;titlepic.bin&quot;
+  <b class="Ic" title="Ic">INCBIN</b> to include a raw binary file as it is. If
+  the file isn't found in the current directory, the include-path list passed to
+  <a class="Xr" title="Xr">rgbasm(1)</a> (see the
+  <b class="Fl" title="Fl">-i</b> option) on the command line will be searched.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+INCBIN &quot;titlepic.bin&quot; 
 INCBIN &quot;sprites/hero.bin&quot;
 </pre>
 </div>
-<p class="Pp">You can also include only part of a file with
-    <code class="Ic">INCBIN</code>. The example below includes 256 bytes from
-    data.bin, starting from byte 78.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+You can also include only part of a file with
+  <b class="Ic" title="Ic">INCBIN</b>. The example below includes 256 bytes from
+  data.bin, starting from byte 78.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 INCBIN &quot;data.bin&quot;,78,256
 </pre>
 </div>
-<p class="Pp">The length argument is optional. If only the start position is
-    specified, the bytes from the start position until the end of the file will
-    be included.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Unions"><a class="permalink" href="#Unions">Unions</a></h2>
+<div class="Pp"></div>
+The length argument is optional. If only the start position is specified, the
+  bytes from the start position until the end of the file will be included.
+<h2 class="Ss" title="Ss" id="Unions"><a class="selflink" href="#Unions">Unions</a></h2>
 Unions allow multiple memory allocations to overlap, like unions in C. This does
   not increase the amount of memory available, but allows re-using the same
   memory region for different purposes.
-<p class="Pp">A union starts with a <code class="Ic">UNION</code> keyword, and
-    ends at the corresponding <code class="Ic">ENDU</code> keyword.
-    <code class="Ic">NEXTU</code> separates each block of allocations, and you
-    may use it as many times within a union as necessary.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-    ; Let's say PC = $C0DE here
-    UNION
-    ; Here, PC = $C0DE
-Name: ds 8
-    ; PC = $C0E6
-Nickname: ds 8
-    ; PC = $C0EE
-    NEXTU
-    ; PC is back to $C0DE
-Health: dw
-    ; PC = $C0E0
-Something: ds 6
-    ; And so on
-Lives: db
-    NEXTU
-VideoBuffer: ds 19
+<div class="Pp"></div>
+A union starts with a <b class="Ic" title="Ic">UNION</b> keyword, and ends at
+  the corresponding <b class="Ic" title="Ic">ENDU</b> keyword.
+  <b class="Ic" title="Ic">NEXTU</b> separates each block of allocations, and
+  you may use it as many times within a union as necessary.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+    ; Let's say PC = $C0DE here 
+    UNION 
+    ; Here, PC = $C0DE 
+Name: ds 8 
+    ; PC = $C0E6 
+Nickname: ds 8 
+    ; PC = $C0EE 
+    NEXTU 
+    ; PC is back to $C0DE 
+Health: dw 
+    ; PC = $C0E0 
+Something: ds 6 
+    ; And so on 
+Lives: db 
+    NEXTU 
+VideoBuffer: ds 19 
     ENDU
 </pre>
 </div>
-<p class="Pp">In the example above, &#x2018;Name, Health, VideoBuffer&#x2019;
-    all have the same value, as do &#x2018;Nickname&#x2019; and
-    &#x2018;Lives&#x2019;. Thus, keep in mind that <code class="Ic">ld [Health],
-    a</code> is identical to <code class="Ic">ld [Name], a</code>.</p>
-<p class="Pp">The size of this union is 19 bytes, as this is the size of the
-    largest block (the last one, containing &#x2018;VideoBuffer&#x2019;).
-    Nesting unions is possible, with each inner union's size being considered as
-    described above.</p>
-<p class="Pp">Unions may be used in any section, but inside them may only be
-    <code class="Ic">DS -</code> like commands (see
-    <a class="Sx" href="#Declaring_variables_in_a_RAM_section">Declaring
-    variables in a RAM section</a>).</p>
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="THE_MACRO_LANGUAGE"><a class="permalink" href="#THE_MACRO_LANGUAGE">THE
+<div class="Pp"></div>
+In the example above, &#x2018;Name, Health, VideoBuffer&#x2019; all have the
+  same value, as do &#x2018;Nickname&#x2019; and &#x2018;Lives&#x2019;. Thus,
+  keep in mind that <b class="Ic" title="Ic">ld [Health], a</b> is identical to
+  <b class="Ic" title="Ic">ld [Name], a</b>.
+<div class="Pp"></div>
+The size of this union is 19 bytes, as this is the size of the largest block
+  (the last one, containing &#x2018;VideoBuffer&#x2019;). Nesting unions is
+  possible, with each inner union's size being considered as described above.
+<div class="Pp"></div>
+Unions may be used in any section, but inside them may only be
+  <b class="Ic" title="Ic">DS -</b> like commands (see
+  <a class="Sx" title="Sx" href="#Declaring_variables_in_a_RAM_section">Declaring
+  variables in a RAM section</a>).
+<h1 class="Sh" title="Sh" id="THE_MACRO_LANGUAGE"><a class="selflink" href="#THE_MACRO_LANGUAGE">THE
   MACRO LANGUAGE</a></h1>
-<section class="Ss">
-<h2 class="Ss" id="Invoking_macros"><a class="permalink" href="#Invoking_macros">Invoking
+<h2 class="Ss" title="Ss" id="Invoking_macros"><a class="selflink" href="#Invoking_macros">Invoking
   macros</a></h2>
 You execute the macro by inserting its name.
-<div class="Bd Pp Bd-indent">
-<pre>
-         add a,b
-         ld sp,hl
-         MyMacro ;&#x00A0;This will be expanded
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+         add a,b 
+         ld sp,hl 
+         MyMacro ;&#x00A0;This will be expanded 
          sub a,87
 </pre>
 </div>
-<p class="Pp">It's valid to call a macro from a macro (yes, even the same
-  one).</p>
-<p class="Pp">When <code class="Nm">rgbasm</code> sees
-    <code class="Ic">MyMacro</code> it will insert the macro definition (the
-    code enclosed in <code class="Ic">MACRO</code> /
-    <code class="Ic">ENDM</code>).</p>
-<p class="Pp">Suppose your macro contains a loop.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-LoopyMacro: MACRO
-            xor  a,a
-.loop       ld   [hl+],a
-            dec  c
-            jr   nz,.loop
+<div class="Pp"></div>
+It's valid to call a macro from a macro (yes, even the same one).
+<div class="Pp"></div>
+When <b class="Nm" title="Nm">rgbasm</b> sees
+  <b class="Ic" title="Ic">MyMacro</b> it will insert the macro definition (the
+  code enclosed in <b class="Ic" title="Ic">MACRO</b> /
+  <b class="Ic" title="Ic">ENDM</b>).
+<div class="Pp"></div>
+Suppose your macro contains a loop.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+LoopyMacro: MACRO 
+            xor  a,a 
+.loop       ld   [hl+],a 
+            dec  c 
+            jr   nz,.loop 
 ENDM
 </pre>
 </div>
-<p class="Pp">This is fine, but only if you use the macro no more than once per
-    scope. To get around this problem, there is the escape sequence
-    <code class="Ic">\@</code> that expands to a unique string.</p>
-<p class="Pp"><code class="Ic">\@</code> also works in
-    <code class="Ic">REPT</code> blocks.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-LoopyMacro: MACRO
-            xor  a,a
-.loop\@     ld   [hl+],a
-            dec  c
-            jr   nz,.loop\@
+<div class="Pp"></div>
+This is fine, but only if you use the macro no more than once per scope. To get
+  around this problem, there is the escape sequence
+  <b class="Ic" title="Ic">\@</b> that expands to a unique string.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">\@</b> also works in <b class="Ic" title="Ic">REPT</b>
+  blocks.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+LoopyMacro: MACRO 
+            xor  a,a 
+.loop\@     ld   [hl+],a 
+            dec  c 
+            jr   nz,.loop\@ 
 ENDM
 </pre>
 </div>
-<p class="Pp"><b class="Sy">Important note</b>: Since a macro can call itself
-    (or a different macro that calls the first one), there can be circular
-    dependency problems. If this creates an infinite loop,
-    <code class="Nm">rgbasm</code> will error out once a certain depth is
-    reached. See the <code class="Fl">-r</code> command-line option in
-    <a class="Xr">rgbasm(1)</a>. Also, a macro can have inside an
-    <b class="Sy">EQUS</b> which references the same macro, which has the same
-    problem.</p>
-<p class="Pp">It's possible to pass arguments to macros as well! You retrieve
-    the arguments by using the escape sequences <code class="Ic">\1</code>
-    through <code class="Ic">\9</code>, <code class="Ic">\1</code> being the
-    first argument specified on the macro invocation.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-LoopyMacro: MACRO
-            ld   hl,\1
-            ld   c,\2
-            xor  a,a
-.loop\@     ld   [hl+],a
-            dec  c
-            jr   nz,.loop\@
+<div class="Pp"></div>
+<b class="Sy" title="Sy">Important note</b>: Since a macro can call itself (or a
+  different macro that calls the first one), there can be circular dependency
+  problems. If this creates an infinite loop,
+  <b class="Nm" title="Nm">rgbasm</b> will error out once a certain depth is
+  reached. See the <b class="Fl" title="Fl">-r</b> command-line option in
+  <a class="Xr" title="Xr">rgbasm(1)</a>. Also, a macro can have inside an
+  <b class="Sy" title="Sy">EQUS</b> which references the same macro, which has
+  the same problem.
+<div class="Pp"></div>
+It's possible to pass arguments to macros as well! You retrieve the arguments by
+  using the escape sequences <b class="Ic" title="Ic">\1</b> through
+  <b class="Ic" title="Ic">\9</b>, <b class="Ic" title="Ic">\1</b> being the
+  first argument specified on the macro invocation.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+LoopyMacro: MACRO 
+            ld   hl,\1 
+            ld   c,\2 
+            xor  a,a 
+.loop\@     ld   [hl+],a 
+            dec  c 
+            jr   nz,.loop\@ 
             ENDM
 </pre>
 </div>
-<p class="Pp">Now I can call the macro specifying two arguments, the first being
-    the address and the second being a byte count. The generated code will then
-    reset all bytes in this range.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+Now I can call the macro specifying two arguments, the first being the address
+  and the second being a byte count. The generated code will then reset all
+  bytes in this range.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
 LoopyMacro MyVars,54
 </pre>
 </div>
-<p class="Pp">Arguments are passed as string equates, although there's no need
-    to enclose them in quotes. Thus, an expression will not be evaluated first
-    but kind of copy-pasted. This means that it's probably a very good idea to
-    use brackets around <code class="Ic">\1</code> to <code class="Ic">\9</code>
-    if you perform further calculations on them. For instance, consider the
-    following:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-print_double: MACRO
-    PRINTV \1 * 2
-ENDM
+<div class="Pp"></div>
+Arguments are passed as string equates, although there's no need to enclose them
+  in quotes. Thus, an expression will not be evaluated first but kind of
+  copy-pasted. This means that it's probably a very good idea to use brackets
+  around <b class="Ic" title="Ic">\1</b> to <b class="Ic" title="Ic">\9</b> if
+  you perform further calculations on them. For instance, consider the
+  following:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+print_double: MACRO 
+    PRINTV \1 * 2 
+ENDM 
     print_double 1 + 2
 </pre>
 </div>
-<p class="Pp">The <code class="Ic">PRINTV</code> statement will expand to
-    &#x2018;<code class="Li">PRINTV 1 + 2 * 2</code>&#x2019;, which will print 5
-    and not 6 as you might have expected.</p>
-<p class="Pp">Line continuations work as usual inside macros or lists of macro
-    arguments. However, some characters need to be escaped, as in the following
-    example:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-PrintMacro: MACRO
-    PRINTT \1
-ENDM
-
-    PrintMacro STRCAT(&quot;Hello &quot;\, \
+<div class="Pp"></div>
+The <b class="Ic" title="Ic">PRINTV</b> statement will expand to
+  &#x2018;<code class="Li">PRINTV 1 + 2 * 2</code>&#x2019;, which will print 5
+  and not 6 as you might have expected.
+<div class="Pp"></div>
+Line continuations work as usual inside macros or lists of macro arguments.
+  However, some characters need to be escaped, as in the following example:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+PrintMacro: MACRO 
+    PRINTT \1 
+ENDM 
+ 
+    PrintMacro STRCAT(&quot;Hello &quot;\, \ 
                       &quot;world\\n&quot;)
 </pre>
 </div>
-<p class="Pp">The comma needs to be escaped to avoid it being treated as
-    separating the macro's arguments. The backslash &#x2018;\&#x2019; (from
-    &#x2018;\n&#x2019;) also needs to be escaped because of the way
-    <code class="Nm">rgbasm</code> processes macro arguments.</p>
-<p class="Pp">In reality, up to 256 arguments can be passed to a macro, but you
-    can only use the first 9 like this. If you want to use the rest, you need to
-    use the <code class="Ic">SHIFT</code> command.</p>
-<p class="Pp"><code class="Ic">SHIFT</code> is a special command only available
-    in macros. Very useful in <code class="Ic">REPT</code> blocks. It will shift
-    the arguments by one to the left. <code class="Ic">\1</code> will get the
-    value of <code class="Ic">\2</code>, <code class="Ic">\2</code> will get the
-    value of <code class="Ic">\3</code>, and so forth.</p>
-<p class="Pp">This is the only way of accessing the value of arguments from 10
-    to 256.</p>
-<p class="Pp"><code class="Ic">SHIFT</code> can optionally be given an integer
-    parameter, and will apply the above shifting that number of times.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
+<div class="Pp"></div>
+The comma needs to be escaped to avoid it being treated as separating the
+  macro's arguments. The backslash &#x2018;\&#x2019; (from &#x2018;\n&#x2019;)
+  also needs to be escaped because of the way
+  <b class="Nm" title="Nm">rgbasm</b> processes macro arguments.
+<div class="Pp"></div>
+In reality, up to 256 arguments can be passed to a macro, but you can only use
+  the first 9 like this. If you want to use the rest, you need to use the
+  <b class="Ic" title="Ic">SHIFT</b> command.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">SHIFT</b> is a special command only available in
+  macros. Very useful in <b class="Ic" title="Ic">REPT</b> blocks. It will shift
+  the arguments by one to the left. <b class="Ic" title="Ic">\1</b> will get the
+  value of <b class="Ic" title="Ic">\2</b>, <b class="Ic" title="Ic">\2</b> will
+  get the value of <b class="Ic" title="Ic">\3</b>, and so forth.
+<div class="Pp"></div>
+This is the only way of accessing the value of arguments from 10 to 256.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">SHIFT</b> can optionally be given an integer parameter,
+  and will apply the above shifting that number of times.
+<h2 class="Ss" title="Ss" id="Printing_things_during_assembly"><a class="selflink" href="#Printing_things_during_assembly">Printing
   things during assembly</a></h2>
 The next four commands print text and values to the standard output. Useful for
   debugging macros, or wherever you may feel the need to tell yourself some
   important information.
-<div class="Bd Pp Bd-indent">
-<pre>
-PRINTT &quot;I'm the greatest programmer in the whole wide world\n&quot;
-PRINTI (2 + 3) / 5
-PRINTV $FF00 + $F0
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+PRINTT &quot;I'm the greatest programmer in the whole wide world\n&quot; 
+PRINTI (2 + 3) / 5 
+PRINTV $FF00 + $F0 
 PRINTF MUL(3.14, 3987.0)
 </pre>
 </div>
 <dl class="Bl-inset">
-  <dt><a class="permalink" href="#PRINTT"><code class="Ic" id="PRINTT">PRINTT</code></a></dt>
-  <dd>prints out a string. Be careful to add a line feed (&#x201C;\n&#x201D;) at
-      the end, as it is not added automatically.</dd>
-  <dt><a class="permalink" href="#PRINTV"><code class="Ic" id="PRINTV">PRINTV</code></a></dt>
-  <dd>prints out an integer value in hexadecimal or, as in the example, the
-      result of a calculation. Unsurprisingly, you can also print out a constant
-      symbol's value.</dd>
-  <dt><a class="permalink" href="#PRINTI"><code class="Ic" id="PRINTI">PRINTI</code></a></dt>
-  <dd>prints out a signed integer value.</dd>
-  <dt><a class="permalink" href="#PRINTF"><code class="Ic" id="PRINTF">PRINTF</code></a></dt>
-  <dd>prints out a fixed point value.</dd>
+  <dt class="It-inset"><a class="selflink" href="#PRINTT"><b class="Ic" title="Ic" id="PRINTT">PRINTT</b></a></dt>
+  <dd class="It-inset">prints out a string. Be careful to add a line feed
+      (&#x201C;\n&#x201D;) at the end, as it is not added automatically.</dd>
+  <dt class="It-inset"><a class="selflink" href="#PRINTV"><b class="Ic" title="Ic" id="PRINTV">PRINTV</b></a></dt>
+  <dd class="It-inset">prints out an integer value in hexadecimal or, as in the
+      example, the result of a calculation. Unsurprisingly, you can also print
+      out a constant symbol's value.</dd>
+  <dt class="It-inset"><a class="selflink" href="#PRINTI"><b class="Ic" title="Ic" id="PRINTI">PRINTI</b></a></dt>
+  <dd class="It-inset">prints out a signed integer value.</dd>
+  <dt class="It-inset"><a class="selflink" href="#PRINTF"><b class="Ic" title="Ic" id="PRINTF">PRINTF</b></a></dt>
+  <dd class="It-inset">prints out a fixed point value.</dd>
 </dl>
-<p class="Pp">Be careful that none of those automatically print a line feed; if
-    you need one, use <code class="Ic">PRINTT \n</code>.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Automatically_repeating_blocks_of_code"><a class="permalink" href="#Automatically_repeating_blocks_of_code">Automatically
+<div class="Pp"></div>
+Be careful that none of those automatically print a line feed; if you need one,
+  use <b class="Ic" title="Ic">PRINTT \n</b>.
+<h2 class="Ss" title="Ss" id="Automatically_repeating_blocks_of_code"><a class="selflink" href="#Automatically_repeating_blocks_of_code">Automatically
   repeating blocks of code</a></h2>
 Suppose you want to unroll a time consuming loop without copy-pasting it.
-  <code class="Ic">REPT</code> is here for that purpose. Everything between
-  <code class="Ic">REPT</code> and the matching <code class="Ic">ENDR</code>
-  will be repeated a number of times just as if you had done a copy/paste
-  operation yourself. The following example will assemble
-  &#x2018;<code class="Li">add a,c</code>&#x2019; four times:
-<div class="Bd Pp Bd-indent">
-<pre>
-REPT 4
-  add  a,c
+  <b class="Ic" title="Ic">REPT</b> is here for that purpose. Everything between
+  <b class="Ic" title="Ic">REPT</b> and the matching
+  <b class="Ic" title="Ic">ENDR</b> will be repeated a number of times just as
+  if you had done a copy/paste operation yourself. The following example will
+  assemble &#x2018;<code class="Li">add a,c</code>&#x2019; four times:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+REPT 4 
+  add  a,c 
 ENDR
 </pre>
 </div>
-<p class="Pp">You can also use <code class="Ic">REPT</code> to generate tables
-    on the fly:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-;&#x00A0;--
-;&#x00A0;-- Generate a 256 byte sine table with values between 0 and 128
-;&#x00A0;--
-ANGLE =   0.0
-      REPT  256
-      db    (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
-ANGLE = ANGLE+256.0
+<div class="Pp"></div>
+You can also use <b class="Ic" title="Ic">REPT</b> to generate tables on the
+  fly:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+;&#x00A0;-- 
+;&#x00A0;-- Generate a 256 byte sine table with values between 0 and 128 
+;&#x00A0;-- 
+ANGLE =   0.0 
+      REPT  256 
+      db    (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16 
+ANGLE = ANGLE+256.0 
       ENDR
 </pre>
 </div>
-<p class="Pp">As in macros, you can also use the escape sequence
-    <code class="Ic">\@</code>. <code class="Ic">REPT</code> blocks can be
-    nested.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Aborting_the_assembly_process"><a class="permalink" href="#Aborting_the_assembly_process">Aborting
+<div class="Pp"></div>
+As in macros, you can also use the escape sequence
+  <b class="Ic" title="Ic">\@</b>. <b class="Ic" title="Ic">REPT</b> blocks can
+  be nested.
+<h2 class="Ss" title="Ss" id="Aborting_the_assembly_process"><a class="selflink" href="#Aborting_the_assembly_process">Aborting
   the assembly process</a></h2>
-<code class="Ic">FAIL</code> and <code class="Ic">WARN</code> can be used to
-  print errors and warnings respectively during the assembly process. This is
-  especially useful for macros that get an invalid argument.
-  <code class="Ic">FAIL</code> and <code class="Ic">WARN</code> take a string as
-  the only argument and they will print this string out as a normal error with a
-  line number.
-<p class="Pp"><code class="Ic">FAIL</code> stops assembling immediately while
-    <code class="Ic">WARN</code> shows the message but continues afterwards.</p>
-<p class="Pp">If you need to ensure some assumption is correct when compiling,
-    you can use <code class="Ic">ASSERT</code> and
-    <code class="Ic">STATIC_ASSERT</code>. Syntax examples are given below:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-Function:
-      xor a
-ASSERT LOW(Variable) == 0
-      ld h, HIGH(Variable)
-      ld l, a
-      ld a, [hli]
-      ; You can also indent this!
-      ASSERT BANK(OtherFunction) == BANK(Function)
-      call OtherFunction
-; Lowercase also works
-assert Variable + 1 == OtherVariable
-      ld c, [hl]
-      ret
-.end
-      ; If you specify one, a message will be printed
+<b class="Ic" title="Ic">FAIL</b> and <b class="Ic" title="Ic">WARN</b> can be
+  used to print errors and warnings respectively during the assembly process.
+  This is especially useful for macros that get an invalid argument.
+  <b class="Ic" title="Ic">FAIL</b> and <b class="Ic" title="Ic">WARN</b> take a
+  string as the only argument and they will print this string out as a normal
+  error with a line number.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">FAIL</b> stops assembling immediately while
+  <b class="Ic" title="Ic">WARN</b> shows the message but continues afterwards.
+<div class="Pp"></div>
+If you need to ensure some assumption is correct when compiling, you can use
+  <b class="Ic" title="Ic">ASSERT</b> and
+  <b class="Ic" title="Ic">STATIC_ASSERT</b>. Syntax examples are given below:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+Function: 
+      xor a 
+ASSERT LOW(Variable) == 0 
+      ld h, HIGH(Variable) 
+      ld l, a 
+      ld a, [hli] 
+      ; You can also indent this! 
+      ASSERT BANK(OtherFunction) == BANK(Function) 
+      call OtherFunction 
+; Lowercase also works 
+assert Variable + 1 == OtherVariable 
+      ld c, [hl] 
+      ret 
+.end 
+      ; If you specify one, a message will be printed 
       STATIC_ASSERT .end - Function &lt; 256, &quot;Function is too large!&quot;
 </pre>
 </div>
-<p class="Pp">First, the difference between <code class="Ic">ASSERT</code> and
-    <code class="Ic">STATIC_ASSERT</code> is that the former is evaluated by
-    RGBASM if it can, otherwise by RGBLINK; but the latter is only ever
-    evaluated by RGBASM. If RGBASM cannot compute the value of the argument to
-    <code class="Ic">STATIC_ASSERT</code>, it will produce an error.</p>
-<p class="Pp">Second, as shown above, a string can be optionally added at the
-    end, to give insight into what the assertion is checking.</p>
-<p class="Pp">Finally, you can add one of <code class="Ic">WARN</code>,
-    <code class="Ic">FAIL</code> or <code class="Ic">FATAL</code> as the first
-    optional argument to either <code class="Ic">ASSERT</code> or
-    <code class="Ic">STATIC_ASSERT</code>. If the assertion fails,
-    <code class="Ic">WARN</code> will cause a simple warning (controlled by
-    <a class="Xr">rgbasm(1)</a> flag <code class="Fl">-Wassert</code>) to be
-    emitted; <code class="Ic">FAIL</code> (the default) will cause a non-fatal
-    error; and <code class="Ic">FATAL</code> immediately aborts.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Including_other_source_files"><a class="permalink" href="#Including_other_source_files">Including
+<div class="Pp"></div>
+First, the difference between <b class="Ic" title="Ic">ASSERT</b> and
+  <b class="Ic" title="Ic">STATIC_ASSERT</b> is that the former is evaluated by
+  RGBASM if it can, otherwise by RGBLINK; but the latter is only ever evaluated
+  by RGBASM. If RGBASM cannot compute the value of the argument to
+  <b class="Ic" title="Ic">STATIC_ASSERT</b>, it will produce an error.
+<div class="Pp"></div>
+Second, as shown above, a string can be optionally added at the end, to give
+  insight into what the assertion is checking.
+<div class="Pp"></div>
+Finally, you can add one of <b class="Ic" title="Ic">WARN</b>,
+  <b class="Ic" title="Ic">FAIL</b> or <b class="Ic" title="Ic">FATAL</b> as the
+  first optional argument to either <b class="Ic" title="Ic">ASSERT</b> or
+  <b class="Ic" title="Ic">STATIC_ASSERT</b>. If the assertion fails,
+  <b class="Ic" title="Ic">WARN</b> will cause a simple warning (controlled by
+  <a class="Xr" title="Xr">rgbasm(1)</a> flag
+  <b class="Fl" title="Fl">-Wassert</b>) to be emitted;
+  <b class="Ic" title="Ic">FAIL</b> (the default) will cause a non-fatal error;
+  and <b class="Ic" title="Ic">FATAL</b> immediately aborts.
+<h2 class="Ss" title="Ss" id="Including_other_source_files"><a class="selflink" href="#Including_other_source_files">Including
   other source files</a></h2>
-Use <code class="Ic">INCLUDE</code> to process another assembler file and then
-  return to the current file when done. If the file isn't found in the current
-  directory the include path list (see the <code class="Fl">-i</code> option in
-  <a class="Xr">rgbasm(1)</a>) will be searched. You may nest
-  <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
+Use <b class="Ic" title="Ic">INCLUDE</b> to process another assembler file and
+  then return to the current file when done. If the file isn't found in the
+  current directory the include path list (see the
+  <b class="Fl" title="Fl">-i</b> option in
+  <a class="Xr" title="Xr">rgbasm(1)</a>) will be searched. You may nest
+  <b class="Ic" title="Ic">INCLUDE</b> calls infinitely (or until you run out of
   memory, whichever comes first).
-<div class="Bd Pp Bd-indent">
-<pre>
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
     INCLUDE &quot;irq.inc&quot;
 </pre>
 </div>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Conditional_assembling"><a class="permalink" href="#Conditional_assembling">Conditional
+<h2 class="Ss" title="Ss" id="Conditional_assembling"><a class="selflink" href="#Conditional_assembling">Conditional
   assembling</a></h2>
-The four commands <code class="Ic">IF</code>, <code class="Ic">ELIF</code>,
-  <code class="Ic">ELSE</code>, and <code class="Ic">ENDC</code> let you have
-  <code class="Nm">rgbasm</code> skip over parts of your code depending on a
-  condition. This is a powerful feature commonly used in macros.
-<div class="Bd Pp Bd-indent">
-<pre>
-IF NUM &lt; 0
-  PRINTT &quot;NUM &lt; 0\n&quot;
-ELIF NUM == 0
-  PRINTT &quot;NUM == 0\n&quot;
-ELSE
-  PRINTT &quot;NUM &gt; 0\n&quot;
+The four commands <b class="Ic" title="Ic">IF</b>,
+  <b class="Ic" title="Ic">ELIF</b>, <b class="Ic" title="Ic">ELSE</b>, and
+  <b class="Ic" title="Ic">ENDC</b> let you have
+  <b class="Nm" title="Nm">rgbasm</b> skip over parts of your code depending on
+  a condition. This is a powerful feature commonly used in macros.
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+IF NUM &lt; 0 
+  PRINTT &quot;NUM &lt; 0\n&quot; 
+ELIF NUM == 0 
+  PRINTT &quot;NUM == 0\n&quot; 
+ELSE 
+  PRINTT &quot;NUM &gt; 0\n&quot; 
 ENDC
 </pre>
 </div>
-<p class="Pp">The <code class="Ic">ELIF</code> (standing for &quot;else
-    if&quot;) and <code class="Ic">ELSE</code> blocks are optional.
-    <code class="Ic">IF</code> / <code class="Ic">ELIF</code> /
-    <code class="Ic">ELSE</code> / <code class="Ic">ENDC</code> blocks can be
-    nested.</p>
-<p class="Pp">Note that if an <code class="Ic">ELSE</code> block is found before
-    an <code class="Ic">ELIF</code> block, the <code class="Ic">ELIF</code>
-    block will be ignored. All <code class="Ic">ELIF</code> blocks must go
-    before the <code class="Ic">ELSE</code> block. Also, if there is more than
-    one <code class="Ic">ELSE</code> block, all of them but the first one are
-    ignored.</p>
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="MISCELLANEOUS"><a class="permalink" href="#MISCELLANEOUS">MISCELLANEOUS</a></h1>
-<section class="Ss">
-<h2 class="Ss" id="Changing_options_while_assembling"><a class="permalink" href="#Changing_options_while_assembling">Changing
+<div class="Pp"></div>
+The <b class="Ic" title="Ic">ELIF</b> (standing for &quot;else if&quot;) and
+  <b class="Ic" title="Ic">ELSE</b> blocks are optional.
+  <b class="Ic" title="Ic">IF</b> / <b class="Ic" title="Ic">ELIF</b> /
+  <b class="Ic" title="Ic">ELSE</b> / <b class="Ic" title="Ic">ENDC</b> blocks
+  can be nested.
+<div class="Pp"></div>
+Note that if an <b class="Ic" title="Ic">ELSE</b> block is found before an
+  <b class="Ic" title="Ic">ELIF</b> block, the <b class="Ic" title="Ic">ELIF</b>
+  block will be ignored. All <b class="Ic" title="Ic">ELIF</b> blocks must go
+  before the <b class="Ic" title="Ic">ELSE</b> block. Also, if there is more
+  than one <b class="Ic" title="Ic">ELSE</b> block, all of them but the first
+  one are ignored.
+<h1 class="Sh" title="Sh" id="MISCELLANEOUS"><a class="selflink" href="#MISCELLANEOUS">MISCELLANEOUS</a></h1>
+<h2 class="Ss" title="Ss" id="Changing_options_while_assembling"><a class="selflink" href="#Changing_options_while_assembling">Changing
   options while assembling</a></h2>
-<code class="Ic">OPT</code> can be used to change some of the options during
-  assembling from within the source, instead of defining them on the
+<b class="Ic" title="Ic">OPT</b> can be used to change some of the options
+  during assembling from within the source, instead of defining them on the
   command-line.
-<p class="Pp"><code class="Ic">OPT</code> takes a comma-separated list of
-    options as its argument:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-PUSHO
-OPT   g.oOX ;Set the GB graphics constants to use these characters
-DW    `..ooOOXX
-POPO
+<div class="Pp"></div>
+<b class="Ic" title="Ic">OPT</b> takes a comma-separated list of options as its
+  argument:
+<div class="Pp"></div>
+<div class="Bd" style="margin-left: 5.00ex;">
+<pre class="Li">
+PUSHO 
+OPT   g.oOX ;Set the GB graphics constants to use these characters 
+DW    `..ooOOXX 
+POPO 
 DW    `00112233
 </pre>
 </div>
-<p class="Pp">The options that OPT can modify are currently:
-    <code class="Cm">b</code>, <code class="Cm">g</code> and
-    <code class="Cm">p</code>.</p>
-<p class="Pp"><code class="Ic">POPO</code> and <code class="Ic">PUSHO</code>
-    provide the interface to the option stack. <code class="Ic">PUSHO</code>
-    will push the current set of options on the option stack.
-    <code class="Ic">POPO</code> can then later be used to restore them. Useful
-    if you want to change some options in an include file and you don't want to
-    destroy the options set by the program that included your file. The stack's
-    number of entries is limited only by the amount of memory in your
-  machine.</p>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Requesting_alignment"><a class="permalink" href="#Requesting_alignment">Requesting
+<div class="Pp"></div>
+The options that OPT can modify are currently: <b class="Cm" title="Cm">b</b>,
+  <b class="Cm" title="Cm">g</b> and <b class="Cm" title="Cm">p</b>.
+<div class="Pp"></div>
+<b class="Ic" title="Ic">POPO</b> and <b class="Ic" title="Ic">PUSHO</b> provide
+  the interface to the option stack. <b class="Ic" title="Ic">PUSHO</b> will
+  push the current set of options on the option stack.
+  <b class="Ic" title="Ic">POPO</b> can then later be used to restore them.
+  Useful if you want to change some options in an include file and you don't
+  want to destroy the options set by the program that included your file. The
+  stack's number of entries is limited only by the amount of memory in your
+  machine.
+<h2 class="Ss" title="Ss" id="Requesting_alignment"><a class="selflink" href="#Requesting_alignment">Requesting
   alignment</a></h2>
-While <code class="Ic">ALIGN</code> as presented in
-  <a class="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is, sometimes
-  you instead want a particular piece of data (or code) in the middle of the
-  section to be aligned. This is made easier through the use of mid-section
-  <code class="Ic">align</code> <var class="Ar">align</var>,
-  <var class="Ar">offset</var>. It will alter the section's attributes to ensure
-  that the location the <code class="Ic">align</code> directive is at, has its
-  <var class="Ar">align</var> lower bits equal to <var class="Ar">offset</var>.
-<p class="Pp">If the constraint cannot be met (for example because the section
-    is fixed at an incompatible address), and error is produced. Note that
-    <code class="Ic">align</code> <var class="Ar">align</var> is a shorthand for
-    <code class="Ic">align</code> <var class="Ar">align</var>,
-    <span class="No">0</span>.</p>
-</section>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+While <b class="Ic" title="Ic">ALIGN</b> as presented in
+  <a class="Sx" title="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is,
+  sometimes you instead want a particular piece of data (or code) in the middle
+  of the section to be aligned. This is made easier through the use of
+  mid-section <b class="Ic" title="Ic">align</b>
+  <var class="Ar" title="Ar">align</var>,
+  <var class="Ar" title="Ar">offset</var>. It will alter the section's
+  attributes to ensure that the location the <b class="Ic" title="Ic">align</b>
+  directive is at, has its <var class="Ar" title="Ar">align</var> lower bits
+  equal to <var class="Ar" title="Ar">offset</var>.
+<div class="Pp"></div>
+If the constraint cannot be met (for example because the section is fixed at an
+  incompatible address), and error is produced. Note that
+  <b class="Ic" title="Ic">align</b> <var class="Ar" title="Ar">align</var> is a
+  shorthand for <b class="Ic" title="Ic">align</b>
+  <var class="Ar" title="Ar">align</var>, <span class="No">0</span>.
+<h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="selflink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(1)</a>,
-  <a class="Xr">rgblink(5)</a>, <a class="Xr">rgbds(5)</a>,
-  <a class="Xr">rgbds(7)</a>, <a class="Xr">gbz80(7)</a>
-</section>
-<section class="Sh">
-<h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
-<code class="Nm">rgbasm</code> was originally written by Carsten S&#x00F8;rensen
-  as part of the ASMotor package, and was later packaged in RGBDS by Justin
-  Lloyd. It is now maintained by a number of contributors at
-  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
-</section>
-</div>
+<a class="Xr" title="Xr">rgbasm(1)</a>, <a class="Xr" title="Xr">rgblink(1)</a>,
+  <a class="Xr" title="Xr">rgblink(5)</a>,
+  <a class="Xr" title="Xr">rgbds(5)</a>, <a class="Xr" title="Xr">rgbds(7)</a>,
+  <a class="Xr" title="Xr">gbz80(7)</a>
+<h1 class="Sh" title="Sh" id="HISTORY"><a class="selflink" href="#HISTORY">HISTORY</a></h1>
+<b class="Nm" title="Nm">rgbasm</b> was originally written by Carsten
+  S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
+  RGBDS by Justin Lloyd. It is now maintained by a number of contributors at
+  <a class="Lk" title="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.</div>
 <table class="foot">
   <tr>
     <td class="foot-date">December 5, 2019</td>
-    <td class="foot-os">Linux 5.8.7-arch1-1</td>
+    <td class="foot-os">Debian</td>
   </tr>
 </table>
