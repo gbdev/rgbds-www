@@ -1,0 +1,147 @@
+---
+layout: doc
+title: rgbfix(1) [v0.3.0]
+description: RGBDS v0.3.0 — Game Boy checksum fixer
+---
+<table class="head">
+  <tr>
+    <td class="head-ltitle">RGBFIX(1)</td>
+    <td class="head-vol">General Commands Manual</td>
+    <td class="head-rtitle">RGBFIX(1)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<section class="Sh">
+<h1 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h1>
+<code class="Nm">rgbfix</code> &#x2014;
+<div class="Nd">Game Boy checksum fixer</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h1>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm">rgbfix</code></td>
+    <td>[<code class="Fl">-Ccjsv</code>] [<code class="Fl">-i</code>
+      <var class="Ar">game_id</var>] [<code class="Fl">-k</code>
+      <var class="Ar">licensee_str</var>] [<code class="Fl">-l</code>
+      <var class="Ar">licensee_id</var>] [<code class="Fl">-m</code>
+      <var class="Ar">mbc_type</var>] [<code class="Fl">-n</code>
+      <var class="Ar">rom_version</var>] [<code class="Fl">-p</code>
+      <var class="Ar">pad_value</var>] [<code class="Fl">-r</code>
+      <var class="Ar">ram_size</var>] [<code class="Fl">-t</code>
+      <var class="Ar">title_str</var>] <var class="Ar">file</var></td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+The <code class="Nm">rgbfix</code> program changes headers of Game Boy ROM
+  images. It also performs other filetype operations, such as truncation. The
+  arguments are as follows:
+<dl class="Bl-tag">
+  <dt><a class="permalink" href="#C"><code class="Fl" id="C">-C</code></a></dt>
+  <dd>Set the Game Boy Color&#x2013;only flag: <span class="Ad">0x143</span> =
+      0xC0. If both this and the <code class="Fl">-c</code> flag are set, this
+      takes precedence.</dd>
+  <dt><a class="permalink" href="#c"><code class="Fl" id="c">-c</code></a></dt>
+  <dd>Set the Game Boy Color&#x2013;compatible flag:
+      <span class="Ad">0x143</span> = 0x80. If both this and the
+      <code class="Fl">-C</code> flag are set, <code class="Fl">-C</code> takes
+      precedence.</dd>
+  <dt><a class="permalink" href="#i"><code class="Fl" id="i">-i</code></a>
+    <var class="Ar">game_id</var></dt>
+  <dd>Set the game ID string
+      (<span class="Ad">0x13F</span>&#x2013;<span class="Ad">0x142</span>) to a
+      given string of exactly 4 characters. If both this and the title are set,
+      the game ID will overwrite the overlapping portion of the title.</dd>
+  <dt><a class="permalink" href="#j"><code class="Fl" id="j">-j</code></a></dt>
+  <dd>Set the non-Japanese region flag: <span class="Ad">0x14A</span> = 1.</dd>
+  <dt><a class="permalink" href="#k"><code class="Fl" id="k">-k</code></a>
+    <var class="Ar">licensee_str</var></dt>
+  <dd>Set the new licensee string
+      (<span class="Ad">0x144</span>&#x2013;<span class="Ad">0x145</span>) to a
+      given string, truncated to at most two characters.</dd>
+  <dt><a class="permalink" href="#l"><code class="Fl" id="l">-l</code></a>
+    <var class="Ar">licensee_id</var></dt>
+  <dd>Set the old licensee code, <span class="Ad">0x14B</span>, to a given value
+      from 0 to 0xFF. This value is deprecated and should be set to 0x33 in all
+      new software.</dd>
+  <dt><a class="permalink" href="#m"><code class="Fl" id="m">-m</code></a>
+    <var class="Ar">mbc_type</var></dt>
+  <dd>Set the MBC type, <span class="Ad">0x147</span>, to a given value from 0
+      to 0xFF.</dd>
+  <dt><a class="permalink" href="#n"><code class="Fl" id="n">-n</code></a>
+    <var class="Ar">rom_version</var></dt>
+  <dd>Set the ROM version, <span class="Ad">0x14C</span>, to a given value from
+      0 to 0xFF.</dd>
+  <dt><a class="permalink" href="#p"><code class="Fl" id="p">-p</code></a>
+    <var class="Ar">pad_value</var></dt>
+  <dd>Pad the image to a valid size with a given pad value from 0 to 0xFF.
+      <code class="Nm">rgbfix</code> will automatically pick a size from 32KiB,
+      64KiB, 128KiB, ..., 8192KiB and give a warning thereafter. The cartridge
+      size byte (<span class="Ad">0x148</span>) will be changed to reflect this
+      new size.</dd>
+  <dt><a class="permalink" href="#r"><code class="Fl" id="r">-r</code></a>
+    <var class="Ar">ram_size</var></dt>
+  <dd>Set the RAM size, <span class="Ad">0x149</span>, to a given value from 0
+      to 0xFF.</dd>
+  <dt><a class="permalink" href="#s"><code class="Fl" id="s">-s</code></a></dt>
+  <dd>Set the SGB flag: <span class="Ad">0x146</span> = 3.</dd>
+  <dt><a class="permalink" href="#t"><code class="Fl" id="t">-t</code></a>
+    <var class="Ar">title</var></dt>
+  <dd>Set the title string
+      (<span class="Ad">0x134</span>&#x2013;<span class="Ad">0x143</span>) to a
+      given string, truncated to at most 16 characters. It is recommended to use
+      15 characters instead, to avoid clashing with the CGB flag
+      (<code class="Fl">-c</code> or <code class="Fl">-C</code>). If both this
+      and the game ID are set, the game ID will overwrite the overlapping
+      portion of the title.</dd>
+  <dt><a class="permalink" href="#v"><code class="Fl" id="v">-v</code></a></dt>
+  <dd>Validate the header and fix checksums: the Nintendo character area
+      (<span class="Ad">0x104</span>&#x2013;<span class="Ad">0x133</span>), the
+      header checksum (<span class="Ad">0x14D</span>), and the global checksum
+      (<span class="Ad">0x14E</span>&#x2013;<span class="Ad">0x14F</span>).</dd>
+</dl>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h1>
+Most values in the ROM header are only cosmetic. The bare minimum requirements
+  for a workable image are checksums, the Nintendo logo, and (if needed) the
+  CGB/SGB flags. It is a good idea to pad the image to a valid size as well
+  (&#x201C;valid&#x201D; meaning a multiple of 32KiB).
+<p class="Pp">The following will make a plain, no-color Game Boy game without
+    checking for a valid size:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbfix -v foo.gb</div>
+<p class="Pp">The following will make a SGB-enabled, color-enabled game with a
+    title of &#x201C;foobar&#x201D;, and pad it to a multiple of 32KiB. (The
+    Game Boy itself does not use the title, but some emulators or ROM managers
+    might.)</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbfix -vcs -l 0x33 -p 0 -t foobar baz.gb</div>
+<p class="Pp">The following will duplicate the header (sans global checksum) of
+    the game &#x201C;Survival Kids&#x201D;:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbfix -cjsv -k A4 -l 0x33 -m 0x1B -p 0xFF -r 3 -t
+  SURVIVALKIDAVKE SurvivalKids.gbc</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(1)</a>,
+  <a class="Xr">rgbds(7)</a>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
+<code class="Nm">rgbfix</code> was originally released by Carsten
+  S&#x00F8;rensen as a standalone program called gbfix, and was later packaged
+  in RGBDS by Justin Lloyd. It is now maintained by a number of contributors at
+  https://github.com/rednex/rgbds.
+</section>
+</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">April 16, 2017</td>
+    <td class="foot-os">RGBDS Manual</td>
+  </tr>
+</table>

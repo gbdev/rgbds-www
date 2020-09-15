@@ -1,0 +1,93 @@
+---
+layout: doc
+title: rgblink(5) [v0.3.3]
+description: RGBDS v0.3.3 — linkerscript file format
+---
+<table class="head">
+  <tr>
+    <td class="head-ltitle">RGBLINK(5)</td>
+    <td class="head-vol">File Formats Manual</td>
+    <td class="head-rtitle">RGBLINK(5)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<section class="Sh">
+<h1 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h1>
+<code class="Nm">rgblink</code> &#x2014;
+<div class="Nd">linkerscript file format</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+The linkerscript is an external file that allows the user to specify the order
+  of sections without the need for doing so before assembling each object file.
+<p class="Pp">The placement of sections specified in the linkerscript is done
+    before the sections whose placement is defined in the source code.</p>
+<p class="Pp">A linkerscript consists on a series of banks followed by a list of
+    sections and, optionally, commands. They can be lowercase or uppercase, it
+    is ignored. Any line can contain a comment starting with
+    &#x2018;<code class="Li">;</code>&#x2019; that ends at the end of the
+  line:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+ROMX $F ; This is a comment
+  &quot;Functions to read array&quot;
+  ALIGN 8
+  &quot;Array aligned to 256 bytes&quot;
+
+WRAMX 2
+  &quot;Some variables&quot;
+</pre>
+</div>
+<p class="Pp">Numbers can be in decimal or hexadecimal format (the prefix is
+    &#x2018;<code class="Li">$</code>&#x2019;). It is an error if any bank or
+    command is found before setting a bank.</p>
+<p class="Pp">Files can be included by using the <var class="Ar">INCLUDE</var>
+    keyword followed by a string with the path of the file that has to be
+    included.</p>
+<p class="Pp">The possible bank types are: <b class="Sy">ROM0</b>,
+    <b class="Sy">ROMX</b>, <b class="Sy">VRAM</b>, <b class="Sy">WRAM0</b>,
+    <b class="Sy">WRAMX</b>, <b class="Sy">OAM</b> and <b class="Sy">HRAM</b>.
+    Types <b class="Sy">ROMX</b>, <b class="Sy">VRAM</b>,
+    <b class="Sy">WRAMX</b> and <b class="Sy">SRAM</b> are banked, which means
+    that it is needed to specify a bank after the type.</p>
+<p class="Pp">When a new bank statement is found, sections found after it will
+    be placed right from the beginning of that bank. If the linkerscript
+    switches to a different bank and then it comes back to the previous one it
+    will continue from the last address that was used.</p>
+<p class="Pp">The only two commands are <var class="Ar">ORG</var> and
+    <var class="Ar">ALIGN</var>:</p>
+<ul class="Bl-bullet">
+  <li><var class="Ar">ORG</var> sets the address in which new sections will be
+      placed. It can not be lower than the current address.</li>
+  <li><var class="Ar">ALIGN</var> will increase the address until it is aligned
+      to the specified boundary (it tries to set to 0 the number of bits
+      specified after the command: <b class="Sy">ALIGN 8</b> will align to
+      $100).</li>
+</ul>
+<p class="Pp">Note: The bank, alignment, address and type of sections can be
+    specified both in the source code and in the linkerscript. For a section to
+    be able to be placed with the linkerscript the bank must be left unassigned
+    in the source code or be the same as the one specified in the linkerscript.
+    The address and alignment musn't be set.</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(1)</a>,
+  <a class="Xr">rgbfix(1)</a>, <a class="Xr">rgbds(5)</a>,
+  <a class="Xr">rgbds(7)</a>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
+<code class="Nm">rgblink</code> was originally written by Carsten
+  S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
+  RGBDS by Justin Lloyd. It is now maintained by a number of contributors at
+  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+</section>
+</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">April 17, 2017</td>
+    <td class="foot-os">RGBDS Manual</td>
+  </tr>
+</table>

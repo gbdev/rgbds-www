@@ -1,0 +1,48 @@
+
+# Site settings
+title: RGBDS online docs
+description: >-
+  Online docs for RGBDS, the community's preferred Game Boy assembler.
+tagline: Online docs for RGBDS
+keywords:
+  - gbdev
+  - gb dev
+  - game boy
+  - gameboy
+  - gamedev
+  - game dev
+  - assembly
+  - asm
+baseurl: "/"
+url: ""
+twitter:
+  card: summary
+  username: gbdev0
+author: gbdev0
+social:
+  name: GBDev
+  links:
+    - https://twitter.com/gbdev0
+    - https://github.com/gbdev
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  # Include these last, so as to process content generated from other plugins
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Collections (folders to be processed)
+collections:
+  documentation:
+    output: true
+    permalink: /docs/:path
+
+# Exclude from processing.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .gitignore

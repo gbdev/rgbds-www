@@ -1,0 +1,118 @@
+---
+layout: doc
+title: rgbasm(1) [v0.3.6]
+description: RGBDS v0.3.6 — Game Boy assembler
+---
+<table class="head">
+  <tr>
+    <td class="head-ltitle">RGBASM(1)</td>
+    <td class="head-vol">General Commands Manual</td>
+    <td class="head-rtitle">RGBASM(1)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<section class="Sh">
+<h1 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h1>
+<code class="Nm">rgbasm</code> &#x2014;
+<div class="Nd">Game Boy assembler</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h1>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm">rgbasm</code></td>
+    <td>[<code class="Fl">-EhLVvw</code>] [<code class="Fl">-b</code>
+      <var class="Ar">chars</var>] [<code class="Fl">-D</code>
+      <var class="Ar">name</var>[=<var class="Ar">value</var>]]
+      [<code class="Fl">-g</code> <var class="Ar">chars</var>]
+      [<code class="Fl">-i</code> <var class="Ar">path</var>]
+      [<code class="Fl">-M</code> <var class="Ar">dependfile</var>]
+      [<code class="Fl">-o</code> <var class="Ar">outfile</var>]
+      [<code class="Fl">-p</code> <var class="Ar">pad_value</var>]
+      <var class="Ar">file</var></td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+The <code class="Nm">rgbasm</code> program creates an object file from an
+  assembly source file. Its arguments are as follows:
+<dl class="Bl-tag">
+  <dt><a class="permalink" href="#b"><code class="Fl" id="b">-b</code></a>
+    <var class="Ar">chars</var></dt>
+  <dd>Change the two characters used for binary constants. The defaults are
+    01.</dd>
+  <dt><a class="permalink" href="#D"><code class="Fl" id="D">-D</code></a>
+    <var class="Ar">name</var>[=<var class="Ar">value</var>]</dt>
+  <dd>Add string symbol to the compiled source code. This is equivalent to
+      <var class="Ar">name</var> <code class="Cm">EQUS</code>
+      &#x201C;<var class="Ar">value</var>&#x201D; in code. If a value is not
+      specified, a value of 1 is given.</dd>
+  <dt><a class="permalink" href="#E"><code class="Fl" id="E">-E</code></a></dt>
+  <dd>Export all labels, including unreferenced and local labels.</dd>
+  <dt><a class="permalink" href="#g"><code class="Fl" id="g">-g</code></a>
+    <var class="Ar">chars</var></dt>
+  <dd>Change the four characters used for binary constants. The defaults are
+      0123.</dd>
+  <dt><a class="permalink" href="#h"><code class="Fl" id="h">-h</code></a></dt>
+  <dd>By default, <code class="Nm">rgbasm</code> inserts a &#x2018;nop&#x2019;
+      instruction immediately after any &#x2018;halt&#x2019; instruction. The
+      <code class="Fl">-h</code> option disables this behavior.</dd>
+  <dt><a class="permalink" href="#i"><code class="Fl" id="i">-i</code></a>
+    <var class="Ar">path</var></dt>
+  <dd>Add an include path.</dd>
+  <dt><a class="permalink" href="#L"><code class="Fl" id="L">-L</code></a></dt>
+  <dd>Disable the optimization that turns loads of the form <b class="Sy">LD
+      [$FF00+n8],A</b> into the opcode <b class="Sy">LDH [$FF00+n8],A</b> in
+      order to have full control of the result in the final ROM.</dd>
+  <dt><a class="permalink" href="#M"><code class="Fl" id="M">-M</code></a>
+    <var class="Ar">dependfile</var></dt>
+  <dd>Print <a class="Xr">make(1)</a> dependencies to
+      <var class="Ar">dependfile</var>.</dd>
+  <dt><a class="permalink" href="#o"><code class="Fl" id="o">-o</code></a>
+    <var class="Ar">outfile</var></dt>
+  <dd>Write an object file to the given filename.</dd>
+  <dt><a class="permalink" href="#p"><code class="Fl" id="p">-p</code></a>
+    <var class="Ar">pad_value</var></dt>
+  <dd>When padding an image, pad with this value. The default is 0x00.</dd>
+  <dt><a class="permalink" href="#V"><code class="Fl" id="V">-V</code></a></dt>
+  <dd>Print the version of the program and exit.</dd>
+  <dt><a class="permalink" href="#v"><code class="Fl" id="v">-v</code></a></dt>
+  <dd>Be verbose.</dd>
+  <dt><a class="permalink" href="#w"><code class="Fl" id="w">-w</code></a></dt>
+  <dd>Disable warning output.</dd>
+</dl>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h1>
+Assembling a basic source file is simple:
+<div class="Bd Pp Bd-indent">
+<pre>
+$ rgbasm -o bar.o foo.asm
+</pre>
+</div>
+<p class="Pp">The resulting object file is not yet a usable ROM image &#x2014;
+    it must first be run through <a class="Xr">rgblink(1)</a> and
+    <a class="Xr">rgbfix(1)</a>.</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr">rgbasm(5)</a>, <a class="Xr">rgbfix(1)</a>,
+  <a class="Xr">rgblink(1)</a>, <a class="Xr">rgbds(5)</a>,
+  <a class="Xr">rgbds(7)</a>, <a class="Xr">gbz80(7)</a>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
+<code class="Nm">rgbasm</code> was originally written by Carsten S&#x00F8;rensen
+  as part of the ASMotor package, and was later packaged in RGBDS by Justin
+  Lloyd. It is now maintained by a number of contributors at
+  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+</section>
+</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">February 24, 2018</td>
+    <td class="foot-os">RGBDS Manual</td>
+  </tr>
+</table>

@@ -1,0 +1,124 @@
+---
+---
+
+/// Variable definitions
+
+$navbar-height: 50px;
+
+$logo-padding-top:         5px;
+$logo-padding-bottom:      5px;
+$logo-padding-left:       20px;
+$logo-padding-right:       0px;
+
+$nav-link-padding-top:     7px;
+$nav-link-padding-bottom: 14px;
+$nav-link-padding-left:   10px;
+$nav-link-padding-right:  10px;
+$nav-logo-padding-top:     5px;
+$nav-logo-padding-bottom:  5px;
+
+/// General styling
+
+html {
+	// Reduce contrast
+	background: #E7E7E7 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYAgMAAACdGdVrAAAACVBMVEXn5+fc3NzOzs5lyVcTAAAAKklEQVR4XmOAAREwxTjNAUSxMgSAKA4GBYiUCIKCCEKUIDRApBCA6sYCAAs+BkERUoedAAAAAElFTkSuQmCC);
+	color: #111;
+	box-sizing: content-box;
+}
+
+body {
+	// Improve readability
+	font-size: 18px;
+	line-height: 1.4;
+	text-align: justify;
+	font-family: Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+
+	margin: 0;
+	width: 100%;
+}
+
+code, pre {
+	font-size: smaller;
+}
+
+pre {
+	// Avoid horizontal page scrolling on mobile
+	overflow: auto;
+}
+
+// Give links a RGB scheme
+a {
+	color: #1e29ff; // Blue
+	&:hover {
+		color: #010ab0; // Dark blue
+	}
+	&:active, &:focus {
+		color: #b00; // Red
+	}
+	&:visited {
+		color: #040; // Dark green
+	}
+	&:visited:hover {
+		color: #020; // Darker green
+	}
+}
+
+/// Layout
+
+#navbar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+
+	font-size: 24px;
+	margin: 0;
+	padding: 0;
+	height: $navbar-height;
+
+	background-color: #eee;
+	border-bottom: 1px solid #ccc;
+	box-shadow: 0 0 20px #ccc8;
+
+	> #logo {
+		margin: 0;
+		padding: 0;
+		> img {
+			padding: $logo-padding-top $logo-padding-right $logo-padding-bottom $logo-padding-left;
+			height: $navbar-height - ($logo-padding-top + $logo-padding-bottom);
+			float: left;
+		}
+	}
+
+	> nav {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-end;
+		clear: none;
+
+		> a {
+			padding-left: $nav-link-padding-left;
+			padding-right: $nav-link-padding-right;
+			height: $navbar-height;
+			> img {
+				padding-top: $nav-logo-padding-top;
+				padding-bottom: $nav-logo-padding-bottom;
+				height: $navbar-height - ($nav-logo-padding-top + $nav-logo-padding-bottom);
+			}
+			&.text {
+				display: inline-block;
+				padding-top: $nav-link-padding-top;
+				padding-bottom: $nav-link-padding-bottom;
+				height: $navbar-height - ($nav-link-padding-top + $nav-link-padding-bottom);
+			}
+		}
+	}
+}
+
+main {
+	margin: $navbar-height + 1 auto 0;
+
+	max-width: 50em;
+	// Prevent text from bumping sides on smaller windows
+	padding: 10px 20px 10px 10px;
+}
