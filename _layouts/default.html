@@ -5,12 +5,12 @@
 	<title>{{ page.title }} &mdash; {{ site.title }}</title>
 	<meta http-equiv="x-ua-compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/css/default.css">
 	{%- if layout.stylesheets %}
 		{%- for stylesheet in layout.stylesheets %}
 	<link rel="stylesheet" type="text/css" href="{{ stylesheet }}">
 		{%- endfor %}
 	{%- endif %}
+	<link rel="stylesheet" type="text/css" href="/css/default.css">
 	{% seo title=false %}
 	{%- if page.keywords %}
 		{%- assign keywords = page.keywords | concat: site.keywords %}
