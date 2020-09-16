@@ -37,6 +37,8 @@ defaults:
 
 # Build settings
 markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
 plugins:
   - jekyll-redirect-from
   - jekyll-seo-tag
