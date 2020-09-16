@@ -256,10 +256,11 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  jekyll-feed (~> 0.13)
-  jekyll-redirect-from (~> 0.15.0)
-  jekyll-seo-tag (~> 2.6.1)
-  jekyll-sitemap (~> 1.4.0)
+  jekyll-commonmark-ghpages
+  jekyll-feed
+  jekyll-redirect-from
+  jekyll-seo-tag
+  jekyll-sitemap
   kramdown-parser-gfm
   tzinfo (~> 1.2)
   tzinfo-data
