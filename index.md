@@ -12,8 +12,20 @@ title: Home
 - **[RGBFIX](/docs/rgbfix.1.html)**: the header "fixer"
 - **[RGBGFX](/docs/rgbgfx.1.html)**: the image converter
 
-Documentation about each of these tools [can be found here](/docs/).
+[Documentation](/docs/) is also available for several versions of each these tools.
 
-# Source code
+## Releases & downloads
 
-All of RGBDS is open-source: [the source code is on GitHub](https://github.com/gbdev/rgbds). This website's source [is on GitHub as well](https://github.com/gbdev/rgbds-www)! Contributions to both are welcome.
+[Releases](https://github.com/gbdev/rgbds/releases) can be found on GitHub, including pre-built Windows binaries. Please refer to our [installation instructions](/install) for details, and for instructions for other platforms.
+
+## Source code
+
+All of RGBDS is open-source: [the source code](https://github.com/gbdev/rgbds) is on GitHub, and under the [MIT license](https://github.com/gbdev/rgbds/blob/master/LICENSE). [This website's source](https://github.com/gbdev/rgbds-www) is on GitHub as well! Contributions to both are welcome.
+
+## Acknowledgements
+
+RGBDS would not be much without its users: [the GB dev community](https://gbdev.io).
+
+Thank you to Carsten Sørensen ([history](/docs/rgbds.7.html)), original creator of what would become RGBDS, and to [all the contributors](https://github.com/gbdev/rgbds/graphs/contributors) that carried the project since then!
+
+<small>Website written by [ISSOtm](https://github.com/ISSOtm); logo by [Rangi](https://github.com/Rangi42); powered by [Jekyll](https://jekyllrb.com) and [GitHub](https://github.com).</small>
