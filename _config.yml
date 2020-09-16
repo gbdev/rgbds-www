@@ -33,6 +33,7 @@ defaults:
       path: ""
     values:
       image: /assets/rgbds.png
+      breadcrumbs: true
 
 # Build settings
 markdown: kramdown

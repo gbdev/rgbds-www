@@ -1,0 +1,11 @@
+{
+	"name": "Home",
+	"children": {
+		"install": {
+			"name": "Install"
+		},
+		"docs": {
+			"name": "Docs"
+		}
+	}
+}

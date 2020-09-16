@@ -34,6 +34,29 @@
 			<a rel="alternate" type="application/rss+xml" href="/feed.xml"><img src="/assets/rss.svg" alt="RSS Feed"></a>
 		</nav>
 	</aside>
-	<main>{{ content }}</main>
+	<main>
+	{%- if page.breadcrumbs %}
+		{%- assign folders = page.url | split: "/" %}
+		{%- assign url = "" %}
+		{%- assign nav = site.data.nav %}
+		<ol id="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList" role="navigation" aria-label="Hierarchy of this page">
+		{%- for elem in folders %}
+			{%- unless forloop.first %}
+				{%- assign nav = nav.children[elem] %}
+			{%- endunless %}
+			{%- assign url = url | append: "/" | append: elem %}
+			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="{{ url }}"><span itemprop="name">{{ nav.name | default: elem }}</span></a>
+				<meta itemprop="position" content="{{ forloop.index }}">
+			</li>
+			{%- if forloop.first %}
+				{% assign url = "" %}
+			{%- endif %}
+		{%- endfor %}
+		</ol>
+	{%- endif %}
+
+		{{ content }}
+	</main>
 </body>
 </html>
