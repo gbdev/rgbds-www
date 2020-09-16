@@ -51,6 +51,9 @@ collections:
   documentation:
     output: true
     permalink: /docs/:path
+  installation:
+    output: true
+    permalink: /install/:path
 
 # Exclude from processing.
 exclude:

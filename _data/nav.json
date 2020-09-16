@@ -1,8 +1,25 @@
 {
 	"name": "Home",
 	"children": {
+		"feedback": {
+			"name": "Feedback"
+		},
 		"install": {
-			"name": "Install"
+			"name": "Install",
+			"children": {
+				"arch": {
+					"name": "Arch Linux"
+				},
+				"macos": {
+					"name": "macOS"
+				},
+				"windows": {
+					"name": "Windows"
+				},
+				"source": {
+					"name": "From source"
+				}
+			}
 		},
 		"docs": {
 			"name": "Docs"
