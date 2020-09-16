@@ -35,9 +35,9 @@ description: RGBDS master — Game Boy linker
 <section class="Sh">
 <h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
 The <code class="Nm">rgblink</code> program links RGB object files, typically
-  created by <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>, into a single
-  Game Boy ROM file. The format is documented in
-  <a class="Xr" href="rgbds.5.html">rgbds(5)</a>.
+  created by <a class="Xr" href="rgbasm.1">rgbasm(1)</a>, into a single Game Boy
+  ROM file. The format is documented in
+  <a class="Xr" href="rgbds.5">rgbds(5)</a>.
 <p class="Pp">ROM0 sections are placed in the first 16 KiB of the output ROM,
     and ROMX sections are placed in any 16 KiB &#x201C;bank&#x201D; except the
     first. If your ROM will only be 32 KiB, you can use the
@@ -69,8 +69,8 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
   <dd>Specify a linker script file that tells the linker how sections must be
       placed in the ROM. The attributes assigned in the linker script must be
       consistent with any assigned in the code. See
-      <a class="Xr" href="rgblink.5.html">rgblink(5)</a> for more information
-      about the linker script format.</dd>
+      <a class="Xr" href="rgblink.5">rgblink(5)</a> for more information about
+      the linker script format.</dd>
   <dt><a class="permalink" href="#m"><code class="Fl" id="m">-m</code></a>
     <var class="Ar">map_file</var>,
     <code class="Fl">--map</code>
@@ -131,7 +131,7 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
   <dd>Disables padding the end of the final file. This option automatically
       enables <code class="Fl">-t</code>. You can use this when not not making a
       ROM. When making a ROM, be careful that not using this is not a
-      replacement for <a class="Xr" href="rgbfix.1.html">rgbfix(1)</a>'s
+      replacement for <a class="Xr" href="rgbfix.1">rgbfix(1)</a>'s
       <code class="Fl">-p</code> option!</dd>
 </dl>
 </section>
@@ -143,8 +143,8 @@ All you need for a basic ROM is an object file, which can be made into a ROM
 <div class="Bd Bd-indent">$ rgblink -o bar.gb foo.o</div>
 <p class="Pp">The resulting <var class="Ar">bar.gb</var> will not have correct
     checksums (unless you put them in the assembly source). You should use
-    <a class="Xr" href="rgbfix.1.html">rgbfix(1)</a> to fix these so that the
-    program will actually run in a Game Boy:</p>
+    <a class="Xr" href="rgbfix.1">rgbfix(1)</a> to fix these so that the program
+    will actually run in a Game Boy:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbfix -v bar.gb</code></div>
 <p class="Pp">Here is a more complete example:</p>
@@ -160,11 +160,11 @@ Please report bugs on
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>,
-  <a class="Xr" href="rgblink.5.html">rgblink(5)</a>,
-  <a class="Xr" href="rgbfix.1.html">rgbfix(1)</a>,
-  <a class="Xr" href="rgbds.5.html">rgbds(5)</a>,
-  <a class="Xr" href="rgbds.7.html">rgbds(7)</a>
+<a class="Xr" href="rgbasm.1">rgbasm(1)</a>,
+  <a class="Xr" href="rgblink.5">rgblink(5)</a>,
+  <a class="Xr" href="rgbfix.1">rgbfix(1)</a>,
+  <a class="Xr" href="rgbds.5">rgbds(5)</a>,
+  <a class="Xr" href="rgbds.7">rgbds(7)</a>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>

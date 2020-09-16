@@ -18,9 +18,10 @@ description: RGBDS v0.4.0 — object file format documentation
 </section>
 <section class="Sh">
 <h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
-This is the description of the object files used by <a class="Xr">rgbasm(1)</a>
-  and <a class="Xr">rgblink(1)</a>. <i class="Em">Please note that the
-  specifications may change.</i> This toolchain is in development and new
+This is the description of the object files used by
+  <a class="Xr" href="rgbasm.1">rgbasm(1)</a> and
+  <a class="Xr" href="rgblink.1">rgblink(1)</a>. <i class="Em">Please note that
+  the specifications may change.</i> This toolchain is in development and new
   features may require adding more information to the current format, or
   modifying some fields, which would break compatibility with older versions.
 </section>
@@ -95,16 +96,16 @@ REPT NumberOfSections
                   ; decide (floating bank). This field is only valid for ROMX,
                   ; VRAM, WRAMX and SRAM sections.
 
-    LONG    Align ; Alignment of this section, expressed as 1 &lt;&lt; align. 1 if
-                  ; not specified.
+    BYTE    Align ; Alignment of this section, as N bits. 0 when not specified.
+
+    LONG    Ofs   ; Offset relative to the alignment specified above.
+                  ; Must be below 1 &lt;&lt; Align.
 
     IF      (Type == ROMX) || (Type == ROM0) ; Sections that can contain data.
 
         BYTE    Data[Size]      ; Raw data of the section.
 
         LONG    NumberOfPatches ; Number of patches to apply.
-
-        ; These types of sections may have patches
 
         REPT    NumberOfPatches
 
@@ -113,6 +114,16 @@ REPT NumberOfSections
 
             LONG    Offset       ; Offset into the section where patch should
                                  ; be applied (in bytes).
+
+            LONG    PCSectionID  ; Index within the file of the section in which
+                                 ; PC is located.
+                                 ; This is usually the same section that the
+                                 ; patch should be applied into, except e.g.
+                                 ; with LOAD blocks.
+
+            LONG    PCOffset     ; PC's offset into the above section.
+                                 ; Used because the section may be floating, so
+                                 ; PC's value is not known to RGBASM.
 
             BYTE    Type         ; 0 = BYTE patch.
                                  ; 1 = little endian WORD patch.
@@ -140,6 +151,13 @@ REPT  NumberOfAssertions
 
   LONG    Offset       ; Offset into the section where the assertion is located.
 
+  LONG    SectionID    ; Index within the file of the section in which PC is
+                       ; located, or -1 if defined outside a section.
+
+  LONG    PCOffset     ; PC's offset into the above section.
+                       ; Used because the section may be floating, so PC's value
+                       ; is not known to RGBASM.
+
   BYTE    Type         ; 0 = Prints the message but allows linking to continue
                        ; 1 = Prints the message and evaluates other assertions,
                        ;     but linking fails afterwards
@@ -148,10 +166,6 @@ REPT  NumberOfAssertions
   LONG    RPNSize      ; Size of the RPN expression's buffer.
 
   BYTE    RPN[RPNSize] ; RPN expression, same as patches. Assert fails if == 0.
-
-  LONG    SectionID    ; The section number (of this object file) in which this
-                       ; assert is defined. If it doesn't belong to any specific
-                       ; section (like a constant), this field has the value -1.
 
   STRING  Message      ; A message displayed when the assert fails. If set to
                        ; the empty string, a generic message is printed instead.
@@ -171,8 +185,8 @@ Expressions in the object file are stored as RPN. This is an expression of the
   being special prefixes for integers and symbols.
 <table class="Bl-column Bd-indent">
   <tr>
-    <td><b class="Sy">Value</b></td>
-    <td><b class="Sy">Meaning</b></td>
+    <th>Value</th>
+    <th>Meaning</th>
   </tr>
   <tr>
     <td><a class="permalink" href="#$00"><code class="Li" id="$00">$00</code></a></td>
@@ -236,7 +250,7 @@ Expressions in the object file are stored as RPN. This is an expression of the
   </tr>
   <tr>
     <td><a class="permalink" href="#$23"><code class="Li" id="$23">$23</code></a></td>
-    <td><a class="permalink" href="#unary"><code class="Li" id="unary">unary</code></a>!</td>
+    <td><a class="permalink" href="#unary__!"><code class="Li" id="unary__!">unary&#x00A0;!</code></a></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#$30"><code class="Li" id="$30">$30</code></a></td>
@@ -317,20 +331,22 @@ Expressions in the object file are stored as RPN. This is an expression of the
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(1)</a>,
-  <a class="Xr">rgbds(7)</a>, <a class="Xr">gbz80(7)</a>
+<a class="Xr" href="rgbasm.1">rgbasm(1)</a>,
+  <a class="Xr" href="rgblink.1">rgblink(1)</a>,
+  <a class="Xr" href="rgbds.7">rgbds(7)</a>,
+  <a class="Xr" href="gbz80.7">gbz80(7)</a>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
 <code class="Nm">rgbds</code> was originally written by Carsten S&#x00F8;rensen
   as part of the ASMotor package, and was later packaged in RGBDS by Justin
   Lloyd. It is now maintained by a number of contributors at
-  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+  <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.
 </section>
 </div>
 <table class="foot">
   <tr>
     <td class="foot-date">January 26, 2018</td>
-    <td class="foot-os">Linux 5.8.7-arch1-1</td>
+    <td class="foot-os">Linux</td>
   </tr>
 </table>

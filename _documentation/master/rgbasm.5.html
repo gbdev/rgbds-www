@@ -83,18 +83,17 @@ description: RGBDS master — language documentation
 <section class="Sh">
 <h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
 This is the full description of the language used by
-  <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>. The description of the
+  <a class="Xr" href="rgbasm.1">rgbasm(1)</a>. The description of the
   instructions supported by the Game Boy CPU is in
-  <a class="Xr" href="gbz80.7.html">gbz80(7)</a>.
+  <a class="Xr" href="gbz80.7">gbz80(7)</a>.
 <p class="Pp">It is strongly recommended to have some familiarity with the Game
     Boy hardware before reading this document. RGBDS is specifically targeted at
     the Game Boy, and thus a lot of its features tie directly to its concepts.
     This document is not intended to be a Game Boy hardware reference.</p>
 <p class="Pp">Generally, &#x201C;the linker&#x201D; will refer to
-    <a class="Xr" href="rgblink.1.html">rgblink(1)</a>, but any program that
+    <a class="Xr" href="rgblink.1">rgblink(1)</a>, but any program that
     processes RGB object files (described in
-    <a class="Xr" href="rgbds.5.html">rgbds(5)</a>) can be used in its
-  place.</p>
+    <a class="Xr" href="rgbds.5">rgbds(5)</a>) can be used in its place.</p>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h1>
@@ -738,7 +737,7 @@ Before you can start writing code, you must define a section. This tells the
     <p class="Pp"><b class="Sy">Note</b>: While <code class="Nm">rgbasm</code>
         will automatically optimize <code class="Ic">ld</code> instructions to
         the smaller and faster <code class="Ic">ldh</code> (see
-        <a class="Xr" href="gbz80.7.html">gbz80(7)</a>) whenever possible, it is
+        <a class="Xr" href="gbz80.7">gbz80(7)</a>) whenever possible, it is
         generally unable to do so when a label is involved. Using the
         <code class="Ic">ldh</code> instruction directly is recommended. This
         forces the assembler to emit a <code class="Ic">ldh</code> instruction
@@ -773,11 +772,11 @@ Before you can start writing code, you must define a section. This tells the
     <code class="Ic">BANK</code>[<var class="Ar">bank</var>] is not specified,
     the linker will automatically find a bank with enough space.</p>
 <p class="Pp">Sections can also be placed by using a linker script file. The
-    format is described in <a class="Xr" href="rgblink.5.html">rgblink(5)</a>.
-    They allow the user to place floating sections in the desired bank in the
-    order specified in the script. This is useful if the sections can't be
-    placed at an address manually because the size may change, but they have to
-    be together.</p>
+    format is described in <a class="Xr" href="rgblink.5">rgblink(5)</a>. They
+    allow the user to place floating sections in the desired bank in the order
+    specified in the script. This is useful if the sections can't be placed at
+    an address manually because the size may change, but they have to be
+    together.</p>
 <p class="Pp">Section examples:</p>
 <ul class="Bl-item">
   <li>
@@ -910,8 +909,8 @@ When you're tight on RAM, you may want to define overlapping blocks of
   <li>If one section has been declared as unionized, all sections with the same
       name must be declared unionized as well.</li>
   <li>All declarations must have the same type. For example, even if
-      <a class="Xr" href="rgblink.1.html">rgblink(1)</a>'s
-      <code class="Fl">-w</code> flag is used, <code class="Ic">WRAM0</code> and
+      <a class="Xr" href="rgblink.1">rgblink(1)</a>'s <code class="Fl">-w</code>
+      flag is used, <code class="Ic">WRAM0</code> and
       <code class="Ic">WRAMX</code> types are still considered different.</li>
   <li>Different constraints (alignment, bank, etc.) can be specified for each
       unionized section declaration, but they must all be compatible. For
@@ -938,8 +937,8 @@ Section fragments are sections with a small twist: when several of the same name
   <li>If one section has been declared as fragment, all sections with the same
       name must be declared fragments as well.</li>
   <li>All declarations must have the same type. For example, even if
-      <a class="Xr" href="rgblink.1.html">rgblink(1)</a>'s
-      <code class="Fl">-w</code> flag is used, <code class="Ic">WRAM0</code> and
+      <a class="Xr" href="rgblink.1">rgblink(1)</a>'s <code class="Fl">-w</code>
+      flag is used, <code class="Ic">WRAM0</code> and
       <code class="Ic">WRAMX</code> types are still considered different.</li>
   <li>Different constraints (alignment, bank, etc.) can be specified for each
       unionized section declaration, but they must all be compatible. For
@@ -1157,7 +1156,7 @@ pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
         another <code class="Ic">EQUS</code> and it will be expanded as well. If
         this creates an infinite loop, <code class="Nm">rgbasm</code> will error
         out once a certain depth is reached. See the <code class="Fl">-r</code>
-        command-line option in <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>.
+        command-line option in <a class="Xr" href="rgbasm.1">rgbasm(1)</a>.
         Also, a macro can contain an <code class="Ic">EQUS</code> which calls
         the same macro, which causes the same problem.</p>
   </dd>
@@ -1196,7 +1195,7 @@ Importing and exporting of symbols is a feature that is very useful when your
 <p class="Pp"><code class="Ic">GLOBAL</code> is a deprecated synonym for
     <code class="Ic">EXPORT</code>, do not use it.</p>
 <p class="Pp">Note also that only exported symbols will appear in symbol and map
-    files produced by <a class="Xr" href="rgblink.1.html">rgblink(1)</a>.</p>
+    files produced by <a class="Xr" href="rgblink.1">rgblink(1)</a>.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Purging_symbols"><a class="permalink" href="#Purging_symbols">Purging
@@ -1386,7 +1385,7 @@ DS 42, $FF
 You probably have some graphics, level data, etc. you'd like to include. Use
   <code class="Ic">INCBIN</code> to include a raw binary file as it is. If the
   file isn't found in the current directory, the include-path list passed to
-  <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a> (see the
+  <a class="Xr" href="rgbasm.1">rgbasm(1)</a> (see the
   <code class="Fl">-i</code> option) on the command line will be searched.
 <div class="Bd Pp Bd-indent">
 <pre>
@@ -1502,9 +1501,9 @@ ENDM
     dependency problems. If this creates an infinite loop,
     <code class="Nm">rgbasm</code> will error out once a certain depth is
     reached. See the <code class="Fl">-r</code> command-line option in
-    <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>. Also, a macro can have
-    inside an <b class="Sy">EQUS</b> which references the same macro, which has
-    the same problem.</p>
+    <a class="Xr" href="rgbasm.1">rgbasm(1)</a>. Also, a macro can have inside
+    an <b class="Sy">EQUS</b> which references the same macro, which has the
+    same problem.</p>
 <p class="Pp">It's possible to pass arguments to macros as well! You retrieve
     the arguments by using the escape sequences <code class="Ic">\1</code>
     through <code class="Ic">\9</code>, <code class="Ic">\1</code> being the
@@ -1686,7 +1685,7 @@ assert Variable + 1 == OtherVariable
     optional argument to either <code class="Ic">ASSERT</code> or
     <code class="Ic">STATIC_ASSERT</code>. If the assertion fails,
     <code class="Ic">WARN</code> will cause a simple warning (controlled by
-    <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a> flag
+    <a class="Xr" href="rgbasm.1">rgbasm(1)</a> flag
     <code class="Fl">-Wassert</code>) to be emitted;
     <code class="Ic">FAIL</code> (the default) will cause a non-fatal error; and
     <code class="Ic">FATAL</code> immediately aborts.</p>
@@ -1697,8 +1696,8 @@ assert Variable + 1 == OtherVariable
 Use <code class="Ic">INCLUDE</code> to process another assembler file and then
   return to the current file when done. If the file isn't found in the current
   directory the include path list (see the <code class="Fl">-i</code> option in
-  <a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>) will be searched. You may
-  nest <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
+  <a class="Xr" href="rgbasm.1">rgbasm(1)</a>) will be searched. You may nest
+  <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
   memory, whichever comes first).
 <div class="Bd Pp Bd-indent">
 <pre>
@@ -1789,12 +1788,12 @@ While <code class="Ic">ALIGN</code> as presented in
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr" href="rgbasm.1.html">rgbasm(1)</a>,
-  <a class="Xr" href="rgblink.1.html">rgblink(1)</a>,
-  <a class="Xr" href="rgblink.5.html">rgblink(5)</a>,
-  <a class="Xr" href="rgbds.5.html">rgbds(5)</a>,
-  <a class="Xr" href="rgbds.7.html">rgbds(7)</a>,
-  <a class="Xr" href="gbz80.7.html">gbz80(7)</a>
+<a class="Xr" href="rgbasm.1">rgbasm(1)</a>,
+  <a class="Xr" href="rgblink.1">rgblink(1)</a>,
+  <a class="Xr" href="rgblink.5">rgblink(5)</a>,
+  <a class="Xr" href="rgbds.5">rgbds(5)</a>,
+  <a class="Xr" href="rgbds.7">rgbds(7)</a>,
+  <a class="Xr" href="gbz80.7">gbz80(7)</a>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>

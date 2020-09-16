@@ -1,5 +1,6 @@
 ---
 layout: default
+permalink: /docs/v0.3.9/
 title: RGBDS online manual [v0.3.9]
 description: RGBDS v0.3.9 - Online manual
 ---

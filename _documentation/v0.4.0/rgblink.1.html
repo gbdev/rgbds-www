@@ -21,13 +21,13 @@ description: RGBDS v0.4.0 — Game Boy linker
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgblink</code></td>
-    <td>[<code class="Fl">-dtVvw</code>] [<code class="Fl">-l</code>
-      <var class="Ar">linker_script</var>] [<code class="Fl">-m</code>
-      <var class="Ar">map_file</var>] [<code class="Fl">-n</code>
-      <var class="Ar">sym_file</var>] [<code class="Fl">-O</code>
-      <var class="Ar">overlay_file</var>] [<code class="Fl">-o</code>
-      <var class="Ar">out_file</var>] [<code class="Fl">-p</code>
-      <var class="Ar">pad_value</var>] [<code class="Fl">-s</code>
+    <td>[<code class="Fl"><a href="#d">-d</a><a href="#t">t</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a><a href="#x">x</a></code>] [<code class="Fl"><a href="#l">-l</a></code>
+      <var class="Ar">linker_script</var>] [<code class="Fl"><a href="#m">-m</a></code>
+      <var class="Ar">map_file</var>] [<code class="Fl"><a href="#n">-n</a></code>
+      <var class="Ar">sym_file</var>] [<code class="Fl"><a href="#O">-O</a></code>
+      <var class="Ar">overlay_file</var>] [<code class="Fl"><a href="#o">-o</a></code>
+      <var class="Ar">out_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
+      <var class="Ar">pad_value</var>] [<code class="Fl"><a href="#s">-s</a></code>
       <var class="Ar">symbol</var>] <var class="Ar">file ...</var></td>
   </tr>
 </table>
@@ -35,8 +35,9 @@ description: RGBDS v0.4.0 — Game Boy linker
 <section class="Sh">
 <h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
 The <code class="Nm">rgblink</code> program links RGB object files, typically
-  created by <a class="Xr">rgbasm(1)</a>, into a single Game Boy ROM file. The
-  format is documented in <a class="Xr">rgbds(5)</a>.
+  created by <a class="Xr" href="rgbasm.1">rgbasm(1)</a>, into a single Game Boy
+  ROM file. The format is documented in
+  <a class="Xr" href="rgbds.5">rgbds(5)</a>.
 <p class="Pp">ROM0 sections are placed in the first 16 KiB of the output ROM,
     and ROMX sections are placed in any 16 KiB &#x201C;bank&#x201D; except the
     first. If your ROM will only be 32 KiB, you can use the
@@ -50,78 +51,88 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
     <code class="Fl">-d</code> option, which implies <code class="Fl">-w</code>
     but also prohibits the use of banked VRAM.</p>
 <p class="Pp">Note that options can be abbreviated as long as the abbreviation
-    is unambiguous: <code class="Fl">-</code><code class="Fl">-verb</code> is
-    <code class="Fl">-</code><code class="Fl">-verbose</code>, but
-    <code class="Fl">-</code><code class="Fl">-ver</code> is invalid because it
-    could also be <code class="Fl">-</code><code class="Fl">-version</code>. The
+    is unambiguous: <code class="Fl">--verb</code> is
+    <code class="Fl">--verbose</code>, but
+    <code class="Fl">--ver</code> is invalid because it
+    could also be <code class="Fl">--version</code>. The
     arguments are as follows:</p>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#d"><code class="Fl" id="d">-d</code></a>,
-    <code class="Fl">-</code><code class="Fl">-dmg</code></dt>
+    <code class="Fl">--dmg</code></dt>
   <dd>Enable DMG mode. Prohibit the use of sections that doesn't exist on a DMG,
-      such as WRAMX and VRAM bank 1. This option automatically enables
+      such as VRAM bank 1. This option automatically enables
       <code class="Fl">-w</code>.</dd>
   <dt><a class="permalink" href="#l"><code class="Fl" id="l">-l</code></a>
     <var class="Ar">linker_script,</var>
-    <code class="Fl">-</code><code class="Fl">-linkerscript</code>
+    <code class="Fl">--linkerscript</code>
     <var class="Ar">linker_script</var></dt>
   <dd>Specify a linker script file that tells the linker how sections must be
       placed in the ROM. The attributes assigned in the linker script must be
-      consistent with any assigned in the code. See <a class="Xr">rgblink(5)</a>
-      for more information about the linker script format.</dd>
+      consistent with any assigned in the code. See
+      <a class="Xr" href="rgblink.5">rgblink(5)</a> for more information about
+      the linker script format.</dd>
   <dt><a class="permalink" href="#m"><code class="Fl" id="m">-m</code></a>
     <var class="Ar">map_file</var>,
-    <code class="Fl">-</code><code class="Fl">-map</code>
+    <code class="Fl">--map</code>
     <var class="Ar">map_file</var></dt>
   <dd>Write a map file to the given filename, listing how sections and symbols
       were assigned.</dd>
   <dt><a class="permalink" href="#n"><code class="Fl" id="n">-n</code></a>
     <var class="Ar">sym_file</var>,
-    <code class="Fl">-</code><code class="Fl">-sym</code>
+    <code class="Fl">--sym</code>
     <var class="Ar">sym_file</var></dt>
   <dd>Write a symbol file to the given filename, listing the address of all
       exported symbols. Several external programs can use this information, for
       example to help debugging ROMs.</dd>
   <dt><a class="permalink" href="#O"><code class="Fl" id="O">-O</code></a>
     <var class="Ar">overlay_file</var>,
-    <code class="Fl">-</code><code class="Fl">-overlay</code>
+    <code class="Fl">--overlay</code>
     <var class="Ar">overlay_file</var></dt>
   <dd>If specified, sections will be overlaid &quot;on top&quot; of the provided
       ROM image. In that case, all sections must be fixed. This may be used to
       patch an existing binary.</dd>
   <dt><a class="permalink" href="#o"><code class="Fl" id="o">-o</code></a>
     <var class="Ar">out_file</var>,
-    <code class="Fl">-</code><code class="Fl">-output</code>
+    <code class="Fl">--output</code>
     <var class="Ar">out_file</var></dt>
   <dd>Write the ROM image to the given file.</dd>
   <dt><a class="permalink" href="#p"><code class="Fl" id="p">-p</code></a>
     <var class="Ar">pad_value</var>,
-    <code class="Fl">-</code><code class="Fl">-pad</code>
+    <code class="Fl">--pad</code>
     <var class="Ar">pad_value</var></dt>
   <dd>When inserting padding between sections, pad with this value. Has no
       effect if <code class="Fl">-O</code> is specified. The default is 0.</dd>
   <dt><a class="permalink" href="#s"><code class="Fl" id="s">-s</code></a>
     <var class="Ar">symbol</var>,
-    <code class="Fl">-</code><code class="Fl">-smart</code>
+    <code class="Fl">--smart</code>
     <var class="Ar">symbol</var></dt>
   <dd>This option is ignored. It was supposed to perform smart linking but fell
       into disrepair, and so has been removed. It will be reimplemented at some
       point.</dd>
   <dt><a class="permalink" href="#t"><code class="Fl" id="t">-t</code></a>,
-    <code class="Fl">-</code><code class="Fl">-tiny</code></dt>
+    <code class="Fl">--tiny</code></dt>
   <dd>Expand the ROM0 section size from 16 KiB to the full 32 KiB assigned to
-      ROM and prohibit the use of ROMX sections. Useful for ROMs that fit in 32
+      ROM. ROMX sections that are fixed to a bank other than 1 become errors,
+      other ROMX sections are treated as ROM0. Useful for ROMs that fit in 32
       KiB.</dd>
   <dt><a class="permalink" href="#V"><code class="Fl" id="V">-V</code></a>,
-    <code class="Fl">-</code><code class="Fl">-version</code></dt>
+    <code class="Fl">--version</code></dt>
   <dd>Print the version of the program and exit.</dd>
   <dt><a class="permalink" href="#v"><code class="Fl" id="v">-v</code></a>,
-    <code class="Fl">-</code><code class="Fl">-verbose</code></dt>
+    <code class="Fl">--verbose</code></dt>
   <dd>Verbose: enable printing more information to standard error.</dd>
   <dt><a class="permalink" href="#w"><code class="Fl" id="w">-w</code></a>,
-    <code class="Fl">-</code><code class="Fl">-wramx</code></dt>
+    <code class="Fl">--wramx</code></dt>
   <dd>Expand the WRAM0 section size from 4 KiB to the full 8 KiB assigned to
-      WRAM and prohibit the use of WRAMX sections.</dd>
+      WRAM. WRAMX sections that are fixed to a bank other than 1 become errors,
+      other WRAMX sections are treated as WRAM0.</dd>
+  <dt><a class="permalink" href="#x"><code class="Fl" id="x">-x</code></a>,
+    <code class="Fl">--nopad</code></dt>
+  <dd>Disables padding the end of the final file. This option automatically
+      enables <code class="Fl">-t</code>. You can use this when not not making a
+      ROM. When making a ROM, be careful that not using this is not a
+      replacement for <a class="Xr" href="rgbfix.1">rgbfix(1)</a>'s
+      <code class="Fl">-p</code> option!</dd>
 </dl>
 </section>
 <section class="Sh">
@@ -132,8 +143,8 @@ All you need for a basic ROM is an object file, which can be made into a ROM
 <div class="Bd Bd-indent">$ rgblink -o bar.gb foo.o</div>
 <p class="Pp">The resulting <var class="Ar">bar.gb</var> will not have correct
     checksums (unless you put them in the assembly source). You should use
-    <a class="Xr">rgbfix(1)</a> to fix these so that the program will actually
-    run in a Game Boy:</p>
+    <a class="Xr" href="rgbfix.1">rgbfix(1)</a> to fix these so that the program
+    will actually run in a Game Boy:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbfix -v bar.gb</code></div>
 <p class="Pp">Here is a more complete example:</p>
@@ -144,26 +155,28 @@ All you need for a basic ROM is an object file, which can be made into a ROM
 <section class="Sh">
 <h1 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h1>
 Please report bugs on
-  <a class="Lk" href="https://github.com/rednex/rgbds/issues">GitHub</a>.
+  <a class="Lk" href="https://github.com/gbdev/rgbds/issues">GitHub</a>.
 </section>
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(5)</a>,
-  <a class="Xr">rgbfix(1)</a>, <a class="Xr">rgbds(5)</a>,
-  <a class="Xr">rgbds(7)</a>
+<a class="Xr" href="rgbasm.1">rgbasm(1)</a>,
+  <a class="Xr" href="rgblink.5">rgblink(5)</a>,
+  <a class="Xr" href="rgbfix.1">rgbfix(1)</a>,
+  <a class="Xr" href="rgbds.5">rgbds(5)</a>,
+  <a class="Xr" href="rgbds.7">rgbds(7)</a>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
 <code class="Nm">rgblink</code> was originally written by Carsten
   S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
   RGBDS by Justin Lloyd. It is now maintained by a number of contributors at
-  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+  <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.
 </section>
 </div>
 <table class="foot">
   <tr>
     <td class="foot-date">November 26, 2019</td>
-    <td class="foot-os">Linux 5.8.7-arch1-1</td>
+    <td class="foot-os">Linux</td>
   </tr>
 </table>

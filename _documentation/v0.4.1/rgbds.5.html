@@ -18,9 +18,10 @@ description: RGBDS v0.4.1 — object file format documentation
 </section>
 <section class="Sh">
 <h1 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
-This is the description of the object files used by <a class="Xr">rgbasm(1)</a>
-  and <a class="Xr">rgblink(1)</a>. <i class="Em">Please note that the
-  specifications may change.</i> This toolchain is in development and new
+This is the description of the object files used by
+  <a class="Xr" href="rgbasm.1">rgbasm(1)</a> and
+  <a class="Xr" href="rgblink.1">rgblink(1)</a>. <i class="Em">Please note that
+  the specifications may change.</i> This toolchain is in development and new
   features may require adding more information to the current format, or
   modifying some fields, which would break compatibility with older versions.
 </section>
@@ -184,8 +185,8 @@ Expressions in the object file are stored as RPN. This is an expression of the
   being special prefixes for integers and symbols.
 <table class="Bl-column Bd-indent">
   <tr>
-    <td><b class="Sy">Value</b></td>
-    <td><b class="Sy">Meaning</b></td>
+    <th>Value</th>
+    <th>Meaning</th>
   </tr>
   <tr>
     <td><a class="permalink" href="#$00"><code class="Li" id="$00">$00</code></a></td>
@@ -330,20 +331,22 @@ Expressions in the object file are stored as RPN. This is an expression of the
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h1>
-<a class="Xr">rgbasm(1)</a>, <a class="Xr">rgblink(1)</a>,
-  <a class="Xr">rgbds(7)</a>, <a class="Xr">gbz80(7)</a>
+<a class="Xr" href="rgbasm.1">rgbasm(1)</a>,
+  <a class="Xr" href="rgblink.1">rgblink(1)</a>,
+  <a class="Xr" href="rgbds.7">rgbds(7)</a>,
+  <a class="Xr" href="gbz80.7">gbz80(7)</a>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h1>
 <code class="Nm">rgbds</code> was originally written by Carsten S&#x00F8;rensen
   as part of the ASMotor package, and was later packaged in RGBDS by Justin
   Lloyd. It is now maintained by a number of contributors at
-  <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+  <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.
 </section>
 </div>
 <table class="foot">
   <tr>
     <td class="foot-date">January 26, 2018</td>
-    <td class="foot-os">Linux 5.8.7-arch1-1</td>
+    <td class="foot-os">Linux</td>
   </tr>
 </table>
