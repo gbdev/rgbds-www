@@ -50,9 +50,9 @@ pre {
 
 // Give links a RGB scheme
 a {
-	color: #1e29ff; // Blue
+	color: #01e; // Blue
 	&:hover {
-		color: #010ab0; // Dark blue
+		color: #22f; // Slightly lighter blue
 	}
 	&:active, &:focus {
 		color: #b00; // Red
