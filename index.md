@@ -8,10 +8,10 @@ breadcrumbs: false
 # RGBDS home page
 
 <abbr title="Rednex Game Boy Development System">RGBDS</abbr> is the #1 toolchain for developing homebrew Game Boy programs. It's composed of these four programs:
-- **[RGBASM](/docs/rgbasm.1.html)**: the assembler
-- **[RGBLINK](/docs/rgblink.1.html)**: the linker
-- **[RGBFIX](/docs/rgbfix.1.html)**: the header "fixer"
-- **[RGBGFX](/docs/rgbgfx.1.html)**: the image converter
+- **[RGBASM](/docs/rgbasm.1)**: the assembler
+- **[RGBLINK](/docs/rgblink.1)**: the linker
+- **[RGBFIX](/docs/rgbfix.1)**: the header "fixer"
+- **[RGBGFX](/docs/rgbgfx.1)**: the image converter
 
 [Documentation](/docs/) is also available for several versions of each these tools.
 
