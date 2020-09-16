@@ -11,6 +11,10 @@
 		{%- endfor %}
 	{%- endif %}
 	<link rel="stylesheet" type="text/css" href="/css/default.css">
+	<link rel="icon" type="image/png" href="/assets/rgbds-square-96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/assets/rgbds-square-48.png" sizes="48x48">
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="/assets/rgbds-square-96.png" sizes="96x96">
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="/assets/rgbds-square-48.png" sizes="48x48">
 	{% seo title=false %}
 	{%- if page.keywords %}
 		{%- assign keywords = page.keywords | concat: site.keywords %}
