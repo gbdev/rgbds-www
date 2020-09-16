@@ -2,6 +2,7 @@
 layout: default
 permalink: /
 title: Home
+breadcrumbs: false
 ---
 
 # RGBDS home page
