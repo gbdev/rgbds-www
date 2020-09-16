@@ -3,6 +3,10 @@ layout: null
 permalink: /css/doc.css
 ---
 
+@import "mandoc";
+
+/** RGBDS-specific overrides **/
+
 // Separate lines in tables
 table.Bl-column {
 	border-collapse: collapse;
