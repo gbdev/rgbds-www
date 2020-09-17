@@ -17,6 +17,6 @@ If your OS isn't listed above, try finding `rgbds` in your package manager. If y
 
 ## Alternative methods
 
-You can [build RGBDS from source](source), for example if you want to get a specific version.
+You can [build RGBDS from source](/install/source), for example if you want to get a specific version.
 
-If [it's what you want](/docs/master/#what), you can [use `master`](master).
+If [it's what you want](/docs/master/#what), you can [use `master`](/install/master).

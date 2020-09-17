@@ -11,6 +11,8 @@ RGBDS does not require more than a regular environment, except RGBGFX that relie
 
 ## 1. Get sources
 
+You first need to get the sources to be compiled, using one of the methods below.
+
 ### Using [Git](https://git-scm.com/)
 
 First, [clone the repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository). Then, run `git checkout <version>` (e.g. `git checkout v0.4.1`), and you're set.

@@ -17,10 +17,10 @@ title: Windows install instructions
 
 ## [Cygwin](https://cygwin.com/)
 
-Follow steps 1 to 3 of the instructions above; then, copy all of the `.exe` and `.dll` files to the `usr\\local\\bin` folder of Cygwin's installation. With the default settings, that should be `C:\\cygwin64\\usr\\local\\bin`. **Do not put them in a subfolder!** (e.g. `C:\\cygwin64\\usr\\local\\bin\\rgbds`) This would not work.
+Follow steps 1 to 3 of the instructions above; then, copy all of the `.exe` and `.dll` files to the `/usr/local/bin` folder of Cygwin's installation. With the default settings, that should be `C:\\cygwin64\\usr\\local\\bin`. **Do not put them in a subfolder!** (e.g. `C:\\cygwin64\\usr\\local\\bin\\rgbds`) This would not work.
 
 After that, you should be able to use RGBDS from within the Cygwin terminal, which you can confirm by running `rgbasm -V`.
 
 ## [WSL](https://docs.microsoft.com/en-us/windows/wsl/), [MSYS2](https://github.com/msys2/msys2), and other Linux-like environments
 
-For these, you have to [build from source](source).
+For these, you have to [build from source](source). On WSL, you should install any prereqs using `apt-get` (example: `sudo apt-get install libpng-dev`). On MSYS2, use `pacman` (example: `sudo pacman -S mingw-w64-libpng`).
