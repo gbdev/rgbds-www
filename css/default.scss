@@ -7,6 +7,8 @@
 /// Variable definitions
 
 $navbar-height: 50px;
+$navbar-breakpoint: 660px; // Width at which the navbar collapses
+$navbar-bg-color: #e2e8cb;
 
 $logo-padding-top:        10px;
 $logo-padding-bottom:     10px;
@@ -80,42 +82,87 @@ a {
 	padding: 0;
 	height: $navbar-height;
 
-	background-color: #e2e8cb;
+	background-color: $navbar-bg-color;
 	border-bottom: 1px solid #ccc;
 	box-shadow: 0 0 20px #ccc8;
+}
 
-	> #logo {
-		margin: 0;
-		padding: 0;
-		> img {
+#logo {
+	margin: 0;
+	padding: 0;
+	> img {
+		display: block;
+		padding: $logo-padding-top $logo-padding-right $logo-padding-bottom $logo-padding-left;
+		height: $navbar-height - ($logo-padding-top + $logo-padding-bottom);
+		float: left;
+	}
+}
+
+// Always hide the checkbox
+#navbar-toggle-control {
+	display: none;
+}
+#navbar-toggle {
+	display: none;
+	@media (max-width: $navbar-breakpoint) {
+		display: block;
+	}
+	padding: $nav-logo-padding-top $nav-link-padding-right $nav-logo-padding-bottom $nav-link-padding-left;
+	height: $navbar-height - ($nav-logo-padding-top + $nav-logo-padding-bottom);
+	float: right;
+
+	cursor: pointer;
+	> {
+		:first-child {
 			display: block;
-			padding: $logo-padding-top $logo-padding-right $logo-padding-bottom $logo-padding-left;
-			height: $navbar-height - ($logo-padding-top + $logo-padding-bottom);
-			float: left;
+		}
+		:last-child {
+			display: none;
 		}
 	}
+	:checked ~ & > {
+		:first-child {
+			display: none;
+		}
+		:last-child {
+			display: block;
+		}
+	}
+}
 
-	> nav {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: flex-end;
-		clear: none;
+#navbar-nav {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-end;
+	clear: none;
+	@media (max-width: $navbar-breakpoint) {
+		clear: both;
+		flex-flow: row wrap;
+		display: none;
+		:checked ~ & {
+			display: flex;
+		}
+		margin-left: 10px;
+		margin-right: 10px;
+		border-radius: 0 0 10px 10px;
+		box-shadow: 0 10px 20px #ccc;
+	}
+	background-color: $navbar-bg-color;
 
-		> a {
-			padding-left: $nav-link-padding-left;
-			padding-right: $nav-link-padding-right;
-			height: $navbar-height;
-			> img {
-				padding-top: $nav-logo-padding-top;
-				padding-bottom: $nav-logo-padding-bottom;
-				height: $navbar-height - ($nav-logo-padding-top + $nav-logo-padding-bottom);
-			}
-			&.text {
-				display: inline-block;
-				padding-top: $nav-link-padding-top;
-				padding-bottom: $nav-link-padding-bottom;
-				height: $navbar-height - ($nav-link-padding-top + $nav-link-padding-bottom);
-			}
+	> a {
+		padding-left: $nav-link-padding-left;
+		padding-right: $nav-link-padding-right;
+		height: $navbar-height;
+		> img {
+			padding-top: $nav-logo-padding-top;
+			padding-bottom: $nav-logo-padding-bottom;
+			height: $navbar-height - ($nav-logo-padding-top + $nav-logo-padding-bottom);
+		}
+		&.text {
+			display: inline-block;
+			padding-top: $nav-link-padding-top;
+			padding-bottom: $nav-link-padding-bottom;
+			height: $navbar-height - ($nav-link-padding-top + $nav-link-padding-bottom);
 		}
 	}
 }

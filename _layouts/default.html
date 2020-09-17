@@ -27,7 +27,12 @@
 <body>
 	<aside id="navbar">
 		<a id="logo" href="/"><img src="/assets/logo/190x30.png" alt="Rednex Game Boy Development System"></a>
-		<nav>
+		<input type="checkbox" name="navbar-toggle-control" id="navbar-toggle-control" aria-controls="navbar-nav">
+		<label for="navbar-toggle-control" id="navbar-toggle">
+			<img src="/assets/nav-burger.png" alt="Show nav">
+			<img src="/assets/nav-close.png" alt="Hide nav">
+		</label>
+		<nav id="navbar-nav">
 			<a href="/docs/" class="text">Docs</a>
 			<a href="/feedback" class="text">Feedback</a>
 			<a href="https://gbdev.io" class="text">GBDev</a>
