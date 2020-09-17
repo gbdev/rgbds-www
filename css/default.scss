@@ -55,14 +55,14 @@ a {
 	&:hover {
 		color: #22f; // Slightly lighter blue
 	}
-	&:active, &:focus {
-		color: #b00; // Red
-	}
 	&:visited {
 		color: #040; // Dark green
 	}
 	&:visited:hover {
 		color: #020; // Darker green
+	}
+	&:active, &:focus {
+		color: #b00; // Red
 	}
 }
 
