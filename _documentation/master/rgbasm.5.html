@@ -533,9 +533,9 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
   <tr>
     <td><code class="Fn">STRCMP</code>(<var class="Fa">str1</var>,
       <var class="Fa">str2</var>)</td>
-    <td>Returns negative if <var class="Ar">str1</var> <span class="No">is
+    <td>Returns -1 if <var class="Ar">str1</var> <span class="No">is
       alphabetically lower than</span> <var class="Ar">str2</var> ,
-      <span class="No">zero if they match, positive if</span>
+      <span class="No">zero if they match, 1 if</span>
       <var class="Ar">str1</var> <span class="No">is greater than</span>
       <var class="Ar">str2</var>.</td>
   </tr>
@@ -981,7 +981,7 @@ RGBDS supports several types of symbols:
     &#x2018;@&#x2019;. However, they must begin with either a letter, a number,
     or an underscore. Periods are allowed exclusively for labels, as described
     below. A symbol cannot have the same name as a reserved keyword.
-    <i class="Em">In the line where a symbol is defined there mustn't be any
+    <i class="Em">In the line where a symbol is defined there must not be any
     whitespace before it</i>, otherwise <code class="Nm">rgbasm</code> will
     treat it as a macro invocation.</p>
 <dl class="Bl-tag">
@@ -1695,7 +1695,7 @@ assert Variable + 1 == OtherVariable
   other source files</a></h2>
 Use <code class="Ic">INCLUDE</code> to process another assembler file and then
   return to the current file when done. If the file isn't found in the current
-  directory the include path list (see the <code class="Fl">-i</code> option in
+  directory, the include path list (see the <code class="Fl">-i</code> option in
   <a class="Xr" href="rgbasm.1">rgbasm(1)</a>) will be searched. You may nest
   <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
   memory, whichever comes first).
