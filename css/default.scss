@@ -21,6 +21,8 @@ $nav-link-padding-right:  10px;
 $nav-logo-padding-top:     5px;
 $nav-logo-padding-bottom:  5px;
 
+$max-width: 50em;
+
 /// General styling
 
 html {
@@ -68,6 +70,10 @@ a {
 }
 
 /// Layout
+
+body {
+	padding-top: $navbar-height + 1;
+}
 
 #navbar {
 	position: fixed;
@@ -166,25 +172,29 @@ a {
 	}
 }
 
-main {
-	margin: $navbar-height + 1 auto 0;
-
-	max-width: 50em;
-	// Prevent text from bumping sides on smaller windows
-	padding: 10px 20px 10px 10px;
-}
-
-/// Navigation
-
 #breadcrumbs {
-	margin-top: 0;
-	margin-bottom: 2em;
-	font-weight: bold;
+	margin:	0;
+	padding: 0;
+	background-color: #ccc;
+	> ol {
+		margin: 0 auto;
+		padding: .5em 1em;
+		box-sizing: border-box;
+		max-width: $max-width;
 
-	> li {
-		display: inline;
-		&:not(:first-child)::before {
-			content: ">";
+		> li {
+			display: inline;
+			&:not(:first-child)::before {
+				content: ">";
+			}
 		}
 	}
+}
+
+main {
+	margin: 0 auto;
+
+	max-width: $max-width;
+	// Prevent text from bumping sides on smaller windows
+	padding: 10px 20px 10px 10px;
 }
