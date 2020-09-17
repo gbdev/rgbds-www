@@ -1,6 +1,8 @@
 ---
 layout: default
 permalink: /docs/
+title: RGBDS online manual
+description: RGBDS online manual
 ---
 
 Documentation is available for the following:
