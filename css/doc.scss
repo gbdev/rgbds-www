@@ -7,6 +7,11 @@ permalink: /css/doc.css
 
 /** RGBDS-specific overrides **/
 
+// Disable mandoc's <html>-level override, which prevents centering
+html {
+	max-width: unset;
+}
+
 // Separate lines in tables
 table.Bl-column {
 	border-collapse: collapse;
