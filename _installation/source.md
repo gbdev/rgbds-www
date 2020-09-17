@@ -45,6 +45,18 @@ sudo make install
 
 The second command is optional if you don't want to install RGBDS system-wide.
 
+The following variables can be defined to control installation, like so: `make Q=`, `sudo make install PREFIX=~/.local/bin`
+
+ - `PREFIX`: Location where RGBDS will be installed. Defaults to `/usr/local`.
+ - `bindir`: Location where the binaries will be installed. Defaults to `${PREFIX}/bin`.
+ - `mandir`: Location where the manpages will be installed. Defaults to `${PREFIX}/share/man`.
+ - `DESTDIR`: This is prepended to all paths during the installation. It is mainly used for packaging.
+ - `Q`: Whether to quiet the build or not. To make the build more verbose, clear this variable. Defaults to `@`.
+ - `STRIP`: Whether to strip the installed binaries of debug symbols or not. Defaults to `-s`.
+ - `BINMODE`: Permissions of the installed binaries. Defaults to `755`.
+ - `MANMODE`: Permissions of the installed man pages. Defaults to `644`.
+ - `CHECKPATCH`: Path of the script checkpatch.pl of the Linux kernel. Defaults to `../linux/scripts/checkpatch.pl`. You can retrieve that script from [here](https://github.com/torvalds/linux/blob/master/scripts/checkpatch.pl).
+
 ### cmake
 
 First, run CMake on the project.
