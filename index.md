@@ -27,6 +27,6 @@ All of RGBDS is open-source: [the source code](https://github.com/gbdev/rgbds) i
 
 RGBDS would not be much without its users: [the GB dev community](https://gbdev.io).
 
-Thank you to Carsten Sørensen ([history](/docs/rgbds.7.html)), original creator of what would become RGBDS, and to [all the contributors](https://github.com/gbdev/rgbds/graphs/contributors) that carried the project since then!
+Thank you to Carsten Sørensen ([history](/docs/rgbds.7)), original creator of what would become RGBDS, and to [all the contributors](https://github.com/gbdev/rgbds/graphs/contributors) that carried the project since then!
 
 <small>Website written by [ISSOtm](https://github.com/ISSOtm); logo by [Rangi](https://github.com/Rangi42); powered by [Jekyll](https://jekyllrb.com) and [GitHub](https://github.com).</small>
