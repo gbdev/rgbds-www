@@ -930,9 +930,12 @@ When you're tight on RAM, you may want to define overlapping blocks of
 Section fragments are sections with a small twist: when several of the same name
   are encountered, they are concatenated instead of producing an error. This
   works within the same file (paralleling the behavior &quot;plain&quot;
-  sections has in previous versions), but also across object files. However,
-  similarly to <a class="Sx" href="#Unionized_Sections">Unionized Sections</a>,
-  some rules must be followed:
+  sections has in previous versions), but also across object files. To declare
+  an section fragment, add a <code class="Ic">FRAGMENT</code> keyword after the
+  <code class="Ic">SECTION</code> one; the declaration is otherwise not
+  different. However, similarly to
+  <a class="Sx" href="#Unionized_Sections">Unionized Sections</a>, some rules
+  must be followed:
 <ul class="Bl-bullet Bd-indent">
   <li>If one section has been declared as fragment, all sections with the same
       name must be declared fragments as well.</li>
