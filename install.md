@@ -15,8 +15,8 @@ Please select one OS from those below:
 
 If your OS isn't listed above, try finding `rgbds` in your package manager. If you can't find it, you will have to compile RGBDS from source. The instructions are linked to below.
 
-## Alternative methods
+## Build from source
 
-You can [build RGBDS from source](/install/source), for example if you want to get a specific version.
+If you can't find RGBDS packaged for your OS, you can [build it from source](/install/source). In this way, you can also build a specific version.
 
-If [it's what you want](/docs/master/#what), you can [use `master`](/install/master).
+If you [want](/docs/master/#what), you can the [use `master`](/install/master) release.
