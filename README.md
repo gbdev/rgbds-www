@@ -5,7 +5,7 @@ This is the source of the official RGBDS website at [https://rgbds.gbdev.io](htt
 
 We use [Jekyll](https://jekyllrb.com/) and [GitHub Pages](https://docs.github.com/en/github/working-with-github-pages).
 
-Note that a bot is set up to automatically update `master` documentation (`_documentation/master/`) every time the man pages at https://github.com/gbdev/rgbds/ are updated.
+Note that a [GitHub Action in the main repo](https://github.com/gbdev/rgbds/blob/master/.github/workflows/update-master-docs.yml) is set up to automatically update `master` documentation (`_documentation/master/`) every time the man pages at https://github.com/gbdev/rgbds/ are updated, using [this script](https://github.com/gbdev/rgbds/blob/master/.github/actions/get-pages.sh).
 
 ## Setting up
 
