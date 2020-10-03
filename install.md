@@ -19,4 +19,4 @@ If your OS isn't listed above, try finding `rgbds` in your package manager. If y
 
 If you can't find RGBDS packaged for your OS, you can [build it from source](/install/source). In this way, you can also build a specific version.
 
-If you [want](/docs/master/#what), you can use the [`master`](/install/master) release.
+If you [want](/docs/master/#what), you can use the [`master`](/install/master) branch.
