@@ -21,7 +21,7 @@ description: RGBDS master — object file format documentation
 This is the description of the object files used by
   <a class="Xr" href="rgbasm.1">rgbasm(1)</a> and
   <a class="Xr" href="rgblink.1">rgblink(1)</a>. <i class="Em">Please note that
-  the specifications may change.</i> This toolchain is in development and new
+  the specifications may change</i>. This toolchain is in development and new
   features may require adding more information to the current format, or
   modifying some fields, which would break compatibility with older versions.
 </section>
@@ -38,36 +38,67 @@ The following types are used:
 ; Header
 
 BYTE    ID[4]            ; &quot;RGB9&quot;
-LONG    RevisionNumber   ; The format's revision number this file uses
-LONG    NumberOfSymbols  ; The number of symbols used in this file
-LONG    NumberOfSections ; The number of sections used in this file
+LONG    RevisionNumber   ; The format's revision number this file uses.
+LONG    NumberOfSymbols  ; The number of symbols used in this file.
+LONG    NumberOfSections ; The number of sections used in this file.
+
+; File info
+
+LONG    NumberOfNodes       ; The number of nodes contained in this file.
+
+REPT NumberOfNodes          ; IMPORTANT NOTE: the nodes are actually written in
+                            ; **reverse** order, meaningthe node with ID 0 is
+                            ; the last one in the file!
+
+    LONG    ParentID        ; ID of the parent node, -1 means this is the root.
+
+    LONG    ParentLineNo    ; Line at which the parent context was exited.
+                            ; Meaningless on the root node.
+
+    BYTE    Type            ; 0 = REPT node
+                            ; 1 = File node
+                            ; 2 = Macro node
+
+    IF Type != 0            ; If the node is not a REPT...
+
+        STRING  Name        ; The node's name: either a file name, or macro name
+                            ; prefixed by its definition file name.
+
+    ELSE                    ; If the node is a REPT, it also contains the iter
+                            ; counts of all the parent REPTs.
+
+        LONG    Depth       ; Size of the array below.
+
+        LONG    Iter[Depth] ; The number of REPT iterations by increasing depth.
+
+    ENDC
+
+ENDR
 
 ; Symbols
 
-REPT    NumberOfSymbols   ; Number of symbols defined in this object file.
+REPT    NumberOfSymbols    ; Number of symbols defined in this object file.
 
-    STRING  Name          ; The name of this symbol. Local symbols are stored
-                          ; as &quot;Scope.Symbol&quot;.
+    STRING  Name           ; The name of this symbol. Local symbols are stored
+                           ; as &quot;Scope.Symbol&quot;.
 
-    BYTE    Type          ; 0 = LOCAL symbol only used in this file.
-                          ; 1 = IMPORT this symbol from elsewhere
-                          ; 2 = EXPORT this symbol to other objects.
-                          ; Bit 7 is independent from the above value, and
-                          ; encodes whether the section is unionized
+    BYTE    Type           ; 0 = LOCAL symbol only used in this file.
+                           ; 1 = IMPORT this symbol from elsewhere
+                           ; 2 = EXPORT this symbol to other objects.
 
-    IF (Type &amp; 0x7F) != 1 ; If symbol is defined in this object file.
+    IF (Type &amp; 0x7F) != 1  ; If symbol is defined in this object file.
 
-        STRING  FileName  ; File where the symbol is defined.
+        LONG    SourceFile ; File where the symbol is defined.
 
-        LONG    LineNum   ; Line number in the file where the symbol is defined.
+        LONG    LineNum    ; Line number in the file where the symbol is defined.
 
-        LONG    SectionID ; The section number (of this object file) in which
-                          ; this symbol is defined. If it doesn't belong to any
-                          ; specific section (like a constant), this field has
-                          ; the value -1.
+        LONG    SectionID  ; The section number (of this object file) in which
+                           ; this symbol is defined. If it doesn't belong to any
+                           ; specific section (like a constant), this field has
+                           ; the value -1.
 
-        LONG    Value     ; The symbols value. It's the offset into that
-                          ; symbol's section.
+        LONG    Value      ; The symbols value. It's the offset into that
+                           ; symbol's section.
 
     ENDC
 
@@ -88,6 +119,10 @@ REPT NumberOfSections
                   ; 5 = WRAMX
                   ; 6 = SRAM
                   ; 7 = OAM
+                  ; Bits 7 and 6 are independent from the above value:
+                  ; Bit 7 encodes whether the section is unionized
+                  ; Bit 6 encodes whether the section is a fragment
+                  ; Bits 6 and 7 may not be both set at the same time!
 
     LONG    Org   ; Address to fix this section at. -1 if the linker should
                   ; decide (floating address).
@@ -109,8 +144,10 @@ REPT NumberOfSections
 
         REPT    NumberOfPatches
 
-            STRING  SourceFile   ; Name of the source file (for printing error
-                                 ; messages).
+            LONG    SourceFile   ; ID of the source file node (for printing
+                                 ; error messages).
+
+            LONG    LineNo       ; Line at which the patch was created.
 
             LONG    Offset       ; Offset into the section where patch should
                                  ; be applied (in bytes).
@@ -147,7 +184,9 @@ LONG  NumberOfAssertions
 
 REPT  NumberOfAssertions
 
-  STRING  SourceFile   ; Name of the source file (for printing the failure).
+  LONG    SourceFile   ; ID of the source file node (for printing the failure).
+
+  LONG    LineNo       ; Line at which the assertion was created.
 
   LONG    Offset       ; Offset into the section where the assertion is located.
 
@@ -295,7 +334,7 @@ Expressions in the object file are stored as RPN. This is an expression of the
   <tr>
     <td><a class="permalink" href="#$50"><code class="Li" id="$50">$50</code></a></td>
     <td><a class="permalink" href="#BANK(symbol)"><code class="Li" id="BANK(symbol)">BANK(symbol)</code></a>,
-      a <var class="Ar">LONG</var> Symbol ID follows.</td>
+      a <var class="Ar">LONG</var> Symbol ID follows, where -1 means PC</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#$51"><code class="Li" id="$51">$51</code></a></td>

@@ -980,13 +980,14 @@ RGBDS supports several types of symbols:
   <dt><b class="Sy">String equate</b></dt>
   <dd>String symbol that can be evaluated, similarly to a macro.</dd>
 </dl>
-<p class="Pp">Symbol names can contain letters, numbers, underscores, hashes and
-    &#x2018;@&#x2019;. However, they must begin with either a letter, a number,
-    or an underscore. Periods are allowed exclusively for labels, as described
-    below. A symbol cannot have the same name as a reserved keyword.
-    <i class="Em">In the line where a symbol is defined there must not be any
-    whitespace before it</i>, otherwise <code class="Nm">rgbasm</code> will
-    treat it as a macro invocation.</p>
+<p class="Pp">Symbol names can contain letters, numbers, underscores
+    &#x2018;_&#x2019;, hashes &#x2018;#&#x2019; and at signs &#x2018;@&#x2019;.
+    However, they must begin with either a letter, or an underscore. Periods
+    &#x2018;.&#x2019; are allowed exclusively for labels, as described below. A
+    symbol cannot have the same name as a reserved keyword. <i class="Em">In the
+    line where a symbol is defined there must not be any whitespace before
+    it</i>, otherwise <code class="Nm">rgbasm</code> will treat it as a macro
+    invocation.</p>
 <dl class="Bl-tag">
   <dt><b class="Sy">Label declaration</b></dt>
   <dd>One of the assembler's main tasks is to keep track of addresses for you,
@@ -1248,7 +1249,8 @@ The following symbols are defined by the assembler:
   <tr>
     <td><a class="permalink" href="#EQU_5"><code class="Ic" id="EQU_5">EQU</code></a></td>
     <td><a class="permalink" href="#_NARG"><code class="Dv" id="_NARG">_NARG</code></a></td>
-    <td>Number of arguments passed to macro</td>
+    <td>Number of arguments passed to macro, updated by
+      <code class="Ic">SHIFT</code></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#EQU_6"><code class="Ic" id="EQU_6">EQU</code></a></td>
@@ -1570,9 +1572,10 @@ ENDM
     use the <code class="Ic">SHIFT</code> command.</p>
 <p class="Pp"><code class="Ic">SHIFT</code> is a special command only available
     in macros. Very useful in <code class="Ic">REPT</code> blocks. It will shift
-    the arguments by one to the left. <code class="Ic">\1</code> will get the
-    value of <code class="Ic">\2</code>, <code class="Ic">\2</code> will get the
-    value of <code class="Ic">\3</code>, and so forth.</p>
+    the arguments by one to the left, and decrease <code class="Dv">_NARG</code>
+    by 1. <code class="Ic">\1</code> will get the value of
+    <code class="Ic">\2</code>, <code class="Ic">\2</code> will get the value of
+    <code class="Ic">\3</code>, and so forth.</p>
 <p class="Pp">This is the only way of accessing the value of arguments from 10
     to 256.</p>
 <p class="Pp"><code class="Ic">SHIFT</code> can optionally be given an integer
