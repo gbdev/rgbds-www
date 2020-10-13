@@ -64,7 +64,7 @@ First, run CMake on the project.
 
 `cmake` 3.13 and later:
 {% highlight bash %}
-cmake -S . -B build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 {% endhighlight %}
 
 `cmake` 3.12.4 and earlier:
