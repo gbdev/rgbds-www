@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 permalink: /
 title: Home
 breadcrumbs: false
@@ -13,7 +13,7 @@ breadcrumbs: false
 - **[RGBFIX](/docs/rgbfix.1)**: the header "fixer"
 - **[RGBGFX](/docs/rgbgfx.1)**: the image converter
 
-[Documentation](/docs/) is also available for several versions of each these tools.
+[Documentation](/docs/) is also available for several versions of each these tools. The [FAQ](/faq) can help you resolve common problems.
 
 ## Releases & downloads
 

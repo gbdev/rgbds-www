@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 permalink: /docs/
 title: RGBDS online manual
 description: RGBDS online manual

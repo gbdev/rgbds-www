@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 name: macOS
 title: macOS install instructions
 ---

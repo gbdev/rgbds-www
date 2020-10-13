@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 name: Windows
 title: Windows install instructions
 ---

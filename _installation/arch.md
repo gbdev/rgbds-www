@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 name: Arch Linux
 title: Arch Linux install instructions
 ---

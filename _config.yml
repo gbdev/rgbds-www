@@ -54,6 +54,9 @@ collections:
   installation:
     output: true
     permalink: /install/:path
+  faq:
+    order:
+      - test.md
 
 # Exclude from processing.
 exclude:
