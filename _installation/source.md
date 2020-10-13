@@ -71,7 +71,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 {% highlight bash %}
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 cd ..
 {% endhighlight %}
 
