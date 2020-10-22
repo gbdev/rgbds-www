@@ -63,7 +63,7 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
       such as VRAM bank 1. This option automatically enables
       <code class="Fl">-w</code>.</dd>
   <dt><a class="permalink" href="#l"><code class="Fl" id="l">-l</code></a>
-    <var class="Ar">linker_script,</var>
+    <var class="Ar">linker_script</var>,
     <code class="Fl">--linkerscript</code>
     <var class="Ar">linker_script</var></dt>
   <dd>Specify a linker script file that tells the linker how sections must be
@@ -140,7 +140,8 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
 All you need for a basic ROM is an object file, which can be made into a ROM
   image like so:
 <p class="Pp"></p>
-<div class="Bd Bd-indent">$ rgblink -o bar.gb foo.o</div>
+<div class="Bd Bd-indent"><code class="Li">$ rgblink -o bar.gb
+  foo.o</code></div>
 <p class="Pp">The resulting <var class="Ar">bar.gb</var> will not have correct
     checksums (unless you put them in the assembly source). You should use
     <a class="Xr" href="rgbfix.1">rgbfix(1)</a> to fix these so that the program
