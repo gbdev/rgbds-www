@@ -3,17 +3,14 @@ layout: null
 permalink: /css/doc.css
 ---
 
-@import "mandoc";
+#man {
+	@import "mandoc";
+}
 
 /** RGBDS-specific overrides **/
 
-// Disable mandoc's <html>-level override, which prevents centering
-html {
-	max-width: unset;
-}
-
 // Separate lines in tables
-table.Bl-column {
+#man table.Bl-column {
 	border-collapse: collapse;
 
 	tr:not(:first-child) {

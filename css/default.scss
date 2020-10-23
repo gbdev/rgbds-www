@@ -94,13 +94,10 @@ body {
 
 #logo {
 	margin: 0;
-	padding: 0;
-	> img {
-		display: block;
-		padding: $logo-padding-top $logo-padding-right $logo-padding-bottom $logo-padding-left;
-		height: $navbar-height - ($logo-padding-top + $logo-padding-bottom);
-		float: left;
-	}
+	display: block;
+	padding: $logo-padding-top $logo-padding-right $logo-padding-bottom $logo-padding-left;
+	height: $navbar-height - ($logo-padding-top + $logo-padding-bottom);
+	float: left;
 }
 
 // Always hide the checkbox
