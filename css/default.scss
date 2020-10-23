@@ -6,6 +6,8 @@
 /// Variable definitions
 
 $navbar-height: 50px;
+$navbar-border-bottom: 1px;
+$navbar-box-height: $navbar-height + $navbar-border-bottom;
 $navbar-breakpoint: 720px; // Width at which the navbar collapses
 $navbar-bg-color: #e2e8cb;
 
@@ -72,14 +74,11 @@ a {
 /// Layout
 
 body {
-	padding-top: $navbar-height + 1;
+	height: 100vh;
+	overflow: hidden;
 }
 
 #navbar {
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
 	width: 100%;
 
 	font-size: 24px;
@@ -136,20 +135,21 @@ body {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: flex-end;
-	clear: none;
 	@media (max-width: $navbar-breakpoint) {
-		clear: both;
 		flex-flow: row wrap;
 		display: none;
 		:checked ~ & {
 			display: flex;
 		}
-		margin-left: 10px;
-		margin-right: 10px;
+		position: fixed;
+		top: $navbar-height;
+		left: 10px;
+		right: 10px;
 		border-radius: 0 0 10px 10px;
 		box-shadow: 0 10px 20px #ccc;
 	}
 	background-color: $navbar-bg-color;
+	z-index: 1;
 
 	> a {
 		padding-left: $nav-link-padding-left;
@@ -186,6 +186,13 @@ body {
 			}
 		}
 	}
+}
+
+// So that anchors are scrolled to, but not behind the navbar
+#main-scroller {
+	z-index: 0;
+	overflow: auto;
+	height: calc(100% - #{$navbar-box-height});
 }
 
 main {
