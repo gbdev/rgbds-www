@@ -1205,10 +1205,51 @@ Importing and exporting of symbols is a feature that is very useful when your
 <div class="Bd Bd-indent"><code class="Li"><code class="Ic">EXPORT</code>
   <var class="Ar">symbol1</var> [, <var class="Ar">symbol2</var>,
   <span class="No">...</span>]</code></div>
-<p class="Pp"><code class="Ic">GLOBAL</code> is a deprecated synonym for
-    <code class="Ic">EXPORT</code>, do not use it.</p>
+<p class="Pp">For example, if you have the following three files:</p>
+<p class="Pp">&#x2018;<code class="Li">a.asm</code>&#x2019;:</p>
+<div class="Bd">
+<pre>
+SECTION &quot;a&quot;, WRAM0
+LabelA:
+</pre>
+</div>
+<p class="Pp">&#x2018;<code class="Li">b.asm</code>&#x2019;:</p>
+<div class="Bd">
+<pre>
+SECTION &quot;b&quot;, WRAM0
+ExportedLabelB1::
+ExportedLabelB2:
+	EXPORT ExportedLabelB2
+</pre>
+</div>
+<p class="Pp">&#x2018;<code class="Li">c.asm</code>&#x2019;:</p>
+<div class="Bd">
+<pre>
+SECTION &quot;C&quot;, ROM0[0]
+	dw LabelA
+	dw ExportedLabelB1
+	dw ExportedLabelB2
+</pre>
+</div>
+<p class="Pp">Then &#x2018;<code class="Li">c.asm</code>&#x2019; can use
+    &#x2018;<code class="Li">ExportedLabelB1</code>&#x2019; and
+    &#x2018;<code class="Li">ExportedLabelB2</code>&#x2019;, but not
+    &#x2018;<code class="Li">LabelA</code>&#x2019;, so linking them together
+    will fail:</p>
+<div class="Bd Pp">
+<pre>
+$ rgbasm -o a.o a.asm
+$ rgbasm -o b.o b.asm
+$ rgbasm -o c.o c.asm
+$ rgblink a.o b.o c.o
+error: c.asm(2): Unknown symbol &quot;LabelA&quot;
+Linking failed with 1 error
+</pre>
+</div>
 <p class="Pp">Note also that only exported symbols will appear in symbol and map
     files produced by <a class="Xr" href="rgblink.1">rgblink(1)</a>.</p>
+<p class="Pp"><code class="Ic">GLOBAL</code> is a deprecated synonym for
+    <code class="Ic">EXPORT</code>, do not use it.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Purging_symbols"><a class="permalink" href="#Purging_symbols">Purging
