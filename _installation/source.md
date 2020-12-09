@@ -27,7 +27,7 @@ The following are required to build RGBDS; it's possible that some are already i
 
  - `make` and/or `cmake`, depending on what method you choose below
  - a C compiler, typically `gcc` or `clang`
- - `yacc`/`byacc`/`bison`
+ - `yacc`/`byacc`/`bison` (only `bison` after 0.4.2)
  - `pkg-config` (unless using `cmake`)
  - `libpng`'s development headers. The package is typically called [`libpng-dev`](https://packages.ubuntu.com/focal/libpng-dev), [`libpng-devel`](https://software.opensuse.org/package/libpng16-devel-64bit), or sometimes plainly [`libpng`](https://www.archlinux.org/packages/extra/x86_64/libpng/). Additionally, a `16` or `1.6` may be present after `libpng` ([example](https://tracker.debian.org/pkg/libpng1.6)).
 
