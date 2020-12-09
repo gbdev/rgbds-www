@@ -1191,6 +1191,28 @@ MyMacro: MACRO
     <p class="Pp">Note that a single colon
         &#x2018;<code class="Li">:</code>&#x2019; following the macro's name is
         required. Macros can't be exported or imported.</p>
+    <p class="Pp">Plainly nesting macro definitions is not allowed, but this can
+        be worked around using <code class="Ic">EQUS</code>. This won't
+      work:</p>
+    <div class="Bd Pp Bd-indent">
+    <pre>
+outer: MACRO
+inner: MACRO
+    PRINTT &quot;Hello!\n&quot;
+ENDM
+ENDM
+    </pre>
+    </div>
+    <p class="Pp">But this will:</p>
+    <div class="Bd Pp Bd-indent">
+    <pre>
+outer: MACRO
+definition equs &quot;inner: MACRO\nPRINTT \&quot;Hello!\\n\&quot;\nENDM&quot;
+definition
+    PURGE definition
+ENDM
+    </pre>
+    </div>
   </dd>
 </dl>
 <section class="Ss">
