@@ -481,9 +481,9 @@ The most basic string expression is any number of characters contained in double
     prepended.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-TOPIC equs &quot;life, the universe, and everything&quot;
+TOPIC equs &quot;life, the universe, and \&quot;everything\&quot;&quot;
 ANSWER = 42
-;&#x00A0;Prints &quot;The answer to life, the universe, and everything is $2A&quot;
+;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is $2A&quot;
 PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
 </pre>
 </div>
@@ -523,6 +523,22 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
     strings.</p>
 <p class="Pp">HINT: The <code class="Ic">{symbol}</code> construct can also be
     used outside strings. The symbol's value is again inserted directly.</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+NAME equs &quot;ITEM&quot;
+FMT equs &quot;d&quot;
+ZERO_NUM equ 0
+ZERO_STR equs &quot;0&quot;
+;&#x00A0;Defines INDEX as 100
+INDEX = 1{ZERO_STR}{{FMT}:ZERO_NUM}
+;&#x00A0;Defines ITEM_100 as &quot;\&quot;hundredth\&quot;&quot;
+{NAME}_{d:INDEX} equs &quot;\&quot;hundredth\&quot;&quot;
+;&#x00A0;Prints &quot;ITEM_100 is hundredth&quot;
+PRINTT STRCAT(&quot;{NAME}_{d:INDEX} is &quot;, {NAME}_{d:INDEX})
+;&#x00A0;Purges ITEM_100
+PURGE {NAME}_{d:INDEX}
+</pre>
+</div>
 <p class="Pp">The following functions operate on string expressions. Most of
     them return a string, however some of these functions actually return an
     integer and can be used as part of an integer expression!</p>
