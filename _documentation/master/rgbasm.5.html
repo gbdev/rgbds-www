@@ -1055,6 +1055,29 @@ ThisWillBeExported.too::
         actual current scope.</p>
     <p class="Pp">Local labels may have whitespace before their declaration as
         the only exception to the rule.</p>
+    <p class="Pp"><b class="Sy">Anonymous labels</b> are useful for short blocks
+        of code. They are defined like normal labels, but without a name before
+        the colon. Defining one does not change the label scope (unlike global
+        labels). Referencing one is done using a colon
+        &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
+        &#x2018;<code class="Li">+</code>&#x2019; or minuses
+        &#x2018;<code class="Li">-</code>&#x2019;. <code class="Ic">:+</code>
+        references the next one after the expression,
+        <code class="Ic">:++</code> the one after it, and so on. The logic is
+        similar for -, just backwards.</p>
+    <div class="Bd Pp Bd-indent">
+    <pre>
+    ld hl, :++
+:   ld a, [hli] ; Jumps to here
+    ldh [c], a
+    dec c
+    jr nz, :-
+    ret
+
+: ; This address referenced by &quot;ld hl&quot;
+    dw $7FFF, $1061, $03E0, $58A5
+    </pre>
+    </div>
     <p class="Pp">A label's location (and thus value) is usually not determined
         until the linking stage, so labels usually cannot be used as constants.
         However, if the section in which the label is declared has a fixed base
