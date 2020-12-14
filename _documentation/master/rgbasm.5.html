@@ -463,8 +463,13 @@ The most basic string expression is any number of characters contained in double
   </tr>
   <tr>
     <td>&#x201C;\1&#x201D; &#x2013; &#x201C;\9&#x201D;</td>
-    <td>Macro argument (Only the body of a macro, see
+    <td>Macro argument (Only in the body of a macro; see
       <a class="Sx" href="#Invoking_macros">Invoking macros</a>)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\#</code>&#x2019;</td>
+    <td>All <code class="Dv">_NARG</code> <span class="No">macro arguments,
+      separated by commas (Only in the body of a macro)</span></td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
