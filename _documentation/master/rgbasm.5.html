@@ -478,6 +478,13 @@ The most basic string expression is any number of characters contained in double
 </table>
 (Note that some of those can be used outside of strings, when noted further in
   this document.)
+<p class="Pp">Multi-line strings are contained in triple quotes
+    (&#x2018;<code class="Li">&quot;&quot;&quot;for
+    instance&quot;&quot;&quot;</code>&#x2019;). Escape sequences work the same
+    way in multi-line strings; however, literal newline characters will be
+    included as-is, without needing to escape them with
+    &#x2018;<code class="Li">\r</code>&#x2019; or
+    &#x2018;<code class="Li">\n</code>&#x2019;.</p>
 <p class="Pp">A funky feature is
     &#x2018;<code class="Li">{symbol}</code>&#x2019; within a string, called
     &#x201C;symbol interpolation&#x201D;. This will paste
