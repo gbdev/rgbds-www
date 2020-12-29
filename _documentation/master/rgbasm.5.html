@@ -1794,6 +1794,86 @@ ANGLE = ANGLE+256.0
 <p class="Pp">As in macros, you can also use the escape sequence
     <code class="Ic">\@</code>. <code class="Ic">REPT</code> blocks can be
     nested.</p>
+<p class="Pp">A common pattern is to repeat a block for each value in some
+    range. <code class="Ic">FOREACH</code> is simpler than
+    <code class="Ic">REPT</code> for that purpose. Everything between
+    <code class="Ic">FOREACH</code> and the matching
+    <code class="Ic">ENDR</code> will be repeated for each value of a given
+    symbol. For example, this code will produce a table of squared values from 0
+    to 255:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+FOREACH N, 256
+      dw N * N
+ENDR
+</pre>
+</div>
+<p class="Pp">It acts just as if you had done:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+N = 0
+      dw N * N
+N = 1
+      dw N * N
+N = 2
+      dw N * N
+; ...
+N = 255
+      dw N * N
+N = 256
+</pre>
+</div>
+<p class="Pp">You can customize the range of <code class="Ic">FOREACH</code>
+    values:</p>
+<table class="Bl-column">
+  <tr>
+    <th>Code</th>
+    <th>Range</th>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#FOREACH"><code class="Ic" id="FOREACH">FOREACH</code></a>
+      <var class="Ar">V</var>, <var class="Ar">stop</var></td>
+    <td><var class="Ar">V</var> <span class="No">increments from 0 to</span>
+      <var class="Ar">stop</var></td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#FOREACH_2"><code class="Ic" id="FOREACH_2">FOREACH</code></a>
+      <var class="Ar">V</var>, <var class="Ar">start</var>,
+      <var class="Ar">stop</var></td>
+    <td><var class="Ar">V</var> <span class="No">increments from</span>
+      <var class="Ar">start</var> <span class="No">to</span>
+      <var class="Ar">stop</var></td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#FOREACH_3"><code class="Ic" id="FOREACH_3">FOREACH</code></a>
+      <var class="Ar">V</var>, <var class="Ar">start</var>,
+      <var class="Ar">stop</var>, <var class="Ar">step</var></td>
+    <td><var class="Ar">V</var> <span class="No">goes from</span>
+      <var class="Ar">start</var> <span class="No">to</span>
+      <var class="Ar">stop</var> <span class="No">by</span>
+      <var class="Ar">step</var></td>
+  </tr>
+</table>
+<p class="Pp">The <code class="Ic">FOREACH</code> value will be updated by
+    <var class="Ar">step</var> until it reaches or exceeds
+    <var class="Ar">stop.</var> For example:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+FOREACH V, 4, 25, 5
+      PRINTT &quot;{d:V} &quot;
+ENDR
+      PRINTT &quot;done {d:V}0
+</pre>
+</div>
+This will print:
+<div class="Bd Pp Bd-indent">
+<pre>
+4 9 14 19 24 done 29
+</pre>
+</div>
+<p class="Pp">Just like with <code class="Ic">REPT</code> blocks, you can use
+    the escape sequence <code class="Ic">\@</code> inside of
+    <code class="Ic">FOREACH</code> blocks, and they can be nested.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Aborting_the_assembly_process"><a class="permalink" href="#Aborting_the_assembly_process">Aborting
