@@ -501,9 +501,61 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
 </pre>
 </div>
 <p class="Pp">Symbol interpolations can be nested, too!</p>
-<p class="Pp">It's possible to change the way numeric symbols are converted by
-    specifying a print type like so:
-    &#x2018;<code class="Li">{d:symbol}</code>&#x2019;. Valid print types
+<p class="Pp">It's possible to change the way symbols are converted by
+    specifying a print format like so:
+    &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
+    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of parts
+    &#x2018;<code class="Li">&lt;sign&gt;&lt;prefix&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;type&gt;</code>&#x2019;.
+    These parts are:</p>
+<table class="Bl-column">
+  <tr>
+    <th>Part</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;sign&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">+</code>&#x2019; or
+      &#x2018;<code class="Li">&#x00A0;</code>&#x2019;. If specified, prints
+      this character in front of non-negative numbers.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;prefix&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
+      the appropriate prefix for numbers,
+      &#x2018;<code class="Li">$</code>&#x2019;,
+      &#x2018;<code class="Li">&amp;</code>&#x2019;, or
+      &#x2018;<code class="Li">%</code>&#x2019;.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">-</code>&#x2019;. If specified, aligns
+      left instead of right.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;pad&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">0</code>&#x2019;. If specified, pads
+      right-aligned numbers with zeros instead of spaces.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;width&gt;</code>&#x2019;</td>
+    <td>May be one or more &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, pads the value to
+      this width, right-aligned with spaces by default.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;frac&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by one or more
+      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
+      digits of a fixed-point fraction.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
+    <td>Specifies the type of value.</td>
+  </tr>
+</table>
+<p class="Pp">All the format specifier parts are optional except the
+    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. Valid print types
   are:</p>
 <table class="Bl-column Bd-indent">
   <tr>
@@ -513,7 +565,12 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">d</code>&#x2019;</td>
-    <td>Decimal</td>
+    <td>Signed decimal</td>
+    <td>-42</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">u</code>&#x2019;</td>
+    <td>Unsigned decimal</td>
     <td>42</td>
   </tr>
   <tr>
@@ -531,9 +588,33 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
     <td>Binary</td>
     <td>101010</td>
   </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">o</code>&#x2019;</td>
+    <td>Octal</td>
+    <td>52</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">f</code>&#x2019;</td>
+    <td>Fixed-point</td>
+    <td>1234.56789</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
+    <td>String</td>
+    <td>&quot;example&quot;</td>
+  </tr>
 </table>
-<p class="Pp">Note that print types should only be used with numeric values, not
-    strings.</p>
+<p class="Pp">Examples:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+; Prints &quot;%0010 + $3 == 5&quot;
+PRINTT STRFMT(&quot;%#05b + %#x == %d0, 2, 3, 2+3)
+; Prints &quot;32% of 20 = 6.40&quot;
+PRINTT STRFMT(&quot;%d%% of %d = %.2f0, 32, 20, MUL(20.0, 0.32))
+; Prints &quot;Hello world!&quot;
+PRINTT STRFMT(&quot;Hello %s!0, STRLWR(&quot;WORLD&quot;))
+</pre>
+</div>
 <p class="Pp">HINT: The <code class="Ic">{symbol}</code> construct can also be
     used outside strings. The symbol's value is again inserted directly.</p>
 <div class="Bd Pp Bd-indent">
@@ -561,8 +642,8 @@ PURGE {NAME}_{d:INDEX}
     <th>Operation</th>
   </tr>
   <tr>
-    <td><code class="Fn">STRLEN</code>(<var class="Fa">string</var>)</td>
-    <td>Returns the number of characters in <var class="Ar">string</var>.</td>
+    <td><code class="Fn">STRLEN</code>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of characters in <var class="Ar">str</var>.</td>
   </tr>
   <tr>
     <td><code class="Fn">STRCAT</code>(<var class="Fa">str1</var>,
@@ -610,6 +691,15 @@ PURGE {NAME}_{d:INDEX}
     <td><code class="Fn">STRLWR</code>(<var class="Fa">str</var>)</td>
     <td>Converts all characters in <var class="Ar">str</var> <span class="No">to
       lower case and returns the new string.</span></td>
+  </tr>
+  <tr>
+    <td><code class="Fn">STRFMT</code>(<var class="Fa">fmt</var>,
+      <var class="Fa">args...</var>)</td>
+    <td>Returns the string <var class="Ar">fmt</var> <span class="No">with
+      each</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern replaced
+      by interpolating the format <var class="Ar">spec</var> with its
+      corresponding argument in <var class="Ar">args</var> (&#x2018;%%&#x2019;
+      is replaced by the &#x2018;%&#x2019; character).</td>
   </tr>
 </table>
 </section>
