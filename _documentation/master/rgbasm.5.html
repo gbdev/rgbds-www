@@ -243,6 +243,10 @@ A great number of operators you can use in expressions are available (listed
     <td>Built-in function call</td>
   </tr>
   <tr>
+    <td><a class="permalink" href="#**"><code class="Li" id="**">**</code></a></td>
+    <td>Exponent</td>
+  </tr>
+  <tr>
     <td><a class="permalink" href="#~_+_-"><code class="Li" id="~_+_-">~ +
       -</code></a></td>
     <td>Unary complement/plus/minus</td>
@@ -338,50 +342,100 @@ Fixed-point numbers are basically normal (32-bit) integers, which count
     </td>
   </tr>
   <tr>
-    <td><code class="Fn">SIN</code>(<var class="Fa">x</var>)</td>
+    <td><code class="Fn">POW</code>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
     <td>
     <math class="eqn">
-      <mrow><mi>sin</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
+    </math>
+     to the
+    <math class="eqn">
+      <mrow><mi>y</mi></mrow>
+    </math>
+     power</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">LOG</code>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>Logarithm of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     to the base
+    <math class="eqn">
+      <mrow><mi>y</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr>
+    <td><code class="Fn">ROUND</code>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     to the nearest integer</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">CEIL</code>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     up to an integer</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">FLOOR</code>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     down to an integer</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">SIN</code>(<var class="Fa">x</var>)</td>
+    <td>Sine of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
   <tr>
     <td><code class="Fn">COS</code>(<var class="Fa">x</var>)</td>
-    <td>
+    <td>Cosine of
     <math class="eqn">
-      <mrow><mi>cos</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
   <tr>
     <td><code class="Fn">TAN</code>(<var class="Fa">x</var>)</td>
-    <td>
+    <td>Tangent of
     <math class="eqn">
-      <mrow><mi>tan</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
   <tr>
     <td><code class="Fn">ASIN</code>(<var class="Fa">x</var>)</td>
-    <td>
+    <td>Inverse sine of
     <math class="eqn">
-      <mrow><mi>asin</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
   <tr>
     <td><code class="Fn">ACOS</code>(<var class="Fa">x</var>)</td>
-    <td>
+    <td>Inverse cosine of
     <math class="eqn">
-      <mrow><mi>acos</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
   <tr>
     <td><code class="Fn">ATAN</code>(<var class="Fa">x</var>)</td>
-    <td>
+    <td>Inverse tangent of
     <math class="eqn">
-      <mrow><mi>atan</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow>
+      <mrow><mi>x</mi></mrow>
     </math>
     </td>
   </tr>
