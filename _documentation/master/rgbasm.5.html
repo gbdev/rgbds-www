@@ -551,7 +551,7 @@ The most basic string expression is any number of characters contained in double
 TOPIC equs &quot;life, the universe, and \&quot;everything\&quot;&quot;
 ANSWER = 42
 ;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is $2A&quot;
-PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
+PRINTLN &quot;The answer to {TOPIC} is {ANSWER}&quot;
 </pre>
 </div>
 <p class="Pp">Symbol interpolations can be nested, too!</p>
@@ -601,7 +601,7 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
     <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by one or more
       &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
       &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
-      digits of a fixed-point fraction.</td>
+      digits of a fixed-point fraction. Defaults to 5 digits.</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
@@ -662,11 +662,11 @@ PRINTT &quot;The answer to {TOPIC} is {ANSWER}\n&quot;
 <div class="Bd Pp Bd-indent">
 <pre>
 ; Prints &quot;%0010 + $3 == 5&quot;
-PRINTT STRFMT(&quot;%#05b + %#x == %d0, 2, 3, 2+3)
+PRINTLN STRFMT(&quot;%#05b + %#x == %d&quot;, 2, 3, 2+3)
 ; Prints &quot;32% of 20 = 6.40&quot;
-PRINTT STRFMT(&quot;%d%% of %d = %.2f0, 32, 20, MUL(20.0, 0.32))
+PRINTLN STRFMT(&quot;%d%% of %d = %.2f&quot;, 32, 20, MUL(20.0, 0.32))
 ; Prints &quot;Hello world!&quot;
-PRINTT STRFMT(&quot;Hello %s!0, STRLWR(&quot;WORLD&quot;))
+PRINTLN STRFMT(&quot;Hello %s!&quot;, STRLWR(&quot;WORLD&quot;))
 </pre>
 </div>
 <p class="Pp">HINT: The <code class="Ic">{symbol}</code> construct can also be
@@ -682,7 +682,7 @@ INDEX = 1{ZERO_STR}{{FMT}:ZERO_NUM}
 ;&#x00A0;Defines ITEM_100 as &quot;\&quot;hundredth\&quot;&quot;
 {NAME}_{d:INDEX} equs &quot;\&quot;hundredth\&quot;&quot;
 ;&#x00A0;Prints &quot;ITEM_100 is hundredth&quot;
-PRINTT STRCAT(&quot;{NAME}_{d:INDEX} is &quot;, {NAME}_{d:INDEX})
+PRINTLN STRCAT(&quot;{NAME}_{d:INDEX} is &quot;, {NAME}_{d:INDEX})
 ;&#x00A0;Purges ITEM_100
 PURGE {NAME}_{d:INDEX}
 </pre>
@@ -1414,7 +1414,7 @@ MyMacro: MACRO
     <pre>
 outer: MACRO
 inner: MACRO
-    PRINTT &quot;Hello!\n&quot;
+    PRINTLN &quot;Hello!&quot;
 ENDM
 ENDM
     </pre>
@@ -1423,7 +1423,7 @@ ENDM
     <div class="Bd Pp Bd-indent">
     <pre>
 outer: MACRO
-definition equs &quot;inner: MACRO\nPRINTT \&quot;Hello!\\n\&quot;\nENDM&quot;
+definition equs &quot;inner: MACRO\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
 definition
     PURGE definition
 ENDM
@@ -1842,21 +1842,21 @@ LoopyMacro MyVars,54
 <div class="Bd Pp Bd-indent">
 <pre>
 print_double: MACRO
-    PRINTV \1 * 2
+    PRINTLN \1 * 2
 ENDM
     print_double 1 + 2
 </pre>
 </div>
-<p class="Pp">The <code class="Ic">PRINTV</code> statement will expand to
-    &#x2018;<code class="Li">PRINTV 1 + 2 * 2</code>&#x2019;, which will print 5
-    and not 6 as you might have expected.</p>
+<p class="Pp">The <code class="Ic">PRINTLN</code> statement will expand to
+    &#x2018;<code class="Li">PRINTLN 1 + 2 * 2</code>&#x2019;, which will print
+    5 and not 6 as you might have expected.</p>
 <p class="Pp">Line continuations work as usual inside macros or lists of macro
     arguments. However, some characters need to be escaped, as in the following
     example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 PrintMacro: MACRO
-    PRINTT \1
+    PRINT \1
 ENDM
 
     PrintMacro STRCAT(&quot;Hello &quot;\, \
@@ -1884,32 +1884,28 @@ ENDM
 <section class="Ss">
 <h2 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
   things during assembly</a></h2>
-The next four commands print text and values to the standard output. Useful for
-  debugging macros, or wherever you may feel the need to tell yourself some
-  important information.
+The <code class="Ic">PRINT</code> and <code class="Ic">PRINTLN</code> commands
+  print text and values to the standard output. Useful for debugging macros, or
+  wherever you may feel the need to tell yourself some important information.
 <div class="Bd Pp Bd-indent">
 <pre>
-PRINTT &quot;I'm the greatest programmer in the whole wide world\n&quot;
-PRINTI (2 + 3) / 5
-PRINTV $FF00 + $F0
-PRINTF MUL(3.14, 3987.0)
+PRINT &quot;Hello world!\n&quot;
+PRINTLN &quot;Hello world!&quot;
+PRINT _NARG, &quot; arguments\n&quot;
+PRINTLN &quot;sum: &quot;, 2+3, &quot; product: &quot;, 2*3
+PRINTLN &quot;Line #&quot;, __LINE__
+PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)
 </pre>
 </div>
 <dl class="Bl-inset">
-  <dt><a class="permalink" href="#PRINTT"><code class="Ic" id="PRINTT">PRINTT</code></a></dt>
-  <dd>prints out a string. Be careful to add a line feed (&#x201C;\n&#x201D;) at
-      the end, as it is not added automatically.</dd>
-  <dt><a class="permalink" href="#PRINTV"><code class="Ic" id="PRINTV">PRINTV</code></a></dt>
-  <dd>prints out an integer value in hexadecimal or, as in the example, the
-      result of a calculation. Unsurprisingly, you can also print out a constant
-      symbol's value.</dd>
-  <dt><a class="permalink" href="#PRINTI"><code class="Ic" id="PRINTI">PRINTI</code></a></dt>
-  <dd>prints out a signed integer value.</dd>
-  <dt><a class="permalink" href="#PRINTF"><code class="Ic" id="PRINTF">PRINTF</code></a></dt>
-  <dd>prints out a fixed point value.</dd>
+  <dt><a class="permalink" href="#PRINT"><code class="Ic" id="PRINT">PRINT</code></a></dt>
+  <dd>prints out each of its comma-separated arguments. Numbers are printed as
+      unsigned uppercase hexadecimal with a leading <code class="Ic">$</code>.
+      For different formats, use <code class="Ic">STRFMT</code>.</dd>
+  <dt><a class="permalink" href="#PRINTLN"><code class="Ic" id="PRINTLN">PRINTLN</code></a></dt>
+  <dd>prints out each of its comma-separated arguments, if any, followed by a
+      line feed (&#x2018;<code class="Li">\n</code>&#x2019;).</dd>
 </dl>
-<p class="Pp">Be careful that none of those automatically print a line feed; if
-    you need one, use <code class="Ic">PRINTT \n</code>.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Automatically_repeating_blocks_of_code"><a class="permalink" href="#Automatically_repeating_blocks_of_code">Automatically
@@ -1931,14 +1927,12 @@ ENDR
     on the fly:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-;&#x00A0;--
-;&#x00A0;-- Generate a 256 byte sine table with values between 0 and 128
-;&#x00A0;--
-ANGLE =   0.0
-      REPT  256
-      db    (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
-ANGLE = ANGLE+256.0
-      ENDR
+; Generate a 256-byte sine table with values between 0 and 128
+ANGLE = 0.0
+    REPT 256
+        db (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
+ANGLE = ANGLE + 256.0
+    ENDR
 </pre>
 </div>
 <p class="Pp">As in macros, you can also use the escape sequence
@@ -2009,9 +2003,9 @@ N = 256
 <div class="Bd Pp Bd-indent">
 <pre>
 FOR V, 4, 25, 5
-      PRINTT &quot;{d:V} &quot;
+      PRINT &quot;{d:V} &quot;
 ENDR
-      PRINTT &quot;done {d:V}0
+      PRINTLN &quot;done {d:V}&quot;
 </pre>
 </div>
 This will print:
@@ -2100,11 +2094,11 @@ The four commands <code class="Ic">IF</code>, <code class="Ic">ELIF</code>,
 <div class="Bd Pp Bd-indent">
 <pre>
 IF NUM &lt; 0
-  PRINTT &quot;NUM &lt; 0\n&quot;
+  PRINTLN &quot;NUM &lt; 0&quot;
 ELIF NUM == 0
-  PRINTT &quot;NUM == 0\n&quot;
+  PRINTLN &quot;NUM == 0&quot;
 ELSE
-  PRINTT &quot;NUM &gt; 0\n&quot;
+  PRINTLN &quot;NUM &gt; 0&quot;
 ENDC
 </pre>
 </div>
