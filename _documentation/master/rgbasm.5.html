@@ -1260,8 +1260,8 @@ SCREEN_HEIGHT  equ 144
   <dt><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></dt>
   <dd><a class="permalink" href="#SET_2"><code class="Ic" id="SET_2">SET</code></a>,
       or its synonym <code class="Ic">=</code>, defines constant symbols like
-      <code class="Ic">EQU</code>, but those constants can be re-defined. This
-      is useful for variables in macros, for counters, etc.
+      <code class="Ic">EQU</code>, but those constants can be redefined. This is
+      useful for variables in macros, for counters, etc.
     <div class="Bd Pp Bd-indent">
     <pre>
 ARRAY_SIZE EQU 4
@@ -1370,8 +1370,19 @@ pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
     </pre>
     </div>
     <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed. String equates can't be exported or
-        imported.</p>
+        following the name are not allowed.</p>
+    <p class="Pp">String equates can't be exported or imported.</p>
+    <p class="Pp">String equates, like <code class="Ic">EQU</code> constants,
+        cannot be redefined. However, the <code class="Ic">REDEF</code> keyword
+        will define or redefine a string symbol. For example:</p>
+    <div class="Bd Pp Bd-indent">
+    <pre>
+s EQUS &quot;Hello, &quot;
+REDEF s EQUS &quot;{s}world!&quot;
+; prints &quot;Hello, world!&quot;
+PRINTT &quot;{s}0
+    </pre>
+    </div>
     <p class="Pp"><b class="Sy">Important note</b>: An
         <code class="Ic">EQUS</code> can be expanded to a string that contains
         another <code class="Ic">EQUS</code> and it will be expanded as well. If
