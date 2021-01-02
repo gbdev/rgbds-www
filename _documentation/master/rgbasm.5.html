@@ -110,8 +110,8 @@ The syntax is line&#x2010;based, just as in any other assembler, meaning that
 John: ld a,87 ;Weee
 </pre>
 </div>
-<p class="Pp">All reserved keywords (pseudo&#x2010;ops, mnemonics, registers
-    etc.) are case&#x2010;insensitive, all identifiers (symbol names) are
+<p class="Pp">All reserved keywords (pseudo&#x2010;ops, mnemonics, registers,
+    etc.) are case&#x2010;insensitive; all identifiers (symbol names) are
     case-sensitive.</p>
 <p class="Pp">Comments are used to give humans information about the code, such
     as explanations. The assembler <i class="Em">always</i> ignores comments and
@@ -449,19 +449,20 @@ Fixed-point numbers are basically normal (32-bit) integers, which count
     </td>
   </tr>
 </table>
+<p class="Pp">The trigonometry functions ( <code class="Ic">SIN</code>,
+    <code class="Ic">COS</code>, <code class="Ic">TAN</code>, etc) are defined
+    in terms of a circle divided into 65535.0 degrees.</p>
 <p class="Pp">These functions are useful for automatic generation of various
-    tables. Example: assuming a circle has 65536.0 degrees, and sine values are
-    in range [-1.0 ;&#x00A0;1.0]:</p>
+    tables. For example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-;&#x00A0;--
-;&#x00A0;-- Generate a 256-byte sine table with values between 0 and 128
-;&#x00A0;--
+; Generate a 256-byte sine table with values in the range [0, 128]
+; (shifted and scaled from the range [-1.0, 1.0])
 ANGLE = 0.0
-      REPT 256
-      db MUL(64.0, SIN(ANGLE) + 1.0) &gt;&gt; 16
-ANGLE = ANGLE + 256.0 ; 256 = 65536 / table_len, with table_len = 256
-      ENDR
+    REPT 256
+        db (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
+ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
+    ENDR
 </pre>
 </div>
 </section>
@@ -523,7 +524,8 @@ The most basic string expression is any number of characters contained in double
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
-    <td>Label name suffix (Only in the body of macros and REPTs)</td>
+    <td>Label name suffix (Only in the body of a macro or a
+      <code class="Ic">REPT</code> <span class="No">block)</span></td>
   </tr>
 </table>
 (Note that some of those can be used outside of strings, when noted further in
@@ -696,10 +698,8 @@ PURGE {NAME}_{d:INDEX}
     <td>Returns the number of characters in <var class="Ar">str</var>.</td>
   </tr>
   <tr>
-    <td><code class="Fn">STRCAT</code>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Appends <var class="Ar">str2</var> <span class="No">to</span>
-      <var class="Ar">str1</var>.</td>
+    <td><code class="Fn">STRCAT</code>(<var class="Fa">strs...</var>)</td>
+    <td>Concatenates <var class="Ar">strs</var>.</td>
   </tr>
   <tr>
     <td><code class="Fn">STRCMP</code>(<var class="Fa">str1</var>,
@@ -734,13 +734,13 @@ PURGE {NAME}_{d:INDEX}
   </tr>
   <tr>
     <td><code class="Fn">STRUPR</code>(<var class="Fa">str</var>)</td>
-    <td>Converts all characters in <var class="Ar">str</var> <span class="No">to
-      capitals and returns the new string.</span></td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with all letters in
+      uppercase.</span></td>
   </tr>
   <tr>
     <td><code class="Fn">STRLWR</code>(<var class="Fa">str</var>)</td>
-    <td>Converts all characters in <var class="Ar">str</var> <span class="No">to
-      lower case and returns the new string.</span></td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with all letters in
+      lowercase.</span></td>
   </tr>
   <tr>
     <td><code class="Fn">STRFMT</code>(<var class="Fa">fmt</var>,
@@ -1921,11 +1921,12 @@ ENDR
     on the fly:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-; Generate a 256-byte sine table with values between 0 and 128
+; Generate a 256-byte sine table with values in the range [0, 128]
+; (shifted and scaled from the range [-1.0, 1.0])
 ANGLE = 0.0
     REPT 256
         db (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
-ANGLE = ANGLE + 256.0
+ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
     ENDR
 </pre>
 </div>
