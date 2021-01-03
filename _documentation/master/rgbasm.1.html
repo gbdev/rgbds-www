@@ -219,6 +219,10 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
   <dd>Warn when an empty entry is encountered in a <code class="Ic">db</code>,
       <code class="Ic">dw</code>, <code class="Ic">dl</code> list. This warning
       is enabled by <code class="Fl">-Wextra</code>.</dd>
+  <dt><a class="permalink" href="#Wempty-strrpl"><code class="Fl" id="Wempty-strrpl">-Wempty-strrpl</code></a></dt>
+  <dd>Warn when <code class="Fn">STRRPL</code>() is called with an empty string
+      as its second argument (the substring to replace). This warning is enabled
+      by <code class="Fl">-Wall</code>.</dd>
   <dt><a class="permalink" href="#Wlarge-constant"><code class="Fl" id="Wlarge-constant">-Wlarge-constant</code></a></dt>
   <dd>Warn when a constant too large to fit in a signed 32-bit integer is
       encountered. This warning is enabled by
