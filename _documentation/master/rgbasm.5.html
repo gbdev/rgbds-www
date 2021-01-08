@@ -2020,6 +2020,31 @@ This will print:
 <p class="Pp">Just like with <code class="Ic">REPT</code> blocks, you can use
     the escape sequence <code class="Ic">\@</code> inside of
     <code class="Ic">FOR</code> blocks, and they can be nested.</p>
+<p class="Pp">You can stop a repeating block with the
+    <code class="Ic">BREAK</code> command. A <code class="Ic">BREAK</code>
+    inside of a <code class="Ic">REPT</code> or <code class="Ic">FOR</code>
+    block will interrupt the current iteration and not repeat any more. It will
+    continue running code after the block's <code class="Ic">ENDR</code>. For
+    example:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+FOR V, 1, 100
+      PRINT &quot;{d:V}&quot;
+      IF V == 5
+          PRINT &quot; stop! &quot;
+          BREAK
+      ENDC
+      PRINT &quot;, &quot;
+ENDR
+      PRINTLN &quot;done {d:V}&quot;
+</pre>
+</div>
+This will print:
+<div class="Bd Pp Bd-indent">
+<pre>
+1, 2, 3, 4, 5 stop! done 5
+</pre>
+</div>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Aborting_the_assembly_process"><a class="permalink" href="#Aborting_the_assembly_process">Aborting
