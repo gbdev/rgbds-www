@@ -99,7 +99,7 @@ This is the full description of the language used by
 <section class="Sh">
 <h1 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h1>
 The syntax is line&#x2010;based, just as in any other assembler, meaning that
-  you do one instruction or pseudo&#x2010;op per line:
+  you do one instruction or directive per line:
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>]
   [<var class="Ar">instruction</var>]
@@ -110,9 +110,9 @@ The syntax is line&#x2010;based, just as in any other assembler, meaning that
 John: ld a,87 ;Weee
 </pre>
 </div>
-<p class="Pp">All reserved keywords (pseudo&#x2010;ops, mnemonics, registers,
-    etc.) are case&#x2010;insensitive; all identifiers (symbol names) are
-    case-sensitive.</p>
+<p class="Pp">All reserved keywords (directives, mnemonics, registers, etc.) are
+    case&#x2010;insensitive; all identifiers (symbol names) are
+  case-sensitive.</p>
 <p class="Pp">Comments are used to give humans information about the code, such
     as explanations. The assembler <i class="Em">always</i> ignores comments and
     their contents.</p>
