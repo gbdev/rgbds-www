@@ -48,7 +48,7 @@ LONG    NumberOfSections ; The number of sections used in this file.
 LONG    NumberOfNodes       ; The number of nodes contained in this file.
 
 REPT NumberOfNodes          ; IMPORTANT NOTE: the nodes are actually written in
-                            ; **reverse** order, meaningthe node with ID 0 is
+                            ; **reverse** order, meaning the node with ID 0 is
                             ; the last one in the file!
 
     LONG    ParentID        ; ID of the parent node, -1 means this is the root.
@@ -257,6 +257,11 @@ Expressions in the object file are stored as RPN. This is an expression of the
     <td><a class="permalink" href="#$05"><code class="Li" id="$05">$05</code></a></td>
     <td><a class="permalink" href="#unary_-"><code class="Li" id="unary_-">unary
       -</code></a></td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#$06"><code class="Li" id="$06">$06</code></a></td>
+    <td><a class="permalink" href="#**_operator"><code class="Li" id="**_operator">**
+      operator</code></a></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#$10"><code class="Li" id="$10">$10</code></a></td>
