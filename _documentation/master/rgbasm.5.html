@@ -285,7 +285,10 @@ A great number of operators you can use in expressions are available (listed
 <p class="Pp"><code class="Ic">~</code> complements a value by inverting all its
     bits.</p>
 <p class="Pp"><code class="Ic">%</code> is used to get the remainder of the
-    corresponding division. &#x2018;5 % 2&#x2019; is 1.</p>
+    corresponding division, so that &#x2018;a / b * b + a % b == a&#x2019; is
+    always true. The result has the same sign as the divisor. This makes
+    &#x2018;a % b&#x2019;. equal to &#x2018;(a + b) % b&#x2019; or &#x2018;(a -
+    b) % b&#x2019;.</p>
 <p class="Pp">Shifting works by shifting all bits in the left operand either
     left (&#x2018;&lt;&lt;&#x2019;) or right (&#x2018;&gt;&gt;&#x2019;) by the
     right operand's amount. When shifting left, all newly-inserted bits are
@@ -298,7 +301,8 @@ A great number of operators you can use in expressions are available (listed
 <p class="Pp">Unlike in a lot of languages, and for technical reasons,
     <code class="Nm">rgbasm</code> still evaluates both operands of
     &#x2018;&amp;&amp;&#x2019; and &#x2018;||&#x2019;.</p>
-<p class="Pp">! returns 1 if the operand was 0, and 0 otherwise.</p>
+<p class="Pp"><code class="Ic">!</code> returns 1 if the operand was 0, and 0
+    otherwise.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Fixed__u2010_point_Expressions"><a class="permalink" href="#Fixed__u2010_point_Expressions">Fixed&#x2010;point
