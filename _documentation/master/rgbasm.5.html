@@ -1176,16 +1176,18 @@ RGBDS supports several types of symbols:
   <dd>A block of <code class="Nm">rgbasm</code> code that can be invoked
     later.</dd>
   <dt><b class="Sy">String equate</b></dt>
-  <dd>String symbol that can be evaluated, similarly to a macro.</dd>
+  <dd>A text string that can be expanded later, similarly to a macro.</dd>
 </dl>
 <p class="Pp">Symbol names can contain letters, numbers, underscores
     &#x2018;_&#x2019;, hashes &#x2018;#&#x2019; and at signs &#x2018;@&#x2019;.
-    However, they must begin with either a letter, or an underscore. Periods
-    &#x2018;.&#x2019; are allowed exclusively for labels, as described below. A
-    symbol cannot have the same name as a reserved keyword. <i class="Em">In the
-    line where a symbol is defined there must not be any whitespace before
-    it</i>, otherwise <code class="Nm">rgbasm</code> will treat it as a macro
-    invocation.</p>
+    However, they must begin with either a letter or an underscore. Periods
+    &#x2018;.&#x2019; are allowed exclusively in labels, as described below. A
+    symbol cannot have the same name as a reserved keyword.</p>
+<p class="Pp">Constants and string equates <i class="Em">must not</i> have any
+    whitespace before their name when they are defined; otherwise
+    <code class="Nm">rgbasm</code> will treat them as a macro invocation. Label
+    and macro definitions may have whitespace before them, since a leading
+    period or a following colon distinguishes them from invoking a macro.</p>
 <dl class="Bl-tag">
   <dt><b class="Sy">Label declaration</b></dt>
   <dd>One of the assembler's main tasks is to keep track of addresses for you,
@@ -1197,48 +1199,53 @@ RGBDS supports several types of symbols:
 GlobalLabel:
 AnotherGlobal:
 .locallabel
-.yet_a_local:
+.another_local:
 AnotherGlobal.with_another_local:
 ThisWillBeExported:: ;&#x00A0;Note the two colons
 ThisWillBeExported.too::
     </pre>
     </div>
-    <p class="Pp">Declaring a label (global or local) with
-        &#x2018;<code class="Li">::</code>&#x2019; does an
-        <code class="Ic">EXPORT</code> at the same time. (See
+    <p class="Pp">Any label whose name does not contain a period is a global
+        label. Declaring a global label sets it as the current scoped label,
+        until the next global one. Global labels must be followed by one or two
+        colons.</p>
+    <p class="Pp">Any label whose name contains a single period is a local
+        label. Label names cannot contain more than one period. If the period is
+        the first character, it will have the current scoped label's name
+        implicitly prepended. Local labels may optionally be followed by one or
+        two colons. Local labels can be declared as
+        &#x2018;<code class="Li">scoped.local</code>&#x2019; or simply as
+        &#x2018;<code class="Li">.local</code>&#x2019;. If the former notation
+        is used, then &#x2018;<code class="Li">scoped</code>&#x2019; must
+        actually be the current scoped label.</p>
+    <p class="Pp">Declaring a label (global or local) with two colons
+        &#x2018;<code class="Li">::</code>&#x2019; will
+        <code class="Ic">EXPORT</code> and define it at the same time. (See
         <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
         importing symbols</a> below).</p>
-    <p class="Pp">Any label whose name does not contain a period is a global
-        label, others are locals. Declaring a global label sets it as the
-        current label scope until the next one; any local label whose first
-        character is a period will have the global label's name implicitly
-        prepended. Local labels can be declared as
-        &#x2018;<code class="Li">scope.local:</code>&#x2019; or simply as as
-        &#x2018;<code class="Li">.local:</code>&#x2019;. If the former notation
-        is used, then &#x2018;<code class="Li">scope</code>&#x2019; must be the
-        actual current scope.</p>
-    <p class="Pp">Local labels may have whitespace before their declaration as
-        the only exception to the rule.</p>
     <p class="Pp"><b class="Sy">Anonymous labels</b> are useful for short blocks
         of code. They are defined like normal labels, but without a name before
-        the colon. Defining one does not change the label scope (unlike global
-        labels). Referencing one is done using a colon
+        the colon. Anonymous labels are independent of label scoping, so
+        defining one does not change the scoped label, and referencing one is
+        not affected by the current scoped label.</p>
+    <p class="Pp">Anonymous labels are referenced using a colon
         &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
         &#x2018;<code class="Li">+</code>&#x2019; or minuses
-        &#x2018;<code class="Li">-</code>&#x2019;. <code class="Ic">:+</code>
-        references the next one after the expression,
-        <code class="Ic">:++</code> the one after it, and so on. The logic is
-        similar for -, just backwards.</p>
+        &#x2018;<code class="Li">-</code>&#x2019;. Thus
+        <code class="Ic">:+</code> references the next one after the expression,
+        <code class="Ic">:++</code> the one after that;
+        <code class="Ic">:-</code> references the one before the expression; and
+        so on.</p>
     <div class="Bd Pp Bd-indent">
     <pre>
     ld hl, :++
-:   ld a, [hli] ; Jumps to here
+:   ld a, [hli] ; referenced by &quot;jr nz&quot;
     ldh [c], a
     dec c
     jr nz, :-
     ret
 
-: ; This address referenced by &quot;ld hl&quot;
+:   ; referenced by &quot;ld hl&quot;
     dw $7FFF, $1061, $03E0, $58A5
     </pre>
     </div>
