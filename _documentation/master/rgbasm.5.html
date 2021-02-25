@@ -1411,33 +1411,37 @@ PRINTT &quot;{s}0
       input using <code class="Ic">IF</code> constructs.
     <div class="Bd Pp Bd-indent">
     <pre>
-MyMacro: MACRO
-         ld   a,80
+MACRO MyMacro
+         ld a, 80
          call MyFunc
-         ENDM
+ENDM
     </pre>
     </div>
-    <p class="Pp">Note that a single colon
-        &#x2018;<code class="Li">:</code>&#x2019; following the macro's name is
-        required. Macros can't be exported or imported.</p>
+    <p class="Pp">The example above defines
+        &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. You may
+        use the older syntax &#x2018;<code class="Li">MyMacro:
+        MACRO</code>&#x2019; instead of &#x2018;<code class="Li">MACRO
+        MyMacro</code>&#x2019;, with a single colon
+        &#x2018;<code class="Li">:</code>&#x2019; following the macro's name.
+        Macros can't be exported or imported.</p>
     <p class="Pp">Plainly nesting macro definitions is not allowed, but this can
-        be worked around using <code class="Ic">EQUS</code>. This won't
+        be worked around using <code class="Ic">EQUS</code>. So this won't
       work:</p>
     <div class="Bd Pp Bd-indent">
     <pre>
-outer: MACRO
-inner: MACRO
-    PRINTLN &quot;Hello!&quot;
-ENDM
+MACRO outer
+    MACRO inner
+        PRINTLN &quot;Hello!&quot;
+    ENDM
 ENDM
     </pre>
     </div>
     <p class="Pp">But this will:</p>
     <div class="Bd Pp Bd-indent">
     <pre>
-outer: MACRO
-definition equs &quot;inner: MACRO\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
-definition
+MACRO outer
+definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
+    definition
     PURGE definition
 ENDM
     </pre>
@@ -1795,7 +1799,7 @@ You execute the macro by inserting its name.
 <p class="Pp">Suppose your macro contains a loop.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-LoopyMacro: MACRO
+MACRO LoopyMacro
             xor  a,a
 .loop       ld   [hl+],a
             dec  c
@@ -1810,7 +1814,7 @@ ENDM
     <code class="Ic">REPT</code> blocks.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-LoopyMacro: MACRO
+MACRO LoopyMacro
             xor  a,a
 .loop\@     ld   [hl+],a
             dec  c
@@ -1832,7 +1836,7 @@ ENDM
     first argument specified on the macro invocation.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-LoopyMacro: MACRO
+MACRO LoopyMacro
             ld   hl,\1
             ld   c,\2
             xor  a,a
@@ -1858,7 +1862,7 @@ LoopyMacro MyVars,54
     following:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-print_double: MACRO
+MACRO print_double
     PRINTLN \1 * 2
 ENDM
     print_double 1 + 2
@@ -1872,7 +1876,7 @@ ENDM
     example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-PrintMacro: MACRO
+MACRO PrintMacro
     PRINT \1
 ENDM
 
