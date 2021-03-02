@@ -195,8 +195,8 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
 <p class="Pp">The following warnings are actual warning flags; with each
     description, the corresponding warning flag is included. Note that each of
     these flag also has a negation (for example,
-    <code class="Fl">-Wempty-entry</code> enables the warning that
-    <code class="Fl">-Wno-empty-entry</code> disables). Only the non-default
+    <code class="Fl">-Wcharmap-redef</code> enables the warning that
+    <code class="Fl">-Wno-charmap-redef</code> disables). Only the non-default
     flag is listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are
     listed alphabetically.</p>
 <dl class="Bl-tag">
@@ -215,10 +215,6 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
   <dt><a class="permalink" href="#Wdiv"><code class="Fl" id="Wdiv">-Wdiv</code></a></dt>
   <dd>Warn when dividing the smallest negative integer by -1, which yields
       itself due to integer overflow.</dd>
-  <dt><a class="permalink" href="#Wempty-entry"><code class="Fl" id="Wempty-entry">-Wempty-entry</code></a></dt>
-  <dd>Warn when an empty entry is encountered in a <code class="Ic">db</code>,
-      <code class="Ic">dw</code>, <code class="Ic">dl</code> list. This warning
-      is enabled by <code class="Fl">-Wextra</code>.</dd>
   <dt><a class="permalink" href="#Wempty-macro-arg"><code class="Fl" id="Wempty-macro-arg">-Wempty-macro-arg</code></a></dt>
   <dd>Warn when a macro argument is empty. This warning is enabled by
       <code class="Fl">-Wextra</code>.</dd>
