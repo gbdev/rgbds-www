@@ -764,13 +764,13 @@ PURGE {NAME}_{d:INDEX}
 <section class="Ss">
 <h2 class="Ss" id="Character_maps"><a class="permalink" href="#Character_maps">Character
   maps</a></h2>
-When writing text that is meant to be displayed in the Game Boy, the characters
-  used in the source code may have a different encoding than the default of
-  ASCII. For example, the tiles used for uppercase letters may be placed
-  starting at tile index 128, which makes it difficult to add text strings to
-  the ROM.
-<p class="Pp">Character maps allow mapping strings up to 16 characters long to
-    an abitrary 8-bit value:</p>
+When writing text that is meant to be displayed on the Game Boy, the characters
+  used in the source code may need to have a different encoding than the rest of
+  the source code. For example, the tiles used for uppercase letters may be
+  placed starting at tile index 128, which would make it difficult to add text
+  strings to the ROM.
+<p class="Pp">Character maps allow mapping strings to arbitrary 8-bit
+  values:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 CHARMAP &quot;&lt;LF&gt;&quot;, 10
@@ -778,7 +778,11 @@ CHARMAP &quot;&amp;iacute&quot;, 20
 CHARMAP &quot;A&quot;, 128
 </pre>
 </div>
-By default, a character map contains ASCII encoding.
+This would result in &#x2018;<code class="Li">db
+  &quot;Amen&lt;LF&gt;&quot;</code>&#x2019; being equivalent to
+  &#x2018;<code class="Li">db 128, 109, 101, 110, 10</code>&#x2019;.
+<p class="Pp">Any characters in a string without defined mappings will be copied
+    directly, using the source file's encoding of characters to bytes.</p>
 <p class="Pp">It is possible to create multiple character maps and then switch
     between them as desired. This can be used to encode debug information in
     ASCII and use a different encoding for other purposes, for example.
@@ -794,15 +798,16 @@ By default, a character map contains ASCII encoding.
   <tr>
     <td><a class="permalink" href="#NEWCHARMAP"><code class="Ic" id="NEWCHARMAP">NEWCHARMAP</code></a>
       <var class="Ar">name</var></td>
-    <td>Creates a new, empty character map called
-      <var class="Ar">name</var>.</td>
+    <td>Creates a new, empty character map called <var class="Ar">name</var>
+      <span class="No">and switches to it.</span></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#NEWCHARMAP_2"><code class="Ic" id="NEWCHARMAP_2">NEWCHARMAP</code></a>
       <var class="Ar">name</var>, <var class="Ar">basename</var></td>
     <td>Creates a new character map called <var class="Ar">name</var>,
       <span class="No">copied from character map</span>
-      <var class="Ar">basename</var>.</td>
+      <var class="Ar">basename</var>, <span class="No">and switches to
+      it.</span></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#SETCHARMAP"><code class="Ic" id="SETCHARMAP">SETCHARMAP</code></a>
@@ -818,13 +823,8 @@ By default, a character map contains ASCII encoding.
     <td>Pop a character map off the stack and switch to it.</td>
   </tr>
 </table>
-<p class="Pp"><b class="Sy">Note:</b> Character maps affect all strings in the
-    file from the point in which they are defined, until switching to a
-    different character map. This means that any string that the code may want
-    to print as debug information will also be affected by it.</p>
-<p class="Pp"><b class="Sy">Note:</b> The output value of a mapping can be 0. If
-    this happens, the assembler will treat this as the end of the string and the
-    rest of it will be trimmed.</p>
+<p class="Pp"><b class="Sy">Note:</b> Modifications to a character map take
+    effect immediately from that point onward.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Other_functions"><a class="permalink" href="#Other_functions">Other
