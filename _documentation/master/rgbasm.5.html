@@ -764,11 +764,10 @@ PURGE {NAME}_{d:INDEX}
 <section class="Ss">
 <h2 class="Ss" id="Character_maps"><a class="permalink" href="#Character_maps">Character
   maps</a></h2>
-When writing text that is meant to be displayed on the Game Boy, the characters
-  used in the source code may need to have a different encoding than the rest of
-  the source code. For example, the tiles used for uppercase letters may be
-  placed starting at tile index 128, which would make it difficult to add text
-  strings to the ROM.
+When writing text strings that are meant to be displayed on the Game Boy, the
+  character encoding in the ROM may need to be different than the source file
+  encoding. For example, the tiles used for uppercase letters may be placed
+  starting at tile index 128, which differs from ASCII starting at 65.
 <p class="Pp">Character maps allow mapping strings to arbitrary 8-bit
   values:</p>
 <div class="Bd Pp Bd-indent">
