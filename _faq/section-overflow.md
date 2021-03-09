@@ -2,7 +2,7 @@
 question: "`Unable to place \"<section>\"`..."
 ---
 
-This error occurs when RGBLINK is unable to place a [`SECTION`](/docs/v0.4.1/rgbasm.5#SECTIONS). There are several causes, notably depending on the rest of the error message.
+This error occurs when RGBLINK is unable to place a [`SECTION`]({{ site.baseurl }}/docs/v0.4.1/rgbasm.5#SECTIONS). There are several causes, notably depending on the rest of the error message.
 
 This is almost always caused by some modification growing a section too large, **although not necessarily the one being reported**. To understand why, imagine several groups renting a bus, where members of the same group all try to board together; if the bus became overfull, the problem is shared, not the fault of the last group that tried to board.
 
@@ -31,7 +31,7 @@ Consider removing either, or both, of the constraints.
 
 ### Sections with a bank constraint
 
-Consider using the [`BANK()` built-in function](/docs/v0.4.1/rgbasm.5#Other_functions); instead of this:
+Consider using the [`BANK()` built-in function]({{ site.baseurl }}/docs/v0.4.1/rgbasm.5#Other_functions); instead of this:
 
 {% highlight nasm %}
 SECTION "Somewhere", ROMX,BANK[42]
@@ -65,7 +65,7 @@ Even if you still need to force the bank, at least you can now safely change whi
 
 ### Sections with an address constraint
 
-Consider using [`ALIGN`](/docs/v0.4.1/rgbasm.5#ALIGN) instead, if possible.
+Consider using [`ALIGN`]({{ site.baseurl }}/docs/v0.4.1/rgbasm.5#ALIGN) instead, if possible.
 
 ### Sections with an alignment constraint
 

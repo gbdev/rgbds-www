@@ -19,7 +19,7 @@ First, [clone the repository](https://docs.github.com/en/github/creating-cloning
 
 ### Downloading source snapshots
 
-Go to your desired [release](/docs)'s release page. Near the bottom of the page is a list of *assets*; grab either of the last three (`rgbds-<version>.tar.gz`, "Source code (`zip`)", or "Source code (`tar.gz`)"), and extract it.
+Go to your desired [release]({{ site.baseurl }}/docs)'s release page. Near the bottom of the page is a list of *assets*; grab either of the last three (`rgbds-<version>.tar.gz`, "Source code (`zip`)", or "Source code (`tar.gz`)"), and extract it.
 
 ## 2. Build
 

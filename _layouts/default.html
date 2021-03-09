@@ -11,11 +11,11 @@
 		{%- endfor %}
 	{%- endif %}
 	<link rel="stylesheet" type="text/css" href="https://rsms.me/inter/inter.css">
-	<link rel="stylesheet" type="text/css" href="/css/default.css">
-	<link rel="icon" type="image/png" href="/assets/rgbds-square-96.png" sizes="96x96">
-	<link rel="icon" type="image/png" href="/assets/rgbds-square-48.png" sizes="48x48">
-	<link rel="apple-touch-icon-precomposed" type="image/png" href="/assets/rgbds-square-96.png" sizes="96x96">
-	<link rel="apple-touch-icon-precomposed" type="image/png" href="/assets/rgbds-square-48.png" sizes="48x48">
+	<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/default.css">
+	<link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/rgbds-square-96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/rgbds-square-48.png" sizes="48x48">
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="{{ site.baseurl }}/assets/rgbds-square-96.png" sizes="96x96">
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="{{ site.baseurl }}/assets/rgbds-square-48.png" sizes="48x48">
 	{% seo title=false %}
 	{%- if page.keywords %}
 		{%- assign keywords = page.keywords | concat: site.keywords %}
@@ -26,20 +26,21 @@
 	{% feed_meta %}
 </head>
 <body>
+	<!-- {{ site.baseurl }} -->
 	<aside id="navbar">
-		<a id="logo" href="/"><img src="/assets/logo/190x30.png" alt="Rednex Game Boy Development System"></a>
+		<a id="logo" href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}/assets/logo/190x30.png" alt="Rednex Game Boy Development System"></a>
 		<input type="checkbox" name="navbar-toggle-control" id="navbar-toggle-control" aria-controls="navbar-nav">
 		<label for="navbar-toggle-control" id="navbar-toggle">
-			<img src="/assets/nav-burger.png" alt="Show nav">
-			<img src="/assets/nav-close.png" alt="Hide nav">
+			<img src="{{ site.baseurl }}/assets/nav-burger.png" alt="Show nav">
+			<img src="{{ site.baseurl }}/assets/nav-close.png" alt="Hide nav">
 		</label>
 		<nav id="navbar-nav">
-			<a href="/faq" class="text">FAQ</a>
-			<a href="/docs/" class="text">Docs</a>
-			<a href="/feedback" class="text">Feedback</a>
+			<a href="{{ site.baseurl }}/faq" class="text">FAQ</a>
+			<a href="{{ site.baseurl }}/docs/" class="text">Docs</a>
+			<a href="{{ site.baseurl }}/feedback" class="text">Feedback</a>
 			<a href="https://gbdev.io" class="text">GBDev</a>
-			<a href="https://github.com/gbdev/rgbds"><img src="/assets/github-icon.png" alt="RGBDS Github Repository"></a>
-			<a rel="alternate" type="application/rss+xml" href="/feed.xml"><img src="/assets/rss.svg" alt="RSS Feed"></a>
+			<a href="https://github.com/gbdev/rgbds"><img src="{{ site.baseurl }}/assets/github-icon.png" alt="RGBDS Github Repository"></a>
+			<a rel="alternate" type="application/rss+xml" href="{{ site.baseurl }}/feed.xml"><img src="{{ site.baseurl }}/assets/rss.svg" alt="RSS Feed"></a>
 		</nav>
 	</aside>
 	<div id="main-scroller">

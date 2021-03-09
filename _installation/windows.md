@@ -6,7 +6,7 @@ title: Windows install instructions
 
 # Intalling RGBDS on Windows
 
-1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](master).
+1. First, [pick the version you want to install]({{ site.baseurl }}/docs). If you want to [use `master`]({{ site.baseurl }}/docs/master/#what) instead of a release, [go here](master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Either:

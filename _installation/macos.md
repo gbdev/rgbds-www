@@ -12,7 +12,7 @@ RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https
 brew install rgbds
 {% endhighlight %}
 
-You can also install the [`master` branch](/docs/master) by passing the `--HEAD` flag:
+You can also install the [`master` branch]({{ site.baseurl }}/docs/master) by passing the `--HEAD` flag:
 
 {% highlight bash %}
 brew install rgbds --HEAD

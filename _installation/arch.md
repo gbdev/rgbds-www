@@ -6,7 +6,7 @@ title: Arch Linux install instructions
 
 # Installing RGBDS on Arch Linux
 
-RGBDS is now available in the official repos as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package, or RGBDS 0.2.5 from [`rgbds2`](https://aur.archlinux.org/packages/rgbds2), still from the AUR.
+RGBDS is now available in the official repos as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master]({{ site.baseurl }}/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package, or RGBDS 0.2.5 from [`rgbds2`](https://aur.archlinux.org/packages/rgbds2), still from the AUR.
 
 {% highlight bash %}
 pacman -S rgbds
