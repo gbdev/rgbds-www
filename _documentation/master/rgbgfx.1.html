@@ -102,7 +102,9 @@ Note that options can be abbreviated as long as the abbreviation is unambiguous:
       automatically used next time.</dd>
   <dt><a class="permalink" href="#h"><code class="Fl" id="h">-h</code></a>,
     <code class="Fl">--horizontal</code></dt>
-  <dd>Lay out tiles horizontally rather than vertically.</dd>
+  <dd>Lay out tiles in column-major order (column by column), instead of the
+      default row-major order (line by line). Especially useful for
+      &quot;8x16&quot; OBJ mode, if the input image is 16 pixels tall.</dd>
   <dt><a class="permalink" href="#m"><code class="Fl" id="m">-m</code></a>,
     <code class="Fl">--mirror-tiles</code></dt>
   <dd>Truncate tiles by checking for tiles that are mirrored versions of others
