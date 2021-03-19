@@ -307,15 +307,15 @@ A great number of operators you can use in expressions are available (listed
 <section class="Ss">
 <h2 class="Ss" id="Fixed__u2010_point_Expressions"><a class="permalink" href="#Fixed__u2010_point_Expressions">Fixed&#x2010;point
   Expressions</a></h2>
-Fixed-point numbers are basically normal (32-bit) integers, which count
-  65536th's instead of entire units, offering better precision than integers but
-  limiting the range of values. The upper 16 bits are used for the integer part
-  and the lower 16 bits are used for the fraction (65536ths). Since they are
-  still akin to integers, you can use them in normal integer expressions, and
-  some integer operators like &#x2018;+&#x2019; and &#x2018;-&#x2019; don't care
-  whether the operands are integers or fixed-point. You can easily truncate a
-  fixed-point number into an integer by shifting it right by 16 bits. It follows
-  that you can convert an integer to a fixed-point number by shifting it left.
+Fixed-point numbers are basically normal (32-bit) integers, which count 65536ths
+  instead of entire units, offering better precision than integers but limiting
+  the range of values. The upper 16 bits are used for the integer part and the
+  lower 16 bits are used for the fraction (65536ths). Since they are still akin
+  to integers, you can use them in normal integer expressions, and some integer
+  operators like &#x2018;+&#x2019; and &#x2018;-&#x2019; don't care whether the
+  operands are integers or fixed-point. You can easily truncate a fixed-point
+  number into an integer by shifting it right by 16 bits. It follows that you
+  can convert an integer to a fixed-point number by shifting it left.
 <p class="Pp">The following functions are designed to operate with fixed-point
     numbers:</p>
 <table class="Bl-column Bd-indent">
@@ -539,20 +539,30 @@ The most basic string expression is any number of characters contained in double
     &#x2018;<code class="Li">\n</code>&#x2019;.</p>
 <p class="Pp">A funky feature is
     &#x2018;<code class="Li">{symbol}</code>&#x2019; within a string, called
-    &#x201C;symbol interpolation&#x201D;. This will paste
-    <var class="Ar">symbol</var>'s contents as a string. If it's a string
-    symbol, the string is simply inserted. If it's a numeric symbol, its value
-    is converted to hexadecimal notation with a dollar sign &#x2018;$&#x2019;
-    prepended.</p>
+    &#x201C;symbol interpolation&#x201D;. This will paste the contents of
+    &#x2018;<code class="Li">symbol</code>&#x2019; as if they were part of the
+    source file. If it's a string symbol, its characters are simply inserted. If
+    it's a numerical symbol, its value is converted to hexadecimal notation with
+    a dollar sign &#x2018;$&#x2019; prepended.</p>
+<p class="Pp">Symbols can be <i class="Em">interpolated</i> even in the contexts
+    that disable <i class="Em">expansion</i> of string equates:
+    &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
+    &#x2018;<code class="Li">DEF {name} EQU/SET/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
+    &#x2018;<code class="Li">MACRO {name}</code>&#x2019; will all interpolate
+    the contents of &#x2018;<code class="Li">{name}</code>&#x2019;.</p>
+<p class="Pp">Symbol interpolations can be nested, too!</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-TOPIC equs &quot;life, the universe, and \&quot;everything\&quot;&quot;
-ANSWER = 42
-;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is $2A&quot;
-PRINTLN &quot;The answer to {TOPIC} is {ANSWER}&quot;
+DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
+DEF meaning EQUS &quot;answer&quot;
+;&#x00A0;Defines answer = 42
+DEF {meaning} = 42
+;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is 42&quot;
+PRINTLN &quot;The {meaning} to {topic} is {d:{meaning}}&quot;
+PURGE topic, meaning, {meaning}
 </pre>
 </div>
-<p class="Pp">Symbol interpolations can be nested, too!</p>
 <p class="Pp">It's possible to change the way symbols are converted by
     specifying a print format like so:
     &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
@@ -671,14 +681,14 @@ PRINTLN STRFMT(&quot;Hello %s!&quot;, STRLWR(&quot;WORLD&quot;))
     used outside strings. The symbol's value is again inserted directly.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-NAME equs &quot;ITEM&quot;
-FMT equs &quot;d&quot;
-ZERO_NUM equ 0
-ZERO_STR equs &quot;0&quot;
+def NAME equs &quot;ITEM&quot;
+def FMT equs &quot;d&quot;
+def ZERO_NUM equ 0
+def ZERO_STR equs &quot;0&quot;
 ;&#x00A0;Defines INDEX as 100
 INDEX = 1{ZERO_STR}{{FMT}:ZERO_NUM}
 ;&#x00A0;Defines ITEM_100 as &quot;\&quot;hundredth\&quot;&quot;
-{NAME}_{d:INDEX} equs &quot;\&quot;hundredth\&quot;&quot;
+def {NAME}_{d:INDEX} equs &quot;\&quot;hundredth\&quot;&quot;
 ;&#x00A0;Prints &quot;ITEM_100 is hundredth&quot;
 PRINTLN STRCAT(&quot;{NAME}_{d:INDEX} is &quot;, {NAME}_{d:INDEX})
 ;&#x00A0;Purges ITEM_100
@@ -846,7 +856,7 @@ There are a few other functions that do various useful things:
   <tr>
     <td><code class="Fn">DEF</code>(<var class="Fa">symbol</var>)</td>
     <td>Returns TRUE (1) if <var class="Ar">symbol</var> has been defined, FALSE
-      (0) otherwise. String symbols are not expanded within the
+      (0) otherwise. String equates are not expanded within the
       parentheses.</td>
   </tr>
   <tr>
@@ -1182,11 +1192,6 @@ RGBDS supports several types of symbols:
     However, they must begin with either a letter or an underscore. Periods
     &#x2018;.&#x2019; are allowed exclusively in labels, as described below. A
     symbol cannot have the same name as a reserved keyword.</p>
-<p class="Pp">Constants and string equates <i class="Em">must not</i> have any
-    whitespace before their name when they are defined; otherwise
-    <code class="Nm">rgbasm</code> will treat them as a macro invocation. Label
-    and macro definitions may have whitespace before them, since a leading
-    period or a following colon distinguishes them from invoking a macro.</p>
 <dl class="Bl-tag">
   <dt><b class="Sy">Label declaration</b></dt>
   <dd>One of the assembler's main tasks is to keep track of addresses for you,
@@ -1258,13 +1263,14 @@ ThisWillBeExported.too::
   </dd>
   <dt><a class="permalink" href="#EQU"><code class="Ic" id="EQU">EQU</code></a></dt>
   <dd><a class="permalink" href="#EQU_2"><code class="Ic" id="EQU_2">EQU</code></a>
-      allows defining constant symbols. Unlike <code class="Ic">SET</code>
-      below, constants defined this way cannot be redefined. They can, for
-      example, be used for things such as bit definitions of hardware registers.
+      is used to define numerical constant symbols. Unlike
+      <code class="Ic">SET</code> below, constants defined this way cannot be
+      redefined. They can, for example, be used for things such as bit
+      definitions of hardware registers.
     <div class="Bd Pp Bd-indent">
     <pre>
-SCREEN_WIDTH   equ 160 ;&#x00A0;In pixels
-SCREEN_HEIGHT  equ 144
+def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
+def SCREEN_HEIGHT equ 144
     </pre>
     </div>
     <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
@@ -1272,16 +1278,17 @@ SCREEN_HEIGHT  equ 144
   </dd>
   <dt><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></dt>
   <dd><a class="permalink" href="#SET_2"><code class="Ic" id="SET_2">SET</code></a>,
-      or its synonym <code class="Ic">=</code>, defines constant symbols like
-      <code class="Ic">EQU</code>, but those constants can be redefined. This is
-      useful for variables in macros, for counters, etc.
+      or its synonym <code class="Ic">=</code>, is used to define numerical
+      symbols like <code class="Ic">EQU</code>, but these symbols can be
+      redefined. This is useful for variables in macros, for counters, etc.
     <div class="Bd Pp Bd-indent">
     <pre>
-ARRAY_SIZE EQU 4
-COUNT      SET 2
-COUNT      SET ARRAY_SIZE+COUNT
-;&#x00A0;COUNT now has the value 6
-COUNT      = COUNT + 1
+DEF ARRAY_SIZE EQU 4
+DEF   COUNT SET 2
+DEF   COUNT SET 3
+REDEF COUNT SET ARRAY_SIZE+COUNT
+COUNT = COUNT*2
+;&#x00A0;COUNT now has the value 14
     </pre>
     </div>
     <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
@@ -1293,20 +1300,20 @@ COUNT      = COUNT + 1
   <dd>The RS group of commands is a handy way of defining structures:
     <div class="Bd Pp Bd-indent">
     <pre>
-              RSRESET
-str_pStuff    RW   1
-str_tData     RB   256
-str_bCount    RB   1
-str_SIZEOF    RB   0
+               RSRESET
+DEF str_pStuff RW   1
+DEF str_tData  RB   256
+DEF str_bCount RB   1
+DEF str_SIZEOF RB   0
     </pre>
     </div>
     <p class="Pp">The example defines four constants as if by:</p>
     <div class="Bd Pp Bd-indent">
     <pre>
-str_pStuff EQU 0
-str_tData  EQU 2
-str_bCount EQU 258
-str_SIZEOF EQU 259
+DEF str_pStuff EQU 0
+DEF str_tData  EQU 2
+DEF str_bCount EQU 258
+DEF str_SIZEOF EQU 259
     </pre>
     </div>
     <p class="Pp">There are five commands in the RS group of commands:</p>
@@ -1355,15 +1362,22 @@ str_SIZEOF EQU 259
   </dd>
   <dt><a class="permalink" href="#EQUS"><code class="Ic" id="EQUS">EQUS</code></a></dt>
   <dd><a class="permalink" href="#EQUS_2"><code class="Ic" id="EQUS_2">EQUS</code></a>
-      is used to define string symbols. Wherever the assembler meets a string
-      symbol its name is replaced with its value. If you are familiar with C you
-      can think of it as similar to <code class="Fd">#define .</code>
+      is used to define string equate symbols. Wherever the assembler reads a
+      string equate, it gets <i class="Em">expanded</i>: the symbol's name is
+      replaced with its contents. If you are familiar with C, you can think of
+      it as similar to <code class="Fd">#define .</code> This expansion is
+      disabled in a few contexts:
+      &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
+      &#x2018;<code class="Li">DEF name EQU/SET/EQUS/etc ...</code>&#x2019;,
+      &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
+      &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
+      equates in their names.
     <div class="Bd Pp Bd-indent">
     <pre>
-COUNTREG EQUS &quot;[hl+]&quot;
+DEF COUNTREG EQUS &quot;[hl+]&quot;
     ld a,COUNTREG
 
-PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
+DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
     db PLAYER_NAME
     </pre>
     </div>
@@ -1374,11 +1388,11 @@ PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
     db &quot;John&quot;
     </pre>
     </div>
-    <p class="Pp">String symbols can also be used to define small one-line
+    <p class="Pp">String equates can also be used to define small one-line
         macros:</p>
     <div class="Bd Pp Bd-indent">
     <pre>
-pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
+DEF pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
     </pre>
     </div>
     <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
@@ -1389,7 +1403,7 @@ pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
         will define or redefine a string symbol. For example:</p>
     <div class="Bd Pp Bd-indent">
     <pre>
-s EQUS &quot;Hello, &quot;
+DEF s EQUS &quot;Hello, &quot;
 REDEF s EQUS &quot;{s}world!&quot;
 ; prints &quot;Hello, world!&quot;
 PRINTT &quot;{s}0
@@ -1403,6 +1417,34 @@ PRINTT &quot;{s}0
         command-line option in <a class="Xr" href="rgbasm.1">rgbasm(1)</a>.
         Also, a macro can contain an <code class="Ic">EQUS</code> which calls
         the same macro, which causes the same problem.</p>
+    <p class="Pp">The examples above for
+        &#x2018;<code class="Li">EQU</code>&#x2019;,
+        &#x2018;<code class="Li">SET</code>&#x2019; or
+        &#x2018;<code class="Li">=</code>&#x2019;,
+        &#x2018;<code class="Li">RB</code>&#x2019;,
+        &#x2018;<code class="Li">RW</code>&#x2019;,
+        &#x2018;<code class="Li">RL</code>&#x2019;, and
+        &#x2018;<code class="Li">EQUS</code>&#x2019; all start with
+        &#x2018;<code class="Li">DEF</code>&#x2019;. (A
+        &#x2018;<code class="Li">SET</code>&#x2019; or
+        &#x2018;<code class="Li">=</code>&#x2019; definition may start with
+        &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they are
+        redefinable.) You may use the older syntax without
+        &#x2018;<code class="Li">DEF</code>&#x2019;, but then the name being
+        defined <i class="Em">must not</i> have any whitespace before it;
+        otherwise <code class="Nm">rgbasm</code> will treat it as a macro
+        invocation. Furthermore, without the
+        &#x2018;<code class="Li">DEF</code>&#x2019; keyword, string equates may
+        be expanded for the name. This can lead to surprising results:</p>
+    <div class="Bd Pp Bd-indent">
+    <pre>
+X EQUS &quot;Y&quot;
+; this defines Y, not X!
+X EQU 42
+; prints &quot;Y $2A&quot;
+PRINTLN &quot;{X} {Y}&quot;
+    </pre>
+    </div>
   </dd>
   <dt><a class="permalink" href="#MACRO"><code class="Ic" id="MACRO">MACRO</code></a></dt>
   <dd>One of the best features of an assembler is the ability to write macros
@@ -1417,12 +1459,14 @@ ENDM
     </pre>
     </div>
     <p class="Pp">The example above defines
-        &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. You may
-        use the older syntax &#x2018;<code class="Li">MyMacro:
-        MACRO</code>&#x2019; instead of &#x2018;<code class="Li">MACRO
-        MyMacro</code>&#x2019;, with a single colon
-        &#x2018;<code class="Li">:</code>&#x2019; following the macro's name.
-        Macros can't be exported or imported.</p>
+        &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
+        equates are not expanded within the name of the macro. You may use the
+        older syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019;
+        instead of &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a
+        single colon &#x2018;<code class="Li">:</code>&#x2019; following the
+        macro's name. With the older syntax, string equates may be expanded for
+        the name.</p>
+    <p class="Pp">Macros can't be exported or imported.</p>
     <p class="Pp">Plainly nesting macro definitions is not allowed, but this can
         be worked around using <code class="Ic">EQUS</code>. So this won't
       work:</p>
@@ -1439,7 +1483,7 @@ ENDM
     <div class="Bd Pp Bd-indent">
     <pre>
 MACRO outer
-definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
+DEF definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
     definition
     PURGE definition
 ENDM
@@ -1520,14 +1564,12 @@ Linking failed with 1 error
   anything other than string symbols, macros, and constants.
 <div class="Bd Pp Bd-indent">
 <pre>
-Kamikaze EQUS  &quot;I don't want to live anymore&quot;
-AOLer    EQUS  &quot;Me too&quot;
+DEF Kamikaze EQUS  &quot;I don't want to live anymore&quot;
+DEF AOLer    EQUS  &quot;Me too&quot;
          PURGE Kamikaze, AOLer
 </pre>
 </div>
-<p class="Pp">Note that, as an exception, string symbols in the argument list of
-    a <code class="Ic">PURGE</code> command <i class="Em">will not be
-    expanded</i>.</p>
+<p class="Pp">String equates are not expanded within the symbol names.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Predeclared_Symbols"><a class="permalink" href="#Predeclared_Symbols">Predeclared
@@ -1849,9 +1891,9 @@ MACRO LoopyMacro
             ENDM
 </pre>
 </div>
-<p class="Pp">Now I can call the macro specifying two arguments, the first being
-    the address and the second being a byte count. The generated code will then
-    reset all bytes in this range.</p>
+<p class="Pp">Now you can call the macro specifying two arguments, the first
+    being the address and the second being a byte count. The generated code will
+    then reset all bytes in this range.</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 LoopyMacro MyVars,54
@@ -1968,8 +2010,9 @@ ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
     range. <code class="Ic">FOR</code> is simpler than
     <code class="Ic">REPT</code> for that purpose. Everything between
     <code class="Ic">FOR</code> and the matching <code class="Ic">ENDR</code>
-    will be repeated for each value of a given symbol. For example, this code
-    will produce a table of squared values from 0 to 255:</p>
+    will be repeated for each value of a given symbol. String equates are not
+    expanded within the symbol name. For example, this code will produce a table
+    of squared values from 0 to 255:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 FOR N, 256
