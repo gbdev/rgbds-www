@@ -42,6 +42,12 @@ description: RGBDS master — language documentation
   </li>
   <li><a href="#SYMBOLS">SYMBOLS</a>
     <ul class="Bl-compact">
+      <li><a href="#Label_declaration">Label declaration</a></li>
+      <li><a href="#Immutable_constants">Immutable constants</a></li>
+      <li><a href="#Mutable_constants">Mutable constants</a></li>
+      <li><a href="#Offset_constants">Offset constants</a></li>
+      <li><a href="#String_equates">String equates</a></li>
+      <li><a href="#Macros">Macros</a></li>
       <li><a href="#Exporting_and_importing_symbols">Exporting and importing
           symbols</a></li>
       <li><a href="#Purging_symbols">Purging symbols</a></li>
@@ -1192,14 +1198,14 @@ RGBDS supports several types of symbols:
     However, they must begin with either a letter or an underscore. Periods
     &#x2018;.&#x2019; are allowed exclusively in labels, as described below. A
     symbol cannot have the same name as a reserved keyword.</p>
-<dl class="Bl-tag">
-  <dt><b class="Sy">Label declaration</b></dt>
-  <dd>One of the assembler's main tasks is to keep track of addresses for you,
-      so you can work with meaningful names instead of &quot;magic&quot;
-      numbers.
-    <p class="Pp">This can be done in a number of ways:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+<section class="Ss">
+<h2 class="Ss" id="Label_declaration"><a class="permalink" href="#Label_declaration">Label
+  declaration</a></h2>
+One of the assembler's main tasks is to keep track of addresses for you, so you
+  can work with meaningful names instead of &quot;magic&quot; numbers.
+<p class="Pp">This can be done in a number of ways:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 GlobalLabel:
 AnotherGlobal:
 .locallabel
@@ -1207,41 +1213,39 @@ AnotherGlobal:
 AnotherGlobal.with_another_local:
 ThisWillBeExported:: ;&#x00A0;Note the two colons
 ThisWillBeExported.too::
-    </pre>
-    </div>
-    <p class="Pp">Any label whose name does not contain a period is a global
-        label. Declaring a global label sets it as the current scoped label,
-        until the next global one. Global labels must be followed by one or two
-        colons.</p>
-    <p class="Pp">Any label whose name contains a single period is a local
-        label. Label names cannot contain more than one period. If the period is
-        the first character, it will have the current scoped label's name
-        implicitly prepended. Local labels may optionally be followed by one or
-        two colons. Local labels can be declared as
-        &#x2018;<code class="Li">scoped.local</code>&#x2019; or simply as
-        &#x2018;<code class="Li">.local</code>&#x2019;. If the former notation
-        is used, then &#x2018;<code class="Li">scoped</code>&#x2019; must
-        actually be the current scoped label.</p>
-    <p class="Pp">Declaring a label (global or local) with two colons
-        &#x2018;<code class="Li">::</code>&#x2019; will
-        <code class="Ic">EXPORT</code> and define it at the same time. (See
-        <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
-        importing symbols</a> below).</p>
-    <p class="Pp"><b class="Sy">Anonymous labels</b> are useful for short blocks
-        of code. They are defined like normal labels, but without a name before
-        the colon. Anonymous labels are independent of label scoping, so
-        defining one does not change the scoped label, and referencing one is
-        not affected by the current scoped label.</p>
-    <p class="Pp">Anonymous labels are referenced using a colon
-        &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
-        &#x2018;<code class="Li">+</code>&#x2019; or minuses
-        &#x2018;<code class="Li">-</code>&#x2019;. Thus
-        <code class="Ic">:+</code> references the next one after the expression,
-        <code class="Ic">:++</code> the one after that;
-        <code class="Ic">:-</code> references the one before the expression; and
-        so on.</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">Any label whose name does not contain a period is a global label.
+    Declaring a global label sets it as the current scoped label, until the next
+    global one. Global labels must be followed by one or two colons.</p>
+<p class="Pp">Any label whose name contains a single period is a local label.
+    Label names cannot contain more than one period. If the period is the first
+    character, it will have the current scoped label's name implicitly
+    prepended. Local labels may optionally be followed by one or two colons.
+    Local labels can be declared as
+    &#x2018;<code class="Li">scoped.local</code>&#x2019; or simply as
+    &#x2018;<code class="Li">.local</code>&#x2019;. If the former notation is
+    used, then &#x2018;<code class="Li">scoped</code>&#x2019; must actually be
+    the current scoped label.</p>
+<p class="Pp">Declaring a label (global or local) with two colons
+    &#x2018;<code class="Li">::</code>&#x2019; will
+    <code class="Ic">EXPORT</code> and define it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below).</p>
+<p class="Pp"><b class="Sy">Anonymous labels</b> are useful for short blocks of
+    code. They are defined like normal labels, but without a name before the
+    colon. Anonymous labels are independent of label scoping, so defining one
+    does not change the scoped label, and referencing one is not affected by the
+    current scoped label.</p>
+<p class="Pp">Anonymous labels are referenced using a colon
+    &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
+    &#x2018;<code class="Li">+</code>&#x2019; or minuses
+    &#x2018;<code class="Li">-</code>&#x2019;. Thus <code class="Ic">:+</code>
+    references the next one after the expression, <code class="Ic">:++</code>
+    the one after that; <code class="Ic">:-</code> references the one before the
+    expression; and so on.</p>
+<div class="Bd Pp Bd-indent">
+<pre>
     ld hl, :++
 :   ld a, [hli] ; referenced by &quot;jr nz&quot;
     ldh [c], a
@@ -1251,249 +1255,251 @@ ThisWillBeExported.too::
 
 :   ; referenced by &quot;ld hl&quot;
     dw $7FFF, $1061, $03E0, $58A5
-    </pre>
-    </div>
-    <p class="Pp">A label's location (and thus value) is usually not determined
-        until the linking stage, so labels usually cannot be used as constants.
-        However, if the section in which the label is declared has a fixed base
-        address, its value is known at assembly time.</p>
-    <p class="Pp"><code class="Nm">rgbasm</code> is able to compute the
-        subtraction of two labels either if both are constant as described
-        above, or if both belong to the same section.</p>
-  </dd>
-  <dt><a class="permalink" href="#EQU"><code class="Ic" id="EQU">EQU</code></a></dt>
-  <dd><a class="permalink" href="#EQU_2"><code class="Ic" id="EQU_2">EQU</code></a>
-      is used to define numerical constant symbols. Unlike
-      <code class="Ic">SET</code> below, constants defined this way cannot be
-      redefined. They can, for example, be used for things such as bit
-      definitions of hardware registers.
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">A label's location (and thus value) is usually not determined
+    until the linking stage, so labels usually cannot be used as constants.
+    However, if the section in which the label is declared has a fixed base
+    address, its value is known at assembly time.</p>
+<p class="Pp"><code class="Nm">rgbasm</code> is able to compute the subtraction
+    of two labels either if both are constant as described above, or if both
+    belong to the same section.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Immutable_constants"><a class="permalink" href="#Immutable_constants">Immutable
+  constants</a></h2>
+<code class="Ic">EQU</code> is used to define numerical constant symbols. Unlike
+  <code class="Ic">SET</code> below, constants defined this way cannot be
+  redefined. They can, for example, be used for things such as bit definitions
+  of hardware registers.
+<div class="Bd Pp Bd-indent">
+<pre>
 def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
 def SCREEN_HEIGHT equ 144
-    </pre>
-    </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></dt>
-  <dd><a class="permalink" href="#SET_2"><code class="Ic" id="SET_2">SET</code></a>,
-      or its synonym <code class="Ic">=</code>, is used to define numerical
-      symbols like <code class="Ic">EQU</code>, but these symbols can be
-      redefined. This is useful for variables in macros, for counters, etc.
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Mutable_constants"><a class="permalink" href="#Mutable_constants">Mutable
+  constants</a></h2>
+<code class="Ic">SET</code>, or its synonym <code class="Ic">=</code>, is used
+  to define numerical symbols like <code class="Ic">EQU</code>, but these
+  symbols can be redefined. This is useful for variables in macros, for
+  counters, etc.
+<div class="Bd Pp Bd-indent">
+<pre>
 DEF ARRAY_SIZE EQU 4
 DEF   COUNT SET 2
 DEF   COUNT SET 3
 REDEF COUNT SET ARRAY_SIZE+COUNT
 COUNT = COUNT*2
 ;&#x00A0;COUNT now has the value 14
-    </pre>
-    </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#RSSET"><code class="Ic" id="RSSET">RSSET</code></a>,
-    <code class="Ic">RSRESET</code>, <code class="Ic">RB</code>,
-    <code class="Ic">RW</code></dt>
-  <dd>The RS group of commands is a handy way of defining structures:
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Offset_constants"><a class="permalink" href="#Offset_constants">Offset
+  constants</a></h2>
+The RS group of commands is a handy way of defining structure offsets:
+<div class="Bd Pp Bd-indent">
+<pre>
                RSRESET
 DEF str_pStuff RW   1
 DEF str_tData  RB   256
 DEF str_bCount RB   1
 DEF str_SIZEOF RB   0
-    </pre>
-    </div>
-    <p class="Pp">The example defines four constants as if by:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">The example defines four constants as if by:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 DEF str_pStuff EQU 0
 DEF str_tData  EQU 2
 DEF str_bCount EQU 258
 DEF str_SIZEOF EQU 259
-    </pre>
-    </div>
-    <p class="Pp">There are five commands in the RS group of commands:</p>
-    <table class="Bl-column">
-      <tr>
-        <th>Command</th>
-        <th>Meaning</th>
-      </tr>
-      <tr>
-        <td><a class="permalink" href="#RSRESET"><code class="Ic" id="RSRESET">RSRESET</code></a></td>
-        <td>Equivalent to &#x2018;<code class="Li">RSSET 0</code>&#x2019;.</td>
-      </tr>
-      <tr>
-        <td><a class="permalink" href="#RSSET_2"><code class="Ic" id="RSSET_2">RSSET</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the <code class="Ic">_RS</code> <span class="No">counter
-          to</span> <var class="Ar">constexpr</var>.</td>
-      </tr>
-      <tr>
-        <td><a class="permalink" href="#RB"><code class="Ic" id="RB">RB</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">to</span> <code class="Ic">_RS</code>.</td>
-      </tr>
-      <tr>
-        <td><a class="permalink" href="#RW"><code class="Ic" id="RW">RW</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">* 2 to</span> <code class="Ic">_RS</code>.</td>
-      </tr>
-      <tr>
-        <td><a class="permalink" href="#RL"><code class="Ic" id="RL">RL</code></a>
-          <var class="Ar">constexpr</var></td>
-        <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-          <span class="No">and adds</span> <var class="Ar">constexpr</var>
-          <span class="No">* 4 to</span> <code class="Ic">_RS</code>.</td>
-      </tr>
-    </table>
-    <p class="Pp">If the argument to <code class="Ic">RB</code>,
-        <code class="Ic">RW</code>, or <code class="Ic">RL</code> is omitted,
-        it's assumed to be 1.</p>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-  </dd>
-  <dt><a class="permalink" href="#EQUS"><code class="Ic" id="EQUS">EQUS</code></a></dt>
-  <dd><a class="permalink" href="#EQUS_2"><code class="Ic" id="EQUS_2">EQUS</code></a>
-      is used to define string equate symbols. Wherever the assembler reads a
-      string equate, it gets <i class="Em">expanded</i>: the symbol's name is
-      replaced with its contents. If you are familiar with C, you can think of
-      it as similar to <code class="Fd">#define .</code> This expansion is
-      disabled in a few contexts:
-      &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
-      &#x2018;<code class="Li">DEF name EQU/SET/EQUS/etc ...</code>&#x2019;,
-      &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
-      &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
-      equates in their names.
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">There are five commands in the RS group of commands:</p>
+<table class="Bl-column">
+  <tr>
+    <th>Command</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#RSRESET"><code class="Ic" id="RSRESET">RSRESET</code></a></td>
+    <td>Equivalent to &#x2018;<code class="Li">RSSET 0</code>&#x2019;.</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#RSSET"><code class="Ic" id="RSSET">RSSET</code></a>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets the <code class="Ic">_RS</code> <span class="No">counter to</span>
+      <var class="Ar">constexpr</var>.</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#RB"><code class="Ic" id="RB">RB</code></a>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
+      <span class="No">and adds</span> <var class="Ar">constexpr</var>
+      <span class="No">to</span> <code class="Ic">_RS</code>.</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#RW"><code class="Ic" id="RW">RW</code></a>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
+      <span class="No">and adds</span> <var class="Ar">constexpr</var>
+      <span class="No">* 2 to</span> <code class="Ic">_RS</code>.</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#RL"><code class="Ic" id="RL">RL</code></a>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
+      <span class="No">and adds</span> <var class="Ar">constexpr</var>
+      <span class="No">* 4 to</span> <code class="Ic">_RS</code>.</td>
+  </tr>
+</table>
+<p class="Pp">If the argument to <code class="Ic">RB</code>,
+    <code class="Ic">RW</code>, or <code class="Ic">RL</code> is omitted, it's
+    assumed to be 1.</p>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="String_equates"><a class="permalink" href="#String_equates">String
+  equates</a></h2>
+<code class="Ic">EQUS</code> is used to define string equate symbols. Wherever
+  the assembler reads a string equate, it gets <i class="Em">expanded</i>: the
+  symbol's name is replaced with its contents. If you are familiar with C, you
+  can think of it as similar to <code class="Fd">#define .</code> This expansion
+  is disabled in a few contexts:
+  &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
+  &#x2018;<code class="Li">DEF name EQU/SET/EQUS/etc ...</code>&#x2019;,
+  &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
+  &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
+  equates in their names.
+<div class="Bd Pp Bd-indent">
+<pre>
 DEF COUNTREG EQUS &quot;[hl+]&quot;
     ld a,COUNTREG
 
 DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
     db PLAYER_NAME
-    </pre>
-    </div>
-    <p class="Pp">This will be interpreted as:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">This will be interpreted as:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
     ld a,[hl+]
     db &quot;John&quot;
-    </pre>
-    </div>
-    <p class="Pp">String equates can also be used to define small one-line
-        macros:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">String equates can also be used to define small one-line
+  macros:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 DEF pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
-    </pre>
-    </div>
-    <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-        following the name are not allowed.</p>
-    <p class="Pp">String equates can't be exported or imported.</p>
-    <p class="Pp">String equates, like <code class="Ic">EQU</code> constants,
-        cannot be redefined. However, the <code class="Ic">REDEF</code> keyword
-        will define or redefine a string symbol. For example:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp">String equates can't be exported or imported.</p>
+<p class="Pp">String equates, like <code class="Ic">EQU</code> constants, cannot
+    be redefined. However, the <code class="Ic">REDEF</code> keyword will define
+    or redefine a string symbol. For example:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 DEF s EQUS &quot;Hello, &quot;
 REDEF s EQUS &quot;{s}world!&quot;
 ; prints &quot;Hello, world!&quot;
 PRINTT &quot;{s}0
-    </pre>
-    </div>
-    <p class="Pp"><b class="Sy">Important note</b>: An
-        <code class="Ic">EQUS</code> can be expanded to a string that contains
-        another <code class="Ic">EQUS</code> and it will be expanded as well. If
-        this creates an infinite loop, <code class="Nm">rgbasm</code> will error
-        out once a certain depth is reached. See the <code class="Fl">-r</code>
-        command-line option in <a class="Xr" href="rgbasm.1">rgbasm(1)</a>.
-        Also, a macro can contain an <code class="Ic">EQUS</code> which calls
-        the same macro, which causes the same problem.</p>
-    <p class="Pp">The examples above for
-        &#x2018;<code class="Li">EQU</code>&#x2019;,
-        &#x2018;<code class="Li">SET</code>&#x2019; or
-        &#x2018;<code class="Li">=</code>&#x2019;,
-        &#x2018;<code class="Li">RB</code>&#x2019;,
-        &#x2018;<code class="Li">RW</code>&#x2019;,
-        &#x2018;<code class="Li">RL</code>&#x2019;, and
-        &#x2018;<code class="Li">EQUS</code>&#x2019; all start with
-        &#x2018;<code class="Li">DEF</code>&#x2019;. (A
-        &#x2018;<code class="Li">SET</code>&#x2019; or
-        &#x2018;<code class="Li">=</code>&#x2019; definition may start with
-        &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they are
-        redefinable.) You may use the older syntax without
-        &#x2018;<code class="Li">DEF</code>&#x2019;, but then the name being
-        defined <i class="Em">must not</i> have any whitespace before it;
-        otherwise <code class="Nm">rgbasm</code> will treat it as a macro
-        invocation. Furthermore, without the
-        &#x2018;<code class="Li">DEF</code>&#x2019; keyword, string equates may
-        be expanded for the name. This can lead to surprising results:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp"><b class="Sy">Important note</b>: An <code class="Ic">EQUS</code>
+    can be expanded to a string that contains another
+    <code class="Ic">EQUS</code> and it will be expanded as well. If this
+    creates an infinite loop, <code class="Nm">rgbasm</code> will error out once
+    a certain depth is reached. See the <code class="Fl">-r</code> command-line
+    option in <a class="Xr" href="rgbasm.1">rgbasm(1)</a>. Also, a macro can
+    contain an <code class="Ic">EQUS</code> which calls the same macro, which
+    causes the same problem.</p>
+<p class="Pp">The examples above for
+    &#x2018;<code class="Li">EQU</code>&#x2019;,
+    &#x2018;<code class="Li">SET</code>&#x2019; or
+    &#x2018;<code class="Li">=</code>&#x2019;,
+    &#x2018;<code class="Li">RB</code>&#x2019;,
+    &#x2018;<code class="Li">RW</code>&#x2019;,
+    &#x2018;<code class="Li">RL</code>&#x2019;, and
+    &#x2018;<code class="Li">EQUS</code>&#x2019; all start with
+    &#x2018;<code class="Li">DEF</code>&#x2019;. (A
+    &#x2018;<code class="Li">SET</code>&#x2019; or
+    &#x2018;<code class="Li">=</code>&#x2019; definition may start with
+    &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they are
+    redefinable.) You may use the older syntax without
+    &#x2018;<code class="Li">DEF</code>&#x2019;, but then the name being defined
+    <i class="Em">must not</i> have any whitespace before it; otherwise
+    <code class="Nm">rgbasm</code> will treat it as a macro invocation.
+    Furthermore, without the &#x2018;<code class="Li">DEF</code>&#x2019;
+    keyword, string equates may be expanded for the name. This can lead to
+    surprising results:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 X EQUS &quot;Y&quot;
 ; this defines Y, not X!
 X EQU 42
 ; prints &quot;Y $2A&quot;
 PRINTLN &quot;{X} {Y}&quot;
-    </pre>
-    </div>
-  </dd>
-  <dt><a class="permalink" href="#MACRO"><code class="Ic" id="MACRO">MACRO</code></a></dt>
-  <dd>One of the best features of an assembler is the ability to write macros
-      for it. Macros can be called with arguments, and can react depending on
-      input using <code class="Ic">IF</code> constructs.
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Macros"><a class="permalink" href="#Macros">Macros</a></h2>
+One of the best features of an assembler is the ability to write macros for it.
+  Macros can be called with arguments, and can react depending on input using
+  <code class="Ic">IF</code> constructs.
+<div class="Bd Pp Bd-indent">
+<pre>
 MACRO MyMacro
          ld a, 80
          call MyFunc
 ENDM
-    </pre>
-    </div>
-    <p class="Pp">The example above defines
-        &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
-        equates are not expanded within the name of the macro. You may use the
-        older syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019;
-        instead of &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a
-        single colon &#x2018;<code class="Li">:</code>&#x2019; following the
-        macro's name. With the older syntax, string equates may be expanded for
-        the name.</p>
-    <p class="Pp">Macros can't be exported or imported.</p>
-    <p class="Pp">Plainly nesting macro definitions is not allowed, but this can
-        be worked around using <code class="Ic">EQUS</code>. So this won't
-      work:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">The example above defines
+    &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
+    equates are not expanded within the name of the macro. You may use the older
+    syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019; instead of
+    &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a single colon
+    &#x2018;<code class="Li">:</code>&#x2019; following the macro's name. With
+    the older syntax, string equates may be expanded for the name.</p>
+<p class="Pp">Macros can't be exported or imported.</p>
+<p class="Pp">Plainly nesting macro definitions is not allowed, but this can be
+    worked around using <code class="Ic">EQUS</code>. So this won't work:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 MACRO outer
     MACRO inner
         PRINTLN &quot;Hello!&quot;
     ENDM
 ENDM
-    </pre>
-    </div>
-    <p class="Pp">But this will:</p>
-    <div class="Bd Pp Bd-indent">
-    <pre>
+</pre>
+</div>
+<p class="Pp">But this will:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
 MACRO outer
 DEF definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
     definition
     PURGE definition
 ENDM
-    </pre>
-    </div>
-  </dd>
-</dl>
+</pre>
+</div>
 <p class="Pp">Macro arguments support all the escape sequences of strings, as
     well as &#x2018;<code class="Li">\,</code>&#x2019; to escape commas, since
     those otherwise separate arguments.</p>
+</section>
 <section class="Ss">
 <h2 class="Ss" id="Exporting_and_importing_symbols"><a class="permalink" href="#Exporting_and_importing_symbols">Exporting
   and importing symbols</a></h2>
@@ -1583,98 +1589,98 @@ The following symbols are defined by the assembler:
   </tr>
   <tr>
     <td><a class="permalink" href="#@"><code class="Dv" id="@">@</code></a></td>
-    <td><a class="permalink" href="#EQU_3"><code class="Ic" id="EQU_3">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU"><code class="Ic" id="EQU">EQU</code></a></td>
     <td>PC value (essentially, the current memory address)</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#_RS"><code class="Dv" id="_RS">_RS</code></a></td>
-    <td><a class="permalink" href="#SET_3"><code class="Ic" id="SET_3">SET</code></a></td>
+    <td><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></td>
     <td>_RS Counter</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#_NARG"><code class="Dv" id="_NARG">_NARG</code></a></td>
-    <td><a class="permalink" href="#EQU_4"><code class="Ic" id="EQU_4">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_2"><code class="Ic" id="EQU_2">EQU</code></a></td>
     <td>Number of arguments passed to macro, updated by
       <code class="Ic">SHIFT</code></td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__LINE__"><code class="Dv" id="__LINE__">__LINE__</code></a></td>
-    <td><a class="permalink" href="#EQU_5"><code class="Ic" id="EQU_5">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_3"><code class="Ic" id="EQU_3">EQU</code></a></td>
     <td>The current line number</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__FILE__"><code class="Dv" id="__FILE__">__FILE__</code></a></td>
-    <td><a class="permalink" href="#EQUS_3"><code class="Ic" id="EQUS_3">EQUS</code></a></td>
+    <td><a class="permalink" href="#EQUS"><code class="Ic" id="EQUS">EQUS</code></a></td>
     <td>The current filename</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__DATE__"><code class="Dv" id="__DATE__">__DATE__</code></a></td>
-    <td><a class="permalink" href="#EQUS_4"><code class="Ic" id="EQUS_4">EQUS</code></a></td>
+    <td><a class="permalink" href="#EQUS_2"><code class="Ic" id="EQUS_2">EQUS</code></a></td>
     <td>Today's date</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__TIME__"><code class="Dv" id="__TIME__">__TIME__</code></a></td>
-    <td><a class="permalink" href="#EQUS_5"><code class="Ic" id="EQUS_5">EQUS</code></a></td>
+    <td><a class="permalink" href="#EQUS_3"><code class="Ic" id="EQUS_3">EQUS</code></a></td>
     <td>The current time</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__ISO_8601_LOCAL__"><code class="Dv" id="__ISO_8601_LOCAL__">__ISO_8601_LOCAL__</code></a></td>
-    <td><a class="permalink" href="#EQUS_6"><code class="Ic" id="EQUS_6">EQUS</code></a></td>
+    <td><a class="permalink" href="#EQUS_4"><code class="Ic" id="EQUS_4">EQUS</code></a></td>
     <td>ISO 8601 timestamp (local)</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__ISO_8601_UTC__"><code class="Dv" id="__ISO_8601_UTC__">__ISO_8601_UTC__</code></a></td>
-    <td><a class="permalink" href="#EQUS_7"><code class="Ic" id="EQUS_7">EQUS</code></a></td>
+    <td><a class="permalink" href="#EQUS_5"><code class="Ic" id="EQUS_5">EQUS</code></a></td>
     <td>ISO 8601 timestamp (UTC)</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_YEAR__"><code class="Dv" id="__UTC_YEAR__">__UTC_YEAR__</code></a></td>
-    <td><a class="permalink" href="#EQU_6"><code class="Ic" id="EQU_6">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_4"><code class="Ic" id="EQU_4">EQU</code></a></td>
     <td>Today's year</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_MONTH__"><code class="Dv" id="__UTC_MONTH__">__UTC_MONTH__</code></a></td>
-    <td><a class="permalink" href="#EQU_7"><code class="Ic" id="EQU_7">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_5"><code class="Ic" id="EQU_5">EQU</code></a></td>
     <td>Today's month number, 1&#x2013;12</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_DAY__"><code class="Dv" id="__UTC_DAY__">__UTC_DAY__</code></a></td>
-    <td><a class="permalink" href="#EQU_8"><code class="Ic" id="EQU_8">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_6"><code class="Ic" id="EQU_6">EQU</code></a></td>
     <td>Today's day of the month, 1&#x2013;31</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_HOUR__"><code class="Dv" id="__UTC_HOUR__">__UTC_HOUR__</code></a></td>
-    <td><a class="permalink" href="#EQU_9"><code class="Ic" id="EQU_9">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_7"><code class="Ic" id="EQU_7">EQU</code></a></td>
     <td>Current hour, 0&#x2013;23</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_MINUTE__"><code class="Dv" id="__UTC_MINUTE__">__UTC_MINUTE__</code></a></td>
-    <td><a class="permalink" href="#EQU_10"><code class="Ic" id="EQU_10">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_8"><code class="Ic" id="EQU_8">EQU</code></a></td>
     <td>Current minute, 0&#x2013;59</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__UTC_SECOND__"><code class="Dv" id="__UTC_SECOND__">__UTC_SECOND__</code></a></td>
-    <td><a class="permalink" href="#EQU_11"><code class="Ic" id="EQU_11">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_9"><code class="Ic" id="EQU_9">EQU</code></a></td>
     <td>Current second, 0&#x2013;59</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__RGBDS_MAJOR__"><code class="Dv" id="__RGBDS_MAJOR__">__RGBDS_MAJOR__</code></a></td>
-    <td><a class="permalink" href="#EQU_12"><code class="Ic" id="EQU_12">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_10"><code class="Ic" id="EQU_10">EQU</code></a></td>
     <td>Major version number of RGBDS</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__RGBDS_MINOR__"><code class="Dv" id="__RGBDS_MINOR__">__RGBDS_MINOR__</code></a></td>
-    <td><a class="permalink" href="#EQU_13"><code class="Ic" id="EQU_13">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_11"><code class="Ic" id="EQU_11">EQU</code></a></td>
     <td>Minor version number of RGBDS</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__RGBDS_PATCH__"><code class="Dv" id="__RGBDS_PATCH__">__RGBDS_PATCH__</code></a></td>
-    <td><a class="permalink" href="#EQU_14"><code class="Ic" id="EQU_14">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_12"><code class="Ic" id="EQU_12">EQU</code></a></td>
     <td>Patch version number of RGBDS</td>
   </tr>
   <tr>
     <td><a class="permalink" href="#__RGBDS_RC__"><code class="Dv" id="__RGBDS_RC__">__RGBDS_RC__</code></a></td>
-    <td><a class="permalink" href="#EQU_15"><code class="Ic" id="EQU_15">EQU</code></a></td>
+    <td><a class="permalink" href="#EQU_13"><code class="Ic" id="EQU_13">EQU</code></a></td>
     <td>Release candidate ID of RGBDS, not defined for final releases</td>
   </tr>
 </table>
