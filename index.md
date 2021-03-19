@@ -13,7 +13,17 @@ breadcrumbs: false
 - **[RGBFIX]({{ site.baseurl }}/docs/rgbfix.1)**: the header "fixer"
 - **[RGBGFX]({{ site.baseurl }}/docs/rgbgfx.1)**: the image converter
 
-[Documentation]({{ site.baseurl }}/docs/) is also available for several versions of each these tools. The [FAQ]({{ site.baseurl }}/faq) can help you resolve common problems.
+Additional documentation is available:
+- [General information about RGBDS]({{ site.baseurl }}/docs/rgbds.7)
+- [RGBASM language]({{ site.baseurl }}/docs/rgbasm.5)
+- [Game Boy ASM reference]({{ site.baseurl }}/docs/gbz80.7)
+- [RGBLINK linker scripts]({{ site.baseurl }}/docs/rgblink.5)
+- [RGBDS object file format]({{ site.baseurl }}/docs/rgbds.5)
+
+(All of this documentation is usually provided as `man` pages when [installing RGBDS](/install).)
+
+All of the above links point to the most recent release's documentation; however, we keep an archive of [other versions' docs]({{ site.baseurl }}/docs/).
+Additionally, [the FAQ]({{ site.baseurl }}/faq) can help you resolve common problems.
 
 ## Releases & downloads
 
