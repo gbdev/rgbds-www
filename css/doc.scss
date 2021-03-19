@@ -4,6 +4,9 @@ permalink: /css/doc.css
 ---
 
 #man {
+	// Disable justification (see https://github.com/gbdev/rgbds-www/issues/13)
+	text-align: left;
+
 	@import "mandoc";
 }
 
