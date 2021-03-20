@@ -25,8 +25,7 @@ description: RGBDS master — language documentation
     <ul class="Bl-compact">
       <li><a href="#Numeric_Formats">Numeric Formats</a></li>
       <li><a href="#Operators">Operators</a></li>
-      <li><a href="#Fixed__u2010_point_Expressions">Fixed&#x2010;point
-          Expressions</a></li>
+      <li><a href="#Fixed_point_Expressions">Fixed-point Expressions</a></li>
       <li><a href="#String_Expressions">String Expressions</a></li>
       <li><a href="#Character_maps">Character maps</a></li>
       <li><a href="#Other_functions">Other functions</a></li>
@@ -99,13 +98,13 @@ This is the full description of the language used by
     This document is not intended to be a Game Boy hardware reference.</p>
 <p class="Pp">Generally, &#x201C;the linker&#x201D; will refer to
     <a class="Xr" href="rgblink.1">rgblink(1)</a>, but any program that
-    processes RGB object files (described in
+    processes RGBDS object files (described in
     <a class="Xr" href="rgbds.5">rgbds(5)</a>) can be used in its place.</p>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h1>
-The syntax is line&#x2010;based, just as in any other assembler, meaning that
-  you do one instruction or directive per line:
+The syntax is line-based, just as in any other assembler, meaning that you do
+  one instruction or directive per line:
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>]
   [<var class="Ar">instruction</var>]
@@ -117,8 +116,7 @@ John: ld a,87 ;Weee
 </pre>
 </div>
 <p class="Pp">All reserved keywords (directives, mnemonics, registers, etc.) are
-    case&#x2010;insensitive; all identifiers (symbol names) are
-  case-sensitive.</p>
+    case-insensitive; all identifiers (symbol names) are case-sensitive.</p>
 <p class="Pp">Comments are used to give humans information about the code, such
     as explanations. The assembler <i class="Em">always</i> ignores comments and
     their contents.</p>
@@ -311,7 +309,7 @@ A great number of operators you can use in expressions are available (listed
     otherwise.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Fixed__u2010_point_Expressions"><a class="permalink" href="#Fixed__u2010_point_Expressions">Fixed&#x2010;point
+<h2 class="Ss" id="Fixed_point_Expressions"><a class="permalink" href="#Fixed_point_Expressions">Fixed-point
   Expressions</a></h2>
 Fixed-point numbers are basically normal (32-bit) integers, which count 65536ths
   instead of entire units, offering better precision than integers but limiting
@@ -967,8 +965,8 @@ Before you can start writing code, you must define a section. This tells the
   <dt><a class="permalink" href="#ALIGN"><code class="Ic" id="ALIGN">ALIGN</code></a>[<var class="Ar">align</var>,
     <var class="Ar">offset</var>]</dt>
   <dd>Place the section at an address whose <var class="Ar">align</var>
-      least&#x2010;significant bits are equal to <var class="Ar">offset</var>.
-      (Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a
+      least-significant bits are equal to <var class="Ar">offset</var>. (Note
+      that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a
       shorthand for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
       <span class="No">0</span>]). This option can be used with
       [<var class="Ar">addr</var>], as long as they don't contradict eachother.
