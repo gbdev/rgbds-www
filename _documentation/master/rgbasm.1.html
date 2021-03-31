@@ -201,10 +201,14 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
     listed alphabetically.</p>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#Wno-assert"><code class="Fl" id="Wno-assert">-Wno-assert</code></a></dt>
-  <dd>Warns when <code class="Ic">WARN</code><span class="No">-type</span>
+  <dd>Warn when <code class="Ic">WARN</code><span class="No">-type</span>
       assertions fail. (See &#x201C;Aborting the assembly process&#x201D; in
       <a class="Xr" href="rgbasm.5">rgbasm(5)</a> for
       <code class="Ic">ASSERT</code>).</dd>
+  <dt><a class="permalink" href="#Wbackwards-for"><code class="Fl" id="Wbackwards-for">-Wbackwards-for</code></a></dt>
+  <dd>Warn when <code class="Ic">FOR</code> loops have their start and stop
+      values switched according to the step value. This warning is enabled by
+      <code class="Fl">-Wall</code>.</dd>
   <dt><a class="permalink" href="#Wbuiltin-args"><code class="Fl" id="Wbuiltin-args">-Wbuiltin-args</code></a></dt>
   <dd>Warn about incorrect arguments to built-in functions, such as
       <code class="Fn">STRSUB</code>() with indexes outside of the string's
@@ -236,7 +240,7 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
   <dd>Warn when obsolete constructs such as the <code class="Ic">_PI</code>
       constant or <code class="Ic">PRINTT</code> directive are encountered.</dd>
   <dt><a class="permalink" href="#Wshift"><code class="Fl" id="Wshift">-Wshift</code></a></dt>
-  <dd>Warn when shifting right a negative value. Use a division by 2^N
+  <dd>Warn when shifting right a negative value. Use a division by 2**N
     instead.</dd>
   <dt><a class="permalink" href="#Wshift-amount"><code class="Fl" id="Wshift-amount">-Wshift-amount</code></a></dt>
   <dd>Warn when a shift's operand is negative or greater than 32.</dd>
