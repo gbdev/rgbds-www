@@ -864,9 +864,9 @@ Store value in register <b class="Sy">A</b> into byte at address
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
-<p class="Pp">This is sometimes written as &#x2018;<code class="Li">ldio [n16],
-    a</code>&#x2019;, or &#x2018;<code class="Li">ld [$ff00+n8],
-    a</code>&#x2019;.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LDIO
+    [n16],A</code>&#x2019;, or &#x2018;<code class="Li">LD
+    [$FF00+n8],A</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LDH__C_,A"><a class="permalink" href="#LDH__C_,A">LDH
@@ -876,9 +876,9 @@ Store value in register <b class="Sy">A</b> into byte at address
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
-<p class="Pp">This is sometimes written as &#x2018;<code class="Li">ldio [c],
-    a</code>&#x2019;, or &#x2018;<code class="Li">ld [$ff00+c],
-    a</code>&#x2019;.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LDIO
+    [C],A</code>&#x2019;, or &#x2018;<code class="Li">LD
+    [$FF00+C],A</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_r16_"><a class="permalink" href="#LD_A,_r16_">LD
@@ -907,9 +907,9 @@ Load value in register <b class="Sy">A</b> from byte at address
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
-<p class="Pp">This is sometimes written as &#x2018;<code class="Li">ldio a,
-    [n16]</code>&#x2019;, or &#x2018;<code class="Li">ld a,
-    [$ff00+n8]</code>&#x2019;.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LDIO
+    A,[n16]</code>&#x2019;, or &#x2018;<code class="Li">LD
+    A,[$FF00+n8]</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LDH_A,_C_"><a class="permalink" href="#LDH_A,_C_">LDH
@@ -919,9 +919,9 @@ Load value in register <b class="Sy">A</b> from byte at address
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
-<p class="Pp">This is sometimes written as &#x2018;<code class="Li">ldio a,
-    [c]</code>&#x2019;, or &#x2018;<code class="Li">ld a,
-    [$ff00+c]</code>&#x2019;.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LDIO
+    A,[C]</code>&#x2019;, or &#x2018;<code class="Li">LD
+    A,[$FF00+C]</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD__HLI_,A"><a class="permalink" href="#LD__HLI_,A">LD
@@ -931,6 +931,9 @@ Store value in register <b class="Sy">A</b> into byte pointed by
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    [HL+],A</code>&#x2019;, or &#x2018;<code class="Li">LDI
+    [HL],A</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD__HLD_,A"><a class="permalink" href="#LD__HLD_,A">LD
@@ -940,6 +943,9 @@ Store value in register <b class="Sy">A</b> into byte pointed by
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    [HL-],A</code>&#x2019;, or &#x2018;<code class="Li">LDD
+    [HL],A</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_HLD_"><a class="permalink" href="#LD_A,_HLD_">LD
@@ -949,6 +955,9 @@ Load value into register <b class="Sy">A</b> from byte pointed by
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    A,[HL-]</code>&#x2019;, or &#x2018;<code class="Li">LDD
+    A,[HL]</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_HLI_"><a class="permalink" href="#LD_A,_HLI_">LD
@@ -958,6 +967,9 @@ Load value into register <b class="Sy">A</b> from byte pointed by
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    A,[HL+],</code>&#x2019;, or &#x2018;<code class="Li">LDI
+    A,[HL]</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="LD_SP,n16"><a class="permalink" href="#LD_SP,n16">LD
