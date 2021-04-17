@@ -2233,15 +2233,22 @@ ENDC
 <div class="Bd Pp Bd-indent">
 <pre>
 PUSHO
-OPT   g.oOX ;Set the GB graphics constants to use these characters
-DW    `..ooOOXX
+    OPT g.oOX, Wdiv, !L   ; acts like command-line -g.oOX -Wdiv and omitting -L
+    DW `..ooOOXX          ; uses the graphics constant characters from OPT g
+    PRINTLN $80000000/-1  ; prints a warning about division
+    LD [$FF88], A         ; encoded as LD, not LDH
 POPO
-DW    `00112233
+    DW `00112233          ; uses the default graphics constant characters
+    PRINTLN $80000000/-1  ; no warning by default
+    LD [$FF88], A         ; optimized to use LDH if -L was passed
 </pre>
 </div>
 <p class="Pp">The options that OPT can modify are currently:
-    <code class="Cm">b</code>, <code class="Cm">g</code> and
-    <code class="Cm">p</code>.</p>
+    <code class="Cm">b</code>, <code class="Cm">g</code>,
+    <code class="Cm">p</code>, <code class="Cm">L</code>, and
+    <code class="Cm">W</code>. The Boolean flag option <code class="Cm">L</code>
+    can be specified as &#x2018;<code class="Li">OPT L</code>&#x2019; or
+    &#x2018;<code class="Li">OPT !L</code>&#x2019;.</p>
 <p class="Pp"><code class="Ic">POPO</code> and <code class="Ic">PUSHO</code>
     provide the interface to the option stack. <code class="Ic">PUSHO</code>
     will push the current set of options on the option stack.
