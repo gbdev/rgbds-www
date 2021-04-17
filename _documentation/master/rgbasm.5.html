@@ -872,6 +872,17 @@ There are a few other functions that do various useful things:
       <code class="Nm">rgbasm</code> is able to compute it.</td>
   </tr>
   <tr>
+    <td><code class="Fn">SIZEOF</code>(<var class="Fa">arg</var>)</td>
+    <td>Returns the size of the section named <var class="Ar">arg</var>. The
+      result is not constant, since only RGBLINK can compute its value.</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">STARTOF</code>(<var class="Fa">arg</var>)</td>
+    <td>Returns the starting address of the section named
+      <var class="Ar">arg</var>. The result is not constant, since only RGBLINK
+      can compute its value.</td>
+  </tr>
+  <tr>
     <td><code class="Fn">DEF</code>(<var class="Fa">symbol</var>)</td>
     <td>Returns TRUE (1) if <var class="Ar">symbol</var> has been defined, FALSE
       (0) otherwise. String equates are not expanded within the
