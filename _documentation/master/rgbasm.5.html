@@ -744,8 +744,10 @@ PURGE {NAME}_{d:INDEX}
       <var class="Fa">pos</var>, <var class="Fa">len</var>)</td>
     <td>Returns a substring from <var class="Ar">str</var>
       <span class="No">starting at</span> <var class="Ar">pos</var>
-      <span class="No">(first character is position 1) and</span>
-      <var class="Ar">len</var> <span class="No">characters long.</span></td>
+      <span class="No">(first character is position 1, last is position -1)
+      and</span> <var class="Ar">len</var> <span class="No">characters long.
+      If</span> <var class="Ar">len</var> <span class="No">is not specified the
+      substring continues to the end of</span> <var class="Ar">str</var>.</td>
   </tr>
   <tr>
     <td><code class="Fn">STRUPR</code>(<var class="Fa">str</var>)</td>
@@ -781,11 +783,11 @@ PURGE {NAME}_{d:INDEX}
       <var class="Fa">pos</var>)</td>
     <td>Returns the substring for the charmap entry at <var class="Ar">pos</var>
       <span class="No">in</span> <var class="Ar">str</var>
-      <span class="No">(first character is position 1) with the current
-      charmap.</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern
-      replaced by interpolating the format <var class="Ar">spec</var> with its
-      corresponding argument in <var class="Ar">args</var> (&#x2018;%%&#x2019;
-      is replaced by the &#x2018;%&#x2019; character).</td>
+      <span class="No">(first character is position 1, last is position -1) with
+      the current charmap.</span> &#x2018;<code class="Li">%spec</code>&#x2019;
+      pattern replaced by interpolating the format <var class="Ar">spec</var>
+      with its corresponding argument in <var class="Ar">args</var>
+      (&#x2018;%%&#x2019; is replaced by the &#x2018;%&#x2019; character).</td>
   </tr>
 </table>
 </section>
