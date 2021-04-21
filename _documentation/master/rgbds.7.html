@@ -27,6 +27,12 @@ $ rgblink -o baz.gb bar.o
 $ rgbfix -v -p 0 baz.gb
 </pre>
 </div>
+Or in a single command line:
+<div class="Bd Pp Bd-indent">
+<pre>
+$ rgbasm -o - foo.asm | rgblink -o - - | rgbfix -v -p 0 - &gt; baz.gb
+</pre>
+</div>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
