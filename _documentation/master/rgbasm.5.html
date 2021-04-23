@@ -1522,8 +1522,10 @@ ENDM
 </pre>
 </div>
 <p class="Pp">Macro arguments support all the escape sequences of strings, as
-    well as &#x2018;<code class="Li">\,</code>&#x2019; to escape commas, since
-    those otherwise separate arguments.</p>
+    well as &#x2018;<code class="Li">\,</code>&#x2019; to escape commas, as well
+    as &#x2018;<code class="Li">\(</code>&#x2019; and
+    &#x2018;<code class="Li">\)</code>&#x2019; to escape parentheses, since
+    those otherwise separate and enclose arguments, respectively.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Exporting_and_importing_symbols"><a class="permalink" href="#Exporting_and_importing_symbols">Exporting
@@ -1958,18 +1960,25 @@ ENDM
     example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
-MACRO PrintMacro
+MACRO PrintMacro1
+    PRINTLN STRCAT(\1)
+ENDM
+    PrintMacro1 &quot;Hello &quot;\, \
+                       &quot;world&quot;
+MACRO PrintMacro2
     PRINT \1
 ENDM
-
-    PrintMacro STRCAT(&quot;Hello &quot;\, \
-                      &quot;world\n&quot;)
+    PrintMacro2 STRCAT(&quot;Hello &quot;, \
+                       &quot;world\n&quot;)
 </pre>
 </div>
-<p class="Pp">The comma needs to be escaped to avoid it being treated as
-    separating the macro's arguments. The backslash in
-    &#x2018;<code class="Li">\n</code>&#x2019; does not need to be escaped
-    because string literals also work as usual inside macro arguments.</p>
+<p class="Pp">The comma in &#x2018;<code class="Li">PrintMacro1</code>&#x2019;
+    needs to be escaped to prevent it from starting another macro argument. The
+    comma in &#x2018;<code class="Li">PrintMacro2</code>&#x2019; does not need
+    escaping because it is inside parentheses, similar to macro arguments in C.
+    The backslash in &#x2018;<code class="Li">\n</code>&#x2019; also does not
+    need escaping because string literals work as usual inside macro
+  arguments.</p>
 <p class="Pp">Since there are only nine digits, you can only access the first
     nine macro arguments like this. To use the rest, you need to put the
     multi-digit argument number in angle brackets, like
