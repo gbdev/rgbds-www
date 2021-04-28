@@ -1295,8 +1295,8 @@ ThisWillBeExported.too::
   constants</a></h2>
 <code class="Ic">EQU</code> is used to define numerical constant symbols. Unlike
   <code class="Ic">SET</code> below, constants defined this way cannot be
-  redefined. They can, for example, be used for things such as bit definitions
-  of hardware registers.
+  redefined. These constants can be used for unchanging values such as
+  properties of the hardware.
 <div class="Bd Pp Bd-indent">
 <pre>
 def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
@@ -1439,7 +1439,7 @@ DEF pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
 DEF s EQUS &quot;Hello, &quot;
 REDEF s EQUS &quot;{s}world!&quot;
 ; prints &quot;Hello, world!&quot;
-PRINTT &quot;{s}0
+PRINTLN &quot;{s}0
 </pre>
 </div>
 <p class="Pp"><b class="Sy">Important note</b>: An <code class="Ic">EQUS</code>
