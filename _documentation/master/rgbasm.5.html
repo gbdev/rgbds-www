@@ -1305,6 +1305,25 @@ def SCREEN_HEIGHT equ 144
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
+<p class="Pp">If you <i class="Em">really</i> need to, the
+    <code class="Ic">REDEF</code> keyword will define or redefine a constant
+    symbol. This can be used, for example, to update a constant using a macro,
+    without making it mutable in general.</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+    def NUM_ITEMS equ 0
+MACRO add_item
+    redef NUM_ITEMS equ NUM_ITEMS + 1
+    def ITEM_{02x:NUM_ITEMS} equ 1
+ENDM
+    add_item 1
+    add_item 4
+    add_item 9
+    add_item 16
+    assert NUM_ITEMS == 4
+    assert ITEM_04 == 16
+</pre>
+</div>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Mutable_constants"><a class="permalink" href="#Mutable_constants">Mutable
