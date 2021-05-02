@@ -127,7 +127,8 @@ The <code class="Nm">rgbfix</code> program changes headers of Game Boy ROM
         can be obtained by passing &quot;help&quot; as the argument. Any amount
         of whitespace (space and tabs) is allowed around plus signs, and the
         order of &quot;components&quot; is free, as long as the MBC name is
-        first.</p>
+        first. There are special considerations to take for the TPP1 mapper; see
+        the <a class="Sx" href="#TPP1">TPP1</a> section below.</p>
   </dd>
   <dt><a class="permalink" href="#n"><code class="Fl" id="n">-n</code></a>
     <var class="Ar">rom_version</var>,
@@ -197,6 +198,42 @@ Most values in the ROM header do not matter to the actual console, and most are
 <p class="Pp"></p>
 <div class="Bd Bd-indent">$ rgbfix -cjsv -k A4 -l 0x33 -m 0x1B -p 0xFF -r 3 -t
   SURVIVALKIDAVKE SurvivalKids.gbc</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id="TPP1"><a class="permalink" href="#TPP1">TPP1</a></h1>
+TPP1 is a homebrew mapper designed as a functional superset of the common
+  traditional MBCs, allowing larger ROM and RAM sizes combined with other
+  hardware features. Its specification, as well as more resources, can be found
+  online at
+  <a class="Lk" href="https://github.com/TwitchPlaysPokemon/tpp1">https://github.com/TwitchPlaysPokemon/tpp1</a>.
+<section class="Ss">
+<h2 class="Ss" id="MBC_name"><a class="permalink" href="#MBC_name">MBC
+  name</a></h2>
+The MBC name for TPP1 is more complex than standard mappers. It must be followed
+  with the revision number, of the form
+  &#x2018;<code class="Li">major.minor</code>&#x2019;, where both
+  &#x2018;<code class="Li">major</code>&#x2019; and
+  &#x2018;<code class="Li">minor</code>&#x2019; are decimal, 8-bit integers.
+  There may be any amount of spaces or underscores between
+  &#x2018;<code class="Li">TPP1</code>&#x2019; and the revision number.
+  <code class="Nm">rgbfix</code> only supports 1.x revisions, and will reject
+  everything else.
+<p class="Pp">Like other mappers, the name may be followed with a list of
+    optional, &#x2018;<code class="Li">+</code>&#x2019;-separated features;
+    however, &#x2018;<code class="Li">RAM</code>&#x2019; should not be
+    specified, as the TPP1 mapper implicitly requests RAM if a non-zero RAM size
+    is specified. Therefore, <code class="Nm">rgbfix</code> will ignore the
+    &#x2018;<code class="Li">RAM</code>&#x2019; feature on a TPP1 mapper with a
+    warning.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Special_considerations"><a class="permalink" href="#Special_considerations">Special
+  considerations</a></h2>
+TPP1 overwrites the byte at <span class="Ad">0x14A</span>, usually indicating
+  the region destination (see <code class="Fl">-j</code>), with one of its three
+  identification bytes. Therefore, <code class="Nm">rgbfix</code> will warn
+  about and ignore <code class="Fl">-j</code> if used in combination with TPP1.
+</section>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h1>
