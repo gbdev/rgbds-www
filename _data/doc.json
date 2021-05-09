@@ -1,6 +1,7 @@
 {
 	"versions": [
 		{"name": "master",  "text": "master (development snapshot)" },
+		{"name": "v0.5.1",  "text": "v0.5.1" },
 		{"name": "v0.5.0",  "text": "v0.5.0" },
 		{"name": "v0.5.0-rcCar",  "text": "v0.5.0-rcCar" },
 		{"name": "v0.4.2",  "text": "v0.4.2" },
