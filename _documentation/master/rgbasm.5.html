@@ -771,7 +771,10 @@ PURGE {NAME}_{d:INDEX}
     <td><code class="Fn">STRFMT</code>(<var class="Fa">fmt</var>,
       <var class="Fa">args...</var>)</td>
     <td>Returns the string <var class="Ar">fmt</var> <span class="No">with
-      each</span></td>
+      each</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern replaced
+      by interpolating the format <var class="Ar">spec</var> with its
+      corresponding argument in <var class="Ar">args</var> (&#x2018;%%&#x2019;
+      is replaced by the &#x2018;%&#x2019; character).</td>
   </tr>
   <tr>
     <td><code class="Fn">CHARLEN</code>(<var class="Fa">str</var>)</td>
@@ -784,10 +787,7 @@ PURGE {NAME}_{d:INDEX}
     <td>Returns the substring for the charmap entry at <var class="Ar">pos</var>
       <span class="No">in</span> <var class="Ar">str</var>
       <span class="No">(first character is position 1, last is position -1) with
-      the current charmap.</span> &#x2018;<code class="Li">%spec</code>&#x2019;
-      pattern replaced by interpolating the format <var class="Ar">spec</var>
-      with its corresponding argument in <var class="Ar">args</var>
-      (&#x2018;%%&#x2019; is replaced by the &#x2018;%&#x2019; character).</td>
+      the current charmap.</span></td>
   </tr>
 </table>
 </section>
