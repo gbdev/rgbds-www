@@ -771,7 +771,10 @@ PURGE {NAME}_{d:INDEX}
     <td><code class="Fn">STRFMT</code>(<var class="Fa">fmt</var>,
       <var class="Fa">args...</var>)</td>
     <td>Returns the string <var class="Ar">fmt</var> <span class="No">with
-      each</span></td>
+      each</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern replaced
+      by interpolating the format <var class="Ar">spec</var> with its
+      corresponding argument in <var class="Ar">args</var> (&#x2018;%%&#x2019;
+      is replaced by the &#x2018;%&#x2019; character).</td>
   </tr>
   <tr>
     <td><code class="Fn">CHARLEN</code>(<var class="Fa">str</var>)</td>
@@ -784,10 +787,7 @@ PURGE {NAME}_{d:INDEX}
     <td>Returns the substring for the charmap entry at <var class="Ar">pos</var>
       <span class="No">in</span> <var class="Ar">str</var>
       <span class="No">(first character is position 1, last is position -1) with
-      the current charmap.</span> &#x2018;<code class="Li">%spec</code>&#x2019;
-      pattern replaced by interpolating the format <var class="Ar">spec</var>
-      with its corresponding argument in <var class="Ar">args</var>
-      (&#x2018;%%&#x2019; is replaced by the &#x2018;%&#x2019; character).</td>
+      the current charmap.</span></td>
   </tr>
 </table>
 </section>
@@ -1314,7 +1314,7 @@ def SCREEN_HEIGHT equ 144
     def NUM_ITEMS equ 0
 MACRO add_item
     redef NUM_ITEMS equ NUM_ITEMS + 1
-    def ITEM_{02x:NUM_ITEMS} equ 1
+    def ITEM_{02x:NUM_ITEMS} equ \1
 ENDM
     add_item 1
     add_item 4
@@ -2148,7 +2148,7 @@ N = 256
 </table>
 <p class="Pp">The <code class="Ic">FOR</code> value will be updated by
     <var class="Ar">step</var> until it reaches or exceeds
-    <var class="Ar">stop.</var> For example:</p>
+    <var class="Ar">stop</var>. For example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 FOR V, 4, 25, 5
