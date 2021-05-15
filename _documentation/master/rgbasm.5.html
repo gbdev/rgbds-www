@@ -1314,7 +1314,7 @@ def SCREEN_HEIGHT equ 144
     def NUM_ITEMS equ 0
 MACRO add_item
     redef NUM_ITEMS equ NUM_ITEMS + 1
-    def ITEM_{02x:NUM_ITEMS} equ 1
+    def ITEM_{02x:NUM_ITEMS} equ \1
 ENDM
     add_item 1
     add_item 4
@@ -2148,7 +2148,7 @@ N = 256
 </table>
 <p class="Pp">The <code class="Ic">FOR</code> value will be updated by
     <var class="Ar">step</var> until it reaches or exceeds
-    <var class="Ar">stop.</var> For example:</p>
+    <var class="Ar">stop</var>. For example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 FOR V, 4, 25, 5
