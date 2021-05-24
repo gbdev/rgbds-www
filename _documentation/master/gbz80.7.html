@@ -814,7 +814,7 @@ Load value <var class="Ar">n16</var> into register <var class="Ar">r16</var>.
 <section class="Ss">
 <h2 class="Ss" id="LD__HL_,r8"><a class="permalink" href="#LD__HL_,r8">LD
   [HL],r8</a></h2>
-Store value in register <var class="Ar">r8</var> into byte pointed to by
+Store value in register <var class="Ar">r8</var> into the byte pointed to by
   register <b class="Sy">HL</b>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -823,7 +823,7 @@ Store value in register <var class="Ar">r8</var> into byte pointed to by
 <section class="Ss">
 <h2 class="Ss" id="LD__HL_,n8"><a class="permalink" href="#LD__HL_,n8">LD
   [HL],n8</a></h2>
-Store value <var class="Ar">n8</var> into byte pointed to by register
+Store value <var class="Ar">n8</var> into the byte pointed to by register
   <b class="Sy">HL</b>.
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
@@ -832,7 +832,7 @@ Store value <var class="Ar">n8</var> into byte pointed to by register
 <section class="Ss">
 <h2 class="Ss" id="LD_r8,_HL_"><a class="permalink" href="#LD_r8,_HL_">LD
   r8,[HL]</a></h2>
-Load value into register <var class="Ar">r8</var> from byte pointed to by
+Load value into register <var class="Ar">r8</var> from the byte pointed to by
   register <b class="Sy">HL</b>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -841,7 +841,7 @@ Load value into register <var class="Ar">r8</var> from byte pointed to by
 <section class="Ss">
 <h2 class="Ss" id="LD__r16_,A"><a class="permalink" href="#LD__r16_,A">LD
   [r16],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte pointed to by register
+Store value in register <b class="Sy">A</b> into the byte pointed to by register
   <var class="Ar">r16</var>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -850,7 +850,7 @@ Store value in register <b class="Sy">A</b> into byte pointed to by register
 <section class="Ss">
 <h2 class="Ss" id="LD__n16_,A"><a class="permalink" href="#LD__n16_,A">LD
   [n16],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte at address
+Store value in register <b class="Sy">A</b> into the byte at address
   <var class="Ar">n16</var>.
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 3</p>
@@ -859,8 +859,8 @@ Store value in register <b class="Sy">A</b> into byte at address
 <section class="Ss">
 <h2 class="Ss" id="LDH__n16_,A"><a class="permalink" href="#LDH__n16_,A">LDH
   [n16],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte at address
-  <var class="Ar">n16</var>, provided it is between
+Store value in register <b class="Sy">A</b> into the byte at address
+  <var class="Ar">n16</var>, provided the address is between
   <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
@@ -872,7 +872,7 @@ Store value in register <b class="Sy">A</b> into byte at address
 <section class="Ss">
 <h2 class="Ss" id="LDH__C_,A"><a class="permalink" href="#LDH__C_,A">LDH
   [C],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte at address
+Store value in register <b class="Sy">A</b> into the byte at address
   <span class="Ad">$FF00+C</span>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -884,7 +884,7 @@ Store value in register <b class="Sy">A</b> into byte at address
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_r16_"><a class="permalink" href="#LD_A,_r16_">LD
   A,[r16]</a></h2>
-Load value in register <b class="Sy">A</b> from byte pointed to by register
+Load value in register <b class="Sy">A</b> from the byte pointed to by register
   <var class="Ar">r16</var>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -893,7 +893,7 @@ Load value in register <b class="Sy">A</b> from byte pointed to by register
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_n16_"><a class="permalink" href="#LD_A,_n16_">LD
   A,[n16]</a></h2>
-Load value in register <b class="Sy">A</b> from byte at address
+Load value in register <b class="Sy">A</b> from the byte at address
   <var class="Ar">n16</var>.
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 3</p>
@@ -902,8 +902,8 @@ Load value in register <b class="Sy">A</b> from byte at address
 <section class="Ss">
 <h2 class="Ss" id="LDH_A,_n16_"><a class="permalink" href="#LDH_A,_n16_">LDH
   A,[n16]</a></h2>
-Load value in register <b class="Sy">A</b> from byte at address
-  <var class="Ar">n16</var>, provided it is between
+Load value in register <b class="Sy">A</b> from the byte at address
+  <var class="Ar">n16</var>, provided the address is between
   <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
@@ -915,7 +915,7 @@ Load value in register <b class="Sy">A</b> from byte at address
 <section class="Ss">
 <h2 class="Ss" id="LDH_A,_C_"><a class="permalink" href="#LDH_A,_C_">LDH
   A,[C]</a></h2>
-Load value in register <b class="Sy">A</b> from byte at address
+Load value in register <b class="Sy">A</b> from the byte at address
   <span class="Ad">$FF00+c</span>.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -927,7 +927,7 @@ Load value in register <b class="Sy">A</b> from byte at address
 <section class="Ss">
 <h2 class="Ss" id="LD__HLI_,A"><a class="permalink" href="#LD__HLI_,A">LD
   [HLI],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte pointed by
+Store value in register <b class="Sy">A</b> into the byte pointed by
   <b class="Sy">HL</b> and increment <b class="Sy">HL</b> afterwards.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -939,7 +939,7 @@ Store value in register <b class="Sy">A</b> into byte pointed by
 <section class="Ss">
 <h2 class="Ss" id="LD__HLD_,A"><a class="permalink" href="#LD__HLD_,A">LD
   [HLD],A</a></h2>
-Store value in register <b class="Sy">A</b> into byte pointed by
+Store value in register <b class="Sy">A</b> into the byte pointed by
   <b class="Sy">HL</b> and decrement <b class="Sy">HL</b> afterwards.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -951,7 +951,7 @@ Store value in register <b class="Sy">A</b> into byte pointed by
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_HLD_"><a class="permalink" href="#LD_A,_HLD_">LD
   A,[HLD]</a></h2>
-Load value into register <b class="Sy">A</b> from byte pointed by
+Load value into register <b class="Sy">A</b> from the byte pointed by
   <b class="Sy">HL</b> and decrement <b class="Sy">HL</b> afterwards.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -963,7 +963,7 @@ Load value into register <b class="Sy">A</b> from byte pointed by
 <section class="Ss">
 <h2 class="Ss" id="LD_A,_HLI_"><a class="permalink" href="#LD_A,_HLI_">LD
   A,[HLI]</a></h2>
-Load value into register <b class="Sy">A</b> from byte pointed by
+Load value into register <b class="Sy">A</b> from the byte pointed by
   <b class="Sy">HL</b> and increment <b class="Sy">HL</b> afterwards.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -1203,7 +1203,7 @@ Rotate bits in register <var class="Ar">r8</var> left through carry.
 <section class="Ss">
 <h2 class="Ss" id="RL__HL_"><a class="permalink" href="#RL__HL_">RL
   [HL]</a></h2>
-Rotate byte pointed to by <b class="Sy">HL</b> left through carry.
+Rotate the byte pointed to by <b class="Sy">HL</b> left through carry.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- C</div>
 <p class="Pp">Cycles: 4</p>
@@ -1251,7 +1251,7 @@ Rotate register <var class="Ar">r8</var> left.
 <section class="Ss">
 <h2 class="Ss" id="RLC__HL_"><a class="permalink" href="#RLC__HL_">RLC
   [HL]</a></h2>
-Rotate byte pointed to by <b class="Sy">HL</b> left.
+Rotate the byte pointed to by <b class="Sy">HL</b> left.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- [7]</div>
 <p class="Pp">Cycles: 4</p>
@@ -1299,7 +1299,7 @@ Rotate register <var class="Ar">r8</var> right through carry.
 <section class="Ss">
 <h2 class="Ss" id="RR__HL_"><a class="permalink" href="#RR__HL_">RR
   [HL]</a></h2>
-Rotate byte pointed to by <b class="Sy">HL</b> right through carry.
+Rotate the byte pointed to by <b class="Sy">HL</b> right through carry.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">C -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 4</p>
@@ -1347,7 +1347,7 @@ Rotate register <var class="Ar">r8</var> right.
 <section class="Ss">
 <h2 class="Ss" id="RRC__HL_"><a class="permalink" href="#RRC__HL_">RRC
   [HL]</a></h2>
-Rotate byte pointed to by <b class="Sy">HL</b> right.
+Rotate the byte pointed to by <b class="Sy">HL</b> right.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">[0] -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 4</p>
@@ -1456,7 +1456,7 @@ Set bit <var class="Ar">u3</var> in the byte pointed by <b class="Sy">HL</b> to
 </section>
 <section class="Ss">
 <h2 class="Ss" id="SLA_r8"><a class="permalink" href="#SLA_r8">SLA r8</a></h2>
-Shift Left Arithmetic register <var class="Ar">r8</var>.
+Shift Left Arithmetically register <var class="Ar">r8</var>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- 0</div>
 <p class="Pp">Cycles: 2</p>
@@ -1476,7 +1476,7 @@ Shift Left Arithmetic register <var class="Ar">r8</var>.
 <section class="Ss">
 <h2 class="Ss" id="SLA__HL_"><a class="permalink" href="#SLA__HL_">SLA
   [HL]</a></h2>
-Shift Left Arithmetic byte pointed to by <b class="Sy">HL</b>.
+Shift Left Arithmetically the byte pointed to by <b class="Sy">HL</b>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- 0</div>
 <p class="Pp">Cycles: 4</p>
@@ -1485,7 +1485,7 @@ Shift Left Arithmetic byte pointed to by <b class="Sy">HL</b>.
 </section>
 <section class="Ss">
 <h2 class="Ss" id="SRA_r8"><a class="permalink" href="#SRA_r8">SRA r8</a></h2>
-Shift Right Arithmetic register <var class="Ar">r8</var>.
+Shift Right Arithmetically register <var class="Ar">r8</var>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">[7] -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 2</p>
@@ -1505,7 +1505,7 @@ Shift Right Arithmetic register <var class="Ar">r8</var>.
 <section class="Ss">
 <h2 class="Ss" id="SRA__HL_"><a class="permalink" href="#SRA__HL_">SRA
   [HL]</a></h2>
-Shift Right Arithmetic byte pointed to by <b class="Sy">HL</b>.
+Shift Right Arithmetically the byte pointed to by <b class="Sy">HL</b>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">[7] -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 4</p>
@@ -1514,7 +1514,7 @@ Shift Right Arithmetic byte pointed to by <b class="Sy">HL</b>.
 </section>
 <section class="Ss">
 <h2 class="Ss" id="SRL_r8"><a class="permalink" href="#SRL_r8">SRL r8</a></h2>
-Shift Right Logic register <var class="Ar">r8</var>.
+Shift Right Logically register <var class="Ar">r8</var>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">0 -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 2</p>
@@ -1534,7 +1534,7 @@ Shift Right Logic register <var class="Ar">r8</var>.
 <section class="Ss">
 <h2 class="Ss" id="SRL__HL_"><a class="permalink" href="#SRL__HL_">SRL
   [HL]</a></h2>
-Shift Right Logic byte pointed to by <b class="Sy">HL</b>.
+Shift Right Logically the byte pointed to by <b class="Sy">HL</b>.
 <p class="Pp"></p>
 <div class="Bd Bd-indent">0 -&gt; [7 -&gt; 0] -&gt; C</div>
 <p class="Pp">Cycles: 4</p>
@@ -1587,7 +1587,7 @@ Subtract the value <var class="Ar">n8</var> from <b class="Sy">A</b>.
 <section class="Ss">
 <h2 class="Ss" id="SWAP_r8"><a class="permalink" href="#SWAP_r8">SWAP
   r8</a></h2>
-Swap upper 4 bits in register <var class="Ar">r8</var> and the lower 4 ones.
+Swap the upper 4 bits in register <var class="Ar">r8</var> and the lower 4 ones.
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1605,8 +1605,8 @@ Swap upper 4 bits in register <var class="Ar">r8</var> and the lower 4 ones.
 <section class="Ss">
 <h2 class="Ss" id="SWAP__HL_"><a class="permalink" href="#SWAP__HL_">SWAP
   [HL]</a></h2>
-Swap upper 4 bits in the byte pointed by <b class="Sy">HL</b> and the lower 4
-  ones.
+Swap the upper 4 bits in the byte pointed by <b class="Sy">HL</b> and the lower
+  4 ones.
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#SWAP_r8">SWAP r8</a></p>
