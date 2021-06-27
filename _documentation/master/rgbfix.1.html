@@ -22,7 +22,7 @@ description: RGBDS master — Game Boy header utility and checksum fixer
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbfix</code></td>
-    <td>[<code class="Fl"><a href="#j">-j</a><a href="#s">s</a><a href="#V">V</a><a href="#v">v</a></code>] [<code class="Fl"><a href="#C">-C</a></code> |
+    <td>[<code class="Fl"><a href="#j">-j</a><a href="#O">O</a><a href="#s">s</a><a href="#V">V</a><a href="#v">v</a></code>] [<code class="Fl"><a href="#C">-C</a></code> |
       <code class="Fl"><a href="#c">-c</a></code>] [<code class="Fl"><a href="#f">-f</a></code>
       <var class="Ar">fix_spec</var>] [<code class="Fl"><a href="#i">-i</a></code>
       <var class="Ar">game_id</var>] [<code class="Fl"><a href="#k">-k</a></code>
@@ -138,6 +138,10 @@ The <code class="Nm">rgbfix</code> program changes headers of Game Boy ROM
     <var class="Ar">rom_version</var></dt>
   <dd>Set the ROM version (<span class="Ad">0x14C</span>) to a given value from
       0 to 0xFF.</dd>
+  <dt><a class="permalink" href="#O"><code class="Fl" id="O">-O</code></a>,
+    <code class="Fl">--overwrite</code></dt>
+  <dd>Allow overwriting different non-zero bytes in the header without a warning
+      being emitted.</dd>
   <dt><a class="permalink" href="#p"><code class="Fl" id="p">-p</code></a>
     <var class="Ar">pad_value</var>,
     <code class="Fl">--pad-value</code>
