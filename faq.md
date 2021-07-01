@@ -16,7 +16,7 @@ Here you can find solutions to common RGBDS problems and errors.
 <div itemscope itemtype="https://schema.org/FAQPage">
 	{% for question in site.faq %}
 	<article itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-		<h2 itemprop="name" id="{{ question.path | split: "/" | last | split: "." | first }}">{{ question.question | markdownify }}</h2> <a class="totop" href="#" title="Go back to top">↑</a>
+		<h2 itemprop="name" id="{{ question.path | split: "/" | last | split: "." | first }}">{{ question.question | markdownify }}</h2> <a class="totop" href="#faq" title="Go back to top">↑</a>
 		<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
 			<div itemprop="text">
 				{{ question.content | markdownify }}
