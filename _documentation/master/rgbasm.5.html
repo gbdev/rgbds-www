@@ -139,14 +139,8 @@ X = /* the value of x
     DB 1, 2, 3,&#x00A0;\
        4, 5, 6,&#x00A0;\&#x00A0;;&#x00A0;Put it before any comments
        7, 8, 9
-</pre>
-</div>
-<p class="Pp">This works anywhere in the code except inside of strings. To split
-    strings it is needed to use <code class="Fn">STRCAT</code>() like this:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-    db STRCAT(&quot;Hello &quot;,&#x00A0;\
-              &quot;world!&quot;)
+    DB &quot;Hello,&#x00A0;\&#x00A0;&#x00A0;;&#x00A0;Space before the \ is included
+world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;Any leading space is included
 </pre>
 </div>
 </section>
