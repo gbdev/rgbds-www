@@ -2330,14 +2330,14 @@ While <code class="Ic">ALIGN</code> as presented in
   <a class="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is, sometimes
   you instead want a particular piece of data (or code) in the middle of the
   section to be aligned. This is made easier through the use of mid-section
-  <code class="Ic">align</code> <var class="Ar">align</var>,
+  <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
   <var class="Ar">offset</var>. It will alter the section's attributes to ensure
-  that the location the <code class="Ic">align</code> directive is at, has its
+  that the location the <code class="Ic">ALIGN</code> directive is at, has its
   <var class="Ar">align</var> lower bits equal to <var class="Ar">offset</var>.
 <p class="Pp">If the constraint cannot be met (for example because the section
     is fixed at an incompatible address), and error is produced. Note that
-    <code class="Ic">align</code> <var class="Ar">align</var> is a shorthand for
-    <code class="Ic">align</code> <var class="Ar">align</var>,
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var> is a shorthand for
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
     <span class="No">0</span>.</p>
 </section>
 </section>
