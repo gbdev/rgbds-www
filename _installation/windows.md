@@ -4,7 +4,14 @@ name: Windows
 title: Windows install instructions
 ---
 
-# Intalling RGBDS on Windows
+# Installing RGBDS on Windows
+
+The install instructions change a bit depending on the environment you wish to use RGBDS with.
+
+## Windows (CMD, PowerShell)
+
+These instructions may also work for some environments listed further below, since most of them pick up Windows' PATH.
+If you have such an environment, we recommend you follow its specific install instructions.
 
 1. First, [pick the version you want to install]({{ site.baseurl }}/docs). If you want to [use `master`]({{ site.baseurl }}/docs/master/#what) instead of a release, [go here](master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
@@ -33,12 +40,18 @@ title: Windows install instructions
    - Put all of the files in a directory already in the `PATH`
 5. Profit! RGBDS can now be used from your favorite command line (`cmd.exe` or PowerShell, most likely). You can test it by running `rgbasm --version`.
 
-## [Cygwin](https://cygwin.com/)
+## [Cygwin](https://cygwin.com/), [MSYS2](https://github.com/msys2/msys2)
 
-Follow steps 1 to 3 of the instructions above; then, copy all of the `.exe` and `.dll` files to the `/usr/local/bin` directory of Cygwin's installation. With the default settings, that should be `C:\\cygwin64\\usr\\local\\bin`. **Do not put them in a subdirectory!** (e.g. `C:\\cygwin64\\usr\\local\\bin\\rgbds`) This would not work.
+Follow steps 1 to 3 of the instructions above to get the release's files; then, copy all of the `.exe` and `.dll` files to the `/usr/local/bin` directory of Cygwin/MSYS2's installation.
+(You can get its equivalent Windows path by running `cygpath -w /usr/local/bin`.)
+**Do not put them in a subdirectory** (e.g. `/usr/local/bin/rgbds`)**!**
+This would not work.
 
-After that, you should be able to use RGBDS from within the Cygwin terminal, which you can confirm by running `rgbasm -V`.
+After that, you should be able to use RGBDS from within the Cygwin/MSYS2 terminal, which you can confirm by running `rgbasm -V`.
+If this doesn't work, check that `/usr/local/bin` is within the PATH there (`echo $PATH`); if it isn't, you must add it (e.g. `export PATH="/usr/local/bin:$PATH"` in the `~/.bashrc`).
 
-## [WSL](https://docs.microsoft.com/en-us/windows/wsl/), [MSYS2](https://github.com/msys2/msys2), and other Linux-like environments
+Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is slower and has been reported to cause a bit of trouble to some.
 
-For these, you have to [build from source](source). On WSL, you should install any prereqs using `apt-get` (example: `sudo apt-get install libpng-dev`). On MSYS2, use `pacman` (example: `sudo pacman -S mingw-w64-libpng`).
+## [WSL](https://docs.microsoft.com/en-us/windows/wsl/), and all other Linux-like environments
+
+For these, you have to [build from source](source). On WSL, you should install any prereqs using `apt-get` (example: `sudo apt-get install libpng-dev`).
