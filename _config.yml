@@ -13,8 +13,8 @@ keywords:
   - game dev
   - assembly
   - asm
-baseurl: ""
-url: ""
+baseurl: "/"
+url: "https://rgbds.gbdev.io"
 logo: /assets/rgbds.png
 twitter:
   card: summary_large_image
