@@ -20,7 +20,11 @@ description: RGBDS master — language documentation
 <h1 class="Sh">TABLE OF CONTENTS</h1>
 <ul class="Bl-compact">
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
-  <li><a href="#SYNTAX">SYNTAX</a></li>
+  <li><a href="#SYNTAX">SYNTAX</a>
+    <ul class="Bl-compact">
+      <li><a href="#Symbol_interpolation">Symbol interpolation</a></li>
+    </ul>
+  </li>
   <li><a href="#EXPRESSIONS">EXPRESSIONS</a>
     <ul class="Bl-compact">
       <li><a href="#Numeric_Formats">Numeric Formats</a></li>
@@ -143,6 +147,166 @@ X = /* the value of x
 world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;Any leading space is included
 </pre>
 </div>
+<section class="Ss">
+<h2 class="Ss" id="Symbol_interpolation"><a class="permalink" href="#Symbol_interpolation">Symbol
+  interpolation</a></h2>
+A funky feature is &#x2018;<code class="Li">{symbol}</code>&#x2019; within a
+  string, called &#x201C;symbol interpolation&#x201D;. This will paste the
+  contents of &#x2018;<code class="Li">symbol</code>&#x2019; as if they were
+  part of the source file. If it is a string equate, its characters are simply
+  inserted as-is. If it is a numerical symbol, its value is converted to
+  hexadecimal notation with a dollar sign &#x2018;$&#x2019; prepended.
+<p class="Pp">Symbol interpolations can be nested, too!</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
+DEF meaning EQUS &quot;answer&quot;
+;&#x00A0;Defines answer = 42
+DEF {meaning} = 42
+;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is $2A&quot;
+PRINTLN &quot;The {meaning} to {topic} is {{meaning}}&quot;
+PURGE topic, meaning, {meaning}
+</pre>
+</div>
+<p class="Pp">Symbols can be <i class="Em">interpolated</i> even in the contexts
+    that disable automatic <i class="Em">expansion</i> of string equates:
+    &#x2018;<code class="Li">name</code>&#x2019; will be expanded in all of
+    &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
+    &#x2018;<code class="Li">DEF {name} EQU/SET/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
+    &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, but, for example,
+    won't be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;.</p>
+<p class="Pp">It's possible to change the way symbols are printed by specifying
+    a print format like so:
+    &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
+    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of these
+    parts:
+    &#x2018;<code class="Li">&lt;sign&gt;&lt;prefix&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;type&gt;</code>&#x2019;.
+    These parts are:</p>
+<table class="Bl-column">
+  <tr>
+    <th>Part</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;sign&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">+</code>&#x2019; or
+      &#x2018;<code class="Li">&#x00A0;</code>&#x2019;. If specified, prints
+      this character in front of non-negative numbers.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;prefix&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
+      the appropriate prefix for numbers,
+      &#x2018;<code class="Li">$</code>&#x2019;,
+      &#x2018;<code class="Li">&amp;</code>&#x2019;, or
+      &#x2018;<code class="Li">%</code>&#x2019;.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">-</code>&#x2019;. If specified, aligns
+      left instead of right.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;pad&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">0</code>&#x2019;. If specified, pads
+      right-aligned numbers with zeros instead of spaces.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;width&gt;</code>&#x2019;</td>
+    <td>May be one or more &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, pads the value to
+      this width, right-aligned with spaces by default.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;frac&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by one or more
+      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
+      digits of a fixed-point fraction. Defaults to 5 digits, maximum 255
+      digits.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
+    <td>Specifies the type of value.</td>
+  </tr>
+</table>
+<p class="Pp">All the format specifier parts are optional except the
+    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. Valid print types
+  are:</p>
+<table class="Bl-column Bd-indent">
+  <tr>
+    <th>Print type</th>
+    <th>Format</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">d</code>&#x2019;</td>
+    <td>Signed decimal</td>
+    <td>-42</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">u</code>&#x2019;</td>
+    <td>Unsigned decimal</td>
+    <td>42</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">x</code>&#x2019;</td>
+    <td>Lowercase hexadecimal</td>
+    <td>2a</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">X</code>&#x2019;</td>
+    <td>Uppercase hexadecimal</td>
+    <td>2A</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">b</code>&#x2019;</td>
+    <td>Binary</td>
+    <td>101010</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">o</code>&#x2019;</td>
+    <td>Octal</td>
+    <td>52</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">f</code>&#x2019;</td>
+    <td>Fixed-point</td>
+    <td>1234.56789</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
+    <td>String</td>
+    <td>&quot;example&quot;</td>
+  </tr>
+</table>
+<p class="Pp">Examples:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+SECTION &quot;Test&quot;, ROM0[2]
+X:             ;&#x00A0;This works with labels **whose address is known**
+Y = 3          ;&#x00A0;This also works with mutable constants
+SUM equ X + Y  ;&#x00A0;Likewise with immutable constants
+; Prints &quot;%0010 + $3 == 5&quot;
+PRINTLN &quot;{#05b:X} + {#x:Y} == {d:SUM}&quot;
+
+rsset 32
+PERCENT rb 1   ;&#x00A0;Same with offset constants
+VALUE = 20
+RESULT = MUL(20.0, 0.32)
+; Prints &quot;32% of 20 = 6.40&quot;
+PRINTLN &quot;{d:PERCENT}% of {d:VALUE} = {f:RESULT}&quot;
+
+WHO equs STRLWR(&quot;WORLD&quot;)
+; Prints &quot;Hello world!&quot;
+PRINTLN &quot;Hello {s:WHO}!&quot;
+</pre>
+</div>
+<p class="Pp">Although, for these examples, <code class="Ic">STRFMT</code> would
+    be more approriate; see <a class="Sx" href="#String_Expressions">String
+    Expressions</a> further below.</p>
+</section>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="EXPRESSIONS"><a class="permalink" href="#EXPRESSIONS">EXPRESSIONS</a></h1>
@@ -535,165 +699,6 @@ The most basic string expression is any number of characters contained in double
     included as-is, without needing to escape them with
     &#x2018;<code class="Li">\r</code>&#x2019; or
     &#x2018;<code class="Li">\n</code>&#x2019;.</p>
-<p class="Pp">A funky feature is
-    &#x2018;<code class="Li">{symbol}</code>&#x2019; within a string, called
-    &#x201C;symbol interpolation&#x201D;. This will paste the contents of
-    &#x2018;<code class="Li">symbol</code>&#x2019; as if they were part of the
-    source file. If it's a string symbol, its characters are simply inserted. If
-    it's a numerical symbol, its value is converted to hexadecimal notation with
-    a dollar sign &#x2018;$&#x2019; prepended.</p>
-<p class="Pp">Symbols can be <i class="Em">interpolated</i> even in the contexts
-    that disable <i class="Em">expansion</i> of string equates:
-    &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
-    &#x2018;<code class="Li">DEF {name} EQU/SET/EQUS/etc ...</code>&#x2019;,
-    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
-    &#x2018;<code class="Li">MACRO {name}</code>&#x2019; will all interpolate
-    the contents of &#x2018;<code class="Li">{name}</code>&#x2019;.</p>
-<p class="Pp">Symbol interpolations can be nested, too!</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
-DEF meaning EQUS &quot;answer&quot;
-;&#x00A0;Defines answer = 42
-DEF {meaning} = 42
-;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is 42&quot;
-PRINTLN &quot;The {meaning} to {topic} is {d:{meaning}}&quot;
-PURGE topic, meaning, {meaning}
-</pre>
-</div>
-<p class="Pp">It's possible to change the way symbols are converted by
-    specifying a print format like so:
-    &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
-    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of parts
-    &#x2018;<code class="Li">&lt;sign&gt;&lt;prefix&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;type&gt;</code>&#x2019;.
-    These parts are:</p>
-<table class="Bl-column">
-  <tr>
-    <th>Part</th>
-    <th>Meaning</th>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;sign&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">+</code>&#x2019; or
-      &#x2018;<code class="Li">&#x00A0;</code>&#x2019;. If specified, prints
-      this character in front of non-negative numbers.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;prefix&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
-      the appropriate prefix for numbers,
-      &#x2018;<code class="Li">$</code>&#x2019;,
-      &#x2018;<code class="Li">&amp;</code>&#x2019;, or
-      &#x2018;<code class="Li">%</code>&#x2019;.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">-</code>&#x2019;. If specified, aligns
-      left instead of right.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;pad&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">0</code>&#x2019;. If specified, pads
-      right-aligned numbers with zeros instead of spaces.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;width&gt;</code>&#x2019;</td>
-    <td>May be one or more &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
-      &#x2018;<code class="Li">9</code>&#x2019;. If specified, pads the value to
-      this width, right-aligned with spaces by default.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;frac&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by one or more
-      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
-      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
-      digits of a fixed-point fraction. Defaults to 5 digits, maximum 255
-      digits.</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
-    <td>Specifies the type of value.</td>
-  </tr>
-</table>
-<p class="Pp">All the format specifier parts are optional except the
-    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. Valid print types
-  are:</p>
-<table class="Bl-column Bd-indent">
-  <tr>
-    <th>Print type</th>
-    <th>Format</th>
-    <th>Example</th>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">d</code>&#x2019;</td>
-    <td>Signed decimal</td>
-    <td>-42</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">u</code>&#x2019;</td>
-    <td>Unsigned decimal</td>
-    <td>42</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">x</code>&#x2019;</td>
-    <td>Lowercase hexadecimal</td>
-    <td>2a</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">X</code>&#x2019;</td>
-    <td>Uppercase hexadecimal</td>
-    <td>2A</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">b</code>&#x2019;</td>
-    <td>Binary</td>
-    <td>101010</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">o</code>&#x2019;</td>
-    <td>Octal</td>
-    <td>52</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">f</code>&#x2019;</td>
-    <td>Fixed-point</td>
-    <td>1234.56789</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
-    <td>String</td>
-    <td>&quot;example&quot;</td>
-  </tr>
-</table>
-<p class="Pp">Examples:</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-; Prints &quot;%0010 + $3 == 5&quot;
-PRINTLN STRFMT(&quot;%#05b + %#x == %d&quot;, 2, 3, 2+3)
-; Prints &quot;32% of 20 = 6.40&quot;
-PRINTLN STRFMT(&quot;%d%% of %d = %.2f&quot;, 32, 20, MUL(20.0, 0.32))
-; Prints &quot;Hello world!&quot;
-PRINTLN STRFMT(&quot;Hello %s!&quot;, STRLWR(&quot;WORLD&quot;))
-</pre>
-</div>
-<p class="Pp">HINT: The <code class="Ic">{symbol}</code> construct can also be
-    used outside strings. The symbol's value is again inserted directly.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-def NAME equs &quot;ITEM&quot;
-def FMT equs &quot;d&quot;
-def ZERO_NUM equ 0
-def ZERO_STR equs &quot;0&quot;
-;&#x00A0;Defines INDEX as 100
-INDEX = 1{ZERO_STR}{{FMT}:ZERO_NUM}
-;&#x00A0;Defines ITEM_100 as &quot;\&quot;hundredth\&quot;&quot;
-def {NAME}_{d:INDEX} equs &quot;\&quot;hundredth\&quot;&quot;
-;&#x00A0;Prints &quot;ITEM_100 is hundredth&quot;
-PRINTLN STRCAT(&quot;{NAME}_{d:INDEX} is &quot;, {NAME}_{d:INDEX})
-;&#x00A0;Purges ITEM_100
-PURGE {NAME}_{d:INDEX}
-</pre>
-</div>
 <p class="Pp">The following functions operate on string expressions. Most of
     them return a string, however some of these functions actually return an
     integer and can be used as part of an integer expression!</p>
@@ -766,9 +771,11 @@ PURGE {NAME}_{d:INDEX}
       <var class="Fa">args...</var>)</td>
     <td>Returns the string <var class="Ar">fmt</var> <span class="No">with
       each</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern replaced
-      by interpolating the format <var class="Ar">spec</var> with its
-      corresponding argument in <var class="Ar">args</var> (&#x2018;%%&#x2019;
-      is replaced by the &#x2018;%&#x2019; character).</td>
+      by interpolating the format <var class="Ar">spec</var> (using the same
+      syntax as <a class="Sx" href="#Symbol_interpolation">Symbol
+      interpolation</a>) with its corresponding argument in
+      <var class="Ar">args</var> (&#x2018;%%&#x2019; is replaced by the
+      &#x2018;%&#x2019; character).</td>
   </tr>
   <tr>
     <td><code class="Fn">CHARLEN</code>(<var class="Fa">str</var>)</td>
