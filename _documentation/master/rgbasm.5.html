@@ -45,7 +45,8 @@ description: RGBDS master — language documentation
   </li>
   <li><a href="#SYMBOLS">SYMBOLS</a>
     <ul class="Bl-compact">
-      <li><a href="#Label_declaration">Label declaration</a></li>
+      <li><a href="#Labels">Labels</a></li>
+      <li><a href="#Anonymous_labels">Anonymous labels</a></li>
       <li><a href="#Immutable_constants">Immutable constants</a></li>
       <li><a href="#Mutable_constants">Mutable constants</a></li>
       <li><a href="#Offset_constants">Offset constants</a></li>
@@ -1219,50 +1220,87 @@ RGBDS supports several types of symbols:
   <dt><b class="Sy">String equate</b></dt>
   <dd>A text string that can be expanded later, similarly to a macro.</dd>
 </dl>
-<p class="Pp">Symbol names can contain letters, numbers, underscores
+<p class="Pp">Symbol names can contain ASCII letters, numbers, underscores
     &#x2018;_&#x2019;, hashes &#x2018;#&#x2019; and at signs &#x2018;@&#x2019;.
-    However, they must begin with either a letter or an underscore. Periods
-    &#x2018;.&#x2019; are allowed exclusively in labels, as described below. A
-    symbol cannot have the same name as a reserved keyword.</p>
+    However, they must begin with either a letter or an underscore.
+    Additionally, label names can contain up to a single dot
+    &#x2018;<code class="Li">.</code>&#x2019;, which may not be the first
+    character.</p>
+<p class="Pp">A symbol cannot have the same name as a reserved keyword.</p>
 <section class="Ss">
-<h2 class="Ss" id="Label_declaration"><a class="permalink" href="#Label_declaration">Label
-  declaration</a></h2>
+<h2 class="Ss" id="Labels"><a class="permalink" href="#Labels">Labels</a></h2>
 One of the assembler's main tasks is to keep track of addresses for you, so you
-  can work with meaningful names instead of &quot;magic&quot; numbers.
-<p class="Pp">This can be done in a number of ways:</p>
+  can work with meaningful names instead of &#x201C;magic&#x201D; numbers.
+  Labels enable just that: a label ties a name to a specific location within a
+  section. A label resolves to a bank and address, determined at the same time
+  as its parent section's (see further in this section).
+<p class="Pp">A label is defined by writing its name at the beginning of a line,
+    followed by one or two colons, without any whitespace between the label name
+    and the colon(s). Declaring a label (global or local) with two colons
+    &#x2018;<code class="Li">::</code>&#x2019; will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below). When defining a local label, the colon can be
+    omitted, and <code class="Nm">rgbasm</code> will act as if there was only
+    one.</p>
+<p class="Pp">A label is said to be <i class="Em">local</i> if its name contains
+    a dot &#x2018;<code class="Li">.</code>&#x2019;; otherwise, it is said to be
+    <i class="Em">global</i> (not to be mistaken with &#x201C;exported&#x201D;,
+    explained in <a class="Sx" href="#Exporting_and_importing_symbols">Exporting
+    and importing symbols</a> further below). More than one dot in label names
+    is not allowed.</p>
+<p class="Pp">For convenience, local labels can use a shorthand syntax: when a
+    symbol name starting with a dot is found (for example, inside an expression,
+    or when declaring a label), then the current &#x201C;label scope&#x201D; is
+    implicitly prepended.</p>
+<p class="Pp">Defining a global label sets it as the current &#x201C;label
+    scope&#x201D;, until the next global label definition, or the end of the
+    current section.</p>
+<p class="Pp">Here are some examples of label definitions:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 GlobalLabel:
 AnotherGlobal:
-.locallabel
+.locallabel ;&#x00A0;This defines &quot;AnotherGlobal.locallabel&quot;
 .another_local:
 AnotherGlobal.with_another_local:
 ThisWillBeExported:: ;&#x00A0;Note the two colons
 ThisWillBeExported.too::
 </pre>
 </div>
-<p class="Pp">Any label whose name does not contain a period is a global label.
-    Declaring a global label sets it as the current scoped label, until the next
-    global one. Global labels must be followed by one or two colons.</p>
-<p class="Pp">Any label whose name contains a single period is a local label.
-    Label names cannot contain more than one period. If the period is the first
-    character, it will have the current scoped label's name implicitly
-    prepended. Local labels may optionally be followed by one or two colons.
-    Local labels can be declared as
-    &#x2018;<code class="Li">scoped.local</code>&#x2019; or simply as
-    &#x2018;<code class="Li">.local</code>&#x2019;. If the former notation is
-    used, then &#x2018;<code class="Li">scoped</code>&#x2019; must actually be
-    the current scoped label.</p>
-<p class="Pp">Declaring a label (global or local) with two colons
-    &#x2018;<code class="Li">::</code>&#x2019; will
-    <code class="Ic">EXPORT</code> and define it at the same time. (See
-    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
-    importing symbols</a> below).</p>
-<p class="Pp"><b class="Sy">Anonymous labels</b> are useful for short blocks of
-    code. They are defined like normal labels, but without a name before the
-    colon. Anonymous labels are independent of label scoping, so defining one
-    does not change the scoped label, and referencing one is not affected by the
-    current scoped label.</p>
+<p class="Pp">In a numeric expression, a label evaluates to its address in
+    memory. (To obtain its bank, use the
+    &#x2018;<code class="Li">BANK()</code>&#x2019; function described in
+    <a class="Sx" href="#Other_functions">Other functions</a>). For example,
+    given the following, &#x2018;<code class="Li">ld de,
+    vPlayerTiles</code>&#x2019; would be equivalent to
+    &#x2018;<code class="Li">ld de, $80C0</code>&#x2019; assuming the section
+    ends up at <span class="Ad">$80C0</span>:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+SECTION &quot;Player tiles&quot;, VRAM
+PlayerTiles:
+    ds 6 * 16
+</pre>
+</div>
+<p class="Pp">A label's location (and thus value) is usually not determined
+    until the linking stage, so labels usually cannot be used as constants.
+    However, if the section in which the label is defined has a fixed base
+    address, its value is known at assembly time.</p>
+<p class="Pp">Also, while <code class="Nm">rgbasm</code> obviously can compute
+    the difference between two labels if both are constant, it is also able to
+    compute the difference between two non-constant labels if they both belong
+    to the same section, such as
+    &#x2018;<code class="Li">PlayerTiles</code>&#x2019; and
+    &#x2018;<code class="Li">PlayerTiles.end</code>&#x2019; above.</p>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Anonymous_labels"><a class="permalink" href="#Anonymous_labels">Anonymous
+  labels</a></h2>
+Anonymous labels are useful for short blocks of code. They are defined like
+  normal labels, but without a name before the colon. Anonymous labels are
+  independent of label scoping, so defining one does not change the scoped
+  label, and referencing one is not affected by the current scoped label.
 <p class="Pp">Anonymous labels are referenced using a colon
     &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
     &#x2018;<code class="Li">+</code>&#x2019; or minuses
@@ -1283,13 +1321,6 @@ ThisWillBeExported.too::
     dw $7FFF, $1061, $03E0, $58A5
 </pre>
 </div>
-<p class="Pp">A label's location (and thus value) is usually not determined
-    until the linking stage, so labels usually cannot be used as constants.
-    However, if the section in which the label is declared has a fixed base
-    address, its value is known at assembly time.</p>
-<p class="Pp"><code class="Nm">rgbasm</code> is able to compute the subtraction
-    of two labels either if both are constant as described above, or if both
-    belong to the same section.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Immutable_constants"><a class="permalink" href="#Immutable_constants">Immutable
