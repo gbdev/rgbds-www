@@ -28,7 +28,8 @@ description: RGBDS master — Game Boy linker
       <var class="Ar">sym_file</var>] [<code class="Fl"><a href="#O">-O</a></code>
       <var class="Ar">overlay_file</var>] [<code class="Fl"><a href="#o">-o</a></code>
       <var class="Ar">out_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
-      <var class="Ar">pad_value</var>] [<code class="Fl"><a href="#s">-s</a></code>
+      <var class="Ar">pad_value</var>] [<code class="Fl"><a href="#S">-S</a></code>
+      <var class="Ar">spec</var>] [<code class="Fl"><a href="#s">-s</a></code>
       <var class="Ar">symbol</var>] <var class="Ar">file ...</var></td>
   </tr>
 </table>
@@ -103,6 +104,14 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
     <var class="Ar">pad_value</var></dt>
   <dd>When inserting padding between sections, pad with this value. Has no
       effect if <code class="Fl">-O</code> is specified. The default is 0.</dd>
+  <dt><a class="permalink" href="#S"><code class="Fl" id="S">-S</code></a>
+    <var class="Ar">spec</var>,
+    <code class="Fl">--scramble</code>
+    <var class="Ar">spec</var></dt>
+  <dd>Enables a different &#x201C;scrambling&#x201D; algorithm for placing
+      sections. See <a class="Sx" href="#Scrambling_algorithm">Scrambling
+      algorithm</a> below for an explanation and a description of
+      <var class="Ar">spec</var>.</dd>
   <dt><a class="permalink" href="#s"><code class="Fl" id="s">-s</code></a>
     <var class="Ar">symbol</var>,
     <code class="Fl">--smart</code>
@@ -135,6 +144,61 @@ The <code class="Nm">rgblink</code> program links RGB object files, typically
       replacement for <a class="Xr" href="rgbfix.1">rgbfix(1)</a>'s
       <code class="Fl">-p</code> option!</dd>
 </dl>
+<section class="Ss">
+<h2 class="Ss" id="Scrambling_algorithm"><a class="permalink" href="#Scrambling_algorithm">Scrambling
+  algorithm</a></h2>
+The default section placement algorithm tries to minimize the number of banks
+  used; &#x201C;scrambling&#x201D; instead places sections into a given pool of
+  banks, trying to minimize the number of sections sharing a given bank. This is
+  useful to catch broken bank assumptions, such as expecting two different
+  sections to land in the same bank (that is not guaranteed unless both are
+  manually assigned the same bank number).
+<p class="Pp">A scrambling spec is a comma-separated list of region specs. A
+    trailing comma is allowed, as well as whitespace between all specs and their
+    components. Each region spec has the following form:</p>
+<div class="Bd
+  Bd-indent"><var class="Ar">region</var>[=<var class="Ar">size</var>]</div>
+<var class="Ar">region</var> must be one of the following (case-insensitive),
+  while <var class="Ar">size</var> must be a positive decimal integer between 1
+  and the corresponding maximum. Certain regions allow omitting the size, in
+  which case it defaults to its max value.
+<table class="Bl-column">
+  <tr>
+    <td>Region name</td>
+    <td>Max size</td>
+    <td>Size optional</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#romx"><code class="Cm" id="romx">romx</code></a></td>
+    <td>65535</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#sram"><code class="Cm" id="sram">sram</code></a></td>
+    <td>255</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#wramx"><code class="Cm" id="wramx">wramx</code></a></td>
+    <td>7</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<p class="Pp">A <var class="Ar">size</var> of 0 disables scrambling for that
+    region.</p>
+<p class="Pp">For example,
+    &#x2018;<code class="Li">romx=64,wramx=4</code>&#x2019; will scramble
+    <code class="Ic">ROMX</code> sections among ROM banks 1 to 64,
+    <code class="Ic">WRAMX</code> sections among RAM banks 1 to 4, and will not
+    scramble <code class="Ic">SRAM</code> sections.</p>
+<p class="Pp">Later region specs override earlier ones; for example,
+    &#x2018;<code class="Li">romx=42, Romx=0</code>&#x2019; disables scrambling
+    for <code class="Cm">romx</code>.</p>
+<p class="Pp"><code class="Cm">wramx</code> scrambling is silently ignored if
+    <code class="Fl">-w</code> is passed (including if implied by
+    <code class="Fl">-d</code>), as <code class="Ic">WRAMX</code> sections will
+    be treated as <code class="Ic">WRAM0</code>.</p>
+</section>
 </section>
 <section class="Sh">
 <h1 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h1>
