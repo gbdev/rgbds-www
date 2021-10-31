@@ -244,9 +244,15 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
     instead.</dd>
   <dt><a class="permalink" href="#Wshift-amount"><code class="Fl" id="Wshift-amount">-Wshift-amount</code></a></dt>
   <dd>Warn when a shift's operand is negative or greater than 32.</dd>
-  <dt><a class="permalink" href="#Wno-truncation"><code class="Fl" id="Wno-truncation">-Wno-truncation</code></a></dt>
-  <dd>Warn when an implicit truncation (for example, <code class="Ic">db</code>)
-      loses some bits.</dd>
+  <dt><a class="permalink" href="#Wtruncation="><code class="Fl" id="Wtruncation=">-Wtruncation=</code></a></dt>
+  <dd>Warn when an implicit truncation (for example, <code class="Ic">db</code>
+      to an 8-bit value) loses some bits. <code class="Fl">-Wtruncation=0</code>
+      or <code class="Fl">-Wno-truncation</code> disables this warning.
+      <code class="Fl">-Wtruncation=1</code> warns when an N-bit value's
+      absolute value is 2**N or greater. <code class="Fl">-Wtruncation=2</code>
+      or just <code class="Fl">-Wtruncation</code> also warns when an N-bit
+      value is below -2**(N-1), which will not fit in two's complement
+    encoding.</dd>
   <dt><a class="permalink" href="#Wno-user"><code class="Fl" id="Wno-user">-Wno-user</code></a></dt>
   <dd>Warn when the <code class="Ic">WARN</code> built-in is executed. (See
       &#x201C;Aborting the assembly process&#x201D; in
