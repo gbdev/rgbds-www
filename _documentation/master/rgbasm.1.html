@@ -217,8 +217,8 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
   <dd>Warn when re-defining a charmap mapping. This warning is enabled by
       <code class="Fl">-Wall</code>.</dd>
   <dt><a class="permalink" href="#Wdiv"><code class="Fl" id="Wdiv">-Wdiv</code></a></dt>
-  <dd>Warn when dividing the smallest negative integer by -1, which yields
-      itself due to integer overflow.</dd>
+  <dd>Warn when dividing the smallest negative integer (-2**31) by -1, which
+      yields itself due to integer overflow.</dd>
   <dt><a class="permalink" href="#Wempty-macro-arg"><code class="Fl" id="Wempty-macro-arg">-Wempty-macro-arg</code></a></dt>
   <dd>Warn when a macro argument is empty. This warning is enabled by
       <code class="Fl">-Wextra</code>.</dd>
@@ -251,8 +251,8 @@ Warnings are diagnostic messages that indicate possibly erroneous behavior that
       <code class="Fl">-Wtruncation=1</code> warns when an N-bit value's
       absolute value is 2**N or greater. <code class="Fl">-Wtruncation=2</code>
       or just <code class="Fl">-Wtruncation</code> also warns when an N-bit
-      value is below -2**(N-1), which will not fit in two's complement
-    encoding.</dd>
+      value is less than -2**(N-1), which will not fit in two's complement
+      encoding.</dd>
   <dt><a class="permalink" href="#Wno-user"><code class="Fl" id="Wno-user">-Wno-user</code></a></dt>
   <dd>Warn when the <code class="Ic">WARN</code> built-in is executed. (See
       &#x201C;Aborting the assembly process&#x201D; in
