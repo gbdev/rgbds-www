@@ -173,7 +173,7 @@ PURGE topic, meaning, {meaning}
     that disable automatic <i class="Em">expansion</i> of string equates:
     &#x2018;<code class="Li">name</code>&#x2019; will be expanded in all of
     &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
-    &#x2018;<code class="Li">DEF {name} EQU/SET/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">DEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
     &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
     &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, but, for example,
     won't be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;.</p>
@@ -1326,7 +1326,7 @@ Anonymous labels are useful for short blocks of code. They are defined like
 <h2 class="Ss" id="Immutable_constants"><a class="permalink" href="#Immutable_constants">Immutable
   constants</a></h2>
 <code class="Ic">EQU</code> is used to define numerical constant symbols. Unlike
-  <code class="Ic">SET</code> below, constants defined this way cannot be
+  <code class="Ic">=</code> below, constants defined this way cannot be
   redefined. These constants can be used for unchanging values such as
   properties of the hardware.
 <div class="Bd Pp Bd-indent">
@@ -1360,16 +1360,15 @@ ENDM
 <section class="Ss">
 <h2 class="Ss" id="Mutable_constants"><a class="permalink" href="#Mutable_constants">Mutable
   constants</a></h2>
-<code class="Ic">SET</code>, or its synonym <code class="Ic">=</code>, is used
-  to define numerical symbols like <code class="Ic">EQU</code>, but these
-  symbols can be redefined. This is useful for variables in macros, for
-  counters, etc.
+<code class="Ic">=</code> is used to define numerical symbols like
+  <code class="Ic">EQU</code>, but these symbols can be redefined. This is
+  useful for variables in macros, for counters, etc.
 <div class="Bd Pp Bd-indent">
 <pre>
 DEF ARRAY_SIZE EQU 4
-DEF   COUNT SET 2
-DEF   COUNT SET 3
-REDEF COUNT SET ARRAY_SIZE+COUNT
+DEF COUNT = 2
+DEF COUNT = 3
+REDEF COUNT = ARRAY_SIZE + COUNT
 COUNT = COUNT*2
 ;&#x00A0;COUNT now has the value 14
 </pre>
@@ -1452,7 +1451,7 @@ DEF str_SIZEOF EQU 259
   can think of it as similar to <code class="Fd">#define .</code> This expansion
   is disabled in a few contexts:
   &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
-  &#x2018;<code class="Li">DEF name EQU/SET/EQUS/etc ...</code>&#x2019;,
+  &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
   &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
   &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
   equates in their names.
@@ -1503,14 +1502,12 @@ PRINTLN &quot;{s}0
     causes the same problem.</p>
 <p class="Pp">The examples above for
     &#x2018;<code class="Li">EQU</code>&#x2019;,
-    &#x2018;<code class="Li">SET</code>&#x2019; or
     &#x2018;<code class="Li">=</code>&#x2019;,
     &#x2018;<code class="Li">RB</code>&#x2019;,
     &#x2018;<code class="Li">RW</code>&#x2019;,
     &#x2018;<code class="Li">RL</code>&#x2019;, and
     &#x2018;<code class="Li">EQUS</code>&#x2019; all start with
-    &#x2018;<code class="Li">DEF</code>&#x2019;. (A
-    &#x2018;<code class="Li">SET</code>&#x2019; or
+    &#x2018;<code class="Li">DEF</code>&#x2019;. (An
     &#x2018;<code class="Li">=</code>&#x2019; definition may start with
     &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they are
     redefinable.) You may use the older syntax without
@@ -1672,7 +1669,7 @@ The following symbols are defined by the assembler:
   </tr>
   <tr>
     <td><a class="permalink" href="#_RS"><code class="Dv" id="_RS">_RS</code></a></td>
-    <td><a class="permalink" href="#SET"><code class="Ic" id="SET">SET</code></a></td>
+    <td><a class="permalink" href="#="><code class="Ic" id="=">=</code></a></td>
     <td>_RS Counter</td>
   </tr>
   <tr>
