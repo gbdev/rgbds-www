@@ -1375,6 +1375,45 @@ COUNT = COUNT*2
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
+<p class="Pp">Mutable constants can be conveniently redefined by compound
+    assignment operators like in C:</p>
+<table class="Bl-column Bd-indent">
+  <tr>
+    <th>Operator</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#+=_-="><code class="Li" id="+=_-=">+=
+      -=</code></a></td>
+    <td>Compound plus/minus</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#*=_/=__="><code class="Li" id="*=_/=__=">*=
+      /= %=</code></a></td>
+    <td>Compound multiply/divide/modulo</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#__=___="><code class="Li" id="__=___=">&lt;&lt;=
+      &gt;&gt;=</code></a></td>
+    <td>Compound shift left/right</td>
+  </tr>
+  <tr>
+    <td><a class="permalink" href="#&amp;=__&amp;_=__="><code class="Li" id="&amp;=__&amp;_=__=">&amp;=
+      |= ^=</code></a></td>
+    <td>Compound and/or/xor</td>
+  </tr>
+</table>
+<p class="Pp">Examples:</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+DEF x = 10
+DEF x += 1    ; x == 11
+DEF y = x - 1 ; y == 10
+DEF y *= 2    ; y == 20
+DEF y &gt;&gt;= 1   ; y == 10
+DEF x ^= y    ; x == 1
+</pre>
+</div>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Offset_constants"><a class="permalink" href="#Offset_constants">Offset
