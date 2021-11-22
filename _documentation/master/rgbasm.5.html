@@ -27,20 +27,20 @@ description: RGBDS master — language documentation
   </li>
   <li><a href="#EXPRESSIONS">EXPRESSIONS</a>
     <ul class="Bl-compact">
-      <li><a href="#Numeric_Formats">Numeric Formats</a></li>
+      <li><a href="#Numeric_formats">Numeric formats</a></li>
       <li><a href="#Operators">Operators</a></li>
-      <li><a href="#Fixed_point_Expressions">Fixed-point Expressions</a></li>
-      <li><a href="#String_Expressions">String Expressions</a></li>
+      <li><a href="#Fixed_point_expressions">Fixed-point expressions</a></li>
+      <li><a href="#String_expressions">String expressions</a></li>
       <li><a href="#Character_maps">Character maps</a></li>
       <li><a href="#Other_functions">Other functions</a></li>
     </ul>
   </li>
   <li><a href="#SECTIONS">SECTIONS</a>
     <ul class="Bl-compact">
-      <li><a href="#Section_Stack">Section Stack</a></li>
-      <li><a href="#RAM_Code">RAM Code</a></li>
-      <li><a href="#Unionized_Sections">Unionized Sections</a></li>
-      <li><a href="#Section_Fragments">Section Fragments</a></li>
+      <li><a href="#Section_stack">Section stack</a></li>
+      <li><a href="#RAM_code">RAM code</a></li>
+      <li><a href="#Unionized_sections">Unionized sections</a></li>
+      <li><a href="#Section_fragments">Section fragments</a></li>
     </ul>
   </li>
   <li><a href="#SYMBOLS">SYMBOLS</a>
@@ -55,7 +55,7 @@ description: RGBDS master — language documentation
       <li><a href="#Exporting_and_importing_symbols">Exporting and importing
           symbols</a></li>
       <li><a href="#Purging_symbols">Purging symbols</a></li>
-      <li><a href="#Predeclared_Symbols">Predeclared Symbols</a></li>
+      <li><a href="#Predeclared_symbols">Predeclared symbols</a></li>
     </ul>
   </li>
   <li><a href="#DEFINING_DATA">DEFINING DATA</a>
@@ -306,8 +306,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;
 </pre>
 </div>
 <p class="Pp">Although, for these examples, <code class="Ic">STRFMT</code> would
-    be more approriate; see <a class="Sx" href="#String_Expressions">String
-    Expressions</a> further below.</p>
+    be more approriate; see <a class="Sx" href="#String_expressions">String
+    expressions</a> further below.</p>
 </section>
 </section>
 <section class="Sh">
@@ -323,8 +323,8 @@ An expression can be composed of many things. Numeric expressions are always
 <p class="Pp">The instructions in the macro-language generally require constant
     expressions.</p>
 <section class="Ss">
-<h2 class="Ss" id="Numeric_Formats"><a class="permalink" href="#Numeric_Formats">Numeric
-  Formats</a></h2>
+<h2 class="Ss" id="Numeric_formats"><a class="permalink" href="#Numeric_formats">Numeric
+  formats</a></h2>
 There are a number of numeric formats.
 <table class="Bl-column Bd-indent">
   <tr>
@@ -471,8 +471,8 @@ A great number of operators you can use in expressions are available (listed
     otherwise.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Fixed_point_Expressions"><a class="permalink" href="#Fixed_point_Expressions">Fixed-point
-  Expressions</a></h2>
+<h2 class="Ss" id="Fixed_point_expressions"><a class="permalink" href="#Fixed_point_expressions">Fixed-point
+  expressions</a></h2>
 Fixed-point numbers are basically normal (32-bit) integers, which count 65536ths
   instead of entire units, offering better precision than integers but limiting
   the range of values. The upper 16 bits are used for the integer part and the
@@ -637,8 +637,8 @@ ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
 </div>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="String_Expressions"><a class="permalink" href="#String_Expressions">String
-  Expressions</a></h2>
+<h2 class="Ss" id="String_expressions"><a class="permalink" href="#String_expressions">String
+  expressions</a></h2>
 The most basic string expression is any number of characters contained in double
   quotes (&#x2018;<code class="Li">&quot;for instance&quot;</code>&#x2019;). The
   backslash character &#x2018;<code class="Li">\</code>&#x2019; is special in
@@ -1063,8 +1063,8 @@ SECTION &quot;VRAM Data&quot;,ROMX,BANK[2],ALIGN[4] ;&#x00A0;align to 16 bytes
   </li>
 </ul>
 <section class="Ss">
-<h2 class="Ss" id="Section_Stack"><a class="permalink" href="#Section_Stack">Section
-  Stack</a></h2>
+<h2 class="Ss" id="Section_stack"><a class="permalink" href="#Section_stack">Section
+  stack</a></h2>
 <code class="Ic">POPS</code> and <code class="Ic">PUSHS</code> provide the
   interface to the section stack. The number of entries in the stack is limited
   only by the amount of memory in your machine.
@@ -1075,8 +1075,8 @@ SECTION &quot;VRAM Data&quot;,ROMX,BANK[2],ALIGN[4] ;&#x00A0;align to 16 bytes
     included.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="RAM_Code"><a class="permalink" href="#RAM_Code">RAM
-  Code</a></h2>
+<h2 class="Ss" id="RAM_code"><a class="permalink" href="#RAM_code">RAM
+  code</a></h2>
 Sometimes you want to have some code in RAM. But then you can't simply put it in
   a RAM section, you have to store it in ROM and copy it to RAM at some point.
 <p class="Pp">This means the code (or data) will not be stored in the place it
@@ -1133,8 +1133,8 @@ RAMLocation:
     as described below.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Unionized_Sections"><a class="permalink" href="#Unionized_Sections">Unionized
-  Sections</a></h2>
+<h2 class="Ss" id="Unionized_sections"><a class="permalink" href="#Unionized_sections">Unionized
+  sections</a></h2>
 When you're tight on RAM, you may want to define overlapping static memory
   allocations, as explained in the <a class="Sx" href="#Unions">Unions</a>
   section. However, a <code class="Ic">UNION</code> only works within a single
@@ -1169,8 +1169,8 @@ When you're tight on RAM, you may want to define overlapping static memory
     section is the largest of all its declarations.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Section_Fragments"><a class="permalink" href="#Section_Fragments">Section
-  Fragments</a></h2>
+<h2 class="Ss" id="Section_fragments"><a class="permalink" href="#Section_fragments">Section
+  fragments</a></h2>
 Section fragments are sections with a small twist: when several of the same name
   are encountered, they are concatenated instead of producing an error. This
   works within the same file (paralleling the behavior &quot;plain&quot;
@@ -1178,7 +1178,7 @@ Section fragments are sections with a small twist: when several of the same name
   an section fragment, add a <code class="Ic">FRAGMENT</code> keyword after the
   <code class="Ic">SECTION</code> one; the declaration is otherwise not
   different. However, similarly to
-  <a class="Sx" href="#Unionized_Sections">Unionized Sections</a>, some rules
+  <a class="Sx" href="#Unionized_sections">Unionized sections</a>, some rules
   must be followed:
 <ul class="Bl-bullet Bd-indent">
   <li>If one section has been declared as fragment, all sections with the same
@@ -1694,8 +1694,8 @@ DEF AOLer    EQUS  &quot;Me too&quot;
 <p class="Pp">String constants are not expanded within the symbol names.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Predeclared_Symbols"><a class="permalink" href="#Predeclared_Symbols">Predeclared
-  Symbols</a></h2>
+<h2 class="Ss" id="Predeclared_symbols"><a class="permalink" href="#Predeclared_symbols">Predeclared
+  symbols</a></h2>
 The following symbols are defined by the assembler:
 <table class="Bl-column Bd-indent">
   <tr>
