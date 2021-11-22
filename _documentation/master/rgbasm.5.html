@@ -47,10 +47,10 @@ description: RGBDS master — language documentation
     <ul class="Bl-compact">
       <li><a href="#Labels">Labels</a></li>
       <li><a href="#Anonymous_labels">Anonymous labels</a></li>
-      <li><a href="#Immutable_constants">Immutable constants</a></li>
-      <li><a href="#Mutable_constants">Mutable constants</a></li>
+      <li><a href="#Variables">Variables</a></li>
+      <li><a href="#Numeric_constants">Numeric constants</a></li>
       <li><a href="#Offset_constants">Offset constants</a></li>
-      <li><a href="#String_equates">String equates</a></li>
+      <li><a href="#String_constants">String constants</a></li>
       <li><a href="#Macros">Macros</a></li>
       <li><a href="#Exporting_and_importing_symbols">Exporting and importing
           symbols</a></li>
@@ -60,9 +60,10 @@ description: RGBDS master — language documentation
   </li>
   <li><a href="#DEFINING_DATA">DEFINING DATA</a>
     <ul class="Bl-compact">
-      <li><a href="#Declaring_variables_in_a_RAM_section">Declaring variables in
-          a RAM section</a></li>
-      <li><a href="#Defining_constant_data">Defining constant data</a></li>
+      <li><a href="#Statically_allocating_space_in_RAM">Statically allocating
+          space in RAM</a></li>
+      <li><a href="#Defining_constant_data_in_ROM">Defining constant data in
+          ROM</a></li>
       <li><a href="#Including_binary_files">Including binary files</a></li>
       <li><a href="#Unions">Unions</a></li>
     </ul>
@@ -154,8 +155,8 @@ world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x0
 A funky feature is &#x2018;<code class="Li">{symbol}</code>&#x2019; within a
   string, called &#x201C;symbol interpolation&#x201D;. This will paste the
   contents of &#x2018;<code class="Li">symbol</code>&#x2019; as if they were
-  part of the source file. If it is a string equate, its characters are simply
-  inserted as-is. If it is a numerical symbol, its value is converted to
+  part of the source file. If it is a string symbol, its characters are simply
+  inserted as-is. If it is a numeric symbol, its value is converted to
   hexadecimal notation with a dollar sign &#x2018;$&#x2019; prepended.
 <p class="Pp">Symbol interpolations can be nested, too!</p>
 <div class="Bd Pp Bd-indent">
@@ -170,7 +171,7 @@ PURGE topic, meaning, {meaning}
 </pre>
 </div>
 <p class="Pp">Symbols can be <i class="Em">interpolated</i> even in the contexts
-    that disable automatic <i class="Em">expansion</i> of string equates:
+    that disable automatic <i class="Em">expansion</i> of string constants:
     &#x2018;<code class="Li">name</code>&#x2019; will be expanded in all of
     &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
     &#x2018;<code class="Li">DEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
@@ -287,8 +288,8 @@ PURGE topic, meaning, {meaning}
 <pre>
 SECTION &quot;Test&quot;, ROM0[2]
 X:             ;&#x00A0;This works with labels **whose address is known**
-Y = 3          ;&#x00A0;This also works with mutable constants
-SUM equ X + Y  ;&#x00A0;Likewise with immutable constants
+Y = 3          ;&#x00A0;This also works with variables
+SUM equ X + Y  ;&#x00A0;And likewise with numeric constants
 ; Prints &quot;%0010 + $3 == 5&quot;
 PRINTLN &quot;{#05b:X} + {#x:Y} == {d:SUM}&quot;
 
@@ -311,7 +312,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;
 </section>
 <section class="Sh">
 <h1 class="Sh" id="EXPRESSIONS"><a class="permalink" href="#EXPRESSIONS">EXPRESSIONS</a></h1>
-An expression can be composed of many things. Numerical expressions are always
+An expression can be composed of many things. Numeric expressions are always
   evaluated using signed 32-bit math. Zero is considered to be the only
   &quot;false&quot; number, all non-zero numbers (including negative) are
   &quot;true&quot;.
@@ -891,7 +892,7 @@ There are a few other functions that do various useful things:
   <tr>
     <td><code class="Fn">DEF</code>(<var class="Fa">symbol</var>)</td>
     <td>Returns TRUE (1) if <var class="Ar">symbol</var> has been defined, FALSE
-      (0) otherwise. String equates are not expanded within the
+      (0) otherwise. String constants are not expanded within the
       parentheses.</td>
   </tr>
   <tr>
@@ -1134,17 +1135,18 @@ RAMLocation:
 <section class="Ss">
 <h2 class="Ss" id="Unionized_Sections"><a class="permalink" href="#Unionized_Sections">Unionized
   Sections</a></h2>
-When you're tight on RAM, you may want to define overlapping blocks of
-  variables, as explained in the <a class="Sx" href="#Unions">Unions</a>
-  section. However, the <code class="Ic">UNION</code> keyword only works within
-  a single file, which prevents e.g. defining temporary variables on a single
-  memory area across several files. Unionized sections solve this problem. To
-  declare an unionized section, add a <code class="Ic">UNION</code> keyword
-  after the <code class="Ic">SECTION</code> one; the declaration is otherwise
-  not different. Unionized sections follow some different rules from normal
+When you're tight on RAM, you may want to define overlapping static memory
+  allocations, as explained in the <a class="Sx" href="#Unions">Unions</a>
+  section. However, a <code class="Ic">UNION</code> only works within a single
+  file, so it can't be used e.g. to define temporary variables across several
+  files, all of which use the same statically allocated memory. Unionized
+  sections solve this problem. To declare an unionized section, add a
+  <code class="Ic">UNION</code> keyword after the
+  <code class="Ic">SECTION</code> one; the declaration is otherwise not
+  different. Unionized sections follow some different rules from normal
   sections:
 <ul class="Bl-bullet Bd-indent">
-  <li>The same unionized section (= having the same name) can be declared
+  <li>The same unionized section (i.e. having the same name) can be declared
       several times per <code class="Nm">rgbasm</code> invocation, and across
       several invocations. Different declarations are treated and merged
       identically whether within the same invocation, or different ones.</li>
@@ -1212,14 +1214,14 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
 RGBDS supports several types of symbols:
 <dl class="Bl-hang">
   <dt><b class="Sy">Label</b></dt>
-  <dd>Numerical symbol designating a memory location. May or may not have a
-      value known at assembly time.</dd>
+  <dd>Numeric symbol designating a memory location. May or may not have a value
+      known at assembly time.</dd>
   <dt><b class="Sy">Constant</b></dt>
-  <dd>Numerical symbol whose value has to be known at assembly time.</dd>
+  <dd>Numeric symbol whose value has to be known at assembly time.</dd>
   <dt><b class="Sy">Macro</b></dt>
   <dd>A block of <code class="Nm">rgbasm</code> code that can be invoked
     later.</dd>
-  <dt><b class="Sy">String equate</b></dt>
+  <dt><b class="Sy">String</b></dt>
   <dd>A text string that can be expanded later, similarly to a macro.</dd>
 </dl>
 <p class="Pp">Symbol names can contain ASCII letters, numbers, underscores
@@ -1325,60 +1327,24 @@ Anonymous labels are useful for short blocks of code. They are defined like
 </div>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Immutable_constants"><a class="permalink" href="#Immutable_constants">Immutable
-  constants</a></h2>
-<code class="Ic">EQU</code> is used to define numerical constant symbols. Unlike
-  <code class="Ic">=</code> below, constants defined this way cannot be
-  redefined. These constants can be used for unchanging values such as
-  properties of the hardware.
-<div class="Bd Pp Bd-indent">
-<pre>
-def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
-def SCREEN_HEIGHT equ 144
-</pre>
-</div>
-<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
-    following the name are not allowed.</p>
-<p class="Pp">If you <i class="Em">really</i> need to, the
-    <code class="Ic">REDEF</code> keyword will define or redefine a constant
-    symbol. This can be used, for example, to update a constant using a macro,
-    without making it mutable in general.</p>
-<div class="Bd Pp Bd-indent">
-<pre>
-    def NUM_ITEMS equ 0
-MACRO add_item
-    redef NUM_ITEMS equ NUM_ITEMS + 1
-    def ITEM_{02x:NUM_ITEMS} equ \1
-ENDM
-    add_item 1
-    add_item 4
-    add_item 9
-    add_item 16
-    assert NUM_ITEMS == 4
-    assert ITEM_04 == 16
-</pre>
-</div>
-</section>
-<section class="Ss">
-<h2 class="Ss" id="Mutable_constants"><a class="permalink" href="#Mutable_constants">Mutable
-  constants</a></h2>
-<code class="Ic">=</code> is used to define numerical symbols like
-  <code class="Ic">EQU</code>, but these symbols can be redefined. This is
-  useful for variables in macros, for counters, etc.
+<h2 class="Ss" id="Variables"><a class="permalink" href="#Variables">Variables</a></h2>
+An equal sign <code class="Ic">=</code> is used to define mutable numeric
+  symbols. Unlike the other symbols described below, variables can be redefined.
+  This is useful for internal symbols in macros, for counters, etc.
 <div class="Bd Pp Bd-indent">
 <pre>
 DEF ARRAY_SIZE EQU 4
 DEF COUNT = 2
 DEF COUNT = 3
-REDEF COUNT = ARRAY_SIZE + COUNT
+DEF COUNT = ARRAY_SIZE + COUNT
 COUNT = COUNT*2
 ;&#x00A0;COUNT now has the value 14
 </pre>
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
-<p class="Pp">Mutable constants can be conveniently redefined by compound
-    assignment operators like in C:</p>
+<p class="Pp">Variables can be conveniently redefined by compound assignment
+    operators like in C:</p>
 <table class="Bl-column Bd-indent">
   <tr>
     <th>Operator</th>
@@ -1414,6 +1380,42 @@ DEF y = x - 1 ; y == 10
 DEF y *= 2    ; y == 20
 DEF y &gt;&gt;= 1   ; y == 10
 DEF x ^= y    ; x == 1
+</pre>
+</div>
+</section>
+<section class="Ss">
+<h2 class="Ss" id="Numeric_constants"><a class="permalink" href="#Numeric_constants">Numeric
+  constants</a></h2>
+<code class="Ic">EQU</code> is used to define immutable numeric symbols. Unlike
+  <code class="Ic">=</code> above, constants defined this way cannot be
+  redefined. These constants can be used for unchanging values such as
+  properties of the hardware.
+<div class="Bd Pp Bd-indent">
+<pre>
+def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
+def SCREEN_HEIGHT equ 144
+</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp">If you <i class="Em">really</i> need to, the
+    <code class="Ic">REDEF</code> keyword will define or redefine a numeric
+    constant symbol. (It can also be used for variables, although it's not
+    necessary since they are mutable.) This can be used, for example, to update
+    a constant using a macro, without making it mutable in general.</p>
+<div class="Bd Pp Bd-indent">
+<pre>
+    def NUM_ITEMS equ 0
+MACRO add_item
+    redef NUM_ITEMS equ NUM_ITEMS + 1
+    def ITEM_{02x:NUM_ITEMS} equ \1
+ENDM
+    add_item 1
+    add_item 4
+    add_item 9
+    add_item 16
+    assert NUM_ITEMS == 4
+    assert ITEM_04 == 16
 </pre>
 </div>
 </section>
@@ -1484,10 +1486,10 @@ DEF str_SIZEOF EQU 259
     following the name are not allowed.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="String_equates"><a class="permalink" href="#String_equates">String
-  equates</a></h2>
-<code class="Ic">EQUS</code> is used to define string equate symbols. Wherever
-  the assembler reads a string equate, it gets <i class="Em">expanded</i>: the
+<h2 class="Ss" id="String_constants"><a class="permalink" href="#String_constants">String
+  constants</a></h2>
+<code class="Ic">EQUS</code> is used to define string constant symbols. Wherever
+  the assembler reads a string constant, it gets <i class="Em">expanded</i>: the
   symbol's name is replaced with its contents. If you are familiar with C, you
   can think of it as similar to <code class="Fd">#define .</code> This expansion
   is disabled in a few contexts:
@@ -1495,7 +1497,7 @@ DEF str_SIZEOF EQU 259
   &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
   &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
   &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
-  equates in their names.
+  constants in their names.
 <div class="Bd Pp Bd-indent">
 <pre>
 DEF COUNTREG EQUS &quot;[hl+]&quot;
@@ -1512,7 +1514,7 @@ DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
     db &quot;John&quot;
 </pre>
 </div>
-<p class="Pp">String equates can also be used to define small one-line
+<p class="Pp">String constants can also be used to define small one-line
   macros:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
@@ -1521,10 +1523,10 @@ DEF pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
-<p class="Pp">String equates can't be exported or imported.</p>
-<p class="Pp">String equates, like <code class="Ic">EQU</code> constants, cannot
-    be redefined. However, the <code class="Ic">REDEF</code> keyword will define
-    or redefine a string symbol. For example:</p>
+<p class="Pp">String constants can't be exported or imported.</p>
+<p class="Pp">String constants, like numeric constants, cannot be redefined.
+    However, the <code class="Ic">REDEF</code> keyword will define or redefine a
+    string constant symbol. For example:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
 DEF s EQUS &quot;Hello, &quot;
@@ -1533,14 +1535,13 @@ REDEF s EQUS &quot;{s}world!&quot;
 PRINTLN &quot;{s}0
 </pre>
 </div>
-<p class="Pp"><b class="Sy">Important note</b>: An <code class="Ic">EQUS</code>
-    can be expanded to a string that contains another
-    <code class="Ic">EQUS</code> and it will be expanded as well. If this
-    creates an infinite loop, <code class="Nm">rgbasm</code> will error out once
-    a certain depth is reached. See the <code class="Fl">-r</code> command-line
-    option in <a class="Xr" href="rgbasm.1">rgbasm(1)</a>. Also, a macro can
-    contain an <code class="Ic">EQUS</code> which calls the same macro, which
-    causes the same problem.</p>
+<p class="Pp"><b class="Sy">Important note</b>: When a string constant is
+    expanded, its expansion may contain another string constant, which will be
+    expanded as well. If this creates an infinite loop,
+    <code class="Nm">rgbasm</code> will error out once a certain depth is
+    reached. See the <code class="Fl">-r</code> command-line option in
+    <a class="Xr" href="rgbasm.1">rgbasm(1)</a>. The same problem can occur if
+    the expansion of a macro invokes another macro, recursively.</p>
 <p class="Pp">The examples above for
     &#x2018;<code class="Li">EQU</code>&#x2019;,
     &#x2018;<code class="Li">=</code>&#x2019;,
@@ -1548,15 +1549,14 @@ PRINTLN &quot;{s}0
     &#x2018;<code class="Li">RW</code>&#x2019;,
     &#x2018;<code class="Li">RL</code>&#x2019;, and
     &#x2018;<code class="Li">EQUS</code>&#x2019; all start with
-    &#x2018;<code class="Li">DEF</code>&#x2019;. (An
-    &#x2018;<code class="Li">=</code>&#x2019; definition may start with
-    &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they are
-    redefinable.) You may use the older syntax without
+    &#x2018;<code class="Li">DEF</code>&#x2019;. (A variable definition may
+    start with &#x2018;<code class="Li">REDEF</code>&#x2019; instead, since they
+    are redefinable.) You may use the older syntax without
     &#x2018;<code class="Li">DEF</code>&#x2019;, but then the name being defined
     <i class="Em">must not</i> have any whitespace before it; otherwise
     <code class="Nm">rgbasm</code> will treat it as a macro invocation.
     Furthermore, without the &#x2018;<code class="Li">DEF</code>&#x2019;
-    keyword, string equates may be expanded for the name. This can lead to
+    keyword, string constants may be expanded for the name. This can lead to
     surprising results:</p>
 <div class="Bd Pp Bd-indent">
 <pre>
@@ -1583,11 +1583,11 @@ ENDM
 </div>
 <p class="Pp">The example above defines
     &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
-    equates are not expanded within the name of the macro. You may use the older
-    syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019; instead of
-    &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a single colon
-    &#x2018;<code class="Li">:</code>&#x2019; following the macro's name. With
-    the older syntax, string equates may be expanded for the name.</p>
+    constants are not expanded within the name of the macro. You may use the
+    older syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019; instead
+    of &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a single
+    colon &#x2018;<code class="Li">:</code>&#x2019; following the macro's name.
+    With the older syntax, string constants may be expanded for the name.</p>
 <p class="Pp">Macros can't be exported or imported.</p>
 <p class="Pp">Plainly nesting macro definitions is not allowed, but this can be
     worked around using <code class="Ic">EQUS</code>. So this won't work:</p>
@@ -1683,7 +1683,7 @@ Linking failed with 1 error
   CAUTION!!!</i> I can't stress this enough, <b class="Sy">you seriously need to
   know what you are doing</b>. DON'T purge a symbol that you use in expressions
   the linker needs to calculate. When not sure, it's probably not safe to purge
-  anything other than string symbols, macros, and constants.
+  anything other than variables, numeric or string constants, or macros.
 <div class="Bd Pp Bd-indent">
 <pre>
 DEF Kamikaze EQUS  &quot;I don't want to live anymore&quot;
@@ -1691,7 +1691,7 @@ DEF AOLer    EQUS  &quot;Me too&quot;
          PURGE Kamikaze, AOLer
 </pre>
 </div>
-<p class="Pp">String equates are not expanded within the symbol names.</p>
+<p class="Pp">String constants are not expanded within the symbol names.</p>
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Predeclared_Symbols"><a class="permalink" href="#Predeclared_Symbols">Predeclared
@@ -1816,14 +1816,14 @@ The following symbols are defined by the assembler:
 <h1 class="Sh" id="DEFINING_DATA"><a class="permalink" href="#DEFINING_DATA">DEFINING
   DATA</a></h1>
 <section class="Ss">
-<h2 class="Ss" id="Declaring_variables_in_a_RAM_section"><a class="permalink" href="#Declaring_variables_in_a_RAM_section">Declaring
-  variables in a RAM section</a></h2>
-<code class="Ic">DS</code> allocates a number of empty bytes. This is the
-  preferred method of allocating space in a RAM section. You can also use
+<h2 class="Ss" id="Statically_allocating_space_in_RAM"><a class="permalink" href="#Statically_allocating_space_in_RAM">Statically
+  allocating space in RAM</a></h2>
+<code class="Ic">DS</code> statically allocates a number of empty bytes. This is
+  the preferred method of allocating space in a RAM section. You can also use
   <code class="Ic">DB</code>, <code class="Ic">DW</code> and
   <code class="Ic">DL</code> without any arguments instead (see
-  <a class="Sx" href="#Defining_constant_data">Defining constant data</a>
-  below).
+  <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data in
+  ROM</a> below).
 <div class="Bd Pp Bd-indent">
 <pre>
 DS 42 ;&#x00A0;Allocates 42 bytes
@@ -1835,8 +1835,8 @@ DS 42 ;&#x00A0;Allocates 42 bytes
     with <code class="Fl">-O</code>.</p>
 </section>
 <section class="Ss">
-<h2 class="Ss" id="Defining_constant_data"><a class="permalink" href="#Defining_constant_data">Defining
-  constant data</a></h2>
+<h2 class="Ss" id="Defining_constant_data_in_ROM"><a class="permalink" href="#Defining_constant_data_in_ROM">Defining
+  constant data in ROM</a></h2>
 <code class="Ic">DB</code> defines a list of bytes that will be stored in the
   final image. Ideal for tables and text.
 <div class="Bd Pp Bd-indent">
@@ -1906,9 +1906,9 @@ INCBIN &quot;data.bin&quot;,78,256
 </section>
 <section class="Ss">
 <h2 class="Ss" id="Unions"><a class="permalink" href="#Unions">Unions</a></h2>
-Unions allow multiple memory allocations to overlap, like unions in C. This does
-  not increase the amount of memory available, but allows re-using the same
-  memory region for different purposes.
+Unions allow multiple static memory allocations to overlap, like unions in C.
+  This does not increase the amount of memory available, but allows re-using the
+  same memory region for different purposes.
 <p class="Pp">A union starts with a <code class="Ic">UNION</code> keyword, and
     ends at the corresponding <code class="Ic">ENDU</code> keyword.
     <code class="Ic">NEXTU</code> separates each block of allocations, and you
@@ -1944,8 +1944,8 @@ VideoBuffer: ds 19
     described above.</p>
 <p class="Pp">Unions may be used in any section, but inside them may only be
     <code class="Ic">DS -</code> like commands (see
-    <a class="Sx" href="#Declaring_variables_in_a_RAM_section">Declaring
-    variables in a RAM section</a>).</p>
+    <a class="Sx" href="#Statically_allocating_space_in_RAM">Statically
+    allocating space in RAM</a>).</p>
 </section>
 </section>
 <section class="Sh">
@@ -2027,7 +2027,7 @@ MACRO LoopyMacro
 LoopyMacro MyVars,54
 </pre>
 </div>
-<p class="Pp">Arguments are passed as string equates, although there's no need
+<p class="Pp">Arguments are passed as string constants, although there's no need
     to enclose them in quotes. Thus, an expression will not be evaluated first
     but kind of copy-pasted. This means that it's probably a very good idea to
     use brackets around <code class="Ic">\1</code> to <code class="Ic">\9</code>
@@ -2072,7 +2072,7 @@ ENDM
     nine macro arguments like this. To use the rest, you need to put the
     multi-digit argument number in angle brackets, like
     &#x2018;<code class="Li">\&lt;10&gt;</code>&#x2019;. This bracketed syntax
-    supports decimal numbers and numeric symbol names. For example,
+    supports decimal numbers and numeric constant symbols. For example,
     &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; will get the last
     argument.</p>
 <p class="Pp">Other macro arguments and symbol interpolations will be expanded
@@ -2160,7 +2160,7 @@ ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
     range. <code class="Ic">FOR</code> is simpler than
     <code class="Ic">REPT</code> for that purpose. Everything between
     <code class="Ic">FOR</code> and the matching <code class="Ic">ENDR</code>
-    will be repeated for each value of a given symbol. String equates are not
+    will be repeated for each value of a given symbol. String constants are not
     expanded within the symbol name. For example, this code will produce a table
     of squared values from 0 to 255:</p>
 <div class="Bd Pp Bd-indent">
@@ -2281,16 +2281,18 @@ ENDR
 <pre>
 Function:
       xor a
-ASSERT LOW(Variable) == 0
-      ld h, HIGH(Variable)
+ASSERT LOW(MyByte) == 0
+      ld h, HIGH(MyByte)
       ld l, a
       ld a, [hli]
-      ; You can also indent this!
+; You can also indent this!
       ASSERT BANK(OtherFunction) == BANK(Function)
       call OtherFunction
 ; Lowercase also works
-assert Variable + 1 == OtherVariable
-      ld c, [hl]
+      ld hl, FirstByte
+      ld a, [hli]
+assert FirstByte + 1 == SecondByte
+      ld b, [hl]
       ret
 .end
       ; If you specify one, a message will be printed
