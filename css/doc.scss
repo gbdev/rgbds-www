@@ -16,6 +16,18 @@ permalink: /css/doc.css
 #man table.Bl-column {
 	border-collapse: collapse;
 
+	@media screen and (max-width: 480px) {
+		// This is to utilize all available space better on mobile
+		margin-left: 0;
+
+		td, th {
+			// break basically everything if space is small
+			word-break: break-word;
+			// Force min-width in conjunction with word-break setting
+			min-width: 15vw;
+		}
+	}
+
 	tr:not(:first-child) {
 		> td, > th {
 			border-top: 1px solid #aaa;
