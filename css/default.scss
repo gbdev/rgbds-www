@@ -5,7 +5,7 @@
 
 /// Variable definitions
 
-$navbar-height: 50px;
+$navbar-height: 51px;
 $navbar-border-bottom: 1px;
 $navbar-box-height: $navbar-height + $navbar-border-bottom;
 $navbar-breakpoint: 720px; // Width at which the navbar collapses
@@ -88,7 +88,6 @@ body {
 
 	background-color: $navbar-bg-color;
 	border-bottom: 1px solid #ccc;
-	box-shadow: 0 0 20px rgba(204,204,204,0.5);
 }
 
 #logo {

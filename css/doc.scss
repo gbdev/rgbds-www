@@ -34,14 +34,20 @@ permalink: /css/doc.css
 }
 
 @media screen and (max-width: 480px) {
+	body {
+		// prevent background leak
+		background: #eee;
+	}
 	#man {
 		table.Bl-column {
 			// This is to utilize all available space better on mobile
 			margin-left: 0;
+			table-layout: fixed;
+			max-width: 200vw;
 
 			td, th {
 				// break basically everything if space is small
-				word-break: break-word;
+				overflow-wrap: break-word;
 				// Force min-width in conjunction with word-break setting
 				min-width: 15vw;
 			}
