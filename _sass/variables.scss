@@ -1,0 +1,27 @@
+// This needs to be an odd number, to prevent some slightly thicker line on
+// horizontal scroll (https://github.com/gbdev/rgbds-www/pull/26#issuecomment-989158940)
+$navbar-height: 51px;
+$navbar-border-bottom: 1px;
+$navbar-box-height: $navbar-height + $navbar-border-bottom;
+$navbar-breakpoint: 720px; // Width at which the navbar collapses
+$navbar-bg-color: #e2e8cb;
+
+$logo-padding-top:        10px;
+$logo-padding-bottom:     10px;
+$logo-padding-left:       20px;
+$logo-padding-right:       0px;
+
+$nav-link-padding-top:     7px;
+$nav-link-padding-bottom: 14px;
+$nav-link-padding-left:   10px;
+$nav-link-padding-right:  10px;
+$nav-logo-padding-top:     5px;
+$nav-logo-padding-bottom:  5px;
+
+$max-width: 50em;
+
+/// media-queries
+$mobile-device: 480px;
+
+/// colors
+$main-background: #eee;

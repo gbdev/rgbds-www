@@ -2,28 +2,7 @@
 ---
 
 @import "monokai";
-
-/// Variable definitions
-
-$navbar-height: 51px;
-$navbar-border-bottom: 1px;
-$navbar-box-height: $navbar-height + $navbar-border-bottom;
-$navbar-breakpoint: 720px; // Width at which the navbar collapses
-$navbar-bg-color: #e2e8cb;
-
-$logo-padding-top:        10px;
-$logo-padding-bottom:     10px;
-$logo-padding-left:       20px;
-$logo-padding-right:       0px;
-
-$nav-link-padding-top:     7px;
-$nav-link-padding-bottom: 14px;
-$nav-link-padding-left:   10px;
-$nav-link-padding-right:  10px;
-$nav-logo-padding-top:     5px;
-$nav-logo-padding-bottom:  5px;
-
-$max-width: 50em;
+@import "variables";
 
 /// General styling
 
@@ -43,6 +22,11 @@ body {
 
 	margin: 0;
 	width: 100%;
+
+@media screen and (max-width: $mobile-device) {
+		// prevent background image leak
+		background: $main-background;
+	}
 }
 
 code, pre {
@@ -200,5 +184,5 @@ main {
 	max-width: $max-width;
 	// Prevent text from bumping sides on smaller windows
 	padding: 10px 20px;
-	background: #eee;
+	background: $main-background;
 }
