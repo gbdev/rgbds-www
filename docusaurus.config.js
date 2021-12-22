@@ -9,12 +9,12 @@ const config = {
   title: 'RGBDS',
   tagline: 'A free assembler/linker package for the Game Boy and Game Boy Color',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  baseUrl: '/rgbds-www2/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'gbdev', // Usually your GitHub org/user name.
-  projectName: 'rgbds', // Usually your repo name.
+  organizationName: 'avivace', // Usually your GitHub org/user name.
+  projectName: 'rgbds-www2', // Usually your repo name.
 
   presets: [
     [
@@ -44,6 +44,12 @@ const config = {
           src: 'img/logo.svg',
         },
         items: [
+          {
+            type: 'doc',
+            docId: '1',
+            position: 'left',
+            label: 'Docs',
+          },
           {
             to: '/faq',
             position: 'left',
