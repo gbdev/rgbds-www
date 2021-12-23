@@ -4,12 +4,11 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Get the most out of Game Boy hardware',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Play directly with low level registries and learn the hardware architecture of Game Boy system. Writing native Assembly code enables you to squeeze the limited Game Boy capabilities and push them to the limits.
       </>
     ),
   },
@@ -18,18 +17,18 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_version_control.svg').default,
     description: (
       <>
-        RGBDS is composed of four programs: RGBASM: the assembler, RGBLINK: the linker,
-        RGBFIX: the header “fixer”, RGBGFX: the image converter.
+        RGBDS is composed of four programs, covering the whole compilation pipeline, from ASM code to a ready ROM.
+        RGBASM is the assembler, RGBLINK the linker,
+        RGBFIX the header “fixer” and RGBGFX the image converter.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Open Source',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of Homebrew developers. Join us to get involved, showcase your project or get help.
       </>
     ),
   },
@@ -39,7 +38,7 @@ function Feature({Svg, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
+        
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
