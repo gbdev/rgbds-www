@@ -18,6 +18,11 @@ function HomepageHeader() {
             className="button button--secondary button--lg"
             to="/install">
             Install
+          </Link>&nbsp;
+           <Link
+            className="button button--secondary button--lg"
+            href="https://github.com/gbdev/rgbds">
+            Contribute
           </Link>
         </div>
       </div>

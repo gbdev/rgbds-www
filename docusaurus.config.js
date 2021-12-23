@@ -46,7 +46,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: '1',
+            docId: 'introduction',
             position: 'left',
             label: 'Docs',
           },
@@ -79,6 +79,10 @@ const config = {
               {
                 label: 'GB ASM Tutorial',
                 href: 'https://eldred.fr/gb-asm-tutorial/',
+              },
+              {
+                label: 'Game Boy technical reference',
+                href: 'https://gbdev.io/pandocs',
               },
             ],
           },
@@ -114,7 +118,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} RGBDS contributors.`,
+        copyright: `Game Boy is a registered trademark. This project is not endorsed by Nintendo.<br/> Copyright © 1997-${new Date().getFullYear()} RGBDS contributors.`,
       },
       prism: {
         theme: lightCodeTheme,
