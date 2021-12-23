@@ -8,7 +8,7 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Play directly with low level registries and learn the hardware architecture of Game Boy system. Writing native Assembly code enables you to squeeze the limited Game Boy capabilities and push them to the limits.
+        Go bare metal and program low level registries to learn the hardware architecture of Game Boy system. Writing native assembly code enables you to squeeze the limited Game Boy capabilities and push them to the limits.
       </>
     ),
   },
@@ -40,7 +40,7 @@ function Feature({Svg, title, description}) {
       <div className="text--center">
         
       </div>
-      <div className="text--center padding-horiz--md">
+      <div className=" padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>
       </div>
