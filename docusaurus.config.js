@@ -8,13 +8,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'RGBDS',
   tagline: 'A free assembler/linker package for the Game Boy and Game Boy Color',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://avivace.github.io',
   baseUrl: '/rgbds-www2/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'avivace', // Usually your GitHub org/user name.
-  projectName: 'rgbds-www2', // Usually your repo name.
+  organizationName: 'avivace', // XXX: change when moving to `gbdev`
+  projectName: 'rgbds-www2', // XXX: change when moving to `gbdev`
 
   presets: [
     [
@@ -23,8 +23,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: `https://github.com/avivace/rgbds-www2/edit/master`, // XXX: change when moving to `gbdev`
         },
         blog: false,
         theme: {
