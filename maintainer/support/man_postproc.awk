@@ -51,16 +51,22 @@ BEGIN {
 	gsub(/<\/h1/, "</h2")
 }
 
-# Skip printing the leading and trailing tables, as we don't use those
+# Skip printing some components at the beginning and end of the file
+# Skip the beginning and end <table>s, as they don't make much sense in this context
+# Additionally, strip the resulting wrapper <div class="manual-text">, as the way the raw HTML is injected needs such a <div> anyway
+# FInally, skip the first section (which is, by convention, `NAME`), as it is redundant with our <h1>
 BEGIN {
-	main_text = 0
-}
-/<div class="manual-text">/ {
-	main_text = 1
+	copy = 0
 }
 /<table class="foot">/ {
-	main_text = 0
+	# Thus we end up printing one line too much, but we can cut it later
+	copy = 0
 }
-main_text {
+copy {
 	print
+}
+/<\/section>/ {
+	# Begin printing *after* this line
+	# This skips the opening tag of the wrapping <div class="manual-text">
+	copy = 1
 }

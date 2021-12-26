@@ -2,16 +2,9 @@
 
 import generated from '!!raw-loader!@site/docs/rgbasm.1.html';
 
-<div dangerouslySetInnerHTML={{ __html: generated }} />
+<div class="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
 export const toc = [
-{
-	"value": "NAME",
-	"id": "NAME",
-	"level": 2,
-	"children": [
-	]
-},
 {
 	"value": "SYNOPSIS",
 	"id": "SYNOPSIS",

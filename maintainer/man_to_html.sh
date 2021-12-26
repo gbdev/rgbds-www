@@ -24,7 +24,8 @@ process_file() {
 	local basename="`basename "$1"`"
 
 	# Fragment links must use "final" formatting, as they are not processed by Docusaurus
-	mandoc "$1" -T html -O 'fragment,man=./%N.%S;https://man7.org/linux/man-pages/man%S/%N.%S.html' | "$script_dir"/support/man_postproc.awk >"$out_dir/$basename.html"
+	# Also, the `awk` script strips the wrapping `<div class="manual-text">`, but not its end tag; so, make sure to remove that last line ourselves.
+	mandoc "$1" -T html -O 'fragment,man=./%N.%S;https://man7.org/linux/man-pages/man%S/%N.%S.html' | "$script_dir"/support/man_postproc.awk | head -n -1 >"$out_dir/$basename.html"
 
 	{
 		awk '/\.Dt/ { page = tolower($2) "(" $3 ")" } /\.Nd/ { sub(/\.Nd /, ""); print "# " page " — " $0 }' <"$1"
@@ -32,7 +33,7 @@ process_file() {
 
 import generated from '!!raw-loader!@site/docs/$basename.html';
 
-<div dangerouslySetInnerHTML={{ __html: generated }} />
+<div class="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
 export const toc = [
 EOF
@@ -64,7 +65,10 @@ EOF
 
 		while read -r line; do
 			if [[ "$line" = ".Sh "* ]]; then
-				heading 2 "${line#.Sh }"
+				# The post-processor skips the `NAME` section, so strip it from the ToC as well
+				if [[ "$line" != ".Sh NAME" ]]; then
+					heading 2 "${line#.Sh }"
+				fi
 			elif [[ "$line" = ".Ss "* ]]; then
 				heading 3 "${line#.Ss }"
 			fi
