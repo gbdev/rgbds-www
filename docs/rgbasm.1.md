@@ -1,6 +1,6 @@
-# rgbgfx(1) — Game Boy graphics converter
+# rgbasm(1) — Game Boy assembler
 
-import generated from '!!raw-loader!@site/docs/rgbgfx.1.html';
+import generated from '!!raw-loader!@site/docs/rgbasm.1.html';
 
 <div dangerouslySetInnerHTML={{ __html: generated }} />
 
@@ -27,8 +27,8 @@ export const toc = [
 	]
 },
 {
-	"value": "ARGUMENTS",
-	"id": "ARGUMENTS",
+	"value": "DIAGNOSTICS",
+	"id": "DIAGNOSTICS",
 	"level": 2,
 	"children": [
 	]

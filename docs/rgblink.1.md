@@ -1,6 +1,6 @@
-# rgbgfx(1) — Game Boy graphics converter
+# rgblink(1) — Game Boy linker
 
-import generated from '!!raw-loader!@site/docs/rgbgfx.1.html';
+import generated from '!!raw-loader!@site/docs/rgblink.1.html';
 
 <div dangerouslySetInnerHTML={{ __html: generated }} />
 
@@ -24,13 +24,13 @@ export const toc = [
 	"id": "DESCRIPTION",
 	"level": 2,
 	"children": [
+{
+	"value": "Scrambling algorithm",
+	"id": "Scrambling_algorithm",
+	"level": 3,
+	"children": [
 	]
 },
-{
-	"value": "ARGUMENTS",
-	"id": "ARGUMENTS",
-	"level": 2,
-	"children": [
 	]
 },
 {

@@ -1,6 +1,6 @@
-# rgbgfx(1) — Game Boy graphics converter
+# rgbfix(1) — Game Boy header utility and checksum fixer
 
-import generated from '!!raw-loader!@site/docs/rgbgfx.1.html';
+import generated from '!!raw-loader!@site/docs/rgbfix.1.html';
 
 <div dangerouslySetInnerHTML={{ __html: generated }} />
 
@@ -27,17 +27,31 @@ export const toc = [
 	]
 },
 {
-	"value": "ARGUMENTS",
-	"id": "ARGUMENTS",
+	"value": "EXAMPLES",
+	"id": "EXAMPLES",
 	"level": 2,
 	"children": [
 	]
 },
 {
-	"value": "EXAMPLES",
-	"id": "EXAMPLES",
+	"value": "TPP1",
+	"id": "TPP1",
 	"level": 2,
 	"children": [
+{
+	"value": "MBC name",
+	"id": "MBC_name",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Special considerations",
+	"id": "Special_considerations",
+	"level": 3,
+	"children": [
+	]
+},
 	]
 },
 {
