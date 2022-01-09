@@ -8,13 +8,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'RGBDS',
   tagline: 'A free assembler/linker package for the Game Boy and Game Boy Color',
-  url: 'https://avivace.github.io',
+  url: 'https://gbdev.io',
   baseUrl: '/rgbds-www2/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'avivace', // XXX: change when moving to `gbdev`
-  projectName: 'rgbds-www2', // XXX: change when moving to `gbdev`
+  organizationName: 'gbdev',
+  projectName: 'rgbds-www2',
 
   presets: [
     [
