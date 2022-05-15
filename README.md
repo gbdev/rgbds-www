@@ -1,8 +1,11 @@
-# Website
+# RGBDS www
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+The new RGBDS official website, providing install instructions and documentation.
 
-### Installation
+Built using [Docusaurus `2.0.0-beta.20`](https://docusaurus.io/).
+
+
+## Installation
 
 ```
 $ yarn
@@ -24,18 +27,17 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment
+## License
 
-Using SSH:
+The documentation text is licensed under the [GNU Free Documentation License](LICENSE_docs).
 
-```
-$ USE_SSH=true yarn deploy
-```
+The website code is licensed under the [MIT license](LICENSE).
 
-Not using SSH:
+## Acknowledgments
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
+Website designed and built by [ISSOtm](https://github.com/issotm) and [avivace](https://github.com/issotm). Special thanks to:
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+- Eievui and Quinn for the new logo;
+- Rangi for the old logo;
+- RGBDS contributors;
+- [gbdev community](https://gbdev.io);

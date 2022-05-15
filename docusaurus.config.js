@@ -138,7 +138,7 @@ const config = {
       },
       announcementBar: {
         id: 'announcementBar-1', // Increment on change
-        content: `⭐️ Welcome to the new RGBDS website! Please report any issue <a target="_blank" rel="noopener noreferrer" href=" https://github.com/gbdev/rgbds-www">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/gbdev0">Twitter </a>`,
+        content: `⭐️ Welcome to the new RGBDS website! Please report any issues <a target="_blank" rel="noopener noreferrer" href="https://github.com/gbdev/rgbds-www/issues">on GitHub</a>, and <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/gbdev0">follow us on Twitter</a>!`,
       },
       prism: {
         theme: lightCodeTheme,

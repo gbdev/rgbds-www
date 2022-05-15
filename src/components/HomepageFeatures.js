@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import Link from '@docusaurus/Link';
 import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
@@ -25,8 +26,8 @@ const FeatureList = [
     title: 'Open Source',
     description: (
       <>
-        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of homebrew developers. <a href="https://gbdev.io/chat">Join us</a> to get involved, <a href="https://hh.gbdev.io">showcase your project</a>, or get help.<br />
-        The extensive <a href="/docs/">documentation</a> also allows easy integration into any workflow.
+        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of homebrew developers. <Link to="https://gbdev.io/chat">Join us</Link> to get involved, <Link to="https://hh.gbdev.io">showcase your project</Link>, or get help.<br />
+        The extensive <Link to="/docs/">documentation</Link> also allows easy integration into any workflow.
       </>
     ),
   },

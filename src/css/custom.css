@@ -251,7 +251,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 .footer {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   background-color: #2b3137;
 }
 
@@ -276,9 +276,15 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 .hero__title {
   font-size: 5rem;
   font-family: 'Akshar Medium';
+  margin-top: 0rem;
 }
 
 .hero__subtitle {
   font-family: 'Akshar Medium';
   font-size: 1.75rem;
+}
+
+.navbar__title {
+  font-family: 'Akshar Medium';
+  font-size:  1.3rem;
 }
