@@ -1,9 +1,26 @@
 
 # Release information
 
-## GitHub links
+## What is `master`? {#master}
 
-The [release page](https://github.com/gbdev/rgbds/releases/???) contains the full changelog, as well as pre-built downloads.
+`master` is the name of RGBDS' main development branch. It's usually employed as a version name to refer to the state of in-development RGBDS: it contains the latest changes as they are pushed, but for this reason it's very unstable.
+
+### Pros and cons of `master` over releases
+
+Pros:
+
+- Get the latest changes quickly
+- Also get bugfixes quickly
+- Help development by submitting feedback early
+
+Cons:
+
+- Tested, but unstable, so expect things to break often
+- Must be compiled manually, unless you [use our CI](/install#using-our-ci)
+- Updated often
+
+In general, we only recommend using `master` to experienced users that can afford breakage from time to time.
+If you do decide to use `master`, we thank you and encourage you to [report any bugs you find](https://github.com/gbdev/rgbds/issue)!
 
 ## Table of contents
 
