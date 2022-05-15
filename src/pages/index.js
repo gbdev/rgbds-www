@@ -34,10 +34,10 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
+      title="Welcome!"
+      description="RGBDS is the community's preferred Game Boy and Game Boy Color assembler package, free and open-source.">
       <main>
+        <HomepageHeader />
         <HomepageFeatures />
       </main>
     </Layout>

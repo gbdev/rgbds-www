@@ -4,31 +4,29 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Get the most out of Game Boy hardware',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Get the most out of your Game Boy',
     description: (
       <>
-        Go bare metal and program low level registries to learn the hardware architecture of Game Boy system. Writing native assembly code enables you to squeeze the limited Game Boy capabilities and push them to the limits.
+        Gain complete control over the console; with no middle-man, debugging is made simpler.<br />
+        Writing native assembly code lets you push the Game Boy's limited capabilities to their limits if you want to.
       </>
     ),
   },
   {
     title: 'Complete toolchain',
-    Svg: require('../../static/img/undraw_version_control.svg').default,
     description: (
       <>
-        RGBDS is composed of four programs, covering the whole compilation pipeline, from ASM code to a ready ROM.
-        RGBASM is the assembler, RGBLINK the linker,
-        RGBFIX the header “fixer” and RGBGFX the image converter.
+        RGBDS' four programs cover the whole compilation pipeline into a ready-to-play ROM, from RGBGFX the image converter to RGBFIX the header "fixer".<br />
+        Each tool can easily be swapped for a custom one, or used stand-alone as part of another process.
       </>
     ),
   },
   {
     title: 'Open Source',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of Homebrew developers. Join us to get involved, showcase your project or get help.
+        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of homebrew developers. <a href="https://gbdev.io/chat">Join us</a> to get involved, <a href="https://hh.gbdev.io">showcase your project</a>, or get help.<br />
+        The extensive <a href="/docs/">documentation</a> also allows easy integration into any workflow.
       </>
     ),
   },

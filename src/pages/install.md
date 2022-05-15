@@ -10,6 +10,8 @@ import TabItem from '@theme/TabItem';
 
 You can either [use a pre-built version](#pre-built), if one is available for your operating system; or you can [build RGBDS from source](#building-from-source).
 
+<hr />
+
 ## Pre-built
 
 Below is a list of OSes we know are supported.
@@ -117,6 +119,8 @@ For these, you have to [build from source](#building-from-source). On WSL, you s
 </div>
 </details>
 
+<hr />
+
 ## Building from source
 
 RGBDS is open-source, which means you can always compile it yourself, for example if no pre-built solution is available to you, or if you want a specific version.
@@ -187,7 +191,7 @@ The following variables can be defined to control installation, like so: `make Q
 
 :::info CMake minimum version
 
-Building RGBDS with CMake requires CMake 3..9 or later.
+Building RGBDS with CMake requires CMake 3.9 or later.
 
 :::
 
@@ -227,6 +231,8 @@ sudo cmake --install build
 cd build
 sudo make install
 ```
+
+<hr />
 
 ## Using RGBDS `master`
 
