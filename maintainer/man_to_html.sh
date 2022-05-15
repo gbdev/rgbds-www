@@ -41,7 +41,7 @@ process_file() {
 
 import generated from '!!raw-loader!./$basename.html';
 
-<div class="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
 export const toc = [
 EOF
