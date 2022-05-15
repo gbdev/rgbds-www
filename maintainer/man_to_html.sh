@@ -4,7 +4,7 @@ set -e
 
 usage() {
 	cat >&2 <<EOF
-Usage: $0 <output directory> <source man page>...
+Usage: $0 <version name> <source man page>...
 Renders a man page to HTML suitable for inclusion in this repo, and a MDX
 file including it.
 This should be run from the directory the man page is in, so that \`mandoc\` correctly
@@ -18,7 +18,13 @@ if [ $# -lt 2 ]; then
 fi
 
 script_dir="$(dirname "$(realpath "$0")")"
-out_dir="$1"
+if [[ $1 = master ]]; then
+	out_dir="$script_dir/../../docs"
+else
+	out_dir="$script_dir/../../versioned_docs/version-$1"
+	mkdir -p "$out_dir"
+	cp "$script_dir/../../docs"{index,feedback}.md "$out_dir"
+fi
 
 process_file() {
 	local basename
