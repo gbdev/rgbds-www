@@ -20,22 +20,24 @@ const config = {
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: `https://github.com/avivace/rgbds-www2/edit/master`, // XXX: change when moving to `gbdev`
+          sidebarCollapsible: false,
+          editUrl: `https://github.com/gbdev/rgbds-www2/edit/master`,
         },
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }),
+      },
     ],
   ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+
       navbar: {
         title: 'RGBDS',
         logo: {
@@ -64,7 +66,8 @@ const config = {
 
           {
             href: 'https://github.com/gbdev/rgbds',
-            label: 'GitHub',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
             position: 'right',
           },
         ],
@@ -109,20 +112,21 @@ const config = {
               {
                 label: 'Game Boy Development resources',
                 href: 'https://gbdev.io/list.html#introduction',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
+              }
             ],
           },
         ],
         copyright: `Game Boy is a registered trademark. This project is not endorsed by Nintendo.<br/> Copyright © 1997-${new Date().getFullYear()} RGBDS contributors.`,
       },
+      announcementBar: {
+        id: 'announcementBar-1', // Increment on change
+        content: `⭐️ Welcome to the new RGBDS website! Please report any issue <a target="_blank" rel="noopener noreferrer" href=" https://github.com/gbdev/rgbds-www">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/gbdev0">Twitter </a>`,
+      },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+
     }),
 };
 

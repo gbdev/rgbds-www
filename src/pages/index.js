@@ -15,14 +15,19 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
+            className="button button--secondary button--lg btn-install"
             to="/install">
             Install
           </Link>&nbsp;
            <Link
-            className="button button--secondary button--lg"
+            className="button button--secondary button--lg btn-contribute"
             href="https://github.com/gbdev/rgbds">
             Contribute
+          </Link>&nbsp;
+          <Link
+            className="button button--secondary button--lg btn-learn"
+            href="https://eldred.fr/gb-asm-tutorial/">
+            Learn Assembly
           </Link>
         </div>
       </div>
