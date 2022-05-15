@@ -26,12 +26,12 @@ const config = {
   tagline:
     "A free assembler/linker package for the Game Boy and Game Boy Color",
   url: "https://gbdev.io",
-  baseUrl: "/rgbds-www2/",
+  baseUrl: "/",
   onBrokenLinks: "error",
   onBrokenMarkdownLinks: "error",
   favicon: "img/favicon.ico",
   organizationName: "gbdev",
-  projectName: "rgbds-www2",
+  projectName: "rgbds-www",
 
   presets: [
     [
@@ -59,7 +59,7 @@ const config = {
       navbar: {
         title: "RGBDS",
         logo: {
-          alt: "My Site Logo",
+          alt: "RGBDS logo",
           src: "img/logo.svg",
         },
         items: [
@@ -70,7 +70,7 @@ const config = {
           },
           {
             type: "docsVersionDropdown",
-            position: "left",
+            position: "right",
             dropdownActiveClassDisabled: true,
           },
           {
