@@ -1,41 +1,54 @@
-import React from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import styles from './HomepageFeatures.module.css';
+import React from "react";
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import styles from "./HomepageFeatures.module.css";
 
 const FeatureList = [
   {
-    title: 'Get the most out of your Game Boy',
+    title: "Get the most out of your Game Boy",
     description: (
       <>
-        Gain complete control over the console; with no middle-man, debugging is made simpler.<br />
-        Writing native assembly code lets you push the Game Boy's limited capabilities to their limits if you want to.
+        Gain complete control over the console; with no middle-man, debugging is
+        made simpler.
+        <br />
+        Writing native assembly code lets you push the Game Boy's limited
+        capabilities to their limits if you want to.
       </>
     ),
   },
   {
-    title: 'Complete toolchain',
+    title: "Complete toolchain",
     description: (
       <>
-        RGBDS' four programs cover the whole compilation pipeline into a ready-to-play ROM, from RGBGFX the image converter to RGBFIX the header "fixer".<br />
-        Each tool can easily be swapped for a custom one, or used stand-alone as part of another process.
+        RGBDS' four programs cover the whole compilation pipeline into a
+        ready-to-play ROM, from RGBGFX the image converter to RGBFIX the header
+        "fixer".
+        <br />
+        Each tool can easily be swapped for a custom one, or used stand-alone as
+        part of another process.
       </>
     ),
   },
   {
-    title: 'Open Source',
+    title: "Open Source",
     description: (
       <>
-        With a long history dating back to 1997, RGBDS is an open source project supporting a large community of homebrew developers. <Link to="https://gbdev.io/chat">Join us</Link> to get involved, <Link to="https://hh.gbdev.io">showcase your project</Link>, or get help.<br />
-        The extensive <Link to="/docs/">documentation</Link> also allows easy integration into any workflow.
+        With a long history dating back to 1997, RGBDS is an open source project
+        supporting a large community of homebrew developers.{" "}
+        <Link to="https://gbdev.io/chat">Join us</Link> to get involved,{" "}
+        <Link to="https://hh.gbdev.io">showcase your project</Link>, or get
+        help.
+        <br />
+        The extensive <Link to="/docs/">documentation</Link> also allows easy
+        integration into any workflow.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className=" padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>
