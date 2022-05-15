@@ -65,7 +65,7 @@ However, if you have such an environment, we recommend you follow its specific i
 <Tabs>
 <TabItem value="plain" label="&quot;Plain&quot; Windows (CMD, PowerShell)">
 
-1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](master).
+1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](#using-rgbds-master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Either:
@@ -239,7 +239,7 @@ There is no single way, you will have to look for it manually.
 
 ### Building yourself
 
-[Build the source](source) as usual, but replace step 1 with getting the `master` repo instead.
+[Build the source](#building-from-source) as usual, but replace step 1 with getting the `master` repo instead.
 The recommended way is to clone the repo (see [GitHub's help on it](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) if you have trouble), but you can also download the repo as ZIP.
 
 Then, follow the rest of the instructions to build from source.
