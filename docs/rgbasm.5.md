@@ -2,7 +2,7 @@
 
 import generated from '!!raw-loader!@site/docs/rgbasm.5.html';
 
-<div class="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
 export const toc = [
 {
