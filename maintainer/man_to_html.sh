@@ -33,6 +33,7 @@ process_file() {
 	# Fragment links must use "final" formatting, as they are not processed by Docusaurus
 	# Also, the `awk` script strips the wrapping `<div class="manual-text">`, but not its end tag; so, make sure to remove that last line ourselves.
 	mandoc "$1" -T html -O 'fragment,man=./%N.%S;https://man7.org/linux/man-pages/man%S/%N.%S.html' | "$script_dir"/support/man_postproc.awk | head -n -1 >"$out_dir/$basename.html"
+	groff -Tpdf -mdoc -wall "$1" >"$out_dir/$basename.pdf"
 
 	{
 		awk '/\.Dt/ { page = tolower($2) "(" $3 ")" } /\.Nd/ { sub(/\.Nd /, ""); print "# " page " — " $0 }' <"$1"
