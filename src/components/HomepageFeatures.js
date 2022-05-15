@@ -5,14 +5,14 @@ import styles from "./HomepageFeatures.module.css";
 
 const FeatureList = [
   {
-    title: "Get the most out of your Game Boy",
+    title: "Get the most out the Game Boy hardware",
     description: (
       <>
         Gain complete control over the console; with no middle-man, debugging is
         made simpler.
         <br />
-        Writing native assembly code lets you push the Game Boy's limited
-        capabilities to their limits if you want to.
+        Push the Game Boy's limited capabilities to the limits writing native
+        assembly code.
       </>
     ),
   },
@@ -21,8 +21,8 @@ const FeatureList = [
     description: (
       <>
         RGBDS' four programs cover the whole compilation pipeline into a
-        ready-to-play ROM, from RGBGFX the image converter to RGBFIX the header
-        "fixer".
+        ready-to-play ROM, from RGBGFX (the image converter) to RGBFIX (the
+        header "fixer").
         <br />
         Each tool can easily be swapped for a custom one, or used stand-alone as
         part of another process.
@@ -39,8 +39,8 @@ const FeatureList = [
         <Link to="https://hh.gbdev.io">showcase your project</Link>, or get
         help.
         <br />
-        The extensive <Link to="/docs/">documentation</Link> also allows easy
-        integration into any workflow.
+        The extensive documentation also allows easy integration into any
+        workflow.
       </>
     ),
   },
