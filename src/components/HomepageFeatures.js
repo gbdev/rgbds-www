@@ -35,9 +35,6 @@ const FeatureList = [
 function Feature({Svg, title, description}) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        
-      </div>
       <div className=" padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>

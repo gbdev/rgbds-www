@@ -1,0 +1,95 @@
+<section class="Sh">
+<h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm">rgbgfx</code></td>
+    <td>[<code class="Fl"><a href="#D">-D</a><a href="#f">f</a><a href="#F">F</a><a href="#h">h</a><a href="#P">P</a><a href="#T">T</a><a href="#V">V</a><a href="#v">v</a></code>] [<code class="Fl"><a href="#o">-o</a></code>
+      <var class="Ar">outfile</var>] [<code class="Fl"><a href="#d">-d</a></code>
+      <var class="Ar">depth</var>] [<code class="Fl"><a href="#p">-p</a></code>
+      <var class="Ar">palfile</var>] [<code class="Fl"><a href="#t">-t</a></code>
+      <var class="Ar">mapfile</var>] [<code class="Fl"><a href="#x">-x</a></code>
+      <var class="Ar">tiles</var>] <var class="Ar">file</var></td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">The <code class="Nm">rgbgfx</code> program converts PNG images
+    into the Nintendo Game Boy's planar tile format. The arguments are as
+    follows:</p>
+<dl class="Bl-tag">
+  <dt id="D"><a class="permalink" href="#D"><code class="Fl">-D</code></a></dt>
+  <dd>Debug features are enabled.</dd>
+  <dt id="f"><a class="permalink" href="#f"><code class="Fl">-f</code></a></dt>
+  <dd>Fix the input PNG file to be a correctly indexed image.</dd>
+  <dt id="F"><a class="permalink" href="#F"><code class="Fl">-F</code></a></dt>
+  <dd>Same as <code class="Fl">-f</code>, but additionally, the input PNG file
+      is fixed to have its parameters match the command line's parameters.</dd>
+  <dt id="d"><a class="permalink" href="#d"><code class="Fl">-d</code></a>
+    <var class="Ar">depth</var></dt>
+  <dd>The bitdepth of the output image (either 1 or 2). By default, the bitdepth
+      is 2 (two bits per pixel).</dd>
+  <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a></dt>
+  <dd>Lay out tiles horizontally rather than vertically.</dd>
+  <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
+    <var class="Ar">outfile</var></dt>
+  <dd>The name of the output file.</dd>
+  <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
+    <var class="Ar">palfile</var></dt>
+  <dd>Raw bytes (8 bytes for two bits per pixel, 4 bytes for one bit per pixel)
+      containing the RGB15 values in the little-endian byte order and then
+      ordered from lightest to darkest.</dd>
+  <dt id="P"><a class="permalink" href="#P"><code class="Fl">-P</code></a></dt>
+  <dd>Same as <code class="Fl">-p</code>, but the pallete file output name is
+      made by taking the input filename, removing the file extension, and
+      appending <span class="Pa">.pal</span>.</dd>
+  <dt id="t"><a class="permalink" href="#t"><code class="Fl">-t</code></a>
+    <var class="Ar">mapfile</var></dt>
+  <dd>If any tiles are the same, don't place the repeat tiles in the output
+      file, and make a tilemap file.</dd>
+  <dt id="T"><a class="permalink" href="#T"><code class="Fl">-T</code></a></dt>
+  <dd>Same as <code class="Fl">-t</code>, but the tilemap file output name is
+      made by taking the input filename, removing the file extension, and
+      appending <span class="Pa">.tilemap</span>.</dd>
+  <dt id="u"><a class="permalink" href="#u"><code class="Fl">-u</code></a></dt>
+  <dd>Truncate repeated tiles. Useful with tilemaps.</dd>
+  <dt id="V"><a class="permalink" href="#V"><code class="Fl">-V</code></a></dt>
+  <dd>Print the version of the program and exit.</dd>
+  <dt id="v"><a class="permalink" href="#v"><code class="Fl">-v</code></a></dt>
+  <dd>Verbose. Print errors when the command line parameters and the parameters
+      in the PNG file don't match.</dd>
+  <dt id="x"><a class="permalink" href="#x"><code class="Fl">-x</code></a>
+    <var class="Ar">tiles</var></dt>
+  <dd>Trim the end of the output file by this many tiles.</dd>
+</dl>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<p class="Pp">The following will take a PNG file with a bitdepth of 1, 2, or 8,
+    and output planar 2bpp data:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbgfx -o out.2bpp in.png</div>
+<p class="Pp">The following creates a planar 2bpp file with only unique tiles,
+    and its tilemap <span class="Pa">out.tilemap</span>:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbgfx -T -u -o out.2bpp in.png</div>
+<p class="Pp">The following will do nothing:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbgfx in.png</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbds.7">rgbds(7)</a>,
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><code class="Nm">rgbgfx</code> was created by
+    <span class="An">stag019</span> to be included in RGBDS. It is now
+    maintained by a number of contributors at
+    <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.</p>
+</section>

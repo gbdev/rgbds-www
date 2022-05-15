@@ -21,7 +21,8 @@ script_dir="$(dirname "$(realpath "$0")")"
 out_dir="$1"
 
 process_file() {
-	local basename="`basename "$1"`"
+	local basename
+	basename="$(basename "$1")"
 
 	# Fragment links must use "final" formatting, as they are not processed by Docusaurus
 	# Also, the `awk` script strips the wrapping `<div class="manual-text">`, but not its end tag; so, make sure to remove that last line ourselves.
@@ -31,7 +32,7 @@ process_file() {
 		awk '/\.Dt/ { page = tolower($2) "(" $3 ")" } /\.Nd/ { sub(/\.Nd /, ""); print "# " page " — " $0 }' <"$1"
 		cat <<EOF
 
-import generated from '!!raw-loader!@site/docs/$basename.html';
+import generated from '!!raw-loader!./$basename.html';
 
 <div class="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
@@ -48,7 +49,7 @@ EOF
 	]
 },
 EOF
-				let --cur_lvl
+				(( --cur_lvl ))
 			done
 			cur_lvl="$1" # Not redundant!
 			if [ $# -ne 1 ]; then
@@ -56,7 +57,7 @@ EOF
 				cat <<EOF
 {
 	"value": "$2",
-	"id": "`sed 's/ /_/g' <<<"$2"`",
+	"id": "${2// /_}",
 	"level": $1,
 	"children": [
 EOF

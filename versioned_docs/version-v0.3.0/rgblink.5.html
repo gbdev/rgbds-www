@@ -1,0 +1,75 @@
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">The linkerscript is an external file that allows the user to
+    specify the order of sections without the need for doing so before
+    assembling each object file.</p>
+<p class="Pp">The placement of sections specified in the linkerscript is done
+    before the sections whose placement is defined in the source code.</p>
+<p class="Pp">A linkerscript consists on a series of banks followed by a list of
+    sections and, optionally, commands. They can be lowercase or uppercase, it
+    is ignored. Any line can contain a comment starting with
+    &#x2018;<code class="Li">;</code>&#x2019; that ends at the end of the
+  line:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>ROMX $F ; This is a comment
+  &quot;Functions to read array&quot;
+  ALIGN 8
+  &quot;Array aligned to 256 bytes&quot;
+
+WRAMX 2
+  &quot;Some variables&quot;</pre>
+</div>
+<p class="Pp">Numbers can be in decimal or hexadecimal format (the prefix is
+    &#x2018;<code class="Li">$</code>&#x2019;). It is an error if any bank or
+    command is found before setting a bank.</p>
+<p class="Pp">Files can be included by using the <var class="Ar">INCLUDE</var>
+    keyword followed by a string with the path of the file that has to be
+    included.</p>
+<p class="Pp" id="ROM0">The possible bank types are:
+    <a class="permalink" href="#ROM0"><b class="Sy">ROM0</b></a>,
+    <b class="Sy">ROMX</b>, <b class="Sy">VRAM</b>,
+    <a class="permalink" href="#WRAM0"><b class="Sy" id="WRAM0">WRAM0</b></a>,
+    <b class="Sy">WRAMX</b>,
+    <a class="permalink" href="#OAM"><b class="Sy" id="OAM">OAM</b></a> and
+    <a class="permalink" href="#HRAM"><b class="Sy" id="HRAM">HRAM</b></a>.
+    Types <b class="Sy">ROMX</b>, <b class="Sy">VRAM</b>,
+    <b class="Sy">WRAMX</b> and
+    <a class="permalink" href="#SRAM"><b class="Sy" id="SRAM">SRAM</b></a> are
+    banked, which means that it is needed to specify a bank after the type.</p>
+<p class="Pp">When a new bank statement is found, sections found after it will
+    be placed right from the beginning of that bank. If the linkerscript
+    switches to a different bank and then it comes back to the previous one it
+    will continue from the last address that was used.</p>
+<p class="Pp">The only two commands are <var class="Ar">ORG</var> and
+    <var class="Ar">ALIGN</var>:</p>
+<ul class="Bl-bullet">
+  <li><var class="Ar">ORG</var> sets the address in which new sections will be
+      placed. It can not be lower than the current address.</li>
+  <li id="ALIGN"><var class="Ar">ALIGN</var> will increase the address until it
+      is aligned to the specified boundary (it tries to set to 0 the number of
+      bits specified after the command:
+      <a class="permalink" href="#ALIGN"><b class="Sy">ALIGN 8</b></a> will
+      align to $100).</li>
+</ul>
+<p class="Pp">Note: The bank, alignment, address and type of sections can be
+    specified both in the source code and in the linkerscript. For a section to
+    be able to be placed with the linkerscript the bank must be left unassigned
+    in the source code or be the same as the one specified in the linkerscript.
+    The address and alignment musn't be set.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><code class="Nm">rgblink</code> was originally written by Carsten
+    S&#x00F8;rensen as part of the ASMotor package, and was later packaged in
+    RGBDS by Justin Lloyd. It is now maintained by a number of contributors at
+    https://github.com/rednex/rgbds.</p>
+</section>

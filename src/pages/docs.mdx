@@ -1,0 +1,23 @@
+---
+title: Online manual version index
+hide_table_of_contents: true
+---
+
+import Link from '@docusaurus/Link';
+import { versions, latestStable } from '@site/src/components/versions.js';
+
+export const VersionList = ({children}) => {
+  const VersionLink = (version) => <Link to={`/docs/${version}`}>{version}</Link>;
+  return versions.map((version) => <li key={version}>{
+    version == latestStable ? [<b>{VersionLink(version)}</b>, ' (latest stable)'] : VersionLink(version)
+  }</li>);
+}
+
+# Online manual — version index
+
+Documentation is available for the following versions:
+
+<ul>
+  <li><Link to="/docs/master">master</Link> (development snapshot)</li>
+  <VersionList />
+</ul>

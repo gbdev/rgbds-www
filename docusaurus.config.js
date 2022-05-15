@@ -1,6 +1,19 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
+const { versions: versionList, latestStable } = require('./src/components/versions.js');
+
+const versions = {
+  current: {
+    label: 'master',
+    path: 'master',
+  }
+};
+// Force the latest stable not to be at the docs' root
+versions[latestStable] = {
+  path: latestStable,
+};
+
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
@@ -25,6 +38,8 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           sidebarCollapsible: false,
           editUrl: `https://github.com/gbdev/rgbds-www2/edit/master`,
+          lastVersion: latestStable,
+          versions,
         },
         blog: false,
         theme: {
@@ -37,7 +52,6 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-
       navbar: {
         title: 'RGBDS',
         logo: {
@@ -46,10 +60,14 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'introduction',
+            to: '/docs',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'left',
+            dropdownActiveClassDisabled: true,
           },
           {
             to: '/faq',

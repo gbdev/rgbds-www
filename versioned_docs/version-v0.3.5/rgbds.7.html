@@ -1,0 +1,39 @@
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<p class="Pp">To get a working ROM image from a single assembly source file:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent">$ rgbasm -o bar.o foo.asm</div>
+<div class="Bd Bd-indent">$ rgblink -o baz.gb bar.o</div>
+<div class="Bd Bd-indent">$ rgbfix -v -p 0 baz.gb</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<dl class="Bl-ohang">
+  <dt></dt>
+  <dd>1997, Carsten S&#x00F8;rensen (AKA SurfSmurf) writes ASMotor as a
+      general-purpose assembler/linker system for DOS/Win32.</dd>
+  <dt></dt>
+  <dd>1999, Justin Lloyd (AKA Otaku no Zoku) adapts ASMotor to read and produce
+      GBZ80 assembly/machine code, and releases this version as RGBDS.</dd>
+  <dt></dt>
+  <dd>2009, Vegard Nossum adapts the code to be more UNIX-like and releases this
+      version as rgbds-linux on GitHub.</dd>
+  <dt></dt>
+  <dd>2010, Anthony J. Bentley forks that repository. The fork becomes the
+      reference implementation of rgbds.</dd>
+  <dt></dt>
+  <dd>2017, Bentley's repository is moved to a neutral name. It is now
+      maintained by a number of contributors at
+      <a class="Lk" href="https://github.com/rednex/rgbds">https://github.com/rednex/rgbds</a>.
+      2018, codebase relicensed under the MIT license.</dd>
+</dl>
+</section>
