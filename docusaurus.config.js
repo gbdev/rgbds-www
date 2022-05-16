@@ -141,7 +141,7 @@ const config = {
               },
               {
                 label: "Game Boy Development resources",
-                href: "https://gbdev.io/list.html#introduction",
+                href: "https://gbdev.io/resources.html",
               },
             ],
           },
