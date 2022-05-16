@@ -12,7 +12,7 @@
 
 
 .manual-text html {		max-width: 65em; }
-.manual-text body {		font-family: Helvetica,Arial,sans-serif; }
+.manual-text body {		font-family: 'Inter',Helvetica,Arial,sans-serif; }
 .manual-text table {		margin-top: 0em;
 		margin-bottom: 0em;
 		border-collapse: collapse; }
@@ -197,7 +197,7 @@ code.Nm {	font-style: normal;
 		font-family: inherit; }
 .Ev {		font-style: normal;
 		font-weight: normal;
-		font-family: monospace; }
+		font-family: var(--ifm-font-family-monospace); }
 .Pa {		font-style: italic;
 		font-weight: normal; }
 
@@ -224,10 +224,10 @@ a.In { }
 		font-weight: normal; }
 .Dv {		font-style: normal;
 		font-weight: normal;
-		font-family: monospace; }
+		font-family: var(--ifm-font-family-monospace); }
 .Er {		font-style: normal;
 		font-weight: normal;
-		font-family: monospace; }
+		font-family: var(--ifm-font-family-monospace); }
 
 /* Various semantic markup. */
 
@@ -255,7 +255,7 @@ a.In { }
 		font-weight: bold; }
 .Li {		font-style: normal;
 		font-weight: normal;
-		font-family: monospace; }
+		font-family: var(--ifm-font-family-monospace); }
 
 /* Overrides to avoid excessive margins on small devices. */
 
