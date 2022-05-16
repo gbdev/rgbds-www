@@ -41,7 +41,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           sidebarCollapsible: false,
-          editUrl: `https://github.com/gbdev/rgbds-www2/edit/master`,
+          editUrl: `https://github.com/gbdev/rgbds-www/edit/master`,
           lastVersion: latestStable,
           versions,
         },
@@ -56,6 +56,10 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        { name: "og:image", content: "https://rgbds.gbdev.io/img/logo.png" },
+        { name: "twitter:site", content: "@gbdev0" },
+      ],
       navbar: {
         title: "RGBDS",
         logo: {

@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <Layout
       title="Welcome!"
-      description="RGBDS is the community's preferred Game Boy and Game Boy Color assembler package, free and open-source."
+      description="RGBDS is the community's preferred Game Boy and Game Boy Color assembler package, free and open-source. Find here documentation and install instructions."
     >
       <main>
         <HomepageHeader />
