@@ -15,12 +15,12 @@ html {
 }
 
 /* Turn off ligatures for code and preformatted blocks */
-code {
+code, pre {
   font-variant-ligatures: none;
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 500;
 }
-pre {
-  font-variant-ligatures: none;
-}
+
 
 :root {
   --ifm-heading-font-family: "Akshar", sans-serif;
@@ -33,7 +33,10 @@ pre {
   --ifm-color-primary-lighter: #524ed7;
   --ifm-color-primary-lightest: #706dde;
   --ifm-background-color: #f6f5f4;
-  --ifm-h3-font-size: 1.5rem;
+  --ifm-h2-font-size: 2rem;
+  --ifm-h3-font-size: 1.75rem;
+  --ifm-h4-font-size: 1.5rem;
+  --ifm-h5-font-size: 1.25rem;
 }
 
 [data-theme="dark"] {
