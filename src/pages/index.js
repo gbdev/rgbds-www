@@ -23,16 +23,16 @@ function HomepageHeader() {
           &nbsp;
           <Link
             className="button button--secondary button--lg btn-contribute"
-            href="https://github.com/gbdev/rgbds"
+            href="https://eldred.fr/gb-asm-tutorial/"
           >
-            Contribute
+            Learn Assembly
           </Link>
           &nbsp;
           <Link
             className="button button--secondary button--lg btn-learn"
-            href="https://eldred.fr/gb-asm-tutorial/"
+            href="https://github.com/gbdev/rgbds"
           >
-            Learn Assembly
+            Contribute
           </Link>
         </div>
       </div>
