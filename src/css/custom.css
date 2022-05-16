@@ -10,6 +10,16 @@
 
 html {
   font-family: "Inter", sans-serif;
+  /* Turn off contextual alternatives */
+  font-feature-settings: "calt" off;
+}
+
+/* Turn off ligatures for code and preformatted blocks */
+code {
+  font-variant-ligatures: none;
+}
+pre {
+  font-variant-ligatures: none;
 }
 
 :root {
