@@ -19,11 +19,11 @@ fi
 
 script_dir="$(dirname "$(realpath "$0")")"
 if [[ $1 = master ]]; then
-	out_dir="$script_dir/../../docs"
+	out_dir="$script_dir/../docs"
 else
-	out_dir="$script_dir/../../versioned_docs/version-$1"
+	out_dir="$script_dir/../versioned_docs/version-$1"
 	mkdir -p "$out_dir"
-	cp "$script_dir/../../docs"{index,feedback}.md "$out_dir"
+	cp "$script_dir/../docs"{index,feedback}.md "$out_dir"
 fi
 
 process_file() {
