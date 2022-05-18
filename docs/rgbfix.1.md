@@ -1,6 +1,6 @@
 # rgbfix(1) — Game Boy header utility and checksum fixer
 
-import generated from '!!raw-loader!@site/docs/rgbfix.1.html';
+import generated from '!!raw-loader!./rgbfix.1.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

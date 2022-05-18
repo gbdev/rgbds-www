@@ -1,6 +1,6 @@
 # rgbgfx(1) — Game Boy graphics converter
 
-import generated from '!!raw-loader!@site/docs/rgbgfx.1.html';
+import generated from '!!raw-loader!./rgbgfx.1.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

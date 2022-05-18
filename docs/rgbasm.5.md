@@ -1,6 +1,6 @@
 # rgbasm(5) — language documentation
 
-import generated from '!!raw-loader!@site/docs/rgbasm.5.html';
+import generated from '!!raw-loader!./rgbasm.5.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

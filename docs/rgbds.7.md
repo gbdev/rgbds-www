@@ -1,6 +1,6 @@
 # rgbds(7) — Rednex Game Boy Development System
 
-import generated from '!!raw-loader!@site/docs/rgbds.7.html';
+import generated from '!!raw-loader!./rgbds.7.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

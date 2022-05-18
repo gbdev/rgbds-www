@@ -1,6 +1,6 @@
 # rgblink(5) — linker script file format
 
-import generated from '!!raw-loader!@site/docs/rgblink.5.html';
+import generated from '!!raw-loader!./rgblink.5.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

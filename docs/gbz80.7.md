@@ -1,6 +1,6 @@
 # gbz80(7) — CPU opcode reference
 
-import generated from '!!raw-loader!@site/docs/gbz80.7.html';
+import generated from '!!raw-loader!./gbz80.7.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

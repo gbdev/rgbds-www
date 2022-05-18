@@ -1,6 +1,6 @@
 # rgbasm(1) — Game Boy assembler
 
-import generated from '!!raw-loader!@site/docs/rgbasm.1.html';
+import generated from '!!raw-loader!./rgbasm.1.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

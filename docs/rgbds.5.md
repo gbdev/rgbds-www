@@ -1,6 +1,6 @@
 # rgbds(5) — object file format documentation
 
-import generated from '!!raw-loader!@site/docs/rgbds.5.html';
+import generated from '!!raw-loader!./rgbds.5.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 

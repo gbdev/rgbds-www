@@ -1,6 +1,6 @@
 # rgblink(1) — Game Boy linker
 
-import generated from '!!raw-loader!@site/docs/rgblink.1.html';
+import generated from '!!raw-loader!./rgblink.1.html';
 
 <div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
 
