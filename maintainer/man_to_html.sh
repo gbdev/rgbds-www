@@ -23,7 +23,8 @@ if [[ $1 = master ]]; then
 else
 	out_dir="$script_dir/../versioned_docs/version-$1"
 	mkdir -p "$out_dir"
-	cp "$script_dir/../docs"{index,feedback}.md "$out_dir"
+	cp "$script_dir"/support/feedback.md "$out_dir"
+	sed "s/@RELEASE_NAME@/$1/g" "$script_dir"/support/index.md >"$out_dir/index.md"
 fi
 
 process_file() {
