@@ -54,7 +54,6 @@ SECTION "Somewhere else", ROM0
 So you can do this:
 
 ```
-
 SECTION "Somewhere", ROMX
 Label:
 

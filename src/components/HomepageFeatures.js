@@ -5,7 +5,7 @@ import styles from "./HomepageFeatures.module.css";
 
 const FeatureList = [
   {
-    title: "Get the most out the Game Boy hardware",
+    title: "Get the most out of the Game Boy hardware",
     description: (
       <>
         Gain complete control over the console; with no middle-man, debugging is
