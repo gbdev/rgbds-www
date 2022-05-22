@@ -17,8 +17,10 @@ versions[latestStable] = {
   path: latestStable,
 };
 
+
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -32,6 +34,27 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "gbdev",
   projectName: "rgbds-www",
+
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          "gbz80.7",
+          "rgbasm.1",
+          "rgbasm.5",
+          "rgbds.5",
+          "rgbds.7",
+          "rgbfix.1",
+          "rgbgfx.1",
+          "rgblink.1",
+          "rgblink.5",
+        ].map(page => {
+          return {from: `/docs/${page}`, to: `/docs/${latestStable}/${page}`};
+        }),
+      },
+    ],
+  ],
 
   presets: [
     [
