@@ -17,10 +17,8 @@ versions[latestStable] = {
   path: latestStable,
 };
 
-
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
-
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -37,7 +35,7 @@ const config = {
 
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      "@docusaurus/plugin-client-redirects",
       {
         redirects: [
           "gbz80.7",
@@ -49,8 +47,8 @@ const config = {
           "rgbgfx.1",
           "rgblink.1",
           "rgblink.5",
-        ].map(page => {
-          return {from: `/docs/${page}`, to: `/docs/${latestStable}/${page}`};
+        ].map((page) => {
+          return { from: `/docs/${page}`, to: `/docs/${latestStable}/${page}` };
         }),
       },
     ],
@@ -65,7 +63,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           sidebarCollapsible: false,
           // The upstream source of these pages' actual content is the man pages in the main repo, not the renders
-          editUrl: function(info) {
+          editUrl: function (info) {
             const match = /^(.+\.[157])\.md$/i.exec(info.docPath);
             return match
               ? `https://github.com/gbdev/rgbds/edit/master/man/${match[1]}` // It's only possible to edit on a branch
@@ -188,6 +186,16 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      algolia: {
+        // Settings provided by Algolia
+        appId: "1P240E1YI0",
+        // Public API key: it is safe to commit it
+        apiKey: "5f4297895f785d82d62d769d247d5e67",
+        indexName: "gbdev",
+
+        // It ensures that search results are relevant to the current language and version.
+        contextualSearch: true,
       },
     }),
 };
