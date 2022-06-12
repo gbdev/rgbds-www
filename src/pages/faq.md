@@ -6,7 +6,7 @@ This error occurs when RGBLINK is unable to place a `SECTION`. There are several
 
 This is almost always caused by some modification growing a section too large, **although not necessarily the one being reported**. To understand why, imagine several groups renting a bus, where members of the same group all try to board together; if the bus became overfull, the problem is shared, not the fault of the last group that tried to board.
 
-The error message is of the form `Unable to place "\<section\>" <where>: <reason>`. `\<section\>` is the section's name. `<where>` is RGBLINK telling which constraints were put on the section, which is one of, or a combination of the following. (Note that the list is ordered from most to least restrictive, and that combinations are more restrictive than either of their components.)
+The error message is of the form `Unable to place "<section>" <where>: <reason>`. `<section>` is the section's name. `<where>` is RGBLINK telling which constraints were put on the section, which is one of, or a combination of the following. (Note that the list is ordered from most to least restrictive, and that combinations are more restrictive than either of their components.)
 
  - **in bank &lt;bank&gt;**: The section was restricted to a certain bank.
  - **at address &lt;addr&gt;**: The section was restricted to a certain address.
