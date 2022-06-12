@@ -70,7 +70,7 @@ However, if you have such an environment, we recommend you follow its specific i
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Either:
    - Put all of the files in a directory, then add it to the `PATH`.
-     This will permanently allow you to use RGBDS. If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set` one](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1): `set PATH="%PATH%&lt;rgbds_path&gt;` for `cmd.exe`.
+     This will permanently allow you to use RGBDS. If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set` one](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1): <code>set PATH="%PATH%<var>&lt;rgbds_path&gt;</var></code> for `cmd.exe`.
      Use one of the following methods:
      - Graphically:
        1. Open Control Panel
@@ -84,9 +84,9 @@ However, if you have such an environment, we recommend you follow its specific i
        9. Click "OK"
        10. Click "OK"
      - Using a command line:
-       1. Use Explorer to go into the folder the files are in (you should see `rgbasm.exe` etc.), and click a blank part of the address bar near the top. Copy this path, and **use this instead of `&lt;rgbds_path&gt;` in the third step!**
+       1. Use Explorer to go into the folder the files are in (you should see `rgbasm.exe` etc.), and click a blank part of the address bar near the top. Copy this path, and **use this instead of <code><var>&lt;rgbds_path&gt;</var></code> in the third step!**
        2. Open `cmd` or PowerShell
-       3. Type `setx PATH "%PATH%&lt;rgbds_path&gt;;"` for `cmd.exe`, or `setx PATH ${"{"}Env:PATH}&lt;rgbds_path&gt;;` for PowerShell; replace `&lt;rgbds_path&gt;` with the path you copied in the first step
+       3. Type <code>setx PATH "%PATH%<var>&lt;rgbds_path&gt;</var>;"</code> for `cmd.exe`, or <code>setx PATH ${"{"}Env:PATH}<var>&lt;rgbds_path&gt;</var>;</code> for PowerShell; replace <code><var>&lt;rgbds_path&gt;</var></code> with the path you copied in the first step
        4. Close the window for the changes to take effect
    - Put all of the files in your project's directory
    - Put all of the files in a directory already in the `PATH`
