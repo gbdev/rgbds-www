@@ -1,0 +1,172 @@
+---
+title: Game Boy symbol format specification
+---
+
+import Link from '@docusaurus/Link';
+import { latestStable } from '@site/src/components/versions.js';
+
+export const LatestStableLink = ({children, to}) => <Link to={`/docs/${latestStable}/${to}`}>{children}</Link>;
+
+# Game Boy symbol (`.sym`) file format specification
+
+## Purpose & Context
+
+Game Boy ROM files contain pure binary data, but no extra info about their contents.
+In particular, symbol information is lacking when debugging or reverse-engineering such ROMs.
+Symbol files, or "sym files" for short, aim to be companions to Game Boy ROM files that provide exactly that: symbol information.
+
+Sym files have been around for a long time (the [no$gmb](http://problemkaputt.de/gmb.htm) emulator supported them, so it is safe to assume since at least the early 2000's), but the format was always loosely defined, leading to subtle incompatibilities.
+This document aims to propose a standard for the format and usage of sym files.
+Modifications, etc. should be suggested by [opening an issue](https://github.com/gbdev/rgbds-www/issues) or [starting a discussion](https://github.com/gbdev/rgbds-www/discussions) on this website's source repository, whichever is more appropriate.
+
+Extensions to this format are known to exist ([example](https://github.com/mattcurrie/mgbdis/#symbol-files)), but they tend to be specific to a certain use case, and are generally a backwards-compatible superset of what are described below.
+The format is kept human-friendly, since some sym files are written manually, for example when disassembling ROMs.
+
+Note also that [wla-dx's sym files](https://wla-dx.readthedocs.io/en/latest/symbols.html) are much more complex (and complete) than this format.
+RGBDS aims to keep sym files simple, and instead chooses to output other data in different files, such as map files[^1].
+
+[^1]: Map files remain thus far unspecified. Very few tools rely on information contained in them, so no specification has been written in order to keep that format extensible.
+
+## File format specification
+
+:::info
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+
+Numbers are written in decimal by default, or hexadecimal if prefixed with a `$`, unless otherwise specified.
+
+:::
+
+Throughout this specification, exactly two characters are considered **whitespace**: ASCII spaces (` `, U+0020), and tabs (`\t`, U+0009).
+Other Unicode "White Space" characters must *not* be treated as whitespace.
+
+### Tokenization
+
+Line endings can be either LF-only (`\n`, U+000A) or CRLF (`\r\n`, U+000D U+000A); they need not be consistent throughout the document.
+The character encoding must be well-formed UTF-8 (without BOM); however, it is strongly encouraged to stick to ASCII characters for portability.
+
+Especially since they are intended to be somewhat human-readable, sym files can contain comments.
+Comments begin with a semicolon (`;`, U+003B) anywhere in a line, all the way to the end of that line.
+Semicolons cannot be escaped, as they are not otherwise valid within an entry.
+Comments should be ignored by the implementation.
+
+After removing the comment (if any), the line shall be split into non-empty **tokens**, separated by one or more consecutive whitespace characters.
+Leading or trailing whitespace must be ignored.
+
+### Line processing
+
+Unless otherwise specified, if any part of a line cannot be processed by the implementation, the whole line shall be ignored, and a warning should be produced.
+Failure to process a line can be either from a violation of this spec (e.g. an invalid symbol name), or from exceeding internal capacities (e.g. a symbol name too long for an internal buffer).
+
+A line without any tokens shall be silently ignored, to permit empty lines, even if they contain whitespace and/or a comment.
+
+A line with only one token shall be ignored, being reserved for future extensions.
+Encountering one may produce a warning.
+
+Otherwise, the line defines a single **symbol**: the first token provides its location, the second token provides its name, and further tokens (if any) provide extra metadata.
+
+#### Symbols
+
+A symbol is uniquely defined by the combination of its location and its name; symbol names are case-sensitive.
+If the same symbol (identical name *and* identical location) is defined more than once, all but one of the definitions must be silently ignored.
+
+Two or more definitions with the same name but different addresses are thus considered to define different symbols.
+None of these definitions shall be ignored, nor shall they cause parsing to fail in any capacity.
+Implementations may warn about such cases, not necessarily when the sym file is loaded; if a warning is displayed when loading the file, no more than one warning should be produced per unique name.
+Implementations may later handle ambiguous references to symbols by name in any way they see fit, including by producing a warning or an error.
+
+:::note Rationale
+
+For example, "displaying symbol names instead of memory addresses" accomodates ambiguities just fine, however a "go to symbol by name" feature wouldn't.
+
+:::
+
+##### Location
+
+A location can have one of the following three forms:
+
+- `<number>:<number>`, with each `<number>` indicating the location's bank and address respectively;
+- `BOOT:<number>`, indicating an address in the boot ROM;
+- `<number>`, indicating an address irrespective of bank, i.e. a location in every possible bank.
+
+Implementations should not accept different forms, as they are reserved for future extensions.
+
+All forms are case-insensitive; in all cases, `<number>` is a sequence of hexadecimal digits, without any prefixes indicating the base (like `0x` or `$`).
+Symbols defined with a location in one of the latter two forms may be ignored if such address spaces are not supported by the implementation; a warning may be emitted then.
+For the first form only, a warning may be issued if the location is nonsensical for the current hardware configuration (e.g. `2:9800`).
+
+The address must be in 16-bit range (0 to $FFFF inclusive), the bank must be in 32-bit range (0 to $FFFFFFFF inclusive); implementations may abandon processing the line if either number is larger than these limits.
+Implementations may accept bank numbers higher than $FFFFFFFF.
+
+Two locations are considered identical if they have the same bank (including none) and the same address.
+Two distinct symbols can have identical locations; in particular, <LatestStableLink to="rgbasm.5#Unions">unions</LatestStableLink> facilitate this.
+
+Sym files may or may not be sorted by location; implementations must be able to handle both.
+(For example, RGBLINK before v0.4.0 output symbols in the same order that it read them from its input files.)
+
+##### Name
+
+Symbol names must match the regex `[A-Za-z_]([A-Za-z0-9_@#$.]|\\u[A-Za-z0-9]{4}|\\U[A-Za-z0-9]{8})*`; the escape sequences `\uYYYY` or `\UXXXXYYYY` allow representing otherwise disallowed Unicode characters by their short identifier (`\uYYYY` is a shorthand for `\U0000YYYY`).
+Short identifiers in the ranges 0000–009F and D800–DFFF are not allowed.
+
+:::info
+
+See, for example, "Universal character names" (6.4.3 in the C11 standard / [N1570 draft](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf)).
+
+:::
+
+A symbol whose name does not contain any periods (`.`, U+002E) is a **global symbol**.
+If a symbol's name contains exactly one period, it is a **local symbol**; the portion up to but not including the period is the **global portion**, the rest is the **local portion**; neither shall be empty.
+A symbol with two or more periods in its name shall be processed in an implementation-defined manner, which may include rejecting or ignoring it.
+
+A local symbol is **attached** to a global symbol if:
+- The global symbol's name is equal to the local symbol's global portion, and
+- Both symbols have the same [location form](#location), and
+  - If both symbols are banked (first form), their banks are equal, and
+- The global symbol's address is lower or equal to the local symbol's.
+
+:::note
+
+Attached local symbols may have their names shortened in presentation to just the local portion (i.e., the period and everything that follows).
+
+:::
+
+##### Metadata
+
+Tokens after the symbol's name provide additional metadata for the symbol.
+Unrecognized metadata tokens shall be ignored, but shall not affect the rest of the line's parsing.
+Implementations should raise a warning when encountering unrecognized metadata tokens, except for tokens beginning with `@` (U+0040), which are reserved for private-use semantics and must be silently ignored.
+This version of the specification defines no standard metadata tokens.
+
+## Memory regions
+
+**This section is non-normative.**
+
+Except for `BOOT`, sym files do not carry information about the memory region (ROM0, ROMX, VRAM, SRAM, WRAM0, WRAMX, Echo RAM, OAM, I/O, HRAM, IE) a symbol belongs to, but that can be inferred from the address most of the time.
+This detection is sometimes ambiguous: for example, `0:A000` could be one past the end of VRAM, or at the beginning of SRAM.
+The following heuristics are suggested:
+- If the symbol's bank is in range of exactly one of the candidate regions, assign it to that one. (*There is no ambiguity, e.g. `2:A000`.*)
+- If the symbol is local and is "attached" to a global symbol (see [Name](#name) above), assign it to the same region as the global symbol. (*Local labels should "follow" the global symbol they are attached to, if any.*)
+- If the symbol's name ends with (case-insensitive) "end", assign it to the earlier region. (*This is a common naming convention, and "one-past-end" labels are typically "end markers".*)
+- If all else fails, assign it to the later region (e.g. `0:A000` would be assigned to SRAM). (*This is correct more often than not in practice.*)
+
+## Pitfalls
+
+**This section is non-normative.**
+
+Note that banking for addresses $0000-7FFF is defined by the ROM's mapper, so implementations should be flexible: the bank number for $0000-3FFF can be different from 0 ([MBC1M](https://gbdev.io/pandocs/MBC1#mbc1m-1-mib-multi-game-compilation-carts), [MMM01](https://gbdev.io/pandocs/MMM01), ...), the bank number for $4000-7FFF may be 0 ([mapper-less ROMs](https://gbdev.io/pandocs/nombc)), etc.
+Note also that while most ROMs never have more than 256 banks for anything, at least one commercial GBC game ([Densha De Go! 2](https://github.com/gbdev/awesome-gbdev/blob/b8ead97724757651e393be951bfac238ab1f4d64/CartridgeList.csv#L496)) has more than 256 ROM banks, and homebrew mappers (such as the [TPP1](https://github.com/TwitchPlaysPokemon/tpp1)) may support many more.
+
+Sym files generally do not contain symbols for the hardware registers ($FF00-FF7F and $FFFF), so implementations are encouraged to provide separate support for those.
+[hardware.inc](https://github.com/gbdev/hardware.inc) is a good starting point.
+
+## Auto-loading
+
+**This section is non-normative.**
+
+Sym files being non-intrusive "companions" of the ROM, the following common practice is suggested for automatically loading a sym file when a ROM is loaded from a path:
+- From the provided path, strip the file extension (usually `.gb`, `.gbc` or sometimes `.sgb`; although `.dmg` and `.bin` have been observed in the wild).
+- Replace that extension with `.sym`.
+- If such a file exists, load it.
+
+Implementations may provide another way to load sym files, to reload a sym file by repeating the above detection process, and to unload the sym file.
