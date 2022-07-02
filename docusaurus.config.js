@@ -114,16 +114,6 @@ const config = {
             position: "left",
             label: "Install",
           },
-          {
-            href: "https://eldred.fr/gb-asm-tutorial/",
-            label: "Tutorial",
-            position: "left",
-          },
-          {
-            href: "https://gbdev.io/pandocs",
-            label: "Pan Docs",
-            position: "left",
-          },
 
           {
             href: "https://github.com/gbdev/rgbds",
