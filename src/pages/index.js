@@ -46,8 +46,8 @@ function Resources() {
   const resources = [
     [
       {
-        title: (<>GB ASM Tutorial <span className="badge badge--secondary">WIP</span></>),
-        description: (<>This tutorial will guide you from a basic Hello World, to making an <i>Arkanoid</i> clone, and ending with a Shoot-'Em-Up, touching upon everything you need to know to make a Game Boy game.</>),
+        title: (<>GB Assembly tutorial <span className="badge badge--secondary">WIP</span></>),
+        description: (<>This tutorial will guide you from a basic Hello World, to making an <i>Arkanoid</i> clone, and ending with a Shoot-'Em-Up, touching upon everything you need to know to make a Game Boy game. <br></br> <small> This guide is still work in progress, only the first lessons are available.</small> </>),
         url: "https://eldred.fr/gb-asm-tutorial",
         linkText: "Learn",
       },
