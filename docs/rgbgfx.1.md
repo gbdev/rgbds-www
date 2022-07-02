@@ -24,6 +24,76 @@ export const toc = [
 	"id": "ARGUMENTS",
 	"level": 2,
 	"children": [
+{
+	"value": "At-files",
+	"id": "At-files",
+	"level": 3,
+	"children": [
+	]
+},
+	]
+},
+{
+	"value": "PALETTE SPECIFICATION FORMATS",
+	"id": "PALETTE_SPECIFICATION_FORMATS",
+	"level": 2,
+	"children": [
+	]
+},
+{
+	"value": "PALETTE GENERATION",
+	"id": "PALETTE_GENERATION",
+	"level": 2,
+	"children": [
+	]
+},
+{
+	"value": "OUTPUT FILES",
+	"id": "OUTPUT_FILES",
+	"level": 2,
+	"children": [
+{
+	"value": "Tile data",
+	"id": "Tile_data",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Palette data",
+	"id": "Palette_data",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Tile map data",
+	"id": "Tile_map_data",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Attribute map data",
+	"id": "Attribute_map_data",
+	"level": 3,
+	"children": [
+	]
+},
+	]
+},
+{
+	"value": "REVERSE MODE",
+	"id": "REVERSE_MODE",
+	"level": 2,
+	"children": [
+	]
+},
+{
+	"value": "NOTES",
+	"id": "NOTES",
+	"level": 2,
+	"children": [
 	]
 },
 {
