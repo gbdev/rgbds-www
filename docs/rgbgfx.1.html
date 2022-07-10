@@ -401,9 +401,9 @@
         <a class="permalink" href="#exactly"><i class="Em">exactly</i></a> the
         same.</p>
   </li>
-  <li>If none of the above apply, colors are sorted from lightest to darkest.
-      The definition of luminance that <code class="Nm">rgbgfx</code> uses is
-      &#x201C;
+  <li>If none of the above apply, colors are sorted from lightest (first) to
+      darkest (last). The definition of luminance that
+      <code class="Nm">rgbgfx</code> uses is &#x201C;
     <math class="eqn">
       <mrow><mn>2126</mn><mo>&#x00D7;</mo><mi fontstyle="italic">red</mi><mo>+</mo><mn>7152</mn><mo>&#x00D7;</mo><mi fontstyle="italic">green</mi><mo>+</mo><mn>722</mn><mo>&#x00D7;</mo><mi fontstyle="italic">blue</mi></mrow>
     </math>
@@ -450,8 +450,8 @@
     <mrow><mn>2</mn><mo>&#x00D7;</mo><mn>4</mn><mo>&#x00D7;</mo><mn>5</mn><mo>=</mo><mn>40</mn></mrow>
   </math>
    bytes long, even if some palettes contain less than 3 colors. Note that
-    <code class="Fl">-n</code> only puts a limit on the amount of palettes, but
-    does not fix this file's size.</p>
+    <code class="Fl">-n</code> only caps how many palettes are generated (and
+    thus this file's size), but fewer may be generated still.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Tile_map_data"><a class="permalink" href="#Tile_map_data">Tile
