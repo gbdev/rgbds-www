@@ -1180,8 +1180,9 @@ ThisWillBeExported.too::</pre>
     ends up at <span class="Ad">$80C0</span>:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>SECTION &quot;Player tiles&quot;, VRAM
-PlayerTiles:
-    ds 6 * 16</pre>
+vPlayerTiles:
+    ds 6 * 16
+.end</pre>
 </div>
 <p class="Pp">A label's location (and thus value) is usually not determined
     until the linking stage, so labels usually cannot be used as constants.
