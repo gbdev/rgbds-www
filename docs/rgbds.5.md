@@ -18,8 +18,43 @@ export const toc = [
 	"level": 2,
 	"children": [
 {
-	"value": "RPN DATA",
-	"id": "RPN_DATA",
+	"value": "Header",
+	"id": "Header",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Source file info",
+	"id": "Source_file_info",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Symbols",
+	"id": "Symbols",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Sections",
+	"id": "Sections",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Assertions",
+	"id": "Assertions",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "RPN EXPRESSIONS",
+	"id": "RPN_EXPRESSIONS",
 	"level": 3,
 	"children": [
 	]
