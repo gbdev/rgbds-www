@@ -2,18 +2,22 @@
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
 <p class="Pp">The linker script is an external file that allows the user to
     specify the order of sections at link time and in a centralized manner.</p>
-<p class="Pp">A linker script consists on a series of banks followed by a list
-    of sections and, optionally, commands. They can be lowercase or uppercase,
-    it is ignored. Any line can contain a comment starting with
+<p class="Pp">A linker script consists of a series of bank declarations, each
+    optionally followed by a list of section names (in double quotes) or
+    commands. All reserved keywords (bank types and command names) are
+    case-insensitive; all section names are case-sensitive.</p>
+<p class="Pp">Any line can contain a comment starting with
     &#x2018;<code class="Li">;</code>&#x2019; that ends at the end of the
-  line:</p>
+  line.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>ROMX $F ; This is a comment
-  &quot;Functions to read array&quot;
-  ALIGN 8
-  &quot;Array aligned to 256 bytes&quot;
+<pre>; This line is a comment
+ROMX $F            ; start a bank
+  &quot;Some functions&quot; ; a section name
+  ALIGN 8          ; a command
+  &quot;Some array&quot;
 
-WRAMX 2
+WRAMX 2            ; start another bank
+  org $d123        ; another command
   &quot;Some variables&quot;</pre>
 </div>
 <p class="Pp">Numbers can be in decimal or hexadecimal format (the prefix is
@@ -30,6 +34,15 @@ WRAMX 2
     with types <code class="Cm">ROMX</code>, <code class="Cm">VRAM</code>,
     <code class="Cm">SRAM</code> and <code class="Cm">WRAMX</code>, it is needed
     to specify a bank number after the type.</p>
+<p class="Pp">Section names in double quotes support the same character escape
+    sequences as strings in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
+    specifically &#x2018;<code class="Li">\\</code>&#x2019;,
+    &#x2018;<code class="Li">\&quot;</code>&#x2019;,
+    &#x2018;<code class="Li">\n</code>&#x2019;,
+    &#x2018;<code class="Li">\r</code>&#x2019;, and
+    &#x2018;<code class="Li">\t</code>&#x2019;. Other backslash escape sequences
+    in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are only relevant to
+    assembly code and do not apply in section names.</p>
 <p class="Pp">When a new bank statement is found, sections found after it will
     be placed right from the beginning of that bank. If the linker script
     switches to a different bank and then comes back to a previous one, it will
