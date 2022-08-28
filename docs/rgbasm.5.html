@@ -2049,10 +2049,19 @@ N = 256</pre>
 </table>
 <p class="Pp">The <code class="Ic">FOR</code> value will be updated by
     <var class="Ar">step</var> until it reaches or exceeds
-    <var class="Ar">stop</var>. For example:</p>
+    <var class="Ar">stop</var>, i.e. it covers the half-open range from
+    <var class="Ar">start</var> (inclusive) to <var class="Ar">stop</var>
+    (exclusive). The variable <var class="Ar">V</var> will be assigned this
+    value at the beginning of each new iteration; any changes made to it within
+    the <code class="Ic">FOR</code> loop's body will be overwritten. So the
+    symbol <var class="Ar">V</var> need not be already defined before any
+    iterations of the <code class="Ic">FOR</code> loop, but it must be a
+    variable (<a class="Sx" href="#Variables">Variables</a>) if so. For
+  example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>FOR V, 4, 25, 5
       PRINT &quot;{d:V} &quot;
+      DEF V *= 2
 ENDR
       PRINTLN &quot;done {d:V}&quot;</pre>
 </div>
