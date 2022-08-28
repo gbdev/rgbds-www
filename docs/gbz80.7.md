@@ -340,15 +340,15 @@ export const toc = [
 	]
 },
 {
-	"value": "JR e8",
-	"id": "JR_e8",
+	"value": "JR n16",
+	"id": "JR_n16",
 	"level": 3,
 	"children": [
 	]
 },
 {
-	"value": "JR cc,e8",
-	"id": "JR_cc,e8",
+	"value": "JR cc,n16",
+	"id": "JR_cc,n16",
 	"level": 3,
 	"children": [
 	]

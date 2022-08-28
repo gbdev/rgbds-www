@@ -34,10 +34,8 @@ OR B</pre>
   <dd>8-bit integer constant.</dd>
   <dt><var class="Ar">n16</var></dt>
   <dd>16-bit integer constant.</dd>
-  <dt id="128"><var class="Ar">e8</var></dt>
-  <dd>8-bit offset (<a class="permalink" href="#128"><b class="Sy">-128</b></a>
-      to
-    <a class="permalink" href="#127"><b class="Sy" id="127">127</b></a>).</dd>
+  <dt><var class="Ar">e8</var></dt>
+  <dd>8-bit offset (<b class="Sy">-128</b> to <b class="Sy">127</b>).</dd>
   <dt id="0"><var class="Ar">u3</var></dt>
   <dd>3-bit unsigned integer constant
       (<a class="permalink" href="#0"><b class="Sy">0</b></a> to
@@ -263,9 +261,9 @@ OR B</pre>
   <dd></dd>
   <dt><a class="Sx" href="#JP_cc,n16">JP cc,n16</a></dt>
   <dd></dd>
-  <dt><a class="Sx" href="#JR_e8">JR e8</a></dt>
+  <dt><a class="Sx" href="#JR_n16">JR n16</a></dt>
   <dd></dd>
-  <dt><a class="Sx" href="#JR_cc,e8">JR cc,e8</a></dt>
+  <dt><a class="Sx" href="#JR_cc,n16">JR cc,n16</a></dt>
   <dd></dd>
   <dt><a class="Sx" href="#RET_cc">RET cc</a></dt>
   <dd></dd>
@@ -773,20 +771,26 @@ OR B</pre>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="JR_e8"><a class="permalink" href="#JR_e8">JR e8</a></h3>
-<p class="Pp">Relative Jump by adding <var class="Ar">e8</var> to the address of
-    the instruction following the
-    <a class="permalink" href="#JR"><b class="Sy" id="JR">JR</b></a>. To
-    clarify, an operand of 0 is equivalent to no jumping.</p>
+<h3 class="Ss" id="JR_n16"><a class="permalink" href="#JR_n16">JR n16</a></h3>
+<p class="Pp">Relative Jump to address <var class="Ar">n16</var>. The address is
+    encoded as a signed 8-bit offset from the address immediately following the
+    <code class="Ic">JR</code> instruction, so the target address
+    <var class="Ar">n16</var> must be between <b class="Sy">-128</b> and
+    <b class="Sy">127</b> bytes away. For example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    JR Label  ; no-op; encoded offset of 0
+Label:
+    JR Label  ; infinite loop; encoded offset of -2</pre>
+</div>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="JR_cc,e8"><a class="permalink" href="#JR_cc,e8">JR
-  cc,e8</a></h3>
-<p class="Pp">Relative Jump by adding <var class="Ar">e8</var> to the current
-    address if condition <var class="Ar">cc</var> is met.</p>
+<h3 class="Ss" id="JR_cc,n16"><a class="permalink" href="#JR_cc,n16">JR
+  cc,n16</a></h3>
+<p class="Pp">Relative Jump to address <var class="Ar">n16</var> if condition
+    <var class="Ar">cc</var> is met.</p>
 <p class="Pp">Cycles: 3 taken / 2 untaken</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
