@@ -412,6 +412,15 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     </math>
     </td>
   </tr>
+  <tr id="FMOD">
+    <td><a class="permalink" href="#FMOD"><code class="Fn">FMOD</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>
+    <math class="eqn">
+      <mrow><mi>x</mi><mo>%</mo><mi>y</mi></mrow>
+    </math>
+    </td>
+  </tr>
   <tr id="POW">
     <td><a class="permalink" href="#POW"><code class="Fn">POW</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
@@ -1458,11 +1467,13 @@ ENDM</pre>
 </div>
 <p class="Pp">The example above defines
     &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
-    constants are not expanded within the name of the macro. You may use the
+    constants are not expanded within the name of the macro.</p>
+<p class="Pp" id="deprecated">(Using the
+    <a class="permalink" href="#deprecated"><i class="Em">deprecated</i></a>
     older syntax &#x2018;<code class="Li">MyMacro: MACRO</code>&#x2019; instead
     of &#x2018;<code class="Li">MACRO MyMacro</code>&#x2019;, with a single
-    colon &#x2018;<code class="Li">:</code>&#x2019; following the macro's name.
-    With the older syntax, string constants may be expanded for the name.</p>
+    colon &#x2018;<code class="Li">:</code>&#x2019; following the macro's name,
+    string constants may be expanded for the name.)</p>
 <p class="Pp">Macros can't be exported or imported.</p>
 <p class="Pp">Plainly nesting macro definitions is not allowed, but this can be
     worked around using <code class="Ic">EQUS</code>. So this won't work:</p>
