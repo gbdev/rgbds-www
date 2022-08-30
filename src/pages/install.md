@@ -150,9 +150,14 @@ Near the bottom of that page is a list of *assets*; grab either of the last thre
 The following are required to build RGBDS; it's possible that some are already installed on your system.
 
  - `make` and/or `cmake`, depending on what method you choose below
+ - `bash` shell
  - a C compiler, typically `gcc` or `clang`
- - `yacc`/`byacc`/`bison` (only `bison` starting with RGBDS 0.5.0)
+ - `bison` (or `yacc`/`byacc` prior to RGBDS 0.5.0)
  - `pkg-config` (unless using `cmake`)
+
+If you are building RGBGFX, the following are also required:
+
+ - a C++ compiler, typically `g++` or `clang`
  - `libpng`'s development headers. For Linux users: the package is typically called [`libpng-dev`](https://packages.ubuntu.com/focal/libpng-dev), [`libpng-devel`](https://software.opensuse.org/package/libpng16-devel-64bit), or sometimes plainly [`libpng`](https://www.archlinux.org/packages/extra/x86_64/libpng/). Additionally, a `16` or `1.6` may be present after `libpng` ([example](https://tracker.debian.org/pkg/libpng1.6)).
 
 Two build systems are supported: plain old `make`, and CMake.
