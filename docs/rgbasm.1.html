@@ -3,7 +3,7 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbasm</code></td>
-    <td>[<code class="Fl"><a href="#E">-E</a><a href="#h">h</a><a href="#L">L</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
+    <td>[<code class="Fl"><a href="#E">-E</a><a href="#H">H</a><a href="#h">h</a><a href="#L">L</a><a href="#l">l</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
       <var class="Ar">chars</var>] [<code class="Fl"><a href="#D">-D</a></code>
       <var class="Ar">name</var>[=<var class="Ar">value</var>]]
       [<code class="Fl"><a href="#g">-g</a></code> <var class="Ar">chars</var>]
@@ -57,22 +57,33 @@
     <var class="Ar">chars</var></dt>
   <dd>Change the four characters used for gfx constants. The defaults are
     0123.</dd>
-  <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
-    <code class="Fl">--halt-without-nop</code></dt>
+  <dt id="H"><a class="permalink" href="#H"><code class="Fl">-H</code></a>,
+    <code class="Fl">--nop-after-halt</code></dt>
   <dd>By default, <code class="Nm">rgbasm</code> inserts a
       <code class="Ic">nop</code> instruction immediately after any
-      <code class="Ic">halt</code> instruction. The <code class="Fl">-h</code>
-      option disables this behavior.</dd>
+      <code class="Ic">halt</code> instruction, but this has been deprecated and
+      prints a warning message the first time it occurs. The
+      <code class="Fl">-H</code> option opts into this insertion, so no warning
+      will be printed.</dd>
+  <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
+    <code class="Fl">--halt-without-nop</code></dt>
+  <dd>Disables inserting a <code class="Ic">nop</code> instruction immediately
+      after any <code class="Ic">halt</code> instruction.</dd>
   <dt id="i"><a class="permalink" href="#i"><code class="Fl">-i</code></a>
     <var class="Ar">path</var>, <code class="Fl">--include</code>
     <var class="Ar">path</var></dt>
   <dd>Add an include path.</dd>
   <dt id="L"><a class="permalink" href="#L"><code class="Fl">-L</code></a>,
     <code class="Fl">--preserve-ld</code></dt>
-  <dd>Disable the optimization that turns loads of the form <code class="Ic">LD
-      [$FF00+n8],A</code> into the opcode <code class="Ic">LDH
-      [$FF00+n8],A</code> in order to have full control of the result in the
-      final ROM.</dd>
+  <dd>By default, <code class="Nm">rgbasm</code> optimizes loads of the form
+      <code class="Ic">LD [$FF00+n8],A</code> into the opcode
+      <code class="Ic">LDH [$FF00+n8],A</code>, but this has been deprecated and
+      prints a warning message the first time it occurs. The
+      <code class="Fl">-L</code> option disables this optimization.</dd>
+  <dt id="l"><a class="permalink" href="#l"><code class="Fl">-l</code></a>,
+    <code class="Fl">--auto-ldh</code></dt>
+  <dd>Optimize loads of the form <code class="Ic">LD [$FF00+n8],A</code> into
+      the opcode <code class="Ic">LDH [$FF00+n8],A</code>.</dd>
   <dt id="M"><a class="permalink" href="#M"><code class="Fl">-M</code></a>
     <var class="Ar">depend_file</var>, <code class="Fl">--dependfile</code>
     <var class="Ar">depend_file</var></dt>
