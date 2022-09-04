@@ -254,9 +254,14 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <td>01</td>
   </tr>
   <tr>
-    <td>Fixed point (Q16.16)</td>
+    <td>Fixed-point</td>
     <td>none</td>
     <td>01234.56789</td>
+  </tr>
+  <tr>
+    <td>Precise fixed-point</td>
+    <td>none</td>
+    <td>12.34q8</td>
   </tr>
   <tr>
     <td>Character constant</td>
@@ -378,12 +383,17 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 <h3 class="Ss" id="Fixed-point_expressions"><a class="permalink" href="#Fixed-point_expressions">Fixed-point
   expressions</a></h3>
 <p class="Pp">Fixed-point numbers are basically normal (32-bit) integers, which
-    count 65536ths instead of entire units, offering better precision than
-    integers but limiting the range of values. The upper 16 bits are used for
-    the integer part and the lower 16 bits are used for the fraction (65536ths).
-    Since they are still akin to integers, you can use them in normal integer
-    expressions, and some integer operators like &#x2018;+&#x2019; and
-    &#x2018;-&#x2019; don't care whether the operands are integers or
+    count fractions instead of whole numbers. They offer better precision than
+    integers but limit the range of values. By default, the upper 16 bits are
+    used for the integer part and the lower 16 bits are used for the fraction
+    (65536ths). The default number of fractional bits can be changed with the
+    <code class="Fl">-Q</code> command-line option. You can also specify a
+    precise fixed-point value by appending a &#x201C;q&#x201D; to it followed by
+    the number of fractional bits, such as
+    &#x2018;<code class="Li">12.34q8</code>&#x2019;.</p>
+<p class="Pp">Since fixed-point values are still just integers, you can use them
+    in normal integer expressions. Some integer operators like &#x2018;+&#x2019;
+    and &#x2018;-&#x2019; don't care whether the operands are integers or
     fixed-point. You can easily truncate a fixed-point number into an integer by
     shifting it right by 16 bits. It follows that you can convert an integer to
     a fixed-point number by shifting it left.</p>
@@ -397,27 +407,27 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   <tr id="DIV">
     <td><a class="permalink" href="#DIV"><code class="Fn">DIV</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>
+    <td>Fixed-point division
     <math class="eqn">
-      <mrow><mi>x</mi><mo>&#x00F7;</mo><mi>y</mi></mrow>
+      <mrow><mo>(</mo><mi>x</mi><mo>&#x00F7;</mo><mi>y</mi><mo>)</mo><mo>&#x00D7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
   <tr id="MUL">
     <td><a class="permalink" href="#MUL"><code class="Fn">MUL</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>
+    <td>Fixed-point multiplication
     <math class="eqn">
-      <mrow><mi>x</mi><mo>&#x00D7;</mo><mi>y</mi></mrow>
+      <mrow><mo>(</mo><mi>x</mi><mo>&#x00D7;</mo><mi>y</mi><mo>)</mo><mo>&#x00F7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
   <tr id="FMOD">
     <td><a class="permalink" href="#FMOD"><code class="Fn">FMOD</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>
+    <td>Fixed-point modulo
     <math class="eqn">
-      <mrow><mi>x</mi><mo>%</mo><mi>y</mi></mrow>
+      <mrow><mo>(</mo><mi>x</mi><mo>%</mo><mi>y</mi><mo>)</mo><mo>&#x00F7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
     </math>
     </td>
   </tr>
@@ -2224,10 +2234,10 @@ POPO
 </div>
 <p class="Pp">The options that <code class="Ic">OPT</code> can modify are
     currently: <code class="Cm">b</code>, <code class="Cm">g</code>,
-    <code class="Cm">p</code>, <code class="Cm">r</code>,
-    <code class="Cm">h</code>, <code class="Cm">L</code>, and
-    <code class="Cm">W</code>. The Boolean flag options
-    <code class="Cm">H</code>, <code class="Cm">h</code>,
+    <code class="Cm">p</code>, <code class="Cm">Q</code>,
+    <code class="Cm">r</code>, <code class="Cm">h</code>,
+    <code class="Cm">L</code>, and <code class="Cm">W</code>. The Boolean flag
+    options <code class="Cm">H</code>, <code class="Cm">h</code>,
     <code class="Cm">L</code>, and <code class="Cm">l</code> can be negated like
     &#x2018;<code class="Li">OPT !H</code>&#x2019; to act like omitting them
     from the command-line.</p>

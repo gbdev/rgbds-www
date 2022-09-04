@@ -14,6 +14,7 @@
       [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code> <var class="Ar">target_file</var>]
       [<code class="Fl"><a href="#o">-o</a></code> <var class="Ar">out_file</var>]
       [<code class="Fl"><a href="#p">-p</a></code> <var class="Ar">pad_value</var>]
+      [<code class="Fl"><a href="#Q">-Q</a></code> <var class="Ar">fix_precision</var>]
       [<code class="Fl"><a href="#r">-r</a></code> <var class="Ar">recursion_depth</var>]
       [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
       <var class="Ar">file ...</var></td>
@@ -128,6 +129,15 @@
     <var class="Ar">pad_value</var>, <code class="Fl">--pad-value</code>
     <var class="Ar">pad_value</var></dt>
   <dd>When padding an image, pad with this value. The default is 0x00.</dd>
+  <dt id="Q"><a class="permalink" href="#Q"><code class="Fl">-Q</code></a>
+    <var class="Ar">fix_precision</var>, <code class="Fl">--q-precision</code>
+    <var class="Ar">fix_precision</var></dt>
+  <dd>Use this as the precision of fixed-point numbers after the decimal point,
+      unless they specify their own precision. The default is 16, so fixed-point
+      numbers are Q16.16 (since they are 32-bit integers). The argument may
+      start with a &#x2018;<code class="Li">.</code>&#x2019; to match the Q
+      notation, for example, &#x2018;<code class="Li"><code class="Fl">-Q</code>
+      <var class="Ar">.16</var></code>&#x2019;.</dd>
   <dt id="r"><a class="permalink" href="#r"><code class="Fl">-r</code></a>
     <var class="Ar">recursion_depth</var>,
     <code class="Fl">--recursion-depth</code>
