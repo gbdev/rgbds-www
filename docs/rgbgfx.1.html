@@ -309,7 +309,21 @@
     rest of the argument (without the @, that is) is interpreted as the path to
     a file, whose contents are interpreted as if given on the command line.
     At-files can be stored right next to the corresponding image, for
-  example.</p>
+  example:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -o image.2bpp -t
+  image.tilemap @image.flags image.png</code></div>
+<p class="Pp">This will read additional flags from file
+    &#x2018;<code class="Li">image.flags</code>&#x2019;, which could contains
+    for example &#x2018;<code class="Li">-b 128</code>&#x2019; to specify a base
+    offset for the image's tiles. The above command could be generated from the
+    following
+    <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
+    rule, for example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>%.2bpp %.tilemap: %.flags %.png
+	rgbgfx -o $*.2bpp -t $*.tilemap @$*.flags $*.png</pre>
+</div>
 <p class="Pp" id="no">Since the contents of at-files are interpreted by
     <code class="Nm">rgbgfx</code>,
     <a class="permalink" href="#no"><b class="Sy">no shell processing is
@@ -321,16 +335,16 @@
     by whitespace, are considered comments and also ignored. Each line can
     contain any number of arguments, which are separated by whitespace. (No
     quoting feature to prevent this is provided.)</p>
-<p class="Pp">Note that this special meaning given to arguments has less
-    precedence than option arguments, and that the standard
+<p class="Pp">Note that a leading &#x2018;<code class="Li">@</code>&#x2019; has
+    no special meaning on option arguments, and that the standard
     &#x2018;<code class="Li">--</code>&#x2019; to stop option processing also
-    disables at-file processing. For example, the following command line
-    processes &#x2018;<code class="Li">@tilesets/town.png</code>&#x2019;,
-    outputs tile data to
-    &#x2018;<code class="Li">@tilesets/town.2bpp</code>&#x2019;, and reads
+    disables at-file processing. For example, the following command line reads
     command-line options from
     &#x2018;<code class="Li">tilesets/town.flags</code>&#x2019; then
-    &#x2018;<code class="Li">tilesets.flags</code>&#x2019;:</p>
+    &#x2018;<code class="Li">tilesets.flags</code>&#x2019;, but processes
+    &#x2018;<code class="Li">@tilesets/town.png</code>&#x2019; as the input
+    image and outputs tile data to
+    &#x2018;<code class="Li">@tilesets/town.2bpp</code>&#x2019;:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbgfx -o @tilesets/town.2bpp
   @tilesets/town.flags @tilesets.flags -- @tilesets/town.png</code></div>
