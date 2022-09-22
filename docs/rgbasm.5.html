@@ -53,13 +53,12 @@ world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x0
 <section class="Ss">
 <h3 class="Ss" id="Symbol_interpolation"><a class="permalink" href="#Symbol_interpolation">Symbol
   interpolation</a></h3>
-<p class="Pp">A funky feature is
-    &#x2018;<code class="Li">{symbol}</code>&#x2019; within a string, called
-    &#x201C;symbol interpolation&#x201D;. This will paste the contents of
-    &#x2018;<code class="Li">symbol</code>&#x2019; as if they were part of the
-    source file. If it is a string symbol, its characters are simply inserted
-    as-is. If it is a numeric symbol, its value is converted to hexadecimal
-    notation with a dollar sign &#x2018;$&#x2019; prepended.</p>
+<p class="Pp">A funky feature is writing a symbol between
+    &#x2018;<code class="Li">{braces}</code>&#x2019;, called &#x201C;symbol
+    interpolation&#x201D;. This will paste the symbol's contents as if they were
+    part of the source file. If it is a string symbol, its characters are simply
+    inserted as-is. If it is a numeric symbol, its value is converted to
+    hexadecimal notation with a dollar sign &#x2018;$&#x2019; prepended.</p>
 <p class="Pp">Symbol interpolations can be nested, too!</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
