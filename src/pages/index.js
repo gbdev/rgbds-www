@@ -82,7 +82,7 @@ function Resources() {
       {
         title: "gb-starter-kit",
         description: "gb-starter-kit is “gb-boilerplate Plus”: the same build system is included, plus some basic code such as a LCD-safe copy, a crash handler, and a data compressor + decompressor.",
-        url: "https://github.com/ISSOtm/gb-boilerplate",
+        url: "https://github.com/ISSOtm/gb-starter-kit",
         linkText: "Get started",
       },
     ],
