@@ -13,20 +13,21 @@
       [<code class="Fl"><a href="#M">-M</a><a href="#T">T</a></code> <var class="Ar">target_file</var>]
       [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code> <var class="Ar">target_file</var>]
       [<code class="Fl"><a href="#o">-o</a></code> <var class="Ar">out_file</var>]
+      [<code class="Fl"><a href="#P">-P</a></code> <var class="Ar">include_file</var>]
       [<code class="Fl"><a href="#p">-p</a></code> <var class="Ar">pad_value</var>]
       [<code class="Fl"><a href="#Q">-Q</a></code> <var class="Ar">fix_precision</var>]
       [<code class="Fl"><a href="#r">-r</a></code> <var class="Ar">recursion_depth</var>]
       [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
-      <var class="Ar">file ...</var></td>
+      <var class="Ar">asmfile</var></td>
   </tr>
 </table>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
 <p class="Pp">The <code class="Nm">rgbasm</code> program creates an RGB object
-    file from an assembly source file. The input <var class="Ar">file</var> can
-    be a file path, or <code class="Cm">-</code> denoting
-    <code class="Cm">stdin</code>.</p>
+    file from an assembly source file. The input <var class="Ar">asmfile</var>
+    can be a path to a file, or <code class="Cm">-</code> to read from standard
+    input.</p>
 <p class="Pp">Note that options can be abbreviated as long as the abbreviation
     is unambiguous: <code class="Fl">--verb</code> is
     <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
@@ -73,7 +74,14 @@
   <dt id="i"><a class="permalink" href="#i"><code class="Fl">-i</code></a>
     <var class="Ar">path</var>, <code class="Fl">--include</code>
     <var class="Ar">path</var></dt>
-  <dd>Add an include path.</dd>
+  <dd>Add a new &#x201C;include path; <var class="Ar">path</var>&#x201D; must
+      point to a directory. When a <code class="Ic">INCLUDE</code> (including
+      the implicit one from <code class="Fl">-P</code>) or
+      <code class="Ic">INCBIN</code> is attempted,
+      <code class="Nm">rgbasm</code> first looks up the provided path from its
+      working directory; if this fails, it tries again from each of the
+      &#x201C;include path&#x201D; directories, in the order they were
+    provided.</dd>
   <dt id="L"><a class="permalink" href="#L"><code class="Fl">-L</code></a>,
     <code class="Fl">--preserve-ld</code></dt>
   <dd>By default, <code class="Nm">rgbasm</code> optimizes loads of the form
@@ -94,7 +102,8 @@
   <dt id="MG"><a class="permalink" href="#MG"><code class="Fl">-MG</code></a></dt>
   <dd>To be used in conjunction with <code class="Fl">-M</code>. This makes
       <code class="Nm">rgbasm</code> assume that missing files are
-      auto-generated: when <code class="Ic">INCLUDE</code> or
+      auto-generated: when <code class="Ic">INCLUDE</code> (including the
+      implicit one from <code class="Fl">-P</code>) or
       <code class="Ic">INCBIN</code> is attempted on a non-existent file, it is
       added as a dependency, then <code class="Nm">rgbasm</code> exits normally
       instead of erroring out. This feature is used in automatic updating of
@@ -125,6 +134,13 @@
     <var class="Ar">out_file</var>, <code class="Fl">--output</code>
     <var class="Ar">out_file</var></dt>
   <dd>Write an object file to the given filename.</dd>
+  <dt id="P"><a class="permalink" href="#P"><code class="Fl">-P</code></a>
+    <var class="Ar">include_file</var>, <code class="Fl">--preinclude</code>
+    <var class="Ar">include_file</var></dt>
+  <dd>Pre-include a file. This acts as if a
+      &#x2018;<code class="Li"><code class="Ic">INCLUDE</code>
+      &quot;<var class="Ar">include_file</var>&quot;</code>&#x2019; was read
+      before the input <var class="Ar">asmfile</var>.</dd>
   <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
     <var class="Ar">pad_value</var>, <code class="Fl">--pad-value</code>
     <var class="Ar">pad_value</var></dt>
