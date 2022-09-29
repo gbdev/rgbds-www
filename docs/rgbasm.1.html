@@ -276,11 +276,15 @@
       or just <code class="Fl">-Wtruncation</code> also warns when an N-bit
       value is less than -2**(N-1), which will not fit in two's complement
       encoding.</dd>
-  <dt id="Wunmapped-char"><a class="permalink" href="#Wunmapped-char"><code class="Fl">-Wunmapped-char</code></a></dt>
+  <dt id="Wunmapped-char="><a class="permalink" href="#Wunmapped-char="><code class="Fl">-Wunmapped-char=</code></a></dt>
   <dd>Warn when a character goes through charmap conversion but has no defined
-      mapping. This warning is always disabled if the active charmap is empty,
-      and/or is the default charmap &#x2018;main&#x2019;. This warning is
-      enabled by <code class="Fl">-Wall</code>.</dd>
+      mapping. <code class="Fl">-Wunmapped-char=0</code> or
+      <code class="Fl">-Wunmapped-char</code> disables this warning.
+      <code class="Fl">-Wunmapped-char=1</code> or just
+      <code class="Fl">-Wunmapped-char</code> only warns if the active charmap
+      is not empty. <code class="Fl">-Wunmapped-char=2</code> warns if the
+      active charmap is empty, and/or is not the default charmap
+      &#x2018;main&#x2019;.</dd>
   <dt id="Wno-user"><a class="permalink" href="#Wno-user"><code class="Fl">-Wno-user</code></a></dt>
   <dd>Warn when the <code class="Ic">WARN</code> built-in is executed. (See
       &#x201C;Aborting the assembly process&#x201D; in
