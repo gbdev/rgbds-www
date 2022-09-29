@@ -38,8 +38,8 @@
     ending with &#x2018;<code class="Li">*/</code>&#x2019;. It can be split
     across multiple lines, or occur in the middle of an expression:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>X = /* the value of x
-       should be 3 */ 3</pre>
+<pre>DEF X = /* the value of x
+           should be 3 */ 3</pre>
 </div>
 <p class="Pp">Sometimes lines can be too long and it may be necessary to split
     them. To do so, put a backslash at the end of the line:</p>
@@ -187,20 +187,20 @@ PURGE topic, meaning, {meaning}</pre>
 <p class="Pp">Examples:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>SECTION &quot;Test&quot;, ROM0[2]
-X:             ;&#x00A0;This works with labels **whose address is known**
-Y = 3          ;&#x00A0;This also works with variables
-SUM equ X + Y  ;&#x00A0;And likewise with numeric constants
+X:                 ;&#x00A0;This works with labels **whose address is known**
+DEF Y = 3          ;&#x00A0;This also works with variables
+DEF SUM EQU X + Y  ;&#x00A0;And likewise with numeric constants
 ; Prints &quot;%0010 + $3 == 5&quot;
 PRINTLN &quot;{#05b:X} + {#x:Y} == {d:SUM}&quot;
 
 rsset 32
-PERCENT rb 1   ;&#x00A0;Same with offset constants
-VALUE = 20
-RESULT = MUL(20.0, 0.32)
+DEF PERCENT rb 1   ;&#x00A0;Same with offset constants
+DEF VALUE = 20
+DEF RESULT = MUL(20.0, 0.32)
 ; Prints &quot;32% of 20 = 6.40&quot;
 PRINTLN &quot;{d:PERCENT}% of {d:VALUE} = {f:RESULT}&quot;
 
-WHO equs STRLWR(&quot;WORLD&quot;)
+DEF WHO EQUS STRLWR(&quot;WORLD&quot;)
 ; Prints &quot;Hello world!&quot;
 PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 </div>
@@ -544,17 +544,18 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 </table>
 <p class="Pp">The trigonometry functions ( <code class="Ic">SIN</code>,
     <code class="Ic">COS</code>, <code class="Ic">TAN</code>, etc) are defined
-    in terms of a circle divided into 65535.0 degrees.</p>
+    in terms of a circle divided into 1.0 &quot;turns&quot; (equal to 2pi
+    radians or 360 degrees).</p>
 <p class="Pp">These functions are useful for automatic generation of various
     tables. For example:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>; Generate a 256-byte sine table with values in the range [0, 128]
-; (shifted and scaled from the range [-1.0, 1.0])
-ANGLE = 0.0
-    REPT 256
-        db (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
-ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
-    ENDR</pre>
+<pre>; Generate a table of sine values from sin(0.0) to sin(1.0), with
+; amplitude scaled from [-1.0, 1.0] to [0.0, 128.0]
+DEF turns = 0.0
+REPT 256
+    db MUL(64.0, SIN(turns) + 1.0) &gt;&gt; 16
+    DEF turns += 1.0 / 256
+ENDR</pre>
 </div>
 </section>
 <section class="Ss">
@@ -1251,7 +1252,7 @@ vPlayerTiles:
 DEF COUNT = 2
 DEF COUNT = 3
 DEF COUNT = ARRAY_SIZE + COUNT
-COUNT = COUNT*2
+DEF COUNT *= 2
 ;&#x00A0;COUNT now has the value 14</pre>
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
@@ -1999,13 +2000,12 @@ ENDR</pre>
 <p class="Pp">You can also use <code class="Ic">REPT</code> to generate tables
     on the fly:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>; Generate a 256-byte sine table with values in the range [0, 128]
-; (shifted and scaled from the range [-1.0, 1.0])
-ANGLE = 0.0
-    REPT 256
-        db (MUL(64.0, SIN(ANGLE)) + 64.0) &gt;&gt; 16
-ANGLE = ANGLE + 256.0 ; 256.0 = 65536 degrees / 256 entries
-    ENDR</pre>
+<pre>; Generate a table of square values from 0**2 = 0 to 100**2 = 10000
+DEF x = 0
+REPT 101
+    dw x * x
+    DEF x += 1
+ENDR</pre>
 </div>
 <p class="Pp">As in macros, you can also use the escape sequence
     <code class="Ic">\@</code>. <code class="Ic">REPT</code> blocks can be
