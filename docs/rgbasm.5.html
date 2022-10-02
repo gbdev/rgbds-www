@@ -542,6 +542,11 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     </td>
   </tr>
 </table>
+<p class="Pp">All of these fixed-point functions can take an optional final
+    argument, which is the precision to use. For example,
+    &#x2018;<code class="Li">MUL(6.0q8, 7.0q8, 8)</code>&#x2019; will evaluate
+    to &#x2018;<code class="Li">42.0q8</code>&#x2019; no matter what value is
+    set as the current <code class="Cm">Q</code> option.</p>
 <p class="Pp">The trigonometry functions ( <code class="Ic">SIN</code>,
     <code class="Ic">COS</code>, <code class="Ic">TAN</code>, etc) are defined
     in terms of a circle divided into 1.0 &quot;turns&quot; (equal to 2pi
