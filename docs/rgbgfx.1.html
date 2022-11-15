@@ -60,6 +60,15 @@
     &#x2018;<code class="Li">0x2A</code>&#x2019;,
     &#x2018;<code class="Li">0X2A</code>&#x2019;,
     &#x2018;<code class="Li">0x2a</code>&#x2019;.</p>
+<p class="Pp">Unless otherwise noted, passing
+    &#x2018;<code class="Li">-</code>&#x2019; (a single dash) as a file name
+    makes <code class="Nm">rgbgfx</code> use standard input (for input files) or
+    standard output (for output files). To suppress this behavior, and open a
+    file in the current directory actually called
+    &#x2018;<code class="Li">-</code>&#x2019;, pass
+    &#x2018;<code class="Li">./-</code>&#x2019; instead. Using standard input or
+    output more than once in a single command will likely produce unexpected
+    results.</p>
 <p class="Pp">The following options are accepted:</p>
 <dl class="Bl-tag">
   <dt id="a"><a class="permalink" href="#a"><code class="Fl">-a</code></a>
@@ -125,9 +134,10 @@
       <dd>Otherwise, <var class="Ar">color_spec</var> is assumed to be an
           external palette specification. The expected format is
           &#x2018;<code class="Li">format:path</code>&#x2019;, where
-          <var class="Ar">path</var> is a path to a file, which will be
-          processed according to the <var class="Ar">format</var>. See
-          <a class="Sx" href="#PALETTE_SPECIFICATION_FORMATS">PALETTE
+          <var class="Ar">path</var> is a path to a file
+          (&#x2018;<code class="Li">-</code>&#x2019; is not treated specially),
+          which will be processed according to the <var class="Ar">format</var>.
+          See <a class="Sx" href="#PALETTE_SPECIFICATION_FORMATS">PALETTE
           SPECIFICATION FORMATS</a> for a list of formats and their
           descriptions.</dd>
     </dl>
