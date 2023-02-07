@@ -1,0 +1,28 @@
+// @ts-check
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
+  nav: [
+    "index",
+    {
+      "Language reference": [
+        { type: 'doc', id: 'rgbasm.5', label: "Assembly syntax" },
+        { type: 'doc', id: 'gbz80.7', label: "CPU instructions" },
+        { type: 'doc', id: 'rgblink.5', label: "Linkerscript format" },
+        { type: 'doc', id: 'rgbds.5', label: "Object file format" },
+      ]
+    },
+    {
+      "Command-line options": [
+          { type: 'doc', id: 'rgbasm.1', label: "RGBASM" },
+          { type: 'doc', id: 'rgblink.1', label: "RGBLINK" },
+          { type: 'doc', id: 'rgbfix.1', label: "RGBFIX" },
+          { type: 'doc', id: 'rgbgfx.1', label: "RGBGFX" },
+      ]
+    },
+    { type: 'doc', id: 'rgbds.7', label: "History" },
+    "feedback",
+  ],
+};
+
+module.exports = sidebars;
