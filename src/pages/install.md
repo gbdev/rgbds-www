@@ -177,7 +177,7 @@ sudo make install
 
 The second command is optional if you don't want to install RGBDS system-wide.
 
-The following variables can be defined to control installation, like so: `make Q=`, `sudo make install PREFIX=~/.local/bin`
+The following variables can be defined to control installation, like so: `make Q=`, `make install PREFIX=~/.local`
 
  - `PREFIX`: Location where RGBDS will be installed. Defaults to `/usr/local`.
  - `bindir`: Location where the binaries will be installed. Defaults to `${PREFIX}/bin`.
