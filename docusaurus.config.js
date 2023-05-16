@@ -170,7 +170,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Game Boy is a registered trademark. This project is not endorsed by Nintendo.<br/> Copyright © 1997-${new Date().getFullYear()} RGBDS contributors.`,
+        copyright: `Game Boy is a registered trademark. This project is not endorsed by Nintendo.<br/> Copyright © 1997-${new Date().getFullYear()} <a target="_blank" rel="noopener noreferrer" href="https://github.com/gbdev/rgbds/graphs/contributors">RGBDS contributors</a>.`,
       },
       announcementBar: {
         id: "announcementBar-1", // Increment on change
