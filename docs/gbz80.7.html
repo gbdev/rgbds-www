@@ -1195,10 +1195,14 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="RL_r8"><a class="permalink" href="#RL_r8">RL r8</a></h3>
-<p class="Pp">Rotate bits in register <var class="Ar">r8</var> left through
-    carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- C</div>
+<p class="Pp">Rotate bits in register <var class="Ar">r8</var> left, through the
+    carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1216,19 +1220,28 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RL__HL_"><a class="permalink" href="#RL__HL_">RL
   [HL]</a></h3>
-<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> left through
-    carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- C</div>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> left, through
+    the carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#RL_r8">RL r8</a></p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="RLA"><a class="permalink" href="#RLA">RLA</a></h3>
-<p class="Pp">Rotate register <b class="Sy">A</b> left through carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- C</div>
+<p class="Pp">Rotate register <b class="Sy">A</b> left, through the carry
+  flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1246,8 +1259,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RLC_r8"><a class="permalink" href="#RLC_r8">RLC r8</a></h3>
 <p class="Pp">Rotate register <var class="Ar">r8</var> left.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- [7]</div>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1266,8 +1283,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <h3 class="Ss" id="RLC__HL_"><a class="permalink" href="#RLC__HL_">RLC
   [HL]</a></h3>
 <p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> left.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- [7]</div>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#RLC_r8">RLC r8</a></p>
@@ -1275,8 +1296,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RLCA"><a class="permalink" href="#RLCA">RLCA</a></h3>
 <p class="Pp">Rotate register <b class="Sy">A</b> left.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- [7]</div>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1293,9 +1318,14 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="RR_r8"><a class="permalink" href="#RR_r8">RR r8</a></h3>
-<p class="Pp">Rotate register <var class="Ar">r8</var> right through carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C -&gt; [7 -&gt; 0] -&gt; C</div>
+<p class="Pp">Rotate register <var class="Ar">r8</var> right, through the carry
+    flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1313,19 +1343,28 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RR__HL_"><a class="permalink" href="#RR__HL_">RR
   [HL]</a></h3>
-<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> right through
-    carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C -&gt; [7 -&gt; 0] -&gt; C</div>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> right, through
+    the carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#RR_r8">RR r8</a></p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="RRA"><a class="permalink" href="#RRA">RRA</a></h3>
-<p class="Pp">Rotate register <b class="Sy">A</b> right through carry.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C -&gt; [7 -&gt; 0] -&gt; C</div>
+<p class="Pp">Rotate register <b class="Sy">A</b> right, through the carry
+  flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1343,8 +1382,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RRC_r8"><a class="permalink" href="#RRC_r8">RRC r8</a></h3>
 <p class="Pp">Rotate register <var class="Ar">r8</var> right.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">[0] -&gt; [7 -&gt; 0] -&gt; C</div>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1363,8 +1406,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <h3 class="Ss" id="RRC__HL_"><a class="permalink" href="#RRC__HL_">RRC
   [HL]</a></h3>
 <p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> right.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">[0] -&gt; [7 -&gt; 0] -&gt; C</div>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#RRC_r8">RRC r8</a></p>
@@ -1372,8 +1419,12 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="RRCA"><a class="permalink" href="#RRCA">RRCA</a></h3>
 <p class="Pp">Rotate register <b class="Sy">A</b> right.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">[0] -&gt; [7 -&gt; 0] -&gt; C</div>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1474,8 +1525,11 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="SLA_r8"><a class="permalink" href="#SLA_r8">SLA r8</a></h3>
 <p class="Pp">Shift Left Arithmetically register <var class="Ar">r8</var>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- 0</div>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500; 0
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1495,17 +1549,24 @@ ld [sp], LOW(r16) ; C, E or L</pre>
   [HL]</a></h3>
 <p class="Pp">Shift Left Arithmetically the byte pointed to by
     <b class="Sy">HL</b>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">C &lt;- [7 &lt;- 0] &lt;- 0</div>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500; 0
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#SLA_r8">SLA r8</a></p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="SRA_r8"><a class="permalink" href="#SRA_r8">SRA r8</a></h3>
-<p class="Pp">Shift Right Arithmetically register <var class="Ar">r8</var>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">[7] -&gt; [7 -&gt; 0] -&gt; C</div>
+<p class="Pp">Shift Right Arithmetically register <var class="Ar">r8</var> (bit
+    7 of <var class="Ar">r8</var> <span class="No">is unchanged</span>).</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x2503; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1524,9 +1585,13 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <h3 class="Ss" id="SRA__HL_"><a class="permalink" href="#SRA__HL_">SRA
   [HL]</a></h3>
 <p class="Pp">Shift Right Arithmetically the byte pointed to by
-    <b class="Sy">HL</b>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">[7] -&gt; [7 -&gt; 0] -&gt; C</div>
+    <b class="Sy">HL</b> (bit 7 of the byte pointed to by <b class="Sy">HL</b>
+    <span class="No">is unchanged</span>).</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x2503; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#SRA_r8">SRA r8</a></p>
@@ -1534,8 +1599,11 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="SRL_r8"><a class="permalink" href="#SRL_r8">SRL r8</a></h3>
 <p class="Pp">Shift Right Logically register <var class="Ar">r8</var>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">0 -&gt; [7 -&gt; 0] -&gt; C</div>
+<div class="Bd Pp Li">
+<pre>   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+0 &#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+   &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1555,8 +1623,11 @@ ld [sp], LOW(r16) ; C, E or L</pre>
   [HL]</a></h3>
 <p class="Pp">Shift Right Logically the byte pointed to by
   <b class="Sy">HL</b>.</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent">0 -&gt; [7 -&gt; 0] -&gt; C</div>
+<div class="Bd Pp Li">
+<pre>   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+0 &#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+   &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#SRL_r8">SRL r8</a></p>
