@@ -42,24 +42,28 @@ You first need to get the source files to be compiled, using one of the methods 
 
 ## 2. Build
 
-The following are required to build RGBDS; it's possible that some are already installed on your system.
+The following are required to build RGBDS; most of those should already be installed on your system.
 
  - `make` and/or `cmake`, depending on what method you choose below
- - `bash` shell
- - a C compiler, typically `gcc` or `clang`
+ - The `bash` shell
+ - A C compiler, typically `gcc` or `clang`
  - `bison` (or `yacc`/`byacc` prior to RGBDS 0.5.0)
  - `pkg-config` (unless using `cmake`)
 
 If you are building RGBGFX, the following are also required:
 
- - a C++ compiler, typically `g++` or `clang`
+ - A C++ compiler, typically `g++` or `clang`
  - `libpng`'s development headers. For Linux users: the package is typically called [`libpng-dev`](https://packages.ubuntu.com/focal/libpng-dev), [`libpng-devel`](https://software.opensuse.org/package/libpng16-devel-64bit), or sometimes plainly [`libpng`](https://www.archlinux.org/packages/extra/x86_64/libpng/). Additionally, a `16` or `1.6` may be present after `libpng` ([example](https://tracker.debian.org/pkg/libpng1.6)).
 
 Two build systems are supported: plain old `make`, and CMake.
 Both can be used on most systems, but Windows users will almost certainly be unable to use `make`.
 
+:::caution
+
 Make sure to run all of the following commands from the root directory of the sources!
 That directory should contain a file called `Makefile`, another called `CMakeLists.txt`, and a few more.
+
+:::
 
 ### Using Make
 
@@ -91,39 +95,51 @@ Building RGBDS with CMake requires CMake 3.9 or later.
 
 :::
 
-First, run CMake on the project.
+1. Run CMake on the project:
 
-`cmake` 3.13 and later:
-```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-```
+   <Tabs>
+   <TabItem value="3.31+" label="CMake 3.13 and later">
 
-`cmake` 3.12.4 and earlier:
-```bash
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cd ..
-```
+   ```bash
+   cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+   ```
 
-Then, build RGBDS:
+   </TabItem>
+   <TabItem value="3.12.4-" label="CMake 3.12.4 and earlier">
 
-```bash
-cmake --build build
-```
+   ```bash
+   mkdir build
+   cd build
+   cmake .. -DCMAKE_BUILD_TYPE=Release
+   cd ..
+   ```
 
-Finally, you may install RGBDS.
-You are not required to, you can do whatever with the four binaries in `build/src` at this point.
+   </TabItem>
+   </Tabs>
 
-`cmake` 3.15 and later:
+2. Build RGBDS:
 
-```bash
-sudo cmake --install build
-```
+   ```bash
+   cmake --build build
+   ```
 
-`cmake` 3.14 and earlier:
+3. You can install RGBDS.
+   You are not required to, you can do whatever with the four binaries in `build/src` at this point.
 
-```bash
-cd build
-sudo make install
-```
+   <Tabs>
+   <TabItem value="3.15+" label="CMake 3.15 and later">
+
+   ```bash
+   sudo cmake --install build
+   ```
+
+   </TabItem>
+   <TabItem value="3.14-" label="CMake 3.14 and earlier">
+
+   ```bash
+   cd build
+   sudo make install
+   ```
+
+   </TabItem>
+   </Tabs>
