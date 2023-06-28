@@ -136,14 +136,24 @@ Windows works largely differently from everything else, so some expertise is exp
 
 You first need to get the source files to be compiled, using one of the methods below.
 
-#### Using [Git](https://git-scm.com/)
+<Tabs>
+<TabItem value="snapshot" label="Downloading source snapshots">
 
-First, [clone the repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository). Then, run `git checkout <version>` (e.g. `git checkout v0.4.1`), and you're set.
+1. [Pick a release](/docs).
+2. Under the "GitHub links" heading, follow the `release page` link.
+3. Go to "**Assets**" at the bottom of that page.
+4. Download any of the last three listed files (`rgbds-<version>.tar.gz`, "Source code (`zip`)", or "Source code (`tar.gz`)").
+5. Extract ("unzip") the file.
 
-#### Downloading source snapshots
+</TabItem>
+<TabItem value="git" label="Using Git">
 
-[Pick a release](/docs), then under that release "GitHub links", follow the `release page` link.
-Near the bottom of that page is a list of *assets*; grab either of the last three (`rgbds-<version>.tar.gz`, "Source code (`zip`)", or "Source code (`tar.gz`)"), and extract it.
+1. [Clone the repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository).
+2. Then, run `git checkout <version>` (e.g. `git checkout v0.4.1`).
+3. You're set!
+
+</TabItem>
+</Tabs>
 
 ### 2. Build
 
