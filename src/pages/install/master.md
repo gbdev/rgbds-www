@@ -21,7 +21,7 @@ Sorry!
 :::tip
 
 If your package manager is not an option, this is the preferred way.
-Unless you are on Windows, because development on Windows is hell; consider [using our CI](#using-our-ci) instead.
+Unless you are on Windows, consider [using our CI](#using-our-ci) instead.
 
 :::
 
