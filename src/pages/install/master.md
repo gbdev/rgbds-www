@@ -7,7 +7,6 @@ Using a "master" version of RGBDS means using an in-development version: this me
 We are very grateful to all who takes the time to use `master` versions; all of you help make the releases better for everyone.
 But, if you don't want to, you can [go back to the install page](/install).
 
-
 ## Using a package manager
 
 Your package manager *may* have a `master` version of RGBDS available, such as Arch's [`rgbds-git` AUR package](https://aur.archlinux.org/packages/rgbds-git).
@@ -21,7 +20,7 @@ Sorry!
 :::tip
 
 If your package manager is not an option, this is the preferred way.
-Unless you are on Windows, consider [using our CI](#using-our-ci) instead.
+Unless you are on Windows, in which case consider [using our CI](#using-our-ci) instead.
 
 :::
 
