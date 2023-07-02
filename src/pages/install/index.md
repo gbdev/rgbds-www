@@ -4,7 +4,7 @@ import TabItem from '@theme/TabItem';
 
 # Installing RGBDS
 
-Most people will want to use a release (the latest the bestest!), but if you are willing to help us test new features, you may consider [using a development version](/install/master).
+Most people will want to use a release (the more recent the better), but if you are willing to help us test new features, you may consider [using a development version](/install/master).
 
 The two main options to install a release of RGBDS are to download pre-built executables, or to [build from source](/install/source).
 Below is a list of <abbr title="Operating System">OS</abbr>es for which we know pre-built executables are available.
@@ -16,13 +16,6 @@ If you still can’t find RGBDS, or the specific version you are looking for is 
 <TabItem value="windows" label="Windows">
 
 The install instructions change a bit depending on the environment you wish to use RGBDS with.
-
-:::tip
-
-The "plain Windows" instructions may also work for some environments listed further below, since most of them pick up Windows' `PATH`.
-However, if you have such an environment, we recommend you follow its specific install instructions instead.
-
-:::
 
 <details>
 <summary>"Plain" Windows (CMD, PowerShell)</summary>
