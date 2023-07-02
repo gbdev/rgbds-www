@@ -12,7 +12,14 @@ Below is a list of <abbr title="Operating System">OS</abbr>es for which we know 
 If your OS isn’t listed below, try finding `rgbds` in your package manager—refer to your OS' documentation for help.
 If you still can’t find RGBDS, or the specific version you are looking for is unavailable, you will have to [compile it from source](#building-from-source).
 
+
 <Tabs>
+<TabItem value="linux" label="Linux">
+
+TO DO
+
+</TabItem>
+
 <TabItem value="windows" label="Windows">
 
 The install instructions change a bit depending on the environment you wish to use RGBDS with.
@@ -73,7 +80,7 @@ On WSL, the default package manager (to install any build prerequisites) is `apt
 </TabItem>
 <TabItem value="arch" label="Arch Linux">
 
-RGBDS is now available in the official repos as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package, or RGBDS 0.2.5 from [`rgbds2`](https://aur.archlinux.org/packages/rgbds2), still from the AUR.
+RGBDS is now available in the official repos as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
 
 ```bash
 pacman -S rgbds
