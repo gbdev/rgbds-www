@@ -134,7 +134,7 @@ const config = {
             items: [
               {
                 label: "GB ASM Tutorial",
-                href: "https://eldred.fr/gb-asm-tutorial/",
+                href: "https://gbdev.io/gb-asm-tutorial/",
               },
               {
                 label: "Game Boy technical reference",
