@@ -69,9 +69,13 @@
   <dt id="O"><a class="permalink" href="#O"><code class="Fl">-O</code></a>
     <var class="Ar">overlay_file</var>, <code class="Fl">--overlay</code>
     <var class="Ar">overlay_file</var></dt>
-  <dd>If specified, sections will be overlaid &quot;on top&quot; of the provided
-      ROM image. In that case, all sections must be fixed. This may be used to
-      patch an existing binary.</dd>
+  <dd>If specified, sections will be overlaid &quot;on top&quot; of the ROM
+      image <var class="Ar">overlay_file</var>: empty space between sections
+      will be filled by the corresponding bytes from
+      <var class="Ar">overlay_file</var>. This is useful to patch an existing
+      ROM. Note that all sections must be fixed (forced bank
+      <a class="permalink" href="#and"><b class="Sy" id="and">and</b></a>
+      address)!</dd>
   <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
     <var class="Ar">out_file</var>, <code class="Fl">--output</code>
     <var class="Ar">out_file</var></dt>
