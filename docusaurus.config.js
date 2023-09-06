@@ -148,7 +148,7 @@ const config = {
             items: [
               {
                 label: "Discord",
-                href: "https://discord.io/gbdev",
+                href: "https://gbdev.io/chat.html",
               },
               {
                 label: "Twitter",
