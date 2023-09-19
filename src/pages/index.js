@@ -32,9 +32,9 @@ function HomepageHeader() {
           &nbsp;
           <Link
             className="button button--lg btn-learn"
-            href="https://github.com/gbdev/rgbds"
+            href="https://gbdev.io/rgbds-live/"
           >
-            Contribute
+            Try online
           </Link>
         </div>
       </div>
