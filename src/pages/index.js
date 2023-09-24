@@ -27,7 +27,7 @@ function HomepageHeader() {
             className="button button--lg btn-contribute"
             href={`/docs/${latestStable}`}
           >
-            Read docs
+            Read manual
           </Link>
           &nbsp;
           <Link
