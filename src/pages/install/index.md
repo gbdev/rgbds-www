@@ -4,19 +4,40 @@ import TabItem from '@theme/TabItem';
 
 # Installing RGBDS
 
-Most people will want to use a release (the more recent the better), but if you are willing to help us test new features, you may consider [using a development version](/install/master).
+Most people will want to use a stable release (the more recent the better). 
 
-The two main options to install a release of RGBDS are to download pre-built executables, or to [build from source](/install/source).
-Below is a list of <abbr title="Operating System">OS</abbr>es for which we know pre-built executables are available.
-
-If your OS isn’t listed below, try finding `rgbds` in your package manager—refer to your OS' documentation for help.
-If you still can’t find RGBDS, or the specific version you are looking for is unavailable, you will have to [compile it from source](#building-from-source).
+Below is a list of Operative Systems for which pre-built executables are available. If none of these options fits your needs, you can [build from source](/install/source).
 
 
 <Tabs>
 <TabItem value="linux" label="Linux">
 
-TO DO
+Linux x86_64 ready binaries are available in our [Releases](https://github.com/gbdev/rgbds/releases) page.
+
+##### Arch
+
+RGBDS is available in the official Arch Linux repositories as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
+
+```bash
+pacman -S rgbds
+```
+
+
+</TabItem>
+
+<TabItem value="macos" label="macOS">
+
+RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
+
+```bash
+brew install rgbds
+```
+
+You can also install the [`master` branch](/docs/master) by passing the `--HEAD` flag:
+
+```bash
+brew install rgbds --HEAD
+```
 
 </TabItem>
 
@@ -78,30 +99,24 @@ On WSL, the default package manager (to install any build prerequisites) is `apt
 </details>
 
 </TabItem>
-<TabItem value="arch" label="Arch Linux">
 
-RGBDS is now available in the official repos as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
+<TabItem value="docker" label="Docker">
 
-```bash
-pacman -S rgbds
-```
-
-We refer you to the Arch Linux wiki on how to install [official packages](https://wiki.archlinux.org/index.php/Pacman#Installing_packages) or [AUR packages](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_and_upgrading_packages), or to find and use an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers).
-
-</TabItem>
-<TabItem value="macos" label="macOS">
-
-RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
+We distribute an [official container image for RGBDS](https://github.com/gbdev/rgbds/pkgs/container/rgbds). It contains the built executables and the build dependencies in case you want to compile from source.
 
 ```bash
-brew install rgbds
-```
-
-You can also install the [`master` branch](/docs/master) by passing the `--HEAD` flag:
-
-```bash
-brew install rgbds --HEAD
+docker pull ghcr.io/gbdev/rgbds:latest
 ```
 
 </TabItem>
 </Tabs>
+
+<br />
+
+### Installing a development version
+
+If you are willing to help us test new features, consider [using a development version](/install/master).
+
+### Managing multiple versions
+
+If you need to frequently switch between different versions of RGBDS, consider using [rgbenv](https://github.com/gbdev/rgbenv), the RGBDS version manager.
