@@ -14,7 +14,7 @@ Below is a list of Operative Systems for which pre-built executables are availab
 
 Linux x86_64 ready binaries are available in our [Releases](https://github.com/gbdev/rgbds/releases) page.
 
-##### Arch
+### Arch
 
 RGBDS is available in the official Arch Linux repositories as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
 
@@ -22,6 +22,9 @@ RGBDS is available in the official Arch Linux repositories as [`community/rgbds`
 pacman -S rgbds
 ```
 
+### Others
+
+If your distribution is not listed above, you must [build from source](./source.md).
 
 </TabItem>
 
@@ -45,17 +48,42 @@ brew install rgbds --HEAD
 
 The install instructions change a bit depending on the environment you wish to use RGBDS with.
 
-<details>
-<summary>"Plain" Windows (CMD, PowerShell)</summary>
+<Tabs>
+<TabItem value="wsl" label="WSL / Linux-like environments">
 
-1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](#using-rgbds-master).
+For these, please refer to the Linux instructions for the installed Linux distribution.
+(The default Linux distribution on WSL is Ubuntu, whose package manager is `apt`.)
+
+</TabItem>
+<TabItem value="cygwin" label="Cygwin / MSYS2">
+
+1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](/install/master).
+2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
+3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
+4. Copy all of those `.exe` and `.dll` files to the `/usr/local/bin` directory of Cygwin/MSYS2's installation.
+   (You can get its equivalent Windows path by running `cygpath -w /usr/local/bin`.)
+
+   **Do not put them in a subdirectory** (e.g. `/usr/local/bin/rgbds`)**!**
+   This would not work.
+
+After that, you should be able to use RGBDS from within the Cygwin/MSYS2 terminal, which you can confirm by running `rgbasm -V`.
+If this doesn't work, check that `/usr/local/bin` is within the PATH there (`echo $PATH`); if it isn't, you must add it (e.g. run `echo 'export PATH="/usr/local/bin:$PATH"' >>~/.bashrc`, and open a new Cygwin terminal).
+
+Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is slower and has been reported to cause a bit of trouble to some.
+
+</TabItem>
+<TabItem value="win32" label="None of those">
+
+1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](/install/master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Either:
-   - Put all of the files in a directory, then add it to the `PATH`.
-     This will permanently allow you to use RGBDS. If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set` one](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1): <code>set PATH="%PATH%<var>&lt;rgbds_path&gt;</var></code> for `cmd.exe`.
-     Use one of the following methods:
-     - Graphically:
+   - ...put all of the files in a directory, then add it to the `PATH`.
+     This will **permanently** allow you to use RGBDS **from anywhere**.
+
+     <Tabs>
+     <TabItem value="gui" label="Graphically">
+
        1. Open Control Panel
        2. Click "User Accounts"
        3. Click "User Accounts" again
@@ -66,37 +94,42 @@ The install instructions change a bit depending on the environment you wish to u
        8. Make sure that the new entry (which should be highlighted) is at the bottom of the list; if not, click on "Move Down" until it is
        9. Click "OK"
        10. Click "OK"
-     - Using a command line:
-       1. Use Explorer to go into the folder the files are in (you should see `rgbasm.exe` etc.), and click a blank part of the address bar near the top. Copy this path, and **use this instead of <code><var>&lt;rgbds_path&gt;</var></code> in the third step!**
-       2. Open `cmd` or PowerShell
-       3. Type <code>setx PATH "%PATH%<var>&lt;rgbds_path&gt;</var>;"</code> for `cmd.exe`, or <code>setx PATH ${"{"}Env:PATH}<var>&lt;rgbds_path&gt;</var>;</code> for PowerShell; replace <code><var>&lt;rgbds_path&gt;</var></code> with the path you copied in the first step
-       4. Close the window for the changes to take effect
-   - Put all of the files in your project's directory
-   - Put all of the files in a directory already in the `PATH`
+
+     </TabItem>
+     <TabItem value="cmd.exe" label="cmd.exe">
+
+       Run the following, replacing `<rgbds_path>` with the path to the directory that contains `rgbasm.exe`, `rgblink.exe`, etc.
+
+       ```cmd
+       setx PATH "%PATH%<rgbds_path>;"
+       ```
+
+       ...then open a new window for the changes to take effect.
+
+       If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
+
+     </TabItem>
+     <TabItem value="pwsh" label="PowerShell">
+
+       Run the following, replacing `<rgbds_path>` with the path to the directory that contains `rgbasm.exe`, `rgblink.exe`, etc.
+
+       ```cmd
+       setx PATH ${Env:PATH}<rgbds_path>;
+       ```
+
+       ...then open a new window for the changes to take effect.
+
+       If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
+
+     </TabItem>
+     </Tabs>
+
+   - ...or put all of the files in your project's directory.
+   - ...or put all of the files in a directory already in the `PATH`.
 5. Profit! RGBDS can now be used from your favorite command line (`cmd.exe` or PowerShell, most likely). You can test it by running `rgbasm --version`.
 
-</details>
-<details>
-<summary>Cygwin, MSYS2</summary>
-
-Follow steps 1 to 3 of the "plain Windows" instructions to get the release's files; then, copy all of the `.exe` and `.dll` files to the `/usr/local/bin` directory of Cygwin/MSYS2's installation.
-(You can get its equivalent Windows path by running `cygpath -w /usr/local/bin`.)
-**Do not put them in a subdirectory** (e.g. `/usr/local/bin/rgbds`)**!**
-This would not work.
-
-After that, you should be able to use RGBDS from within the Cygwin/MSYS2 terminal, which you can confirm by running `rgbasm -V`.
-If this doesn't work, check that `/usr/local/bin` is within the PATH there (`echo $PATH`); if it isn't, you must add it (e.g. `export PATH="/usr/local/bin:$PATH"` in the `~/.bashrc`).
-
-Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is slower and has been reported to cause a bit of trouble to some.
-
-</details>
-<details>
-<summary>WSL, and all other Linux-like environments</summary>
-
-For these, you have to [build from source](/install/source).
-On WSL, the default package manager (to install any build prerequisites) is `apt-get` (example: `sudo apt-get install libpng-dev`).
-
-</details>
+</TabItem>
+</Tabs>
 
 </TabItem>
 
@@ -111,12 +144,10 @@ docker pull ghcr.io/gbdev/rgbds:latest
 </TabItem>
 </Tabs>
 
-<br />
-
-### Installing a development version
+## Installing a development version
 
 If you are willing to help us test new features, consider [using a development version](/install/master).
 
-### Managing multiple versions
+## Managing multiple versions
 
 If you need to frequently switch between different versions of RGBDS, consider using [rgbenv](https://github.com/gbdev/rgbenv), the RGBDS version manager.
