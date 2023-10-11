@@ -9,12 +9,11 @@ Most people will want to use a stable release (the more recent the better).
 Below is a list of Operative Systems for which pre-built executables are available. If none of these options fits your needs, you can [build from source](/install/source).
 
 
-<Tabs>
-<TabItem value="linux" label="Linux">
+## Linux
 
-Linux x86_64 ready binaries are available in our [Releases](https://github.com/gbdev/rgbds/releases) page.
+Generic Linux x86_64 ready binaries are available in our [Releases](https://github.com/gbdev/rgbds/releases) page.
 
-### Arch
+##### Arch
 
 RGBDS is available in the official Arch Linux repositories as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
 
@@ -22,13 +21,8 @@ RGBDS is available in the official Arch Linux repositories as [`community/rgbds`
 pacman -S rgbds
 ```
 
-### Others
 
-If your distribution is not listed above, you must [build from source](./source.md).
-
-</TabItem>
-
-<TabItem value="macos" label="macOS">
+## macOS
 
 RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
 
@@ -42,17 +36,14 @@ You can also install the [`master` branch](/docs/master) by passing the `--HEAD`
 brew install rgbds --HEAD
 ```
 
-</TabItem>
-
-<TabItem value="windows" label="Windows">
+## Windows
 
 The install instructions change a bit depending on the environment you wish to use RGBDS with.
 
 <Tabs>
 <TabItem value="wsl" label="WSL / Linux-like environments">
 
-For these, please refer to the Linux instructions for the installed Linux distribution.
-(The default Linux distribution on WSL is Ubuntu, whose package manager is `apt`.)
+For these, please refer to the Linux instructions for the installed Linux distribution (the default Linux distribution on WSL is Ubuntu, whose package manager is `apt`).
 
 </TabItem>
 <TabItem value="cygwin" label="Cygwin / MSYS2">
@@ -131,9 +122,9 @@ Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is
 </TabItem>
 </Tabs>
 
-</TabItem>
+## Other
 
-<TabItem value="docker" label="Docker">
+### Docker
 
 We distribute an [official container image for RGBDS](https://github.com/gbdev/rgbds/pkgs/container/rgbds). It contains the built executables and the build dependencies in case you want to compile from source.
 
@@ -141,13 +132,10 @@ We distribute an [official container image for RGBDS](https://github.com/gbdev/r
 docker pull ghcr.io/gbdev/rgbds:latest
 ```
 
-</TabItem>
-</Tabs>
-
-## Installing a development version
+### Installing a development version
 
 If you are willing to help us test new features, consider [using a development version](/install/master).
 
-## Managing multiple versions
+### Managing multiple versions
 
 If you need to frequently switch between different versions of RGBDS, consider using [rgbenv](https://github.com/gbdev/rgbenv), the RGBDS version manager.
