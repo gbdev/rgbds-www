@@ -167,10 +167,13 @@
   </dd>
   <dt id="m"><a class="permalink" href="#m"><code class="Fl">-m</code></a>,
     <code class="Fl">--mirror-tiles</code></dt>
-  <dd>Deduplicate tiles that are mirrors of each other. Tiles are checked for
-      horizontal, vertical, and horizontal-vertical mirroring. Useful with a
-      tile map and attribute map together to keep track of the duplicated tiles
-      and the dimension(s) mirrored. Implies <code class="Fl">-u</code>.</dd>
+  <dd>Deduplicate tiles that are symmetrical mirror images of each other. Only
+      one of each unique tile will be saved in the tile data file, with mirror
+      images counting as duplicates. Tiles are checked for horizontal, vertical,
+      and horizontal-vertical mirroring. Useful with a tile map and attribute
+      map together (see <code class="Fl">-a</code> and
+      <code class="Fl">-t</code>) to keep track of the duplicated tiles and the
+      dimension(s) mirrored. Implies <code class="Fl">-u</code>.</dd>
   <dt id="N"><a class="permalink" href="#N"><code class="Fl">-N</code></a>
     <var class="Ar">nb_tiles</var>, <code class="Fl">--nb-tiles</code>
     <var class="Ar">nb_tiles</var></dt>
@@ -255,9 +258,9 @@
       set to <span class="Pa">.tilemap</span>.</dd>
   <dt id="u"><a class="permalink" href="#u"><code class="Fl">-u</code></a>,
     <code class="Fl">--unique-tiles</code></dt>
-  <dd>Deduplicate identical tiles, and omit the duplicates from the tile data
-      file. Useful with a tile map (see <code class="Fl">-t</code>) to keep
-      track of the duplicated tiles.
+  <dd>Deduplicate identical tiles. Only one of each unique tile will be saved in
+      the tile data file. Useful with a tile map (see
+      <code class="Fl">-t</code>) to keep track of the duplicated tiles.
     <p class="Pp" id="should">Note that if this option is enabled, no guarantee
         is made on the order in which tiles are output; while it
         <a class="permalink" href="#should"><i class="Em">should</i></a> be
@@ -608,19 +611,30 @@
 </section>
 <section class="Sh">
 <h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
-<p class="Pp">The following will only validate the PNG (check its size, that all
-    tiles have a suitable amount of colors, etc.), but output nothing:</p>
+<p class="Pp">The following will only validate the
+    &#x2018;<code class="Li">tileset.png</code>&#x2019; image (check its size,
+    that all tiles have a suitable amount of colors, etc.), but output
+  nothing:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbgfx
   src/res/maps/overworld/tileset.png</code></div>
-<p class="Pp">The following will convert the image using the two given palettes
-    (and only those), and store the generated 2bpp tile data in
+<p class="Pp">The following will convert the
+    &#x2018;<code class="Li">tileset.png</code>&#x2019; image using the two
+    given palettes (and only those), and store the generated 2bpp tile data in
     &#x2018;<code class="Li">tileset.2bpp</code>&#x2019;, and the attribute map
     in &#x2018;<code class="Li">tileset.attrmap</code>&#x2019;.</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbgfx -c '#ffffff,#8d05de,
   #dc7905,#000000; #fff,#8d05de, #7e0000 , #000' -A -o tileset.2bpp
   tileset.png</code></div>
+<p class="Pp">The following will deduplicate the tiles in the
+    &#x2018;<code class="Li">title_screen.png</code>&#x2019; image, keeping only
+    one of each unique tile, and store the generated 2bpp tile data in
+    &#x2018;<code class="Li">title_screen.2bpp</code>&#x2019;, and the tile map
+    in &#x2018;<code class="Li">title_screen.tilemap</code>&#x2019;.</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -u title_screen.png -o
+  title_screen.2bpp -t title_screen.tilemap</code></div>
 <p class="Pp">TODO: more examples.</p>
 </section>
 <section class="Sh">
