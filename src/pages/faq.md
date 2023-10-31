@@ -1,6 +1,6 @@
 # FAQ
 
-## Unable to place "<section\>"
+## Unable to place "\<section\>"
 
 This error occurs when RGBLINK is unable to place a `SECTION`. There are several causes, notably depending on the rest of the error message.
 
