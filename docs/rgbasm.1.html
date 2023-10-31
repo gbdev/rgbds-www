@@ -74,7 +74,7 @@
   <dt id="I"><a class="permalink" href="#I"><code class="Fl">-I</code></a>
     <var class="Ar">path</var>, <code class="Fl">--include</code>
     <var class="Ar">path</var></dt>
-  <dd>Add a new &#x201C;include path; <var class="Ar">path</var>&#x201D; must
+  <dd>Add a new &#x201C;include path&#x201D;; <var class="Ar">path</var> must
       point to a directory. When a <code class="Ic">INCLUDE</code> (including
       the implicit one from <code class="Fl">-P</code>) or
       <code class="Ic">INCBIN</code> is attempted,
@@ -144,7 +144,9 @@
   <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
     <var class="Ar">pad_value</var>, <code class="Fl">--pad-value</code>
     <var class="Ar">pad_value</var></dt>
-  <dd>When padding an image, pad with this value. The default is 0x00.</dd>
+  <dd>Use this as the fill value for <code class="Ic">DS</code> directives in
+      ROM sections, unless they specify their own value or values. The default
+      is 0x00.</dd>
   <dt id="Q"><a class="permalink" href="#Q"><code class="Fl">-Q</code></a>
     <var class="Ar">fix_precision</var>, <code class="Fl">--q-precision</code>
     <var class="Ar">fix_precision</var></dt>
