@@ -151,8 +151,8 @@ const config = {
                 href: "https://gbdev.io/chat.html",
               },
               {
-                label: "Twitter",
-                href: "https://twitter.com/gbdev0",
+                label: "Mastodon",
+                href: "https://fedi.gbdev.io/@gbdev",
               },
             ],
           },
