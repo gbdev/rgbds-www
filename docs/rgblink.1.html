@@ -19,7 +19,7 @@
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
 <p class="Pp">The <code class="Nm">rgblink</code> program links RGB object
     files, typically created by <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
-    into a single Game Boy ROM file. The format is documented in
+    into a single Game Boy ROM file. The object file format is documented in
     <a class="Xr" href="./rgbds.5">rgbds(5)</a>.</p>
 <p class="Pp">ROM0 sections are placed in the first 16 KiB of the output ROM,
     and ROMX sections are placed in any 16 KiB &#x201C;bank&#x201D; except the
@@ -33,6 +33,8 @@
     make sure that you don't use any incompatible section by using the
     <code class="Fl">-d</code> option, which implies <code class="Fl">-w</code>
     but also prohibits the use of banked VRAM.</p>
+<p class="Pp">The input <var class="Ar">asmfile</var> can be a path to a file,
+    or <code class="Cm">-</code> to read from standard input.</p>
 <p class="Pp">Note that options can be abbreviated as long as the abbreviation
     is unambiguous: <code class="Fl">--verb</code> is
     <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
