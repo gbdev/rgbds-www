@@ -576,13 +576,13 @@
   </tr>
   <tr id="$50">
     <td><a class="permalink" href="#$50"><code class="Li">$50</code></a></td>
-    <td><a class="permalink" href="#BANK"><code class="Fn" id="BANK">BANK</code></a>(<var class="Fa">symbol</var>),
+    <td><a class="permalink" href="#BANK"><code class="Fn" id="BANK">BANK</code></a>(<var class="Fa">symbol</var>);
       followed by the <var class="Ar">symbol</var>'s
       <code class="Cm">LONG</code> ID.</td>
   </tr>
   <tr id="$51">
     <td><a class="permalink" href="#$51"><code class="Li">$51</code></a></td>
-    <td><code class="Fn">BANK</code>(<var class="Fa">section</var>), followed by
+    <td><code class="Fn">BANK</code>(<var class="Fa">section</var>); followed by
       the <var class="Ar">section</var>'s <code class="Cm">STRING</code>
       name.</td>
   </tr>
@@ -593,15 +593,31 @@
   </tr>
   <tr id="$53">
     <td><a class="permalink" href="#$53"><code class="Li">$53</code></a></td>
-    <td><a class="permalink" href="#SIZEOF"><code class="Fn" id="SIZEOF">SIZEOF</code></a>(<var class="Fa">section</var>),
+    <td><a class="permalink" href="#SIZEOF"><code class="Fn" id="SIZEOF">SIZEOF</code></a>(<var class="Fa">section</var>);
       followed by the <var class="Ar">section</var>'s
       <code class="Cm">STRING</code> name.</td>
   </tr>
   <tr id="$54">
     <td><a class="permalink" href="#$54"><code class="Li">$54</code></a></td>
-    <td><a class="permalink" href="#STARTOF"><code class="Fn" id="STARTOF">STARTOF</code></a>(<var class="Fa">section</var>),
+    <td><a class="permalink" href="#STARTOF"><code class="Fn" id="STARTOF">STARTOF</code></a>(<var class="Fa">section</var>);
       followed by the <var class="Ar">section</var>'s
       <code class="Cm">STRING</code> name.</td>
+  </tr>
+  <tr id="$55">
+    <td><a class="permalink" href="#$55"><code class="Li">$55</code></a></td>
+    <td><code class="Fn">SIZEOF</code>(<var class="Fa">sectiontype</var>);
+      followed by the <var class="Ar">sectiontype</var>'s
+      <code class="Cm">BYTE</code> value (see the <var class="Ar">Type</var>
+      <span class="No">values in</span>
+      <a class="Sx" href="#Sections">Sections</a>).</td>
+  </tr>
+  <tr id="$56">
+    <td><a class="permalink" href="#$56"><code class="Li">$56</code></a></td>
+    <td><code class="Fn">STARTOF</code>(<var class="Fa">sectiontype</var>);
+      followed by the <var class="Ar">sectiontype</var>'s
+      <code class="Cm">BYTE</code> value (see the <var class="Ar">Type</var>
+      <span class="No">values in</span>
+      <a class="Sx" href="#Sections">Sections</a>).</td>
   </tr>
   <tr id="$60">
     <td><a class="permalink" href="#$60"><code class="Li">$60</code></a></td>
@@ -622,12 +638,12 @@
   </tr>
   <tr id="$80">
     <td><a class="permalink" href="#$80"><code class="Li">$80</code></a></td>
-    <td>Integer literal. Followed by the <code class="Cm">LONG</code>
+    <td>Integer literal; followed by the <code class="Cm">LONG</code>
       integer.</td>
   </tr>
   <tr id="$81">
     <td><a class="permalink" href="#$81"><code class="Li">$81</code></a></td>
-    <td>A symbol's value. Followed by the symbol's <code class="Cm">LONG</code>
+    <td>A symbol's value; followed by the symbol's <code class="Cm">LONG</code>
       ID.</td>
   </tr>
 </table>

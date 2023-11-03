@@ -818,14 +818,19 @@ This would result in &#x2018;<code class="Li">db
   </tr>
   <tr id="SIZEOF">
     <td><a class="permalink" href="#SIZEOF"><code class="Fn">SIZEOF</code></a>(<var class="Fa">arg</var>)</td>
-    <td>Returns the size of the section named <var class="Ar">arg</var>. The
-      result is not constant, since only RGBLINK can compute its value.</td>
+    <td>If <var class="Ar">arg</var> is a string, this function returns the size
+      of the section named <var class="Ar">arg</var>. If
+      <var class="Ar">arg</var> is a section type keyword, it returns the size
+      of that section type. The result is not constant, since only RGBLINK can
+      compute its value.</td>
   </tr>
   <tr id="STARTOF">
     <td><a class="permalink" href="#STARTOF"><code class="Fn">STARTOF</code></a>(<var class="Fa">arg</var>)</td>
-    <td>Returns the starting address of the section named
-      <var class="Ar">arg</var>. The result is not constant, since only RGBLINK
-      can compute its value.</td>
+    <td>If <var class="Ar">arg</var> is a string, this function returns the
+      starting address of the section named <var class="Ar">arg</var>. If
+      <var class="Ar">arg</var> is a section type keyword, it returns the
+      starting address of that section type. The result is not constant, since
+      only RGBLINK can compute its value.</td>
   </tr>
   <tr id="DEF">
     <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
