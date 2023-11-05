@@ -15,31 +15,47 @@
 </section>
 <section class="Sh">
 <h2 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h2>
-<p class="Pp">The syntax is line-based, just as in any other assembler, meaning
-    that you do one instruction or directive per line:</p>
+<p class="Pp">The syntax is line-based, just as in any other assembler. Each
+    line may have components in this order:</p>
 <p class="Pp"></p>
-<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>]
-  [<var class="Ar">instruction</var>]
+<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">directive</var>]
   [<var class="Ar">;&#x00A0;comment</var>]</code></div>
-<p class="Pp">Example:</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>John: ld a,87 ;Weee</pre>
-</div>
-<p class="Pp">All reserved keywords (directives, mnemonics, registers, etc.) are
-    case-insensitive; all identifiers (symbol names) are case-sensitive.</p>
+<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label:</var>]
+  [<var class="Ar">instruction</var> [<var class="Ar">:: instruction ...</var>]]
+  [<var class="Ar">;&#x00A0;comment</var>]</code></div>
+<p class="Pp">Directives are commands to the assembler itself, such as
+    <code class="Ic">PRINTLN</code>, <code class="Ic">SECTION</code>, or
+    <code class="Ic">OPT</code>.</p>
+<p class="Pp">Labels tie a name to a specific location within a section (see
+    <a class="Sx" href="#Labels">Labels</a> below). They must come first in the
+    line.</p>
+<p class="Pp">Instructions are assembled into Game Boy opcodes. Multiple
+    instructions on one line can be separated by double colons
+    &#x2018;<code class="Li">::</code>&#x2019;.</p>
+<p class="Pp">All reserved keywords (directives, register names, etc.) are
+    case-insensitive; all identifiers (labels and other symbol names) are
+    case-sensitive.</p>
 <p class="Pp" id="always">Comments are used to give humans information about the
     code, such as explanations. The assembler
     <a class="permalink" href="#always"><i class="Em">always</i></a> ignores
     comments and their contents.</p>
-<p class="Pp">There are two syntaxes for comments. The most common is that
-    anything that follows a semicolon &#x2018;<code class="Li">;</code>&#x2019;
-    not inside a string, is a comment until the end of the line. The second is a
-    block comment, beginning with &#x2018;<code class="Li">/*</code>&#x2019; and
-    ending with &#x2018;<code class="Li">*/</code>&#x2019;. It can be split
-    across multiple lines, or occur in the middle of an expression:</p>
+<p class="Pp">There are two kinds of comments, inline and block. Inline comments
+    are anything that follows a semicolon
+    &#x2018;<code class="Li">;</code>&#x2019; not inside a string, until the end
+    of the line. Block comments, beginning with
+    &#x2018;<code class="Li">/*</code>&#x2019; and ending with
+    &#x2018;<code class="Li">*/</code>&#x2019;, can be split across multiple
+    lines, or occur in the middle of an expression.</p>
+<p class="Pp">An example demonstrating these syntax features:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>DEF X = /* the value of x
-           should be 3 */ 3</pre>
+<pre>SECTION &quot;My Code&quot;, ROM0&#x00A0;&#x00A0;;&#x00A0;a directive
+MyFunction:&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;a label
+    push hl&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;an instruction
+    /* ...and multiple instructions,
+       with mixed case */
+    ld a, [hli] :: LD H, [HL] :: Ld l, a
+    pop /*wait for it*/ hl
+    ret</pre>
 </div>
 <p class="Pp">Sometimes lines can be too long and it may be necessary to split
     them. To do so, put a backslash at the end of the line:</p>
