@@ -647,6 +647,16 @@ ENDR</pre>
     included as-is, without needing to escape them with
     &#x2018;<code class="Li">\r</code>&#x2019; or
     &#x2018;<code class="Li">\n</code>&#x2019;.</p>
+<p class="Pp">Raw strings are prefixed by a hash &#x2018;#&#x2019;. Inside them,
+    backslashes and braces are treated like regular characters, so they will not
+    be expanded as macro arguments, interpolated symbols, or escape sequences.
+    For example, the raw string
+    &#x2018;<code class="Li">#&quot;	1{s}</code>&#x2019; is equivalent to the
+    regular string &#x2018;<code class="Li">t1s}</code>&#x2019;. (Note that
+    this prevents raw strings from including the double quote character.) Raw
+    strings also may be contained in triple quotes for them to be multi-line, so
+    they can include literal newline or quote characters (although still not
+    three quotes in a row).</p>
 <p class="Pp">The following functions operate on string expressions. Most of
     them return a string, however some of these functions actually return an
     integer and can be used as part of an integer expression!</p>
