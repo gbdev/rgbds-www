@@ -3,7 +3,7 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbgfx</code></td>
-    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#u">u</a><a href="#V">V</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
+    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
       [<code class="Fl"><a href="#v">-v</a></code> <span class="No">...</span>]]
       [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
@@ -85,9 +85,9 @@
       (<code class="Fl">-Z</code>), and has the same size.</dd>
   <dt id="A"><a class="permalink" href="#A"><code class="Fl">-A</code></a>,
     <code class="Fl">--output-attr-map</code></dt>
-  <dd>Same as <code class="Fl">-a</code> <var class="Ar">path</var>, where
-      <var class="Ar">path</var> is the input image's path with the extension
-      set to <span class="Pa">.attrmap</span>.</dd>
+  <dd>Same as <code class="Fl">-a</code> <var class="Ar">base_path</var>.attrmap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
   <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
     <var class="Ar">base_ids</var>, <code class="Fl">--base-tiles</code>
     <var class="Ar">base_ids</var></dt>
@@ -197,6 +197,12 @@
         ID, so a limit higher than 8 may yield incomplete data unless relying on
         a palette map (see <code class="Fl">-q</code>).</p>
   </dd>
+  <dt id="O"><a class="permalink" href="#O"><code class="Fl">-O</code></a>,
+    <code class="Fl">--group-outputs</code></dt>
+  <dd>Sets the &#x2018;base path&#x2019; to be the output tile data path from
+      <code class="Fl">-o</code> instead of the input image path (see
+      <a class="Sx" href="#Automatic_output_paths">Automatic output
+    paths</a>).</dd>
   <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
     <var class="Ar">out_file</var>, <code class="Fl">--output</code>
     <var class="Ar">out_file</var></dt>
@@ -208,9 +214,9 @@
   <dd>Output the image's palette set to this file.</dd>
   <dt id="P"><a class="permalink" href="#P"><code class="Fl">-P</code></a>,
     <code class="Fl">--output-palette</code></dt>
-  <dd>Same as <code class="Fl">-p</code> <var class="Ar">path</var>, where
-      <var class="Ar">path</var> is the input image's path with the extension
-      set to <span class="Pa">.pal</span>.</dd>
+  <dd>Same as <code class="Fl">-p</code> <var class="Ar">base_path</var>.pal
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
   <dt id="q"><a class="permalink" href="#q"><code class="Fl">-q</code></a>
     <var class="Ar">pal_file</var>, <code class="Fl">--palette-map</code>
     <var class="Ar">pal_file</var></dt>
@@ -219,9 +225,9 @@
       the lower 3 bits of the palette indices.</dd>
   <dt id="Q"><a class="permalink" href="#Q"><code class="Fl">-Q</code></a>,
     <code class="Fl">--output-palette-map</code></dt>
-  <dd>Same as <code class="Fl">-q</code> <var class="Ar">path</var>, where
-      <var class="Ar">path</var> is the input image's path with the extension
-      set to <span class="Pa">.palmap</span>.</dd>
+  <dd>Same as <code class="Fl">-q</code> <var class="Ar">base_path</var>.palmap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
   <dt id="r"><a class="permalink" href="#r"><code class="Fl">-r</code></a>
     <var class="Ar">width</var>, <code class="Fl">--reverse</code>
     <var class="Ar">width</var></dt>
@@ -253,9 +259,9 @@
       <code class="Fl">-m</code> to keep track of duplicate tiles.</dd>
   <dt id="T"><a class="permalink" href="#T"><code class="Fl">-T</code></a>,
     <code class="Fl">--output-tilemap</code></dt>
-  <dd>Same as <code class="Fl">-t</code> <var class="Ar">path</var>, where
-      <var class="Ar">path</var> is the input image's path with the extension
-      set to <span class="Pa">.tilemap</span>.</dd>
+  <dd>Same as <code class="Fl">-t</code> <var class="Ar">base_path</var>.tilemap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
   <dt id="u"><a class="permalink" href="#u"><code class="Fl">-u</code></a>,
     <code class="Fl">--unique-tiles</code></dt>
   <dd>Deduplicate identical tiles. Only one of each unique tile will be saved in
@@ -540,6 +546,29 @@
 </table>
 <p class="Pp">Note that if more than 8 palettes are used, only the lowest 3 bits
     of the palette ID are output.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Automatic_output_paths"><a class="permalink" href="#Automatic_output_paths">Automatic
+  output paths</a></h3>
+<p class="Pp">For convenience, <code class="Nm">rgbgfx</code> provides shortcuts
+    to generate all files in the same directory. This is done by using the
+    uppercase version of a flag (for example, <code class="Fl">-A</code>
+    <span class="No">instead of</span> <code class="Fl">-a</code>). The
+    <var class="Ar">base_path</var> is the input image path (or the output tile
+    data path from <code class="Fl">-o</code>, <span class="No">if</span>
+    <code class="Fl">-O</code> <span class="No">was given</span>) with its
+    extension, if any, removed.</p>
+<p class="Pp">For example, these two are equivalent:</p>
+<div class="Bd Pp Li">
+<pre>$ rgbgfx img/player.png -o build/player.2bpp -P
+$ rgbgfx img/player.png -o build/player.2bpp -p img/player.pal
+
+And so are these two:
+</pre>
+<div class="Bd Pp Li">
+$ rgbgfx img/player.png -o build/player.2bpp -O -P
+$ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</div>
+</div>
 </section>
 </section>
 <section class="Sh">

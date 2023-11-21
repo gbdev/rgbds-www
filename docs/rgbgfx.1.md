@@ -80,6 +80,13 @@ export const toc = [
 	"children": [
 	]
 },
+{
+	"value": "Automatic output paths",
+	"id": "Automatic_output_paths",
+	"level": 3,
+	"children": [
+	]
+},
 	]
 },
 {
