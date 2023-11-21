@@ -969,12 +969,12 @@ This would result in &#x2018;<code class="Li">db
   <dt id="ALIGN"><a class="permalink" href="#ALIGN"><code class="Ic">ALIGN</code></a>[<var class="Ar">align</var>,
     <var class="Ar">offset</var>]</dt>
   <dd>Place the section at an address whose <var class="Ar">align</var>
-      least-significant bits are equal to <var class="Ar">offset</var>. (Note
+      least-significant bits are equal to <var class="Ar">offset</var>. Note
       that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a
       shorthand for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
-      <span class="No">0</span>]). This option can be used with
-      [<var class="Ar">addr</var>], as long as they don't contradict eachother.
-      It's also possible to request alignment in the middle of a section, see
+      <span class="No">0</span>]. This option can be used with
+      [<var class="Ar">addr</var>], as long as they don't contradict each other.
+      It's also possible to request alignment in the middle of a section; see
       <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
     below.</dd>
 </dl>
@@ -1131,7 +1131,7 @@ RAMLocation:
       <code class="Ic">ROMX</code>.</li>
 </ul>
 <p class="Pp">Different declarations of the same unionized section are not
-    appended, but instead overlaid on top of eachother, just like
+    appended, but instead overlaid on top of each other, just like
     <a class="Sx" href="#Unions">Unions</a>. Similarly, the size of an unionized
     section is the largest of all its declarations.</p>
 </section>
@@ -1753,6 +1753,22 @@ DEF AOLer    EQUS  &quot;Me too&quot;
     sections, it will be filled with the value passed to the
     <code class="Fl">-p</code> command-line option, except when using overlays
     with <code class="Fl">-O</code>.</p>
+<p class="Pp">Instead of an exact number of bytes, you can specify
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>] to allocate however many bytes are required to
+    align the subsequent data. Thus, &#x2018;<code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>],
+    <span class="No">...</span>&#x2019; is equivalent to
+    &#x2018;<code class="Ic">DS</code> <var class="Ar">n</var>,
+    <span class="No">...</span>&#x2019; followed by
+    &#x2018;<code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>]&#x2019;, where <var class="Ar">n</var> is the
+    minimum value needed to satisfy the <code class="Ic">ALIGN</code> constraint
+    (see <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
+    below). Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>]
+    is a shorthand for
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Defining_constant_data_in_ROM"><a class="permalink" href="#Defining_constant_data_in_ROM">Defining
@@ -2306,6 +2322,16 @@ POPO
     <code class="Ic">ALIGN</code> <var class="Ar">align</var> is a shorthand for
     <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
     <span class="No">0</span>.</p>
+<p class="Pp">There may be times when you don't just want to specify an
+    alignment constraint at the current location, but also skip ahead until the
+    constraint can be satisfied. In that case, you can use <code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>] to
+    allocate however many bytes are required to align the subsequent data.</p>
+<p class="Pp">If the constraint cannot be met by skipping any amount of space,
+    an error is produced. Note that
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a shorthand
+    for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
 </section>
 </section>
 <section class="Sh">
