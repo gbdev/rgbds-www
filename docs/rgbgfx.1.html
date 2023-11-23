@@ -558,16 +558,15 @@
     data path from <code class="Fl">-o</code>, <span class="No">if</span>
     <code class="Fl">-O</code> <span class="No">was given</span>) with its
     extension, if any, removed.</p>
-<p class="Pp">For example, these two are equivalent:</p>
-<div class="Bd Pp Li">
+<p class="Pp">For example, these two commands are equivalent:</p>
+<div class="Bd Pp Bd-indent Li">
 <pre>$ rgbgfx img/player.png -o build/player.2bpp -P
-$ rgbgfx img/player.png -o build/player.2bpp -p img/player.pal
-
-And so are these two:
-</pre>
-<div class="Bd Pp Li">
-$ rgbgfx img/player.png -o build/player.2bpp -O -P
-$ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</div>
+$ rgbgfx img/player.png -o build/player.2bpp -p img/player.pal</pre>
+</div>
+<p class="Pp">And so are these two:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbgfx img/player.png -o build/player.2bpp -O -P
+$ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
 </div>
 </section>
 </section>

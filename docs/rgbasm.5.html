@@ -19,10 +19,10 @@
     line may have components in this order:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">[<var class="Ar">directive</var>]
-  [<var class="Ar">;&#x00A0;comment</var>]</code></div>
-<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label:</var>]
-  [<var class="Ar">instruction</var> [<var class="Ar">:: instruction ...</var>]]
-  [<var class="Ar">;&#x00A0;comment</var>]</code></div>
+  [;&#x00A0;<var class="Ar">comment</var>]</code></div>
+<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>:]
+  [<var class="Ar">instruction</var> [:: <var class="Ar">instruction ...</var>]]
+  [;&#x00A0;<var class="Ar">comment</var>]</code></div>
 <p class="Pp">Directives are commands to the assembler itself, such as
     <code class="Ic">PRINTLN</code>, <code class="Ic">SECTION</code>, or
     <code class="Ic">OPT</code>.</p>
@@ -630,12 +630,12 @@ ENDR</pre>
   <tr>
     <td>&#x2018;<code class="Li">\#</code>&#x2019;</td>
     <td>All <code class="Dv">_NARG</code> <span class="No">macro arguments,
-      separated by commas (Only in the body of a macro)</span></td>
+      separated by commas</span> (Only in the body of a macro)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
     <td>Label name suffix (Only in the body of a macro or a
-      <code class="Ic">REPT</code> <span class="No">block)</span></td>
+      <code class="Ic">REPT</code> <span class="No">block</span>)</td>
   </tr>
 </table>
 (Note that some of those can be used outside of strings, when noted further in
@@ -651,12 +651,12 @@ ENDR</pre>
     backslashes and braces are treated like regular characters, so they will not
     be expanded as macro arguments, interpolated symbols, or escape sequences.
     For example, the raw string
-    &#x2018;<code class="Li">#&quot;	1{s}</code>&#x2019; is equivalent to the
-    regular string &#x2018;<code class="Li">t1s}</code>&#x2019;. (Note that
-    this prevents raw strings from including the double quote character.) Raw
-    strings also may be contained in triple quotes for them to be multi-line, so
-    they can include literal newline or quote characters (although still not
-    three quotes in a row).</p>
+    &#x2018;<code class="Li">#&quot;\t\1{s}\&quot;</code>&#x2019; is equivalent
+    to the regular string &#x2018;<code class="Li">\\t\\1\{s}\\</code>&#x2019;.
+    (Note that this prevents raw strings from including the double quote
+    character.) Raw strings also may be contained in triple quotes for them to
+    be multi-line, so they can include literal newline or quote characters
+    (although still not three quotes in a row).</p>
 <p class="Pp">The following functions operate on string expressions. Most of
     them return a string, however some of these functions actually return an
     integer and can be used as part of an integer expression!</p>
@@ -740,12 +740,12 @@ ENDR</pre>
   <tr id="INCHARMAP">
     <td><a class="permalink" href="#INCHARMAP"><code class="Fn">INCHARMAP</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns 1 if <var class="Ar">str</var> <span class="No">has an entry in
-      the current charmap, and 0 otherwise.</span></td>
+      the current charmap, and 0 otherwise</span>.</td>
   </tr>
   <tr id="CHARLEN">
     <td><a class="permalink" href="#CHARLEN"><code class="Fn">CHARLEN</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns the number of charmap entries in <var class="Ar">str</var>
-      <span class="No">with the current charmap.</span></td>
+      <span class="No">with the current charmap</span>.</td>
   </tr>
   <tr id="CHARSUB">
     <td><a class="permalink" href="#CHARSUB"><code class="Fn">CHARSUB</code></a>(<var class="Fa">str</var>,
@@ -753,7 +753,7 @@ ENDR</pre>
     <td>Returns the substring for the charmap entry at <var class="Ar">pos</var>
       <span class="No">in</span> <var class="Ar">str</var>
       <span class="No">(first character is position 1, last is position -1) with
-      the current charmap.</span></td>
+      the current charmap</span>.</td>
   </tr>
 </table>
 </section>
@@ -772,9 +772,9 @@ ENDR</pre>
 CHARMAP &quot;&amp;iacute&quot;, 20
 CHARMAP &quot;A&quot;, 128</pre>
 </div>
-This would result in &#x2018;<code class="Li">db
-  &quot;Amen&lt;LF&gt;&quot;</code>&#x2019; being equivalent to
-  &#x2018;<code class="Li">db 128, 109, 101, 110, 10</code>&#x2019;.
+<p class="Pp">This would result in &#x2018;<code class="Li">db
+    &quot;Amen&lt;LF&gt;&quot;</code>&#x2019; being equivalent to
+    &#x2018;<code class="Li">db 128, 109, 101, 110, 10</code>&#x2019;.</p>
 <p class="Pp">Any characters in a string without defined mappings will be copied
     directly, using the source file's encoding of characters to bytes.</p>
 <p class="Pp">It is possible to create multiple character maps and then switch
@@ -793,7 +793,7 @@ This would result in &#x2018;<code class="Li">db
     <td><a class="permalink" href="#NEWCHARMAP"><code class="Ic">NEWCHARMAP</code></a>
       <var class="Ar">name</var></td>
     <td>Creates a new, empty character map called <var class="Ar">name</var>
-      <span class="No">and switches to it.</span></td>
+      <span class="No">and switches to it</span>.</td>
   </tr>
   <tr id="NEWCHARMAP~2">
     <td><a class="permalink" href="#NEWCHARMAP~2"><code class="Ic">NEWCHARMAP</code></a>
@@ -801,7 +801,7 @@ This would result in &#x2018;<code class="Li">db
     <td>Creates a new character map called <var class="Ar">name</var>,
       <span class="No">copied from character map</span>
       <var class="Ar">basename</var>, <span class="No">and switches to
-      it.</span></td>
+      it</span>.</td>
   </tr>
   <tr id="SETCHARMAP">
     <td><a class="permalink" href="#SETCHARMAP"><code class="Ic">SETCHARMAP</code></a>
@@ -817,9 +817,8 @@ This would result in &#x2018;<code class="Li">db
     <td>Pop a character map off the stack and switch to it.</td>
   </tr>
 </table>
-<p class="Pp" id="Note:"><a class="permalink" href="#Note:"><b class="Sy">Note:</b></a>
-    Modifications to a character map take effect immediately from that point
-    onward.</p>
+<p class="Pp"><b class="Sy">Note</b>: Modifications to a character map take
+    effect immediately from that point onward.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Other_functions"><a class="permalink" href="#Other_functions">Other
@@ -870,7 +869,7 @@ This would result in &#x2018;<code class="Li">db
     <td><a class="permalink" href="#HIGH"><code class="Fn">HIGH</code></a>(<var class="Fa">arg</var>)</td>
     <td>Returns the top 8 bits of the operand if <var class="Ar">arg</var>
       <span class="No">is a label or constant, or the top 8-bit register if it
-      is a 16-bit register.</span></td>
+      is a 16-bit register</span>.</td>
   </tr>
   <tr id="LOW">
     <td><a class="permalink" href="#LOW"><code class="Fn">LOW</code></a>(<var class="Fa">arg</var>)</td>
@@ -945,10 +944,9 @@ This would result in &#x2018;<code class="Li">db
   <dt id="HRAM"><a class="permalink" href="#HRAM"><code class="Ic">HRAM</code></a></dt>
   <dd>A high RAM section. <var class="Ar">addr</var> can range from
       <span class="Ad">$FF80</span> to <span class="Ad">$FFFE</span>.
-    <p class="Pp" id="Note"><a class="permalink" href="#Note"><b class="Sy">Note</b></a>:
-        While <code class="Nm">rgbasm</code> will automatically optimize
-        <code class="Ic">ld</code> instructions to the smaller and faster
-        <code class="Ic">ldh</code> (see
+    <p class="Pp"><b class="Sy">Note</b>: While <code class="Nm">rgbasm</code>
+        will automatically optimize <code class="Ic">ld</code> instructions to
+        the smaller and faster <code class="Ic">ldh</code> (see
         <a class="Xr" href="./gbz80.7">gbz80(7)</a>) whenever possible, it is
         generally unable to do so when a label is involved. Using the
         <code class="Ic">ldh</code> instruction directly is recommended. This
@@ -2337,12 +2335,12 @@ POPO
 <section class="Sh">
 <h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h2>
-<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+<p class="Pp"><a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
     <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
     <a class="Xr" href="./rgblink.5">rgblink(5)</a>,
     <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
-    <a class="Xr" href="./rgbds.7">rgbds(7)</a>,
-    <a class="Xr" href="./gbz80.7">gbz80(7)</a></p>
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
