@@ -39,11 +39,6 @@ BEGIN {
 }
 
 {
-	# Make long opts (defined using `Fl Fl`) into a single tag
-	gsub(/<code class="Fl">-<\/code>\s*<code class="Fl">/, "<code class=\"Fl\">-")
-}
-
-{
 	# Shift headings (level 1 is reserved for the page's title)
 	gsub(/<h2/, "<h3")
 	gsub(/<\/h2/, "</h3")
