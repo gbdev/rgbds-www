@@ -15,7 +15,7 @@ Generic Linux x86_64 ready binaries are available in our [Releases](https://gith
 
 ##### Arch
 
-RGBDS is available in the official Arch Linux repositories as [`community/rgbds`](https://www.archlinux.org/packages/community/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
+RGBDS is available in the official Arch Linux repositories as [`extra/rgbds`](https://www.archlinux.org/packages/extra/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
 
 ```bash
 pacman -S rgbds
