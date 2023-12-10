@@ -39,4 +39,4 @@ You can still use non-Windows zips if you know what you're doing, but we don't r
 :::
 
 RGBDS has [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration): as part of our testing process, each time a modification is made to the code, a server builds RGBDS for several platforms, and runs a battery of tests to ensure nothing was broken.
-The executables built during the process are [made available on GitHub](https://github.com/gbdev/rgbds/actions?query=workflow%3A%22Regression+testing%22).
+The executables built during the process are [available on GitHub](https://github.com/gbdev/rgbds/actions?query=workflow%3A%22Regression+testing%22) (and [here](https://nightly.link/gbdev/rgbds/workflows/testing/master) if you don't have a GitHub account).
