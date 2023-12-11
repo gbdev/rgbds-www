@@ -4,7 +4,7 @@
     specify the order of sections at link time and in a centralized manner.</p>
 <p class="Pp">A linker script consists of a series of bank declarations, each
     optionally followed by a list of section names (in double quotes) or
-    commands. All reserved keywords (bank types and command names) are
+    directives. All reserved keywords (bank types and directive names) are
     case-insensitive; all section names are case-sensitive.</p>
 <p class="Pp">Any line can contain a comment starting with
     &#x2018;<code class="Li">;</code>&#x2019; that ends at the end of the
@@ -13,16 +13,16 @@
 <pre>; This line is a comment
 ROMX $F            ; start a bank
   &quot;Some functions&quot; ; a section name
-  ALIGN 8          ; a command
+  ALIGN 8          ; a directive
   &quot;Some array&quot;
 
 WRAMX 2            ; start another bank
-  org $d123        ; another command
+  org $d123        ; another directive
   &quot;Some variables&quot;</pre>
 </div>
 <p class="Pp">Numbers can be in decimal or hexadecimal format (the prefix is
     &#x2018;<code class="Li">$</code>&#x2019;). It is an error if any section
-    name or command is found before setting a bank.</p>
+    name or directive is found before setting a bank.</p>
 <p class="Pp">Files can be included by using the <code class="Ic">INCLUDE</code>
     keyword, followed by a string with the path of the file that has to be
     included.</p>
@@ -32,8 +32,8 @@ WRAMX 2            ; start another bank
     <code class="Cm">WRAMX</code>, <code class="Cm">OAM</code> and
     <code class="Cm">HRAM</code>. Unless there is a single bank, which can occur
     with types <code class="Cm">ROMX</code>, <code class="Cm">VRAM</code>,
-    <code class="Cm">SRAM</code> and <code class="Cm">WRAMX</code>, it is needed
-    to specify a bank number after the type.</p>
+    <code class="Cm">SRAM</code> and <code class="Cm">WRAMX</code>, it is
+    mandatory to specify a bank number after the type.</p>
 <p class="Pp">Section names in double quotes support the same character escape
     sequences as strings in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
     specifically &#x2018;<code class="Li">\\</code>&#x2019;,
@@ -47,7 +47,7 @@ WRAMX 2            ; start another bank
     be placed right from the beginning of that bank. If the linker script
     switches to a different bank and then comes back to a previous one, it will
     continue from the last address that was used.</p>
-<p class="Pp">The only three commands are <code class="Ic">ORG</code>,
+<p class="Pp">The only three directives are <code class="Ic">ORG</code>,
     <code class="Ic">ALIGN</code>, and <code class="Ic">DS</code>:</p>
 <ul class="Bl-bullet">
   <li id="ORG"><a class="permalink" href="#ORG"><code class="Ic">ORG</code></a>
@@ -55,7 +55,7 @@ WRAMX 2            ; start another bank
       than the current address.</li>
   <li id="ALIGN"><a class="permalink" href="#ALIGN"><code class="Ic">ALIGN</code></a>
       will increase the address until it is aligned to the specified boundary
-      (it tries to set to 0 the number of bits specified after the command:
+      (it tries to set to 0 the number of bits specified after the directive:
       &#x2018;<code class="Li">ALIGN 8</code>&#x2019; will align to $100).</li>
   <li id="DS"><a class="permalink" href="#DS"><code class="Ic">DS</code></a>
       will increase the address by the specified non-negative amount.</li>
