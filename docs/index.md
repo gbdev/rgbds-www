@@ -16,7 +16,7 @@ Pros:
 Cons:
 
 - Tested, but unstable, so expect things to break often
-- Must be compiled manually, unless you [use our CI](/install#using-our-ci)
+- Must be compiled manually, unless you [use our CI](/install/master#using-our-ci)
 - Updated often
 
 In general, we only recommend using `master` to experienced users that can afford breakage from time to time.

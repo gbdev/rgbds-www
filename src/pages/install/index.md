@@ -15,7 +15,7 @@ Generic Linux x86_64 ready binaries are available in our [Releases](https://gith
 
 ##### Arch
 
-RGBDS is available in the official Arch Linux repositories as [`extra/rgbds`](https://www.archlinux.org/packages/extra/x86_64/rgbds/); you can also get the [latest master](/docs/master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
+RGBDS is available in the official Arch Linux repositories as [`extra/rgbds`](https://www.archlinux.org/packages/extra/x86_64/rgbds/); you can also get the [latest master](/docs/master#master) via the [`rgbds-git`](https://aur.archlinux.org/packages/rgbds-git) AUR package.
 
 ```bash
 pacman -S rgbds
@@ -48,7 +48,8 @@ For these, please refer to the Linux instructions for the installed Linux distri
 </TabItem>
 <TabItem value="cygwin" label="Cygwin / MSYS2">
 
-1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](/install/master).
+1. First, [pick the version you want to install](/docs).
+   If you want to [use `master`](/docs/master/#master) instead of a release, [follow the corresponding instructions](/install/master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Copy all of those `.exe` and `.dll` files to the `/usr/local/bin` directory of Cygwin/MSYS2's installation.
@@ -65,7 +66,8 @@ Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is
 </TabItem>
 <TabItem value="win32" label="None of those">
 
-1. First, [pick the version you want to install](/docs). If you want to [use `master`](/docs/master/#what) instead of a release, [go here](/install/master).
+1. First, [pick the version you want to install](/docs).
+   If you want to [use `master`](/docs/master/#master) instead of a release, [follow the corresponding instructions](/install/master).
 2. Follow the "release page" link below "GitHub links", and grab either of the `win32` (for 32-bit Windows) or `win64` (for 64-bit Windows) `.zip` files, near the bottom of the page.
 3. Unzip that file, you should get the `.exe` files alongside a couple of `.dll`s.
 4. Either:
