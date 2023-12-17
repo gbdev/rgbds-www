@@ -52,6 +52,7 @@ const config = {
         }),
       },
     ],
+    "docusaurus-plugin-matomo",
   ],
 
   presets: [
@@ -140,6 +141,10 @@ const config = {
                 label: "Game Boy technical reference",
                 href: "https://gbdev.io/pandocs",
               },
+              {
+                label: "Privacy Policy",
+                href: "https://gbdev.io/privacypolicy",
+              },
             ],
           },
 
@@ -189,6 +194,12 @@ const config = {
 
         // It ensures that search results are relevant to the current language and version.
         contextualSearch: true,
+      },
+      matomo: {
+        matomoUrl: 'https://stats.gbdev.io/',
+        siteId: '2',
+        phpLoader: 'matomo.php',
+        jsLoader: 'matomo.js',
       },
     }),
 };
