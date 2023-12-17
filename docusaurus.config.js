@@ -197,7 +197,7 @@ const config = {
       },
       matomo: {
         matomoUrl: 'https://stats.gbdev.io/',
-        siteId: '2',
+        siteId: '1',
         phpLoader: 'matomo.php',
         jsLoader: 'matomo.js',
       },
