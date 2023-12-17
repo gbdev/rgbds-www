@@ -3622,6 +3622,11 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
+docusaurus-plugin-matomo@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-matomo/-/docusaurus-plugin-matomo-0.0.8.tgz#eb11cf9d0f145a27ed5b9dec3835db01fae71060"
+  integrity sha512-YSaDdjxI7uN1FuNLSGrQy4BmDEXwwyL6vac7GfmS7wFBLck/Ias5jHqENPBHXe36m2cYzyesGPQL1EsS9vanwA==
+
 dom-converter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.2.0.tgz#6721a9daee2e293682955b6afe416771627bb768"
