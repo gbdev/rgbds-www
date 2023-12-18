@@ -51,12 +51,17 @@ WRAMX 2            ; start another bank
     <code class="Ic">ALIGN</code>, and <code class="Ic">DS</code>:</p>
 <ul class="Bl-bullet">
   <li id="ORG"><a class="permalink" href="#ORG"><code class="Ic">ORG</code></a>
-      sets the address in which new sections will be placed. It can not be lower
-      than the current address.</li>
+      <var class="Ar">addr</var> sets the address in which new sections will be
+      placed to <var class="Ar">addr</var>. It can not be lower than the current
+      address.</li>
   <li id="ALIGN"><a class="permalink" href="#ALIGN"><code class="Ic">ALIGN</code></a>
-      will increase the address until it is aligned to the specified boundary
-      (it tries to set to 0 the number of bits specified after the directive:
-      &#x2018;<code class="Li">ALIGN 8</code>&#x2019; will align to $100).</li>
+      <var class="Ar">addr</var> or <code class="Ic">ALIGN</code>
+      <var class="Ar">addr</var>, <var class="Ar">offset</var> will increase the
+      address until it is aligned to the specified boundary (it tries to set to
+      <var class="Ar">offset</var> the number of bits specified by
+      <var class="Ar">align</var>: for example, &#x2018;<code class="Li">ALIGN
+      8</code>&#x2019; will align to $100 , and &#x2018;<code class="Li">ALIGN
+      8, 10</code>&#x2019; will align to $10A).</li>
   <li id="DS"><a class="permalink" href="#DS"><code class="Ic">DS</code></a>
       will increase the address by the specified non-negative amount.</li>
 </ul>
