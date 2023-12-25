@@ -1,78 +1,138 @@
 <section class="Sh">
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
-<p class="Pp">The linker script is an external file that allows the user to
-    specify the order of sections at link time and in a centralized manner.</p>
-<p class="Pp">A linker script consists of a series of bank declarations, each
-    optionally followed by a list of section names (in double quotes) or
-    directives. All reserved keywords (bank types and directive names) are
-    case-insensitive; all section names are case-sensitive.</p>
-<p class="Pp">Any line can contain a comment starting with
-    &#x2018;<code class="Li">;</code>&#x2019; that ends at the end of the
-  line.</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>; This line is a comment
-ROMX $F            ; start a bank
-  &quot;Some functions&quot; ; a section name
-  ALIGN 8          ; a directive
-  &quot;Some array&quot;
-
-WRAMX 2            ; start another bank
-  org $d123        ; another directive
-  &quot;Some variables&quot;</pre>
-</div>
-<p class="Pp">Numbers can be in decimal or hexadecimal format (the prefix is
-    &#x2018;<code class="Li">$</code>&#x2019;). It is an error if any section
-    name or directive is found before setting a bank.</p>
-<p class="Pp">Files can be included by using the <code class="Ic">INCLUDE</code>
-    keyword, followed by a string with the path of the file that has to be
-    included.</p>
-<p class="Pp">The possible bank types are: <code class="Cm">ROM0</code>,
-    <code class="Cm">ROMX</code>, <code class="Cm">VRAM</code>,
-    <code class="Cm">SRAM</code>, <code class="Cm">WRAM0</code>,
-    <code class="Cm">WRAMX</code>, <code class="Cm">OAM</code> and
-    <code class="Cm">HRAM</code>. Unless there is a single bank, which can occur
-    with types <code class="Cm">ROMX</code>, <code class="Cm">VRAM</code>,
-    <code class="Cm">SRAM</code> and <code class="Cm">WRAMX</code>, it is
-    mandatory to specify a bank number after the type.</p>
-<p class="Pp">Section names in double quotes support the same character escape
-    sequences as strings in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
-    specifically &#x2018;<code class="Li">\\</code>&#x2019;,
+<p class="Pp">The linker script is a file that allows specifying attributes for
+    sections at link time, and in a centralized manner. There can only be one
+    linker script per invocation of <code class="Nm">rgblink</code>, but it can
+    be split into several files (using the <code class="Ic">INCLUDE</code>
+    <span class="No">directive</span>).</p>
+<section class="Ss">
+<h3 class="Ss" id="Basic_syntax"><a class="permalink" href="#Basic_syntax">Basic
+  syntax</a></h3>
+<p class="Pp">The linker script syntax is line-based. Each line may have a
+    directive or section name, a comment, both, or neither. Whitespace (space
+    and tab characters) is used to separate syntax elements, but is otherwise
+    ignored.</p>
+<p class="Pp">Comments begin with a semicolon
+    &#x2018;<code class="Li">;</code>&#x2019; character, until the end of the
+    line. They are simply ignored.</p>
+<p class="Pp">Keywords are composed of letters and digits (but they can't start
+    with a digit); they are all case-insensitive.</p>
+<p class="Pp">Numbers can be written in decimal format, or in binary using the
+    &#x2018;<code class="Li">%</code>&#x2019; prefix, or in hexadecimal using
+    the &#x2018;<code class="Li">$</code>&#x2019; prefix (hexadecimal digits are
+    case-insensitive). Note that unlike
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>, an octal
+    &#x2018;<code class="Li">&amp;</code>&#x2019; prefix is not supported, nor
+    are &#x2018;<code class="Li">_</code>&#x2019; digit separators.</p>
+<p class="Pp">Strings begin with a double quote, and end at the next
+    (non-escaped) double quote. Strings must not contain literal newline
+    characters. Most of the same character escapes as
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are supported, specifically
+    &#x2018;<code class="Li">\\</code>&#x2019;,
     &#x2018;<code class="Li">\&quot;</code>&#x2019;,
     &#x2018;<code class="Li">\n</code>&#x2019;,
     &#x2018;<code class="Li">\r</code>&#x2019;, and
     &#x2018;<code class="Li">\t</code>&#x2019;. Other backslash escape sequences
     in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are only relevant to
-    assembly code and do not apply in section names.</p>
-<p class="Pp">When a new bank statement is found, sections found after it will
-    be placed right from the beginning of that bank. If the linker script
-    switches to a different bank and then comes back to a previous one, it will
-    continue from the last address that was used.</p>
-<p class="Pp">The only three directives are <code class="Ic">ORG</code>,
-    <code class="Ic">ALIGN</code>, and <code class="Ic">DS</code>:</p>
-<ul class="Bl-bullet">
-  <li id="ORG"><a class="permalink" href="#ORG"><code class="Ic">ORG</code></a>
-      <var class="Ar">addr</var> sets the address in which new sections will be
-      placed to <var class="Ar">addr</var>. It can not be lower than the current
-      address.</li>
-  <li id="ALIGN"><a class="permalink" href="#ALIGN"><code class="Ic">ALIGN</code></a>
-      <var class="Ar">addr</var> or <code class="Ic">ALIGN</code>
-      <var class="Ar">addr</var>, <var class="Ar">offset</var> will increase the
-      address until it is aligned to the specified boundary (it tries to set to
-      <var class="Ar">offset</var> the number of bits specified by
-      <var class="Ar">align</var>: for example, &#x2018;<code class="Li">ALIGN
-      8</code>&#x2019; will align to $100 , and &#x2018;<code class="Li">ALIGN
-      8, 10</code>&#x2019; will align to $10A).</li>
-  <li id="DS"><a class="permalink" href="#DS"><code class="Ic">DS</code></a>
-      will increase the address by the specified non-negative amount.</li>
-</ul>
-<p class="Pp" id="Note"><a class="permalink" href="#Note"><b class="Sy">Note</b></a>:
-    The bank, alignment, address and type of sections can be specified both in
-    the source code and in the linker script. For a section to be able to be
-    placed with the linker script, the bank, address and alignment must be left
-    unassigned in the source code or be compatible with what is specified in the
-    linker script. For example, &#x2018;<code class="Li">ALIGN[8]</code>&#x2019;
-    in the source code is compatible with &#x2018;<code class="Li">ORG
-    $F00</code>&#x2019; in the linker script.</p>
+    assembly code and do not apply in linker scripts.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Directives"><a class="permalink" href="#Directives">Directives</a></h3>
+<dl class="Bl-tag">
+  <dt>Including other files</dt>
+  <dd>&#x2018;<code class="Li"><code class="Ic">INCLUDE</code>
+      <var class="Ar">path</var></code>&#x2019; acts as if the contents of the
+      file at <var class="Ar">path</var> were copy-pasted in place of the
+      <code class="Ic">INCLUDE</code> directive. <var class="Ar">path</var> must
+      be a string.</dd>
+  <dt id="region">Specifying the active bank</dt>
+  <dd>The active bank can be set by specifying its type (memory region) and
+      number. The possible types are: <code class="Ic">ROM0</code>,
+      <code class="Ic">ROMX</code>, <code class="Ic">VRAM</code>,
+      <code class="Ic">SRAM</code>, <code class="Ic">WRAM0</code>,
+      <code class="Ic">WRAMX</code>, <code class="Ic">OAM</code>, and
+      <code class="Ic">HRAM</code>. The bank number can be omitted from the
+      types that only contain a single bank, which are:
+      <code class="Ic">ROM0</code>, <code class="Ic">ROMX</code>
+      <span class="No">if</span> <code class="Fl">-t</code> <span class="No">is
+      passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">VRAM</code> <span class="No">if</span>
+      <code class="Fl">-d</code> <span class="No">is passed to</span>
+      <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">WRAM0</code>, <code class="Ic">WRAMX</code>
+      <span class="No">if</span> <code class="Fl">-w</code> <span class="No">is
+      passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">OAM</code>, and <code class="Ic">HRAM</code>.
+      (<code class="Ic">SRAM</code> <span class="No">is the only type that can
+      never have its bank number omitted.</span>)
+    <p class="Pp">After a bank specification, the &#x201C;current
+        address&#x201D; is set to the last value it had for that bank. If the
+        bank has never been active thus far, the &#x201C;current address&#x201D;
+        defaults to the beginning of the bank (e.g.
+        <span class="Ad">$4000</span> <span class="No">for</span>
+        <code class="Ic">ROMX</code> <span class="No">sections</span>).</p>
+  </dd>
+  <dt>Changing the current address</dt>
+  <dd>A bank must be active for any of these directives to be used.
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">ORG</code>
+        <var class="Ar">addr</var></code>&#x2019; sets the &#x201C;current
+        address&#x201D; to <var class="Ar">addr</var>. This directive cannot be
+        used to move the address backwards: <var class="Ar">addr</var> must be
+        greater than or equal to the &#x201C;current address&#x201D;.</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">FLOATING</code></code>&#x2019;
+        causes all sections between it and the next <code class="Ic">ORG</code>
+        or bank specification to be placed at addresses automatically determined
+        by <code class="Nm">rgblink</code>.</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">ALIGN</code>
+        <var class="Ar">addr</var>, <var class="Ar">offset</var></code>&#x2019;
+        increases the &#x201C;current address&#x201D; until it is aligned to the
+        specified boundary (i.e. the <var class="Ar">align</var> lowest bits of
+        the address are equal to <var class="Ar">offset</var>). If
+        <var class="Ar">offset</var> is omitted, it is implied to be 0. For
+        example, if the &#x201C;current address&#x201D; is $0007,
+        &#x2018;<code class="Li">ALIGN 8</code>&#x2019; would set it to $0100,
+        and &#x2018;<code class="Li">ALIGN 8, 10</code>&#x2019; would set it to
+        $000A.</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">DS</code>
+        <var class="Ar">size</var></code>&#x2019; increases the &#x201C;current
+        address&#x201D; by <var class="Ar">size</var>. The gap is not allocated,
+        so smaller floating sections can later be placed there.</p>
+  </dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Section_placement"><a class="permalink" href="#Section_placement">Section
+  placement</a></h3>
+<p class="Pp">A section can be placed simply by naming it (with a string). Its
+    bank is set to the active bank, and its address to the &#x201C;current
+    address&#x201D;. Any constraints the section already possesses (whether from
+    earlier in the linker script, or from the object files being linked) must be
+    consistent with what the linker script specifies: the section's type must
+    match, the section's bank number (if set) must match the active bank, etc.
+    In particular, if the section has an alignment constraint, the address at
+    which it is placed by the linker script must obey that constraint;
+    otherwise, an error will occur.</p>
+<p class="Pp">After a section is placed, the &#x201C;current address&#x201D; is
+    increased by the section's size. This must not increase it past the end of
+    the active memory region.</p>
+<p class="Pp">The section must have been defined in the object files being
+    linked, unless the section name is followed by the keyword
+    <code class="Ic">OPTIONAL</code>.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<div class="Bd Bd-indent Li">
+<pre>; This line contains only a comment
+ROMX $F            ; start a bank
+  &quot;Some functions&quot; ; a section name
+  ALIGN 8          ; a directive
+  &quot;Some \&quot;array\&quot;&quot;
+
+WRAMX 2            ; start another bank
+  org $d123        ; another directive
+  &quot;Some variables&quot;</pre>
+</div>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE

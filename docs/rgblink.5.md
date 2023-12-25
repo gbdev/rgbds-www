@@ -10,6 +10,34 @@ export const toc = [
 	"id": "DESCRIPTION",
 	"level": 2,
 	"children": [
+{
+	"value": "Basic syntax",
+	"id": "Basic_syntax",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Directives",
+	"id": "Directives",
+	"level": 3,
+	"children": [
+	]
+},
+{
+	"value": "Section placement",
+	"id": "Section_placement",
+	"level": 3,
+	"children": [
+	]
+},
+	]
+},
+{
+	"value": "EXAMPLES",
+	"id": "EXAMPLES",
+	"level": 2,
+	"children": [
 	]
 },
 {
