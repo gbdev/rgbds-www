@@ -8,7 +8,7 @@ These are the operating systems for which pre-built executables are available:
 - [macOS](/install/macOS)
 - [Windows](/install/windows)
 
-If none of these options fits your needs, you can [build from source](/install/source).
+If none of these options fit your needs, you can [build from source](/install/source).
 
 ### Docker
 
