@@ -13,7 +13,7 @@ If none of these options fit your needs, you can [build from source](/install/so
 ### Docker
 
 We distribute an [official container image for RGBDS](https://github.com/gbdev/rgbds/pkgs/container/rgbds).
-It contains the built executables **and** the build dependencies, in case you want to compile from source.
+It contains the built executables *and* the build dependencies, in case you want to compile from source.
 
 ```bash
 docker pull ghcr.io/gbdev/rgbds:latest

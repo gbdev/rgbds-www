@@ -7,7 +7,7 @@ RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https
 brew install rgbds
 ```
 
-Alternatively, and if you want a version no earlier than v0.5.2, you can get pre-built binaries.
+If not, and you want to install version v0.5.2 or newer, you can download our pre-built binaries.
 
 1. Select [the version you want](/docs/).
 2. Under "GitHub links", follow the "release page" link.
