@@ -3,7 +3,7 @@
 
 Most people will want to use a stable release (the more recent the better).
 
-Below is a list of Operating Systems for which pre-built executables are available:
+These are the operating systems for which pre-built executables are available:
 - [Linux](/install/linux)
 - [macOS](/install/macOS)
 - [Windows](/install/windows)
