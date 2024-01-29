@@ -1816,7 +1816,7 @@ DS 7, $BB, $CC</pre>
     include. Use <code class="Ic">INCBIN</code> to include a raw binary file as
     it is. If the file isn't found in the current directory, the include-path
     list passed to <a class="Xr" href="./rgbasm.1">rgbasm(1)</a> (see the
-    <code class="Fl">-i</code> option) on the command line will be searched.</p>
+    <code class="Fl">-I</code> option) on the command line will be searched.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>INCBIN &quot;titlepic.bin&quot;
 INCBIN &quot;sprites/hero.bin&quot;</pre>
@@ -2222,7 +2222,7 @@ assert FirstByte + 1 == SecondByte
 <p class="Pp">Use <code class="Ic">INCLUDE</code> to process another assembler
     file and then return to the current file when done. If the file isn't found
     in the current directory, the include path list (see the
-    <code class="Fl">-i</code> option in
+    <code class="Fl">-I</code> option in
     <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>) will be searched. You may
     nest <code class="Ic">INCLUDE</code> calls infinitely (or until you run out
     of memory, whichever comes first).</p>
