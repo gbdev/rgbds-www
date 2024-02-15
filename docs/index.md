@@ -3,7 +3,8 @@
 
 ## What is `master`? {#master}
 
-`master` is the name of RGBDS' main development branch. It's usually employed as a version name to refer to the state of in-development RGBDS: it contains the latest changes as they are pushed, but for this reason it's very unstable.
+`master` is the name of RGBDS' main development branch.
+It's usually employed as a version name to refer to the state of in-development RGBDS: it contains the latest changes as they are pushed, but for this reason it's less stable.
 
 ### Pros and cons of `master` over releases
 
@@ -15,7 +16,7 @@ Pros:
 
 Cons:
 
-- Tested, but unstable, so expect things to break often
+- Tested, but less stable, so expect things to break occasionally
 - Must be compiled manually, unless you [use our CI](/install/master#using-our-ci)
 - Updated often
 
