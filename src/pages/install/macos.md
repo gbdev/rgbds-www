@@ -13,9 +13,27 @@ RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https
 brew install rgbds
 ```
 
-If not, and you want to install version v0.5.2 or newer, you can download our pre-built binaries.
+:::caution
 
-1. Select [the version you want](/docs/).
+This may not be suitable if your version of macOS is too old for Brew to support it.
+(In particular, this leads to very long installation times.)
+
+:::
+
+:::tip
+
+You can also install the [`master` branch](/docs/master) by passing the `--HEAD` flag:
+```bash
+brew install rgbds --HEAD
+```
+
+:::
+
+---
+
+Instead of using Brew, versions v0.5.2 and newer can be installed by downloading our pre-built binaries:
+
+1. Click the link of the version you want [from the list](/docs).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
 4. Download <code>rgbds-<var>&lt;version&gt;</var>-macos-x86-64.zip</code> (for example, version 0.7.0 would have `rgbds-0.7.0-macos-x86-64.zip`).

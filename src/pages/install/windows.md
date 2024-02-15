@@ -22,8 +22,8 @@ You can check what your WSL distribution is by running `wsl -l -v` in the Comman
 </TabItem>
 <TabItem value="cygwin" label="Cygwin / MSYS2">
 
-1. First, [pick the version you want to install](/docs).
-   If you want to use [`master`](/docs/master/#master) instead of a released version, [follow the corresponding instructions](/install/master).
+1. Click the link of the version you want [from the list](/docs).
+   If you want to use [`master`](/docs/master#master) instead of a released version, [follow the corresponding instructions](/install/master).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
 4. Download either <code>rgbds-<var>&lt;version&gt;</var>-win32.zip</code> (for 32-bit Windows) or <code>rgbds-<var>&lt;version&gt;</var>-win64.zip</code> (for 64-bit Windows).
@@ -33,20 +33,29 @@ You can check what your WSL distribution is by running `wsl -l -v` in the Comman
 6. Copy all of those `.exe` and `.dll` files to the `/usr/local/bin` directory of your Cygwin/MSYS2 installation.
    (You can learn its equivalent Windows path by running `cygpath -w /usr/local/bin` in the Cygwin terminal.)
 
-   **Do not put them in a subdirectory** (e.g. `/usr/local/bin/rgbds`)**!**
+   :::caution
+
+   Do not put them in a subdirectory (e.g. `/usr/local/bin/rgbds/`)!
    This would not work.
 
+   :::
+
 After that, you should be able to use RGBDS from within the Cygwin/MSYS2 terminal, which you can confirm by running `rgbasm -V`.
+
 If `rgbasm -V` doesn't work, check that `/usr/local/bin` is listed in your Cygwin/MSYS2 `PATH` (run `echo $PATH` to check).
 If it isn't listed, you must add it (e.g. run `echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bashrc`, then close your Cygwin terminal and open a new one).
 
-Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is slower and has been reported to cause a bit of trouble to some.
+:::tip
+
+If you can choose between using Cygwin or MSYS2, be advised that Cygwin is slower and has been reported to cause a bit of trouble to some.
+
+:::
 
 </TabItem>
 <TabItem value="win32" label="None of those">
 
-1. First, [pick the version you want to install](/docs).
-   If you want to use [`master`](/docs/master/#master) instead of a released version, [follow the corresponding instructions](/install/master).
+1. Click the link of the version you want [from the list](/docs).
+   If you want to use [`master`](/docs/master#master) instead of a released version, [follow the corresponding instructions](/install/master).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
 4. Download either <code>rgbds-<var>&lt;version&gt;</var>-win32.zip</code> (for 32-bit Windows) or <code>rgbds-<var>&lt;version&gt;</var>-win64.zip</code> (for 64-bit Windows).
@@ -54,8 +63,8 @@ Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is
 5. Unzip the .zip file.
    It should give you the RGBDS `.exe` files and a couple of `.dll` files.
 6. Either:
-   - ...put all of the files in a directory, then add it to the `PATH`.
-     This will **permanently** allow you to use RGBDS **from anywhere**.
+   - ...put all of the files in a directory, then add that directory to Windows' `PATH`.
+     This will *permanently* allow you to use RGBDS *from any directory*.
 
      <Tabs>
      <TabItem value="gui" label="Graphically">
@@ -77,7 +86,7 @@ Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is
        Run the command <code>setx PATH "%PATH%<var>&lt;rgbds_path&gt;</var>;"</code>, replacing <code><var>&lt;rgbds_path&gt;</var></code> with the path to the folder that contains `rgbasm.exe`, `rgblink.exe`, etc.
        Then close the Command Prompt and open a new one for the changes to take effect.
 
-       If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
+       If you only want to modify the `PATH` temporarily, instead of the permanent [`setx`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx) command, you can use the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
 
      </TabItem>
      <TabItem value="pwsh" label="PowerShell">
@@ -85,7 +94,7 @@ Note: if you can choose between using Cygwin or MSYS2, be advised that Cygwin is
        Run the command <code>setx PATH \$\{Env:PATH\}<var>&lt;rgbds_path&gt;</var>;</code>, replacing <code><var>&lt;rgbds_path&gt;</var></code> with the path to the directory that contains `rgbasm.exe`, `rgblink.exe`, etc.
        Then close the PowerShell window and open a new one for the changes to take effect.
 
-       If you only want to modify the PATH temporarily, instead of the permanent [`setx` command](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx), you can use  the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
+       If you only want to modify the `PATH` temporarily, instead of the permanent [`setx`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx) command, you can use the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
 
      </TabItem>
      </Tabs>
