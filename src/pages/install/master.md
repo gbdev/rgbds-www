@@ -1,5 +1,11 @@
 
+<hgroup>
+
+← [Back to install instructions](/install)
+
 # Using RGBDS `master`
+
+</hgroup>
 
 `master` is the name of RGBDS' main development branch.
 Using a "master" version of RGBDS means using an in-development version: this means you get access to the newest features faster (and you help test them!), but it also means that they have undergone a little less testing.

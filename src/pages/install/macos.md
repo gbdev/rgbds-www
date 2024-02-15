@@ -1,5 +1,11 @@
 
+<hgroup>
+
+← [Back to install instructions](/install)
+
 # Installing RGBDS on macOS
+
+</hgroup>
 
 RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
 

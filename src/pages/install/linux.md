@@ -1,5 +1,11 @@
 
+<hgroup>
+
+← [Back to install instructions](/install)
+
 # Installing RGBDS on Linux
+
+</hgroup>
 
 First, please check if RGBDS is available in your distribution's software center or package manager repositories.
 If a satisfactory version is available, it is a good idea to install from there.

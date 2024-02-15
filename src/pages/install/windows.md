@@ -2,7 +2,13 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+<hgroup>
+
+← [Back to install instructions](/install)
+
 # Installing RGBDS on Windows
+
+</hgroup>
 
 The install instructions are a bit different depending on the environment in which you wish to use RGBDS.
 
