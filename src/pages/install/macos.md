@@ -33,7 +33,7 @@ brew install rgbds --HEAD
 
 Instead of using Brew, versions v0.5.2 and newer can be installed by downloading our pre-built binaries:
 
-1. Click the link of the version you want [from the list](/docs).
+1. Follow the link of the version you want [from the list](/docs).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
 4. Download <code>rgbds-<var>&lt;version&gt;</var>-macos-x86-64.zip</code> (for example, version 0.7.0 would have `rgbds-0.7.0-macos-x86-64.zip`).

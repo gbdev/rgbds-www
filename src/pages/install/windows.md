@@ -22,7 +22,7 @@ You can check what your WSL distribution is by running `wsl -l -v` in the Comman
 </TabItem>
 <TabItem value="cygwin" label="Cygwin / MSYS2">
 
-1. Click the link of the version you want [from the list](/docs).
+1. Follow the link of the version you want [from the list](/docs).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
 4. Download either <code>rgbds-<var>&lt;version&gt;</var>-win32.zip</code> (for 32-bit Windows) or <code>rgbds-<var>&lt;version&gt;</var>-win64.zip</code> (for 64-bit Windows).
@@ -53,7 +53,7 @@ If you can choose between using Cygwin or MSYS2, be advised that Cygwin is slowe
 </TabItem>
 <TabItem value="win32" label="None of those">
 
-1. Click the link of the version you want [from the list](/docs).
+1. Follow the link of the version you want [from the list](/docs).
    If you want to use [`master`](/docs/master#master) instead of a released version, [follow the corresponding instructions](/install/master).
 2. Under the "GitHub links" heading, follow the "release page" link.
 3. Scroll down to "Assets".
