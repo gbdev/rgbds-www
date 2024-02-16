@@ -4,7 +4,7 @@
 ## What is `master`? {#master}
 
 `master` is the name of RGBDS' main development branch.
-It's usually employed as a version name to refer to the state of in-development RGBDS: it contains the latest changes as they are pushed, but for this reason it's less stable.
+It's used to refer to "bleeding-edge" RGBDS, containing the latest changes as they are pushed.
 
 ### Pros and cons of `master` over releases
 

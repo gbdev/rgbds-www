@@ -11,7 +11,6 @@
 Using a "master" version of RGBDS means using an in-development version: this means you get access to the newest features faster (and you help test them!), but it also means that they have undergone a little less testing.
 
 We are very grateful to all who takes the time to use `master` versions; all of you help make the releases better for everyone.
-But, if you don't want to, you can [go back to the install page](/install).
 
 ## Using a package manager
 
