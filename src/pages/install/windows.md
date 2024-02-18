@@ -15,7 +15,7 @@ The install instructions are a bit different depending on the environment in whi
 <Tabs>
 <TabItem value="wsl" label="WSL">
 
-For these, please refer to [the install instructions](linux) for your WSL's running Linux distribution.
+Please refer to [the install instructions](linux) for your WSL's running Linux distribution.
 You can check what your WSL distribution is by running `wsl -l -v` in the Command Prompt.
 (The default Linux distribution on WSL is Ubuntu, whose package manager is `apt`.)
 

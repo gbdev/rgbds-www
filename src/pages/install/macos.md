@@ -7,6 +7,8 @@
 
 </hgroup>
 
+## Using the Homebrew package manager
+
 RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
 
 ```bash
@@ -29,9 +31,13 @@ brew install rgbds --HEAD
 
 :::
 
----
+## Using our pre-built binaries
 
-Instead of using Brew, versions v0.5.2 and newer can be installed by downloading our pre-built binaries:
+:::info Availability
+
+This is only available for RGBDS v0.5.2 or newer.
+
+:::
 
 1. Go the [latest release](https://github.com/gbdev/rgbds/releases/latest) (or pick a specific version from [the list](https://github.com/gbdev/rgbds/releases))
 2. Under "Assets" at the bottom, download <code>rgbds-<var>&lt;version&gt;</var>-macos-x86-64.zip</code> (for example, version 0.7.0 would have `rgbds-0.7.0-macos-x86-64.zip`).
