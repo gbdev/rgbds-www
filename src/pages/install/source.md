@@ -30,11 +30,9 @@ You first need to get the source files to be compiled, using one of the methods 
 <Tabs>
 <TabItem value="snapshot" label="Downloading source snapshots">
 
-1. [Pick a release](/docs).
-2. Under the "GitHub links" heading, follow the `release page` link.
-3. Go to "**Assets**" at the bottom of that page.
-4. Download any of the last three listed files (`rgbds-<version>.tar.gz`, "Source code (`zip`)", or "Source code (`tar.gz`)").
-5. Extract ("unzip") the file.
+1. Go the [latest release](https://github.com/gbdev/rgbds/releases/latest) (or pick a specific version from [the list](https://github.com/gbdev/rgbds/releases))
+2. Under "Assets" at the bottom, download any of the last three listed files (<code>rgbds-<var>&lt;version&gt;</var>.tar.gz</code>, "Source code (`zip`)", or "Source code (`tar.gz`)").
+3. Extract ("unzip") the file.
 
 </TabItem>
 <TabItem value="git" label="Using Git">
