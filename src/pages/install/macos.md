@@ -9,18 +9,20 @@
 
 ## Using the Homebrew package manager
 
+:::info Availability
+
+This is not advisable for users on older macOS versions, as binaries ("bottles") are only available for [recent macOS major releases](https://formulae.brew.sh/formula/rgbds).
+Older macOS systems have been reported to compile for several days, but only when using Homebrew.
+
+:::
+
 RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
 
 ```bash
 brew install rgbds
 ```
 
-:::caution
-
-This may not be suitable if your version of macOS is too old for Brew to support it.
-(In particular, this leads to very long installation times.)
-
-:::
+Then you will be able to update RGBDS at any time by simply running `brew update` then `brew upgrade`!
 
 :::tip
 
