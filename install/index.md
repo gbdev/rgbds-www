@@ -1,3 +1,6 @@
+---
+sidebar_label: Available install methods
+---
 
 # Installing RGBDS
 

@@ -1,3 +1,6 @@
+---
+sidebar_label: Using a development version
+---
 
 <hgroup>
 

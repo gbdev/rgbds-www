@@ -1,11 +1,8 @@
-
-<hgroup>
-
-← [Back to install instructions](/install)
+---
+sidebar_label: macOS
+---
 
 # Installing RGBDS on macOS
-
-</hgroup>
 
 ## Using the Homebrew package manager
 

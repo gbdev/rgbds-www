@@ -1,11 +1,8 @@
-
-<hgroup>
-
-← [Back to install instructions](/install)
+---
+sidebar_label: Linux
+---
 
 # Installing RGBDS on Linux
-
-</hgroup>
 
 ## Using your package manager
 
