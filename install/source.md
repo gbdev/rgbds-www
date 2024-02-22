@@ -5,13 +5,7 @@ sidebar_label: Building RGBDS yourself
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<hgroup>
-
-← [Back to install instructions](/install)
-
 # Building RGBDS from source
-
-</hgroup>
 
 RGBDS is open-source, which means you can always compile it yourself, for example if no pre-built solution is available to you, or if you want a specific version.
 

@@ -31,4 +31,4 @@ This is only available for RGBDS v0.6.1 or newer.
 
 ---
 
-If none of these options are available to you, you will have to [build RGBDS from source](source).
+If none of these options are available to you, you will have to [build RGBDS from source](source.md).

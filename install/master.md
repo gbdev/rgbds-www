@@ -2,13 +2,7 @@
 sidebar_label: Using a development version
 ---
 
-<hgroup>
-
-← [Back to install instructions](/install)
-
 # Using RGBDS `master`
-
-</hgroup>
 
 `master` is the name of RGBDS' main development branch.
 Using a "master" version of RGBDS means using an in-development version: this means you get access to the newest features faster (and you help test them!), but it also means that they have undergone a little less testing.
@@ -32,7 +26,7 @@ Unless you are on Windows, in which case consider [using our CI](#using-our-ci) 
 
 :::
 
-[Build the source](/install/source) as usual, but replace step 1 (getting the sources) with getting the `master` repo instead.
+[Build the source](source.md) as usual, but replace step 1 (getting the sources) with getting the `master` repo instead.
 The recommended way is to clone the repo (see [GitHub's help on it](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) if you have trouble), but you can also download the repo as ZIP.
 
 Then, follow the rest of the instructions to build from source.

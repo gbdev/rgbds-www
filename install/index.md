@@ -7,11 +7,11 @@ sidebar_label: Available install methods
 Most people will want to use a stable release (the more recent the better).
 
 These are the operating systems for which pre-built executables are available:
-- [Linux](/install/linux)
-- [macOS](/install/macOS)
-- [Windows](/install/windows)
+- [Linux](linux.md)
+- [macOS](macos.md)
+- [Windows](windows.md)
 
-If none of these options fit your needs, you can [build from source](/install/source).
+If none of these options fit your needs, you can [build from source](source.md).
 
 ### Docker
 
@@ -24,7 +24,7 @@ docker pull ghcr.io/gbdev/rgbds:latest
 
 ### Installing a development version
 
-If you are willing to help us test new features, consider [using a development version](/install/master).
+If you are willing to help us test new features, consider [using a development version](master.md).
 
 ### Managing multiple versions
 
