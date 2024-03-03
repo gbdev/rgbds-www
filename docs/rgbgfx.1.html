@@ -112,14 +112,17 @@
       <dd>If <var class="Ar">color_spec</var> begins with a hash character
           &#x2018;<code class="Li">#</code>&#x2019;, it is treated as an inline
           palette specification. It should contain a comma-separated list of
-          hexadecimal colors, each beginning with a hash. Colors in are accepted
+          hexadecimal colors, each beginning with a hash. Colors are accepted
           either as &#x2018;<code class="Li">#rgb</code>&#x2019; or
-          &#x2018;<code class="Li">#rrggbb</code>&#x2019; format. Palettes must
-          be separated by a colon or semicolon (the latter may require quoting
-          to avoid special handling by the shell), and spaces are allowed around
-          colons, semicolons and commas; trailing commas and semicolons are
-          allowed. See <a class="Sx" href="#EXAMPLES">EXAMPLES</a> for an
-          example of an inline palette specification.</dd>
+          &#x2018;<code class="Li">#rrggbb</code>&#x2019; format. To leave one
+          or more gaps in the palette,
+          &#x2018;<code class="Li">#none</code>&#x2019; can be used instead of
+          any color. Palettes must be separated by a colon or semicolon (the
+          latter may require quoting to avoid special handling by the shell),
+          and spaces are allowed around colons, semicolons and commas; trailing
+          commas and semicolons are allowed. See
+          <a class="Sx" href="#EXAMPLES">EXAMPLES</a> for an example of an
+          inline palette specification.</dd>
       <dt id="embedded"><a class="permalink" href="#embedded"><b class="Sy">embedded
         palette spec</b></a></dt>
       <dd>If <var class="Ar">color_spec</var> is the case-insensitive word
