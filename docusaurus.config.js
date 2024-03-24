@@ -33,31 +33,9 @@ const config = {
   organizationName: "gbdev",
   projectName: "rgbds-www",
 
-  plugins: [
-    [
-      "@docusaurus/plugin-client-redirects",
-      {
-        redirects: [
-          "gbz80.7",
-          "rgbasm.1",
-          "rgbasm.5",
-          "rgbds.5",
-          "rgbds.7",
-          "rgbfix.1",
-          "rgbgfx.1",
-          "rgblink.1",
-          "rgblink.5",
-        ].map((page) => {
-          return { from: `/docs/${page}`, to: `/docs/${latestStable}/${page}` };
-        }),
-      },
-    ],
-    "docusaurus-plugin-matomo",
-  ],
-
   presets: [
     [
-      "classic",
+      "@docusaurus/preset-classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       {
         docs: {
@@ -79,6 +57,37 @@ const config = {
         },
       },
     ],
+  ],
+
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "install",
+        path: "install",
+        routeBasePath: "install",
+        sidebarPath: "./installSidebars.js",
+      }
+    ],
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          "gbz80.7",
+          "rgbasm.1",
+          "rgbasm.5",
+          "rgbds.5",
+          "rgbds.7",
+          "rgbfix.1",
+          "rgbgfx.1",
+          "rgblink.1",
+          "rgblink.5",
+        ].map((page) => {
+          return { from: `/docs/${page}`, to: `/docs/${latestStable}/${page}` };
+        }),
+      },
+    ],
+    "docusaurus-plugin-matomo",
   ],
 
   themeConfig:
