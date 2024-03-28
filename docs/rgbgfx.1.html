@@ -460,6 +460,12 @@
     &#x2018;<code class="Li">PLTE</code>&#x2019; chunk. Since few image editors
     (such as GIMP) expose that detail, this behavior is only kept for
     compatibility and should be considered deprecated.</p>
+<p class="Pp">It turns out that palette generation is an NP-complete problem, so
+    <code class="Nm">rgbgfx</code> does not attempt to find the optimal
+    solution, but instead to find a good one in a reasonable amount of time. It
+    is possible to compute the optimal solution externally (using a solver, for
+    example), and then provide it to <code class="Nm">rgbgfx</code> via
+    <code class="Fl">-c</code>.</p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="OUTPUT_FILES"><a class="permalink" href="#OUTPUT_FILES">OUTPUT
@@ -623,22 +629,6 @@ $ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
       tiles were mirrored.</td>
   </tr>
 </table>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="NOTES"><a class="permalink" href="#NOTES">NOTES</a></h2>
-<p class="Pp">Some flags have had their functionality removed.
-    <code class="Fl">-D</code>, <code class="Fl">-f</code>, and
-    <code class="Fl">-F</code> are now ignored, and <code class="Fl">-h</code>
-    is an alias for the new (and less confusingly named)
-    <code class="Fl">-Z</code>. These will be removed and/or repurposed in
-    future versions of <code class="Nm">rgbgfx</code>, so relying on them is not
-    recommended. The same applies to the corresponding long options.</p>
-<p class="Pp">If you are curious, you may find out that palette generation is an
-    NP-complete problem, so <code class="Nm">rgbgfx</code> does not attempt to
-    find the optimal solution, but instead to find a good one in a reasonable
-    amount of time. It is possible to compute the optimal solution externally
-    (using a solver, for example), and then provide it to
-    <code class="Nm">rgbgfx</code> via <code class="Fl">-c</code>.</p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>

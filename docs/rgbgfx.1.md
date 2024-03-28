@@ -97,13 +97,6 @@ export const toc = [
 	]
 },
 {
-	"value": "NOTES",
-	"id": "NOTES",
-	"level": 2,
-	"children": [
-	]
-},
-{
 	"value": "EXAMPLES",
 	"id": "EXAMPLES",
 	"level": 2,
