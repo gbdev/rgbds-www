@@ -72,7 +72,7 @@ export const toc = [
 },
 {
 	"value": "ADC A,[HL]",
-	"id": "ADC_A,[HL]",
+	"id": "ADC_A,_HL_",
 	"level": 3,
 },
 {
@@ -87,7 +87,7 @@ export const toc = [
 },
 {
 	"value": "ADD A,[HL]",
-	"id": "ADD_A,[HL]",
+	"id": "ADD_A,_HL_",
 	"level": 3,
 },
 {
@@ -117,7 +117,7 @@ export const toc = [
 },
 {
 	"value": "AND A,[HL]",
-	"id": "AND_A,[HL]",
+	"id": "AND_A,_HL_",
 	"level": 3,
 },
 {
@@ -132,7 +132,7 @@ export const toc = [
 },
 {
 	"value": "BIT u3,[HL]",
-	"id": "BIT_u3,[HL]",
+	"id": "BIT_u3,_HL_",
 	"level": 3,
 },
 {
@@ -157,7 +157,7 @@ export const toc = [
 },
 {
 	"value": "CP A,[HL]",
-	"id": "CP_A,[HL]",
+	"id": "CP_A,_HL_",
 	"level": 3,
 },
 {
@@ -182,7 +182,7 @@ export const toc = [
 },
 {
 	"value": "DEC [HL]",
-	"id": "DEC_[HL]",
+	"id": "DEC__HL_",
 	"level": 3,
 },
 {
@@ -217,7 +217,7 @@ export const toc = [
 },
 {
 	"value": "INC [HL]",
-	"id": "INC_[HL]",
+	"id": "INC__HL_",
 	"level": 3,
 },
 {
@@ -272,77 +272,77 @@ export const toc = [
 },
 {
 	"value": "LD [HL],r8",
-	"id": "LD_[HL],r8",
+	"id": "LD__HL_,r8",
 	"level": 3,
 },
 {
 	"value": "LD [HL],n8",
-	"id": "LD_[HL],n8",
+	"id": "LD__HL_,n8",
 	"level": 3,
 },
 {
 	"value": "LD r8,[HL]",
-	"id": "LD_r8,[HL]",
+	"id": "LD_r8,_HL_",
 	"level": 3,
 },
 {
 	"value": "LD [r16],A",
-	"id": "LD_[r16],A",
+	"id": "LD__r16_,A",
 	"level": 3,
 },
 {
 	"value": "LD [n16],A",
-	"id": "LD_[n16],A",
+	"id": "LD__n16_,A",
 	"level": 3,
 },
 {
 	"value": "LD [$FF00+n8],A",
-	"id": "LD_[$FF00+n8],A",
+	"id": "LD__$FF00+n8_,A",
 	"level": 3,
 },
 {
 	"value": "LD [$FF00+C],A",
-	"id": "LD_[$FF00+C],A",
+	"id": "LD__$FF00+C_,A",
 	"level": 3,
 },
 {
 	"value": "LD A,[r16]",
-	"id": "LD_A,[r16]",
+	"id": "LD_A,_r16_",
 	"level": 3,
 },
 {
 	"value": "LD A,[n16]",
-	"id": "LD_A,[n16]",
+	"id": "LD_A,_n16_",
 	"level": 3,
 },
 {
 	"value": "LD A,[$FF00+n8]",
-	"id": "LD_A,[$FF00+n8]",
+	"id": "LD_A,_$FF00+n8_",
 	"level": 3,
 },
 {
 	"value": "LD A,[$FF00+C]",
-	"id": "LD_A,[$FF00+C]",
+	"id": "LD_A,_$FF00+C_",
 	"level": 3,
 },
 {
 	"value": "LD [HL+],A",
-	"id": "LD_[HL+],A",
+	"id": "LD__HL+_,A",
 	"level": 3,
 },
 {
 	"value": "LD [HL-],A",
-	"id": "LD_[HL-],A",
+	"id": "LD__HL-_,A",
 	"level": 3,
 },
 {
 	"value": "LD A,[HL+]",
-	"id": "LD_A,[HL+]",
+	"id": "LD_A,_HL+_",
 	"level": 3,
 },
 {
 	"value": "LD A,[HL-]",
-	"id": "LD_A,[HL-]",
+	"id": "LD_A,_HL-_",
 	"level": 3,
 },
 {
@@ -352,7 +352,7 @@ export const toc = [
 },
 {
 	"value": "LD [n16],SP",
-	"id": "LD_[n16],SP",
+	"id": "LD__n16_,SP",
 	"level": 3,
 },
 {
@@ -377,7 +377,7 @@ export const toc = [
 },
 {
 	"value": "OR A,[HL]",
-	"id": "OR_A,[HL]",
+	"id": "OR_A,_HL_",
 	"level": 3,
 },
 {
@@ -412,7 +412,7 @@ export const toc = [
 },
 {
 	"value": "RES u3,[HL]",
-	"id": "RES_u3,[HL]",
+	"id": "RES_u3,_HL_",
 	"level": 3,
 },
 {
@@ -437,7 +437,7 @@ export const toc = [
 },
 {
 	"value": "RL [HL]",
-	"id": "RL_[HL]",
+	"id": "RL__HL_",
 	"level": 3,
 },
 {
@@ -452,7 +452,7 @@ export const toc = [
 },
 {
 	"value": "RLC [HL]",
-	"id": "RLC_[HL]",
+	"id": "RLC__HL_",
 	"level": 3,
 },
 {
@@ -467,7 +467,7 @@ export const toc = [
 },
 {
 	"value": "RR [HL]",
-	"id": "RR_[HL]",
+	"id": "RR__HL_",
 	"level": 3,
 },
 {
@@ -482,7 +482,7 @@ export const toc = [
 },
 {
 	"value": "RRC [HL]",
-	"id": "RRC_[HL]",
+	"id": "RRC__HL_",
 	"level": 3,
 },
 {
@@ -502,7 +502,7 @@ export const toc = [
 },
 {
 	"value": "SBC A,[HL]",
-	"id": "SBC_A,[HL]",
+	"id": "SBC_A,_HL_",
 	"level": 3,
 },
 {
@@ -522,7 +522,7 @@ export const toc = [
 },
 {
 	"value": "SET u3,[HL]",
-	"id": "SET_u3,[HL]",
+	"id": "SET_u3,_HL_",
 	"level": 3,
 },
 {
@@ -532,7 +532,7 @@ export const toc = [
 },
 {
 	"value": "SLA [HL]",
-	"id": "SLA_[HL]",
+	"id": "SLA__HL_",
 	"level": 3,
 },
 {
@@ -542,7 +542,7 @@ export const toc = [
 },
 {
 	"value": "SRA [HL]",
-	"id": "SRA_[HL]",
+	"id": "SRA__HL_",
 	"level": 3,
 },
 {
@@ -552,7 +552,7 @@ export const toc = [
 },
 {
 	"value": "SRL [HL]",
-	"id": "SRL_[HL]",
+	"id": "SRL__HL_",
 	"level": 3,
 },
 {
@@ -567,7 +567,7 @@ export const toc = [
 },
 {
 	"value": "SUB A,[HL]",
-	"id": "SUB_A,[HL]",
+	"id": "SUB_A,_HL_",
 	"level": 3,
 },
 {
@@ -582,7 +582,7 @@ export const toc = [
 },
 {
 	"value": "SWAP [HL]",
-	"id": "SWAP_[HL]",
+	"id": "SWAP__HL_",
 	"level": 3,
 },
 {
@@ -592,7 +592,7 @@ export const toc = [
 },
 {
 	"value": "XOR A,[HL]",
-	"id": "XOR_A,[HL]",
+	"id": "XOR_A,_HL_",
 	"level": 3,
 },
 {

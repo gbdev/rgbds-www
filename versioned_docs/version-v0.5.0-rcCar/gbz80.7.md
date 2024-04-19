@@ -37,7 +37,7 @@ export const toc = [
 },
 {
 	"value": "LD A,A+C+[HL]",
-	"id": "LD_A,A+C+[HL]",
+	"id": "LD_A,A+C+_HL_",
 	"level": 3,
 },
 {
@@ -52,7 +52,7 @@ export const toc = [
 },
 {
 	"value": "LD A,A+[HL]",
-	"id": "LD_A,A+[HL]",
+	"id": "LD_A,A+_HL_",
 	"level": 3,
 },
 {
@@ -82,7 +82,7 @@ export const toc = [
 },
 {
 	"value": "LD A,A&[HL]",
-	"id": "LD_A,A&[HL]",
+	"id": "LD_A,A&_HL_",
 	"level": 3,
 },
 {
@@ -97,17 +97,17 @@ export const toc = [
 },
 {
 	"value": "LD F.7,[HL].u3",
-	"id": "LD_F.7,[HL].u3",
+	"id": "LD_F.7,_HL_.u3",
 	"level": 3,
 },
 {
 	"value": "LD [--SP],PC,n16",
-	"id": "LD_[--SP],PC,n16",
+	"id": "LD__--SP_,PC,n16",
 	"level": 3,
 },
 {
 	"value": "LD cc [--SP],PC,n16",
-	"id": "LD_cc_[--SP],PC,n16",
+	"id": "LD_cc__--SP_,PC,n16",
 	"level": 3,
 },
 {
@@ -122,7 +122,7 @@ export const toc = [
 },
 {
 	"value": "LD F.7,A-[HL]",
-	"id": "LD_F.7,A-[HL]",
+	"id": "LD_F.7,A-_HL_",
 	"level": 3,
 },
 {
@@ -132,7 +132,7 @@ export const toc = [
 },
 {
 	"value": "LD A,~A",
-	"id": "LD_A,~A",
+	"id": "LD_A,_A",
 	"level": 3,
 },
 {
@@ -147,7 +147,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL]-",
-	"id": "LD_[HL]-",
+	"id": "LD__HL_-",
 	"level": 3,
 },
 {
@@ -172,7 +172,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL],[HL]",
-	"id": "LD_[HL],[HL]",
+	"id": "LD__HL_,_HL_",
 	"level": 3,
 },
 {
@@ -182,7 +182,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL]+",
-	"id": "LD_[HL]+",
+	"id": "LD__HL_+",
 	"level": 3,
 },
 {
@@ -237,77 +237,77 @@ export const toc = [
 },
 {
 	"value": "LD [HL],r8",
-	"id": "LD_[HL],r8",
+	"id": "LD__HL_,r8",
 	"level": 3,
 },
 {
 	"value": "LD [HL],n8",
-	"id": "LD_[HL],n8",
+	"id": "LD__HL_,n8",
 	"level": 3,
 },
 {
 	"value": "LD r8,[HL]",
-	"id": "LD_r8,[HL]",
+	"id": "LD_r8,_HL_",
 	"level": 3,
 },
 {
 	"value": "LD [r16],A",
-	"id": "LD_[r16],A",
+	"id": "LD__r16_,A",
 	"level": 3,
 },
 {
 	"value": "LD [n16],A",
-	"id": "LD_[n16],A",
+	"id": "LD__n16_,A",
 	"level": 3,
 },
 {
 	"value": "LD [H n16],A",
-	"id": "LD_[H_n16],A",
+	"id": "LD__H_n16_,A",
 	"level": 3,
 },
 {
 	"value": "LD [H C],A",
-	"id": "LD_[H_C],A",
+	"id": "LD__H_C_,A",
 	"level": 3,
 },
 {
 	"value": "LD A,[r16]",
-	"id": "LD_A,[r16]",
+	"id": "LD_A,_r16_",
 	"level": 3,
 },
 {
 	"value": "LD A,[n16]",
-	"id": "LD_A,[n16]",
+	"id": "LD_A,_n16_",
 	"level": 3,
 },
 {
 	"value": "LD A,[H n16]",
-	"id": "LD_A,[H_n16]",
+	"id": "LD_A,_H_n16_",
 	"level": 3,
 },
 {
 	"value": "LD A,[H C]",
-	"id": "LD_A,[H_C]",
+	"id": "LD_A,_H_C_",
 	"level": 3,
 },
 {
 	"value": "LD [HLI],A",
-	"id": "LD_[HLI],A",
+	"id": "LD__HLI_,A",
 	"level": 3,
 },
 {
 	"value": "LD [HLD],A",
-	"id": "LD_[HLD],A",
+	"id": "LD__HLD_,A",
 	"level": 3,
 },
 {
 	"value": "LD A,[HLD]",
-	"id": "LD_A,[HLD]",
+	"id": "LD_A,_HLD_",
 	"level": 3,
 },
 {
 	"value": "LD A,[HLI]",
-	"id": "LD_A,[HLI]",
+	"id": "LD_A,_HLI_",
 	"level": 3,
 },
 {
@@ -317,7 +317,7 @@ export const toc = [
 },
 {
 	"value": "LD [n16],SP",
-	"id": "LD_[n16],SP",
+	"id": "LD__n16_,SP",
 	"level": 3,
 },
 {
@@ -337,37 +337,37 @@ export const toc = [
 },
 {
 	"value": "LD A,A|r8",
-	"id": "LD_A,A|r8",
+	"id": "LD_A,A_r8",
 	"level": 3,
 },
 {
 	"value": "LD A,A|[HL]",
-	"id": "LD_A,A|[HL]",
+	"id": "LD_A,A__HL_",
 	"level": 3,
 },
 {
 	"value": "LD A,A|n8",
-	"id": "LD_A,A|n8",
+	"id": "LD_A,A_n8",
 	"level": 3,
 },
 {
 	"value": "LD AF,[SP++]",
-	"id": "LD_AF,[SP++]",
+	"id": "LD_AF,_SP++_",
 	"level": 3,
 },
 {
 	"value": "LD r16,[SP++]",
-	"id": "LD_r16,[SP++]",
+	"id": "LD_r16,_SP++_",
 	"level": 3,
 },
 {
 	"value": "LD [--SP],AF",
-	"id": "LD_[--SP],AF",
+	"id": "LD__--SP_,AF",
 	"level": 3,
 },
 {
 	"value": "LD [--SP],r16",
-	"id": "LD_[--SP],r16",
+	"id": "LD__--SP_,r16",
 	"level": 3,
 },
 {
@@ -377,22 +377,22 @@ export const toc = [
 },
 {
 	"value": "LD [HL].u3,0",
-	"id": "LD_[HL].u3,0",
+	"id": "LD__HL_.u3,0",
 	"level": 3,
 },
 {
 	"value": "LD PC,[SP++]",
-	"id": "LD_PC,[SP++]",
+	"id": "LD_PC,_SP++_",
 	"level": 3,
 },
 {
 	"value": "LD cc PC,[SP++]",
-	"id": "LD_cc_PC,[SP++]",
+	"id": "LD_cc_PC,_SP++_",
 	"level": 3,
 },
 {
 	"value": "LD PC,[SP++] / LD IME,1",
-	"id": "LD_PC,[SP++]_/_LD_IME,1",
+	"id": "LD_PC,_SP++__/_LD_IME,1",
 	"level": 3,
 },
 {
@@ -402,7 +402,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL],'[HL]",
-	"id": "LD_[HL],'[HL]",
+	"id": "LD__HL_,'_HL_",
 	"level": 3,
 },
 {
@@ -417,7 +417,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL],''[HL]",
-	"id": "LD_[HL],''[HL]",
+	"id": "LD__HL_,''_HL_",
 	"level": 3,
 },
 {
@@ -432,7 +432,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL],[HL]'",
-	"id": "LD_[HL],[HL]'",
+	"id": "LD__HL_,_HL_'",
 	"level": 3,
 },
 {
@@ -447,7 +447,7 @@ export const toc = [
 },
 {
 	"value": "LD [HL],[HL]''",
-	"id": "LD_[HL],[HL]''",
+	"id": "LD__HL_,_HL_''",
 	"level": 3,
 },
 {
@@ -457,7 +457,7 @@ export const toc = [
 },
 {
 	"value": "LD [--SP],PC,B vec",
-	"id": "LD_[--SP],PC,B_vec",
+	"id": "LD__--SP_,PC,B_vec",
 	"level": 3,
 },
 {
@@ -467,7 +467,7 @@ export const toc = [
 },
 {
 	"value": "LD A,A-C-[HL]",
-	"id": "LD_A,A-C-[HL]",
+	"id": "LD_A,A-C-_HL_",
 	"level": 3,
 },
 {
@@ -487,37 +487,37 @@ export const toc = [
 },
 {
 	"value": "LD [HL].u3,1",
-	"id": "LD_[HL].u3,1",
+	"id": "LD__HL_.u3,1",
 	"level": 3,
 },
 {
 	"value": "LD r8,<<r8",
-	"id": "LD_r8,<<r8",
+	"id": "LD_r8,__r8",
 	"level": 3,
 },
 {
 	"value": "LD [HL],<<[HL]",
-	"id": "LD_[HL],<<[HL]",
+	"id": "LD__HL_,___HL_",
 	"level": 3,
 },
 {
 	"value": "LD r8,>>r8",
-	"id": "LD_r8,>>r8",
+	"id": "LD_r8,__r8",
 	"level": 3,
 },
 {
 	"value": "LD [HL],>>[HL]",
-	"id": "LD_[HL],>>[HL]",
+	"id": "LD__HL_,___HL_",
 	"level": 3,
 },
 {
 	"value": "LD r8,>>>r8",
-	"id": "LD_r8,>>>r8",
+	"id": "LD_r8,___r8",
 	"level": 3,
 },
 {
 	"value": "LD [HL],>>>[HL]",
-	"id": "LD_[HL],>>>[HL]",
+	"id": "LD__HL_,____HL_",
 	"level": 3,
 },
 {
@@ -532,7 +532,7 @@ export const toc = [
 },
 {
 	"value": "LD A,A-[HL]",
-	"id": "LD_A,A-[HL]",
+	"id": "LD_A,A-_HL_",
 	"level": 3,
 },
 {
@@ -547,22 +547,22 @@ export const toc = [
 },
 {
 	"value": "LD [HL],''[HL]''",
-	"id": "LD_[HL],''[HL]''",
+	"id": "LD__HL_,''_HL_''",
 	"level": 3,
 },
 {
 	"value": "LD A,A^r8",
-	"id": "LD_A,A^r8",
+	"id": "LD_A,A_r8",
 	"level": 3,
 },
 {
 	"value": "LD A,A^[HL]",
-	"id": "LD_A,A^[HL]",
+	"id": "LD_A,A__HL_",
 	"level": 3,
 },
 {
 	"value": "LD A,A^n8",
-	"id": "LD_A,A^n8",
+	"id": "LD_A,A_n8",
 	"level": 3,
 },
 {

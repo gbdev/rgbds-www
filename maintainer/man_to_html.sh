@@ -51,11 +51,12 @@ EOF
 		# (Admittedly a bit poorly, but well enough for our use case)
 		heading() {
 			if [ $# -ne 1 ]; then
-				# Write out this level
+				# Write out this level.
+				# Emulation of `html_make_id` from mandoc's `html.c`.
 				cat <<EOF
 {
 	"value": "$2",
-	"id": "${2// /_}",
+	"id": "${2//[^A-Za-z0-9!\$&\'()*+,.\/:;=?@_-]/_}",
 	"level": $1,
 },
 EOF

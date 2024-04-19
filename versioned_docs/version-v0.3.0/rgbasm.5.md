@@ -107,7 +107,7 @@ export const toc = [
 },
 {
 	"value": "Fixed‐point Expressions",
-	"id": "Fixed‐point_Expressions",
+	"id": "Fixed_point_Expressions",
 	"level": 3,
 },
 {
