@@ -9,21 +9,15 @@ export const toc = [
 	"value": "EXAMPLES",
 	"id": "EXAMPLES",
 	"level": 2,
-	"children": [
-	]
 },
 {
 	"value": "SEE ALSO",
 	"id": "SEE_ALSO",
 	"level": 2,
-	"children": [
-	]
 },
 {
 	"value": "HISTORY",
 	"id": "HISTORY",
 	"level": 2,
-	"children": [
-	]
 },
 ];

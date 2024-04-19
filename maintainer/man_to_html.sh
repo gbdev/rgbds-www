@@ -49,17 +49,7 @@ EOF
 		# Docusaurus does not parse HTML injected like above, so generate the ToC manually.
 		# We do this by parsing the man page.
 		# (Admittedly a bit poorly, but well enough for our use case)
-		local cur_lvl=0
 		heading() {
-			# Close any preceding levels
-			while [ "$cur_lvl" -ge "$1" ]; do
-				cat <<EOF
-	]
-},
-EOF
-				(( --cur_lvl ))
-			done
-			cur_lvl="$1" # Not redundant!
 			if [ $# -ne 1 ]; then
 				# Write out this level
 				cat <<EOF
@@ -67,7 +57,7 @@ EOF
 	"value": "$2",
 	"id": "${2// /_}",
 	"level": $1,
-	"children": [
+},
 EOF
 			fi
 		}
@@ -82,7 +72,6 @@ EOF
 				heading 3 "${line#.Ss }"
 			fi
 		done <"$1"
-		heading 2 # Close any lingering levels
 		echo '];'
 	} >"$out_dir/$basename.md"
 }
