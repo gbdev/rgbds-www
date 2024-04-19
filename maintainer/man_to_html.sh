@@ -55,7 +55,7 @@ EOF
 				# Emulation of `html_make_id` from mandoc's `html.c`.
 				cat <<EOF
 {
-	"value": "$2",
+	"value": "$(sed 's,&,\&amp;,g; s,<,\&lt;,g; s,>,\&gt;,g' <<<"${2//\"/\\\"}")",
 	"id": "${2//[^A-Za-z0-9!\$&\'()*+,.\/:;=?@_-]/_}",
 	"level": $1,
 },
