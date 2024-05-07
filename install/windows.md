@@ -12,6 +12,8 @@ The install instructions are a bit different depending on the environment in whi
 <Tabs>
 <TabItem value="wsl" label="WSL">
 
+Using WSL is recommended if your version of Windows supports it (which Windows 10 and 11 do).
+
 Please refer to [the install instructions](linux.md) for your WSL's running Linux distribution.
 You can check what your WSL distribution is by running `wsl -l -v` in the Command Prompt.
 (The default Linux distribution on WSL is Ubuntu, whose package manager is `apt`.)
