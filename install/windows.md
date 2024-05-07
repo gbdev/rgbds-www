@@ -74,7 +74,7 @@ If you can choose between using Cygwin or MSYS2, be advised that Cygwin is slowe
      </TabItem>
      <TabItem value="cmd" label="Command Prompt">
 
-       Run the command <code>setx PATH "%PATH%<var>&lt;rgbds_path&gt;</var>;"</code>, replacing <code><var>&lt;rgbds_path&gt;</var></code> with the path to the folder that contains `rgbasm.exe`, `rgblink.exe`, etc.
+       Run the command <code>setx PATH "%PATH%<var>&lt;rgbds_path&gt;</var>;"</code>, replacing <code><var>&lt;rgbds_path&gt;</var></code> with the path to the directory that contains `rgbasm.exe`, `rgblink.exe`, etc.
        Then close the Command Prompt and open a new one for the changes to take effect.
 
        If you only want to modify the `PATH` temporarily, instead of the permanent [`setx`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx) command, you can use the **temporary** [`set`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1).
