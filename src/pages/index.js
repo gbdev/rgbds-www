@@ -117,7 +117,7 @@ export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title="Welcome!"
+      title="Game Boy Development System"
       description="RGBDS is the community's preferred Game Boy and Game Boy Color assembler package, free and open-source. Find here documentation and install instructions."
     >
       <main>
