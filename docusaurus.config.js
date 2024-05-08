@@ -168,6 +168,10 @@ const config = {
                 label: "Mastodon",
                 href: "https://fedi.gbdev.io/@gbdev",
               },
+              {
+                label: "Donate on OpenCollective",
+                href: "https://opencollective.com/gbdev",
+              },
             ],
           },
           {
