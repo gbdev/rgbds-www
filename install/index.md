@@ -6,7 +6,7 @@ sidebar_label: Available install methods
 
 Most people will want to use a stable release (the more recent the better).
 
-These are the operating systems for which pre-built executables are available:
+These are the operating systems for which pre-built executables of recent releases of RGBDS are available:
 - [Linux](linux.md)
 - [macOS](macos.md)
 - [Windows](windows.md)
