@@ -6,7 +6,7 @@ sidebar_label: macOS
 
 ## Using the Homebrew package manager
 
-On recent macOS major releases, RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
+On recent macOS major releases[^1], RGBDS is available on [Homebrew](https://brew.sh) as the [`rgbds` package](https://formulae.brew.sh/formula/rgbds).
 
 ```bash
 brew install rgbds
@@ -36,3 +36,5 @@ brew install rgbds --HEAD
 ---
 
 If none of these options are suitable to you, [build RGBDS from source](source.md).
+
+[^1]: Older macOS systems have been reported to compile for several days with Homebrew.
