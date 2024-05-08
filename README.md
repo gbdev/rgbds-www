@@ -2,7 +2,7 @@
 
 The new RGBDS official website, providing install instructions and documentation.
 
-Built using [Docusaurus `2.3.1`](https://docusaurus.io/).
+Built using [Docusaurus](https://docusaurus.io/).
 
 ## Installation
 
