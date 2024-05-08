@@ -1,4 +1,6 @@
 ---
+title: Install RGBDS
+description: Learn how to install RGBDS on your system obtaining ready binaries or compiling from source
 sidebar_label: Available install methods
 ---
 
