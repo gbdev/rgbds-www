@@ -234,7 +234,9 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 <p class="Pp">An expression is said to be &quot;constant&quot; if
     <code class="Nm">rgbasm</code> knows its value. This is generally always the
     case, unless a label is involved, as explained in the
-    <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section.</p>
+    <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section. However, some operators
+    can be constant even with non-constant operands, as explained in
+    <a class="Sx" href="#Operators">Operators</a> further below.</p>
 <p class="Pp">The instructions in the macro-language generally require constant
     expressions.</p>
 <section class="Ss">
@@ -388,9 +390,13 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     respectively.</p>
 <p class="Pp">Comparison operators return 0 if the comparison is false, and 1
     otherwise.</p>
-<p class="Pp">Unlike in a lot of languages, and for technical reasons,
+<p class="Pp">Unlike in many other languages, and for technical reasons,
     <code class="Nm">rgbasm</code> still evaluates both operands of
     &#x2018;&amp;&amp;&#x2019; and &#x2018;||&#x2019;.</p>
+<p class="Pp">The operators &#x2018;&amp;&amp;&#x2019; and &#x2018;&amp;&#x2019;
+    with a zero constant as either operand will be constant 0, and
+    &#x2018;||&#x2019; with a non-zero constant as either operand will be
+    constant 1, even if the other operand is non-constant.</p>
 <p class="Pp"><code class="Ic">!</code> returns 1 if the operand was 0, and 0
     otherwise.</p>
 </section>
