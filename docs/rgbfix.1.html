@@ -7,7 +7,8 @@
       <code class="Fl"><a href="#c">-c</a></code>] [<code class="Fl"><a href="#f">-f</a></code>
       <var class="Ar">fix_spec</var>] [<code class="Fl"><a href="#i">-i</a></code>
       <var class="Ar">game_id</var>] [<code class="Fl"><a href="#k">-k</a></code>
-      <var class="Ar">licensee_str</var>] [<code class="Fl"><a href="#l">-l</a></code>
+      <var class="Ar">licensee_str</var>] [<code class="Fl"><a href="#L">-L</a></code>
+      <var class="Ar">logo_file</var>] [<code class="Fl"><a href="#l">-l</a></code>
       <var class="Ar">licensee_id</var>] [<code class="Fl"><a href="#m">-m</a></code>
       <var class="Ar">mbc_type</var>] [<code class="Fl"><a href="#n">-n</a></code>
       <var class="Ar">rom_version</var>] [<code class="Fl"><a href="#p">-p</a></code>
@@ -90,6 +91,12 @@
       (<span class="Ad">0x144</span>&#x2013;<span class="Ad">0x145</span>) to a
       given string. If it's longer than 2 chars, it will be truncated, and a
       warning emitted.</dd>
+  <dt id="L~2"><a class="permalink" href="#L~2"><code class="Fl">-L</code></a>
+    <var class="Ar">logo_file</var>, <code class="Fl">--logo</code>
+    <var class="Ar">logo_file</var></dt>
+  <dd>Specify a logo file to use instead of the official Nintendo logo. The file
+      must be 48 bytes of 1bpp tile data; the source image should be 48 pixels
+      wide and 8 pixels tall.</dd>
   <dt id="l~2"><a class="permalink" href="#l~2"><code class="Fl">-l</code></a>
     <var class="Ar">licensee_id</var>, <code class="Fl">--old-licensee</code>
     <var class="Ar">licensee_id</var></dt>
