@@ -629,6 +629,10 @@ ENDR</pre>
     <td>Tab ($09)</td>
   </tr>
   <tr>
+    <td>&#x2018;<code class="Li">\0</code>&#x2019;</td>
+    <td>Null ($00)</td>
+  </tr>
+  <tr>
     <td>&quot;\1&quot; &#x2013; &quot;\9&quot;</td>
     <td>Macro argument (Only in the body of a macro; see
       <a class="Sx" href="#Invoking_macros">Invoking macros</a>)</td>
@@ -1074,7 +1078,7 @@ RAMLocation:
     ret
 
 .string
-    db &quot;Hello World!&quot;, 0
+    db &quot;Hello World!\0&quot;
 .end
   ENDL</pre>
 </div>
