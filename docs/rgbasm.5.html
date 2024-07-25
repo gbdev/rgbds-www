@@ -1364,6 +1364,11 @@ DEF y *= 2    ; y == 20
 DEF y &gt;&gt;= 1   ; y == 10
 DEF x ^= y    ; x == 1</pre>
 </div>
+<p class="Pp">Declaring a variable with <code class="Ic">EXPORT DEF</code> or
+    <code class="Ic">EXPORT REDEF</code> will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below).</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Numeric_constants"><a class="permalink" href="#Numeric_constants">Numeric
@@ -1397,6 +1402,11 @@ ENDM
     assert NUM_ITEMS == 4
     assert ITEM_04 == 16</pre>
 </div>
+<p class="Pp">Declaring a numeric constant with <code class="Ic">EXPORT
+    DEF</code> or <code class="Ic">EXPORT REDEF</code> will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below).</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Offset_constants"><a class="permalink" href="#Offset_constants">Offset
@@ -1460,6 +1470,10 @@ DEF str_SIZEOF EQU 259</pre>
     assumed to be 1.</p>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
+<p class="Pp">Declaring an offset constant with <code class="Ic">EXPORT
+    DEF</code> will define and <code class="Ic">EXPORT</code> it at the same
+    time. (See <a class="Sx" href="#Exporting_and_importing_symbols">Exporting
+    and importing symbols</a> below).</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="String_constants"><a class="permalink" href="#String_constants">String
@@ -1494,7 +1508,6 @@ DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
 </div>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
-<p class="Pp">String constants can't be exported or imported.</p>
 <p class="Pp">String constants, like numeric constants, cannot be redefined.
     However, the <code class="Ic">REDEF</code> keyword will define or redefine a
     string constant symbol. For example:</p>
@@ -1504,6 +1517,7 @@ REDEF s EQUS &quot;{s}world!&quot;
 ; prints &quot;Hello, world!&quot;
 PRINTLN &quot;{s}\n&quot;</pre>
 </div>
+<p class="Pp">String constants can't be exported or imported.</p>
 <p class="Pp"><b class="Sy">Important note</b>: When a string constant is
     expanded, its expansion may contain another string constant, which will be
     expanded as well. If this creates an infinite loop,
