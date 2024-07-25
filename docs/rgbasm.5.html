@@ -822,6 +822,12 @@ CHARMAP &quot;A&quot;, 128</pre>
     <td><a class="permalink" href="#PUSHC"><code class="Ic">PUSHC</code></a></td>
     <td>Push the current character map onto the stack.</td>
   </tr>
+  <tr id="PUSHC~2">
+    <td><a class="permalink" href="#PUSHC~2"><code class="Ic">PUSHC</code></a>
+      <var class="Ar">name</var></td>
+    <td>Push the current character map onto the stack and switch to character
+      map <var class="Ar">name</var>.</td>
+  </tr>
   <tr id="POPC">
     <td><a class="permalink" href="#POPC"><code class="Ic">POPC</code></a></td>
     <td>Pop a character map off the stack and switch to it.</td>
@@ -1040,6 +1046,18 @@ SECTION &quot;VRAM Data&quot;,ROMX,BANK[2],ALIGN[4] ;&#x00A0;align to 16 bytes</
     used to restore it. Useful for defining sections in included files when you
     don't want to override the section context at the point the file was
     included.</p>
+<p class="Pp"><code class="Ic">PUSHS</code> can also take the same arguments as
+    <code class="Ic">SECTION</code>, in order to push the current section
+    context and define a new section at the same time:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;Code&quot;, ROM0
+Function:
+    ld a, 42
+    PUSHS &quot;Variables&quot;, WRAM0
+        wAnswer: db
+    POPS
+    ld [wAnswer], a</pre>
+</div>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="RAM_code"><a class="permalink" href="#RAM_code">RAM
@@ -2274,6 +2292,15 @@ POPO
     destroy the options set by the program that included your file. The stack's
     number of entries is limited only by the amount of memory in your
   machine.</p>
+<p class="Pp"><code class="Ic">PUSHO</code> can also take a comma-separated list
+    of options, to push the current set and apply the argument set at the same
+    time:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>PUSHO b.X, g.oOX
+    DB %..XXXX..
+    DW `..ooOOXX
+POPO</pre>
+</div>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Requesting_alignment"><a class="permalink" href="#Requesting_alignment">Requesting
