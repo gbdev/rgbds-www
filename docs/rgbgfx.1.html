@@ -8,7 +8,7 @@
       [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
       <var class="Ar">base_ids</var>] [<code class="Fl"><a href="#c">-c</a></code>
-      <var class="Ar">color_spec</var>] [<code class="Fl"><a href="#d">-d</a></code>
+      <var class="Ar">pal_spec</var>] [<code class="Fl"><a href="#d">-d</a></code>
       <var class="Ar">depth</var>] [<code class="Fl"><a href="#L">-L</a></code>
       <var class="Ar">slice</var>] [<code class="Fl"><a href="#N">-N</a></code>
       <var class="Ar">nb_tiles</var>] [<code class="Fl"><a href="#n">-n</a></code>
@@ -101,15 +101,15 @@
       <a class="permalink" href="#on"><b class="Sy" id="on">on hardware and
       accurate emulators</b></a>.</dd>
   <dt id="c"><a class="permalink" href="#c"><code class="Fl">-c</code></a>
-    <var class="Ar">color_spec</var>, <code class="Fl">--colors</code>
-    <var class="Ar">color_spec</var></dt>
+    <var class="Ar">pal_spec</var>, <code class="Fl">--colors</code>
+    <var class="Ar">pal_spec</var></dt>
   <dd>Use the specified color palettes instead of having
       <code class="Nm">rgbgfx</code> automatically determine some.
-      <var class="Ar">color_spec</var> can be one of the following:
+      <var class="Ar">pal_spec</var> can be one of the following:
     <dl class="Bl-tag">
       <dt id="inline"><a class="permalink" href="#inline"><b class="Sy">inline
         palette spec</b></a></dt>
-      <dd>If <var class="Ar">color_spec</var> begins with a hash character
+      <dd>If <var class="Ar">pal_spec</var> begins with a hash character
           &#x2018;<code class="Li">#</code>&#x2019;, it is treated as an inline
           palette specification. It should contain a comma-separated list of
           hexadecimal colors, each beginning with a hash. Colors are accepted
@@ -125,7 +125,7 @@
           inline palette specification.</dd>
       <dt id="embedded"><a class="permalink" href="#embedded"><b class="Sy">embedded
         palette spec</b></a></dt>
-      <dd>If <var class="Ar">color_spec</var> is the case-insensitive word
+      <dd>If <var class="Ar">pal_spec</var> is the case-insensitive word
           <code class="Cm">embedded</code>, then the first four colors of the
           input PNG's embedded palette are used. It is an error if the PNG is
           not indexed, or if colors other than these 4 are used. (This is
@@ -134,8 +134,8 @@
           <code class="Fl">-c</code> <code class="Cm">embedded</code>).</dd>
       <dt id="external"><a class="permalink" href="#external"><b class="Sy">external
         palette spec</b></a></dt>
-      <dd>Otherwise, <var class="Ar">color_spec</var> is assumed to be an
-          external palette specification. The expected format is
+      <dd>Otherwise, <var class="Ar">pal_spec</var> is assumed to be an external
+          palette specification. The expected format is
           &#x2018;<code class="Li">format:path</code>&#x2019;, where
           <var class="Ar">path</var> is a path to a file
           (&#x2018;<code class="Li">-</code>&#x2019; is not treated specially),
