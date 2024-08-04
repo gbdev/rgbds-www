@@ -17,7 +17,7 @@
       <var class="Ar">pal_file</var> | <code class="Fl"><a href="#P">-P</a></code>]
       [<code class="Fl"><a href="#q">-q</a></code> <var class="Ar">pal_map</var> |
       <code class="Fl"><a href="#Q">-Q</a></code>] [<code class="Fl"><a href="#r">-r</a></code>
-      <var class="Ar">stride</var>] [<code class="Fl"><a href="#s">-s</a></code>
+      <var class="Ar">width</var>] [<code class="Fl"><a href="#s">-s</a></code>
       <var class="Ar">nb_colors</var>] [<code class="Fl"><a href="#t">-t</a></code>
       <var class="Ar">tilemap</var> | <code class="Fl"><a href="#T">-T</a></code>]
       [<code class="Fl"><a href="#x">-x</a></code> <var class="Ar">quantity</var>]
@@ -241,7 +241,9 @@
       render Game Boy data into an image. See
       <a class="Sx" href="#REVERSE_MODE">REVERSE MODE</a> below for details.
     <p class="Pp"><var class="Ar">width</var> is the width of the image to
-        generate, in tiles.</p>
+        generate, in tiles. <code class="Fl">-r</code>
+        <code class="Fl">-0</code> chooses a width to make the image as square
+        as possible. This is useful if you do not know the original width.</p>
   </dd>
   <dt id="s"><a class="permalink" href="#s"><code class="Fl">-s</code></a>
     <var class="Ar">nb_colors</var>, <code class="Fl">--palette-size</code>
