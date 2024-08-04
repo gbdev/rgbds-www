@@ -775,16 +775,20 @@ ENDR</pre>
     the source file encoding. For example, the tiles used for uppercase letters
     may be placed starting at tile index 128, which differs from ASCII starting
     at 65.</p>
-<p class="Pp">Character maps allow mapping strings to arbitrary 8-bit
-  values:</p>
+<p class="Pp">Character maps allow mapping strings to arbitrary sequences of
+    numbers:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>CHARMAP &quot;&lt;LF&gt;&quot;, 10
-CHARMAP &quot;&amp;iacute&quot;, 20
-CHARMAP &quot;A&quot;, 128</pre>
+<pre>CHARMAP &quot;A&quot;, 42
+CHARMAP &quot;:)&quot;, 39
+CHARMAP &quot;&lt;br&gt;&quot;, 13, 10
+CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 </div>
-<p class="Pp">This would result in &#x2018;<code class="Li">db
-    &quot;Amen&lt;LF&gt;&quot;</code>&#x2019; being equivalent to
-    &#x2018;<code class="Li">db 128, 109, 101, 110, 10</code>&#x2019;.</p>
+<p class="Pp">This would result in &#x2018;<code class="Li">db &quot;Amen
+    :)&lt;br&gt;&quot;</code>&#x2019; being equivalent to
+    &#x2018;<code class="Li">db 42, 109, 101, 110, 32, 39, 13,
+    10</code>&#x2019;, and &#x2018;<code class="Li">dw
+    &quot;25&amp;euro;&quot;</code>&#x2019; being equivalent to
+    &#x2018;<code class="Li">dw 50, 53, $20ac</code>&#x2019;.</p>
 <p class="Pp">Any characters in a string without defined mappings will be copied
     directly, using the source file's encoding of characters to bytes.</p>
 <p class="Pp">It is possible to create multiple character maps and then switch
