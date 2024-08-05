@@ -291,6 +291,13 @@
       four characters, since four or fewer characters fit within a 32-bit
       integer. <code class="Fl">-Wnumeric-string=2</code> warns about any
       multi-character string.</dd>
+  <dt id="Wpurge="><a class="permalink" href="#Wpurge="><code class="Fl">-Wpurge=</code></a></dt>
+  <dd>Warn when purging symbols which are likely to have been necessary.
+      <code class="Fl">-Wpurge=0</code> or <code class="Fl">-Wno-purge</code>
+      disables this warning. <code class="Fl">-Wpurge=1</code> or just
+      <code class="Fl">-Wpurge</code> warns when purging any exported symbol
+      (regardless of type). <code class="Fl">-Wpurge=2</code> also warns when
+      purging any label (even if not exported).</dd>
   <dt id="Wshift"><a class="permalink" href="#Wshift"><code class="Fl">-Wshift</code></a></dt>
   <dd>Warn when shifting right a negative value. Use a division by 2**N
     instead.</dd>

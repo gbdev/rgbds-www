@@ -1623,18 +1623,16 @@ Linking failed with 1 error</pre>
 <h3 class="Ss" id="Purging_symbols"><a class="permalink" href="#Purging_symbols">Purging
   symbols</a></h3>
 <p class="Pp"><code class="Ic">PURGE</code> allows you to completely remove a
-    symbol from the symbol table as if it had never existed.
-    <a class="permalink" href="#USE"><i class="Em" id="USE">USE WITH EXTREME
-    CAUTION</i></a>! I can't stress this enough,
-    <a class="permalink" href="#you"><b class="Sy" id="you">you seriously need
-    to know what you are doing</b></a>. DON'T purge a symbol that you use in
-    expressions the linker needs to calculate. When not sure, it's probably not
-    safe to purge anything other than variables, numeric or string constants, or
-    macros.</p>
+    symbol from the symbol table, as if it had never been defined. Be
+    <a class="permalink" href="#very"><i class="Em" id="very">very</i></a>
+    careful when purging symbols, especially labels, because it could result in
+    unpredictable errors if something depends on the missing symbol (for
+    example, expressions the linker needs to calculate).</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>DEF Kamikaze EQUS  &quot;I don't want to live anymore&quot;
-DEF AOLer    EQUS  &quot;Me too&quot;
-         PURGE Kamikaze, AOLer</pre>
+<pre>DEF Kamikaze EQUS &quot;I don't want to live anymore&quot;
+AOLer: DB &quot;Me too lol&quot;
+PURGE Kamikaze, AOLer
+ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
 </div>
 <p class="Pp">String constants are not expanded within the symbol names.</p>
 </section>
