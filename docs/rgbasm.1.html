@@ -17,6 +17,8 @@
       [<code class="Fl"><a href="#p">-p</a></code> <var class="Ar">pad_value</var>]
       [<code class="Fl"><a href="#Q">-Q</a></code> <var class="Ar">fix_precision</var>]
       [<code class="Fl"><a href="#r">-r</a></code> <var class="Ar">recursion_depth</var>]
+      [<code class="Fl"><a href="#s">-s</a></code>
+      <var class="Ar">features</var>:<var class="Ar">state_file</var>]
       [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
       [<code class="Fl"><a href="#X">-X</a></code> <var class="Ar">max_errors</var>]
       <var class="Ar">asmfile</var></td>
@@ -138,8 +140,50 @@
     <var class="Ar">recursion_depth</var>,
     <code class="Fl">--recursion-depth</code>
     <var class="Ar">recursion_depth</var></dt>
-  <dd>Specifies the recursion depth past which RGBASM will assume being in an
-      infinite loop. The default is 64.</dd>
+  <dd>Specifies the recursion depth past which <code class="Nm">rgbasm</code>
+      will assume being in an infinite loop. The default is 64.</dd>
+  <dt id="s"><a class="permalink" href="#s"><code class="Fl">-s</code></a>
+    <var class="Ar">features</var>:<var class="Ar">state_file</var>,
+    <code class="Fl">--state</code>
+    <var class="Ar">features</var>:<var class="Ar">state_file</var></dt>
+  <dd>Write the specified <var class="Ar">features</var> to
+      <var class="Ar">state_file</var>, based on the final state of
+      <code class="Nm">rgbasm</code> at the end of its input. The expected
+      <var class="Ar">features</var> are a comma-separated subset of the
+      following:
+    <dl class="Bl-tag">
+      <dt id="equ"><a class="permalink" href="#equ"><code class="Cm">equ</code></a></dt>
+      <dd>Write all numeric constants as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">equ</code>
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="var"><a class="permalink" href="#var"><code class="Cm">var</code></a></dt>
+      <dd>Write all variables as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">=</code>
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="equs"><a class="permalink" href="#equs"><code class="Cm">equs</code></a></dt>
+      <dd>Write all string constants as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">equs</code>
+          &quot;<var class="Ar">value</var>&quot;</code>&#x2019;.</dd>
+      <dt id="char"><a class="permalink" href="#char"><code class="Cm">char</code></a></dt>
+      <dd>Write all characters as
+          &#x2018;<code class="Li"><code class="Ic">charmap</code>
+          <var class="Ar">name</var>,
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="macro"><a class="permalink" href="#macro"><code class="Cm">macro</code></a></dt>
+      <dd>Write all macros as
+          &#x2018;<code class="Li"><code class="Ic">macro</code>
+          <var class="Ar">name</var> <span class="No">...</span>
+          <code class="Ic">endm</code></code>&#x2019;.</dd>
+      <dt id="all"><a class="permalink" href="#all"><code class="Cm">all</code></a></dt>
+      <dd>Acts like <code class="Cm">equ,var,equs,char,macro</code>.</dd>
+    </dl>
+    <p class="Pp">This flag may be specified multiple times with different
+        feature subsets to write them to different files (see
+        <a class="Sx" href="#EXAMPLES">EXAMPLES</a> below).</p>
+  </dd>
   <dt id="V"><a class="permalink" href="#V"><code class="Fl">-V</code></a>,
     <code class="Fl">--version</code></dt>
   <dd>Print the version of the program and exit.</dd>
@@ -291,6 +335,12 @@
 <p class="Pp">The resulting object file is not yet a usable ROM image&#x2014;it
     must first be run through <a class="Xr" href="./rgblink.1">rgblink(1)</a>
     and then <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>.</p>
+<p class="Pp">Writing the final assembler state to a file:</p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -s all:state.dump.asm
+  foo.asm</code></div>
+<p class="Pp">Or to multiple files:</p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -s equ,var:numbers.dump.asm
+  -s equs:strings.dump.asm foo.asm</code></div>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h2>
