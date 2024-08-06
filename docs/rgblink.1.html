@@ -64,9 +64,12 @@
   <dt id="n"><a class="permalink" href="#n"><code class="Fl">-n</code></a>
     <var class="Ar">sym_file</var>, <code class="Fl">--sym</code>
     <var class="Ar">sym_file</var></dt>
-  <dd>Write a symbol file to the given filename, listing the address of all
-      exported symbols. Several external programs can use this information, for
-      example to help debugging ROMs.</dd>
+  <dd>Write a symbol file to the given filename, listing all visible labels and
+      exported numeric constants. Labels output their bank and address, numeric
+      constants output their value, following
+      <a class="Lk" href="https://rgbds.gbdev.io/sym/">this specification</a>.
+      Several external programs can use this information, for example to help
+      debugging ROMs.</dd>
   <dt id="O"><a class="permalink" href="#O"><code class="Fl">-O</code></a>
     <var class="Ar">overlay_file</var>, <code class="Fl">--overlay</code>
     <var class="Ar">overlay_file</var></dt>
