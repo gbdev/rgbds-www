@@ -398,7 +398,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     &#x2018;||&#x2019; with a non-zero constant as either operand will be
     constant 1, even if the other operand is non-constant.</p>
 <p class="Pp"><code class="Ic">!</code> returns 1 if the operand was 0, and 0
-    otherwise.</p>
+    otherwise. Even a non-constant operand with any non-zero bits will return
+  0.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Fixed-point_expressions"><a class="permalink" href="#Fixed-point_expressions">Fixed-point
@@ -897,7 +898,9 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
     <td>Returns the bottom 8 bits of the operand if <var class="Ar">arg</var>
       <span class="No">is a label or constant, or the bottom 8-bit register if
       it is a 16-bit register</span> (<code class="Cm">AF</code>
-      <span class="No">isn't a valid register for this function</span>).</td>
+      <span class="No">isn't a valid register for this function</span>). The
+      result may be constant if <code class="Nm">rgbasm</code> is able to
+      compute it.</td>
   </tr>
   <tr id="ISCONST">
     <td><a class="permalink" href="#ISCONST"><code class="Fn">ISCONST</code></a>(<var class="Fa">arg</var>)</td>
