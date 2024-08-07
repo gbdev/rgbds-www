@@ -36,6 +36,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Integer functions",
+	"id": "Integer_functions",
+	"level": 3,
+},
+{
 	"value": "Fixed-point expressions",
 	"id": "Fixed-point_expressions",
 	"level": 3,

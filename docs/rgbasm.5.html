@@ -1,8 +1,8 @@
 <section class="Sh">
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
-<p class="Pp">This is the full description of the language used by
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>. The description of the
-    instructions supported by the Game Boy CPU is in
+<p class="Pp">This is the full description of the assembly language used by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>. For the full description of
+    instructions in the machine language supported by the Game Boy CPU, see
     <a class="Xr" href="./gbz80.7">gbz80(7)</a>.</p>
 <p class="Pp">It is advisable to have some familiarity with the Game Boy
     hardware before reading this document. RGBDS is specifically targeted at the
@@ -32,6 +32,15 @@
 <p class="Pp">Instructions are assembled into Game Boy opcodes. Multiple
     instructions on one line can be separated by double colons
     &#x2018;<code class="Li">::</code>&#x2019;.</p>
+<p class="Pp">The available instructions are documented in
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>. Note that where an instruction
+    requires an 8-bit register <var class="Ar">r8</var>,
+    <code class="Nm">rgbasm</code> can interpret
+    <code class="Ic">HIGH</code>(<var class="Ar">r16</var>) as the top 8-bit
+    register of the given <var class="Ar">r16</var>, and
+    <code class="Ic">LOW</code>(<var class="Ar">r16</var>) as the bottom one
+    (except for <code class="Ic">LOW</code>(<code class="Ic">AF</code>), since
+    <code class="Ic">F</code> is not a valid register).</p>
 <p class="Pp">All reserved keywords (directives, register names, etc.) are
     case-insensitive; all identifiers (labels and other symbol names) are
     case-sensitive.</p>
@@ -397,9 +406,62 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     with a zero constant as either operand will be constant 0, and
     &#x2018;||&#x2019; with a non-zero constant as either operand will be
     constant 1, even if the other operand is non-constant.</p>
-<p class="Pp"><code class="Ic">!</code> returns 1 if the operand was 0, and 0
-    otherwise. Even a non-constant operand with any non-zero bits will return
-  0.</p>
+<p class="Pp">&#x2018;!&#x2019; returns 1 if the operand was 0, and 0 otherwise.
+    Even a non-constant operand with any non-zero bits will return 0.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Integer_functions"><a class="permalink" href="#Integer_functions">Integer
+  functions</a></h3>
+<p class="Pp">Besides operators, there are also some functions which have more
+    specialized uses.</p>
+<table class="Bl-column">
+  <tr id="Name">
+    <td><a class="permalink" href="#Name"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation"><b class="Sy" id="Operation">Operation</b></a></td>
+  </tr>
+  <tr id="HIGH">
+    <td><a class="permalink" href="#HIGH"><code class="Fn">HIGH</code></a>(<var class="Fa">n</var>)</td>
+    <td>Equivalent to &#x2018;<code class="Li"><var class="Ar">n</var>
+      <span class="No">&amp; $FF</span></code>&#x2019;.</td>
+  </tr>
+  <tr id="LOW">
+    <td><a class="permalink" href="#LOW"><code class="Fn">LOW</code></a>(<var class="Fa">n</var>)</td>
+    <td>Equivalent to &#x2018;<code class="Li">(<var class="Ar">n</var>
+      <span class="No">&amp; $FF00</span>) &gt;&gt; 8</code>&#x2019;.</td>
+  </tr>
+  <tr id="BITWIDTH">
+    <td><a class="permalink" href="#BITWIDTH"><code class="Fn">BITWIDTH</code></a>(<var class="Fa">n</var>)</td>
+    <td>Returns the number of bits necessary to represent
+      <var class="Ar">n</var>. Some useful formulas:
+      <code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>)&#x00A0;-&#x00A0;1
+      equals
+    <math class="eqn">
+      <mrow><mo>&#x230A;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x230B;</mo></mrow>
+    </math>
+    ,
+      <code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>&#x00A0;-&#x00A0;1)
+      equals
+    <math class="eqn">
+      <mrow><mo>&#x2308;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x2309;</mo></mrow>
+    </math>
+    , and
+      <span class="No">32&#x00A0;-&#x00A0;</span><code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>)
+      equals
+    <math class="eqn">
+      <mrow><mrow><mi>clz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
+    </math>
+    .</td>
+  </tr>
+  <tr id="TZCOUNT">
+    <td><a class="permalink" href="#TZCOUNT"><code class="Fn">TZCOUNT</code></a>(<var class="Fa">n</var>)</td>
+    <td>Returns
+    <math class="eqn">
+      <mrow><mrow><mi>ctz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
+    </math>
+    , the count of trailing zero bits at the end of the binary representation of
+      <var class="Ar">n</var>.</td>
+  </tr>
+</table>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Fixed-point_expressions"><a class="permalink" href="#Fixed-point_expressions">Fixed-point
@@ -417,14 +479,17 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     in normal integer expressions. Some integer operators like &#x2018;+&#x2019;
     and &#x2018;-&#x2019; don't care whether the operands are integers or
     fixed-point. You can easily truncate a fixed-point number into an integer by
-    shifting it right by 16 bits. It follows that you can convert an integer to
-    a fixed-point number by shifting it left.</p>
+    shifting it right by the number of fractional bits. It follows that you can
+    convert an integer to a fixed-point number by shifting it left that same
+    amount.</p>
+<p class="Pp">Note that the current number of fractional bits can be computed as
+    <code class="Ic">TZCOUNT</code>(1.0).</p>
 <p class="Pp">The following functions are designed to operate with fixed-point
     numbers:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Name">
-    <td><a class="permalink" href="#Name"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation"><b class="Sy" id="Operation">Operation</b></a></td>
+  <tr id="Name~2">
+    <td><a class="permalink" href="#Name~2"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~2"><b class="Sy" id="Operation~2">Operation</b></a></td>
   </tr>
   <tr id="DIV">
     <td><a class="permalink" href="#DIV"><code class="Fn">DIV</code></a>(<var class="Fa">x</var>,
@@ -672,9 +737,9 @@ ENDR</pre>
     them return a string, however some of these functions actually return an
     integer and can be used as part of an integer expression!</p>
 <table class="Bl-column">
-  <tr id="Name~2">
-    <td><a class="permalink" href="#Name~2"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation~2"><b class="Sy" id="Operation~2">Operation</b></a></td>
+  <tr id="Name~3">
+    <td><a class="permalink" href="#Name~3"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~3"><b class="Sy" id="Operation~3">Operation</b></a></td>
   </tr>
   <tr id="STRLEN">
     <td><a class="permalink" href="#STRLEN"><code class="Fn">STRLEN</code></a>(<var class="Fa">str</var>)</td>
@@ -845,11 +910,12 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 <section class="Ss">
 <h3 class="Ss" id="Other_functions"><a class="permalink" href="#Other_functions">Other
   functions</a></h3>
-<p class="Pp">There are a few other functions that do various useful things:</p>
+<p class="Pp">There are a few other functions that do things beyond numeric or
+    string operations:</p>
 <table class="Bl-column">
-  <tr id="Name~3">
-    <td><a class="permalink" href="#Name~3"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation~3"><b class="Sy" id="Operation~3">Operation</b></a></td>
+  <tr id="Name~4">
+    <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~4"><b class="Sy" id="Operation~4">Operation</b></a></td>
   </tr>
   <tr id="BANK">
     <td><a class="permalink" href="#BANK"><code class="Fn">BANK</code></a>(<var class="Fa">arg</var>)</td>
@@ -883,24 +949,8 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
   </tr>
   <tr id="DEF">
     <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
-    <td>Returns TRUE (1) if <var class="Ar">symbol</var> has been defined, FALSE
-      (0) otherwise. String constants are not expanded within the
-      parentheses.</td>
-  </tr>
-  <tr id="HIGH">
-    <td><a class="permalink" href="#HIGH"><code class="Fn">HIGH</code></a>(<var class="Fa">arg</var>)</td>
-    <td>Returns the top 8 bits of the operand if <var class="Ar">arg</var>
-      <span class="No">is a label or constant, or the top 8-bit register if it
-      is a 16-bit register</span>.</td>
-  </tr>
-  <tr id="LOW">
-    <td><a class="permalink" href="#LOW"><code class="Fn">LOW</code></a>(<var class="Fa">arg</var>)</td>
-    <td>Returns the bottom 8 bits of the operand if <var class="Ar">arg</var>
-      <span class="No">is a label or constant, or the bottom 8-bit register if
-      it is a 16-bit register</span> (<code class="Cm">AF</code>
-      <span class="No">isn't a valid register for this function</span>). The
-      result may be constant if <code class="Nm">rgbasm</code> is able to
-      compute it.</td>
+    <td>Returns 1 if <var class="Ar">symbol</var> has been defined, 0 otherwise.
+      String constants are not expanded within the parentheses.</td>
   </tr>
   <tr id="ISCONST">
     <td><a class="permalink" href="#ISCONST"><code class="Fn">ISCONST</code></a>(<var class="Fa">arg</var>)</td>
@@ -1644,8 +1694,8 @@ ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
   symbols</a></h3>
 <p class="Pp">The following symbols are defined by the assembler:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Name~4">
-    <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
+  <tr id="Name~5">
+    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
     <td><a class="permalink" href="#Type"><b class="Sy" id="Type">Type</b></a></td>
     <td><a class="permalink" href="#Contents"><b class="Sy" id="Contents">Contents</b></a></td>
   </tr>
