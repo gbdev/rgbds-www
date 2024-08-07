@@ -383,13 +383,14 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <td>Unary not</td>
   </tr>
 </table>
-<p class="Pp"><code class="Ic">~</code> complements a value by inverting all its
-    bits.</p>
-<p class="Pp"><code class="Ic">%</code> is used to get the remainder of the
-    corresponding division, so that &#x2018;a / b * b + a % b == a&#x2019; is
-    always true. The result has the same sign as the divisor. This makes
-    &#x2018;a % b&#x2019;. equal to &#x2018;(a + b) % b&#x2019; or &#x2018;(a -
-    b) % b&#x2019;.</p>
+<p class="Pp">&#x2018;~&#x2019; complements a value by inverting all its
+  bits.</p>
+<p class="Pp">&#x2018;%&#x2019; is used to get the remainder of the
+    corresponding division, so that &#x2018;<code class="Li">x / y * y + x % y
+    == x</code>&#x2019; is always true. The result has the same sign as the
+    divisor. This makes &#x2018;<code class="Li">x % y</code>&#x2019; equal to
+    &#x2018;<code class="Li">(x + y) % y</code>&#x2019; or
+    &#x2018;<code class="Li">(x - y) % y</code>&#x2019;.</p>
 <p class="Pp">Shifting works by shifting all bits in the left operand either
     left (&#x2018;&lt;&lt;&#x2019;) or right (&#x2018;&gt;&gt;&#x2019;) by the
     right operand's amount. When shifting left, all newly-inserted bits are
@@ -635,6 +636,13 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     &#x2018;<code class="Li">MUL(6.0q8, 7.0q8, 8)</code>&#x2019; will evaluate
     to &#x2018;<code class="Li">42.0q8</code>&#x2019; no matter what value is
     set as the current <code class="Cm">Q</code> option.</p>
+<p class="Pp" id="dividend">The <code class="Ic">FMOD</code> function is used to
+    get the remainder of the corresponding fixed-point division, so that
+    &#x2018;<code class="Li">MUL(DIV(x, y), y) + FMOD(x, y) == x</code>&#x2019;
+    is always true. The result has the same sign as the
+    <a class="permalink" href="#dividend"><i class="Em">dividend</i></a>; this
+    is the opposite of how the integer modulo operator &#x2018;%&#x2019;
+  works!</p>
 <p class="Pp">The trigonometry functions ( <code class="Ic">SIN</code>,
     <code class="Ic">COS</code>, <code class="Ic">TAN</code>, etc) are defined
     in terms of a circle divided into 1.0 &quot;turns&quot; (equal to 2pi
@@ -1371,8 +1379,8 @@ vPlayerTiles:
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Variables"><a class="permalink" href="#Variables">Variables</a></h3>
-<p class="Pp">An equal sign <code class="Ic">=</code> is used to define mutable
-    numeric symbols. Unlike the other symbols described below, variables can be
+<p class="Pp">An equal sign &#x2018;=&#x2019; is used to define mutable numeric
+    symbols. Unlike the other symbols described below, variables can be
     redefined. This is useful for internal symbols in macros, for counters,
   etc.</p>
 <div class="Bd Pp Bd-indent Li">
@@ -1431,9 +1439,9 @@ DEF x ^= y    ; x == 1</pre>
 <h3 class="Ss" id="Numeric_constants"><a class="permalink" href="#Numeric_constants">Numeric
   constants</a></h3>
 <p class="Pp"><code class="Ic">EQU</code> is used to define immutable numeric
-    symbols. Unlike <code class="Ic">=</code> above, constants defined this way
-    cannot be redefined. These constants can be used for unchanging values such
-    as properties of the hardware.</p>
+    symbols. Unlike &#x2018;=&#x2019; above, constants defined this way cannot
+    be redefined. These constants can be used for unchanging values such as
+    properties of the hardware.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
 def SCREEN_HEIGHT equ 144</pre>
@@ -1927,14 +1935,15 @@ VideoBuffer: ds 19
 </div>
 <p class="Pp">In the example above, &#x2018;Name, Health, VideoBuffer&#x2019;
     all have the same value, as do &#x2018;Nickname&#x2019; and
-    &#x2018;Lives&#x2019;. Thus, keep in mind that <code class="Ic">ld [Health],
-    a</code> is identical to <code class="Ic">ld [Name], a</code>.</p>
+    &#x2018;Lives&#x2019;. Thus, keep in mind that &#x2018;<code class="Li">ld
+    [Health], a</code>&#x2019; is identical to &#x2018;<code class="Li">ld
+    [Name], a</code>&#x2019;.</p>
 <p class="Pp">The size of this union is 19 bytes, as this is the size of the
     largest block (the last one, containing &#x2018;VideoBuffer&#x2019;).
     Nesting unions is possible, with each inner union's size being considered as
     described above.</p>
-<p class="Pp">Unions may be used in any section, but inside them may only be
-    <code class="Ic">DS -</code> like commands (see
+<p class="Pp">Unions may be used in any section, but they may only contain
+    space-allocating directives like <code class="Ic">DS</code> (see
     <a class="Sx" href="#Statically_allocating_space_in_RAM">Statically
     allocating space in RAM</a>).</p>
 </section>
@@ -2093,8 +2102,8 @@ PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
 <dl class="Bl-inset">
   <dt id="PRINT"><a class="permalink" href="#PRINT"><code class="Ic">PRINT</code></a></dt>
   <dd>prints out each of its comma-separated arguments. Numbers are printed as
-      unsigned uppercase hexadecimal with a leading <code class="Ic">$</code>.
-      For different formats, use <code class="Ic">STRFMT</code>.</dd>
+      unsigned uppercase hexadecimal with a leading &#x2018;$&#x2019;. For
+      different formats, use <code class="Ic">STRFMT</code>.</dd>
   <dt id="PRINTLN"><a class="permalink" href="#PRINTLN"><code class="Ic">PRINTLN</code></a></dt>
   <dd>prints out each of its comma-separated arguments, if any, followed by a
       line feed (&#x2018;<code class="Li">\n</code>&#x2019;).</dd>
@@ -2349,8 +2358,8 @@ POPO
     DW `00112233          ; uses the default graphics constant characters
     PRINTLN $80000000/-1  ; no warning by default</pre>
 </div>
-<p class="Pp">The options that <code class="Ic">OPT</code> can modify are
-    currently: <code class="Cm">b</code>, <code class="Cm">g</code>,
+<p class="Pp"><code class="Ic">OPT</code> can modify the options
+    <code class="Cm">b</code>, <code class="Cm">g</code>,
     <code class="Cm">p</code>, <code class="Cm">Q</code>, and
     <code class="Cm">r</code>.</p>
 <p class="Pp"><code class="Ic">POPO</code> and <code class="Ic">PUSHO</code>
