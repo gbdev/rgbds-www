@@ -467,22 +467,30 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 <section class="Ss">
 <h3 class="Ss" id="Fixed-point_expressions"><a class="permalink" href="#Fixed-point_expressions">Fixed-point
   expressions</a></h3>
-<p class="Pp">Fixed-point numbers are basically normal (32-bit) integers, which
-    count fractions instead of whole numbers. They offer better precision than
-    integers but limit the range of values. By default, the upper 16 bits are
-    used for the integer part and the lower 16 bits are used for the fraction
-    (65536ths). The default number of fractional bits can be changed with the
-    <code class="Fl">-Q</code> command-line option. You can also specify a
-    precise fixed-point value by appending a &#x201C;q&#x201D; to it followed by
-    the number of fractional bits, such as
-    &#x2018;<code class="Li">12.34q8</code>&#x2019;.</p>
+<p class="Pp">Fixed-point numbers are technically just integers, but
+    conceptually they have a decimal point at a fixed location (hence the name).
+    This gives them increased precision, at the cost of a smaller range, while
+    remaining far cheaper to manipulate than floating-point numbers (which
+    <code class="Nm">rgbasm</code> does not support).</p>
+<p class="Pp">The default precision of all fixed-point numbers is 16 bits,
+    meaning the lower 16 bits are used for the fractional part; so they count in
+    65536ths of 1.0. This precision can be changed with the
+    <code class="Fl">-Q</code> command-line option, and/or by
+    <code class="Ic">OPT Q</code> (see
+    <a class="Sx" href="#Changing_options_while_assembling">Changing options
+    while assembling</a>). An individual fixed-point literal can specify its own
+    precision, overriding the current default, by appending a &#x201C;q&#x201D;
+    followed by the number of fractional bits: for example,
+    &#x2018;<code class="Li">1234.5q8</code>&#x2019; is equal to $0004d2_80 (
+  <math class="eqn">
+    <mrow><mo>=</mo><mn>1234.5</mn><mo>*</mo><msup><mn>2</mn><mn>8</mn></msup></mrow>
+  </math>
+  ).</p>
 <p class="Pp">Since fixed-point values are still just integers, you can use them
-    in normal integer expressions. Some integer operators like &#x2018;+&#x2019;
-    and &#x2018;-&#x2019; don't care whether the operands are integers or
-    fixed-point. You can easily truncate a fixed-point number into an integer by
-    shifting it right by the number of fractional bits. It follows that you can
-    convert an integer to a fixed-point number by shifting it left that same
-    amount.</p>
+    in normal integer expressions. You can easily truncate a fixed-point number
+    into an integer by shifting it right by the number of fractional bits. It
+    follows that you can convert an integer to a fixed-point number by shifting
+    it left that same amount.</p>
 <p class="Pp">Note that the current number of fractional bits can be computed as
     <code class="Ic">TZCOUNT</code>(1.0).</p>
 <p class="Pp">The following functions are designed to operate with fixed-point
@@ -495,42 +503,26 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   <tr id="DIV">
     <td><a class="permalink" href="#DIV"><code class="Fn">DIV</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>Fixed-point division
-    <math class="eqn">
-      <mrow><mo>(</mo><mi>x</mi><mo>&#x00F7;</mo><mi>y</mi><mo>)</mo><mo>&#x00D7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
-    </math>
-    </td>
+    <td>Fixed-point division</td>
   </tr>
   <tr id="MUL">
     <td><a class="permalink" href="#MUL"><code class="Fn">MUL</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>Fixed-point multiplication
-    <math class="eqn">
-      <mrow><mo>(</mo><mi>x</mi><mo>&#x00D7;</mo><mi>y</mi><mo>)</mo><mo>&#x00F7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
-    </math>
-    </td>
+    <td>Fixed-point multiplication</td>
   </tr>
   <tr id="FMOD">
     <td><a class="permalink" href="#FMOD"><code class="Fn">FMOD</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
-    <td>Fixed-point modulo
-    <math class="eqn">
-      <mrow><mo>(</mo><mi>x</mi><mo>%</mo><mi>y</mi><mo>)</mo><mo>&#x00F7;</mo><mo>(</mo><mn>2</mn><mi fontstyle="italic">precision</mi><mo>)</mo></mrow>
-    </math>
-    </td>
+    <td>Fixed-point modulo</td>
   </tr>
   <tr id="POW">
     <td><a class="permalink" href="#POW"><code class="Fn">POW</code></a>(<var class="Fa">x</var>,
       <var class="Fa">y</var>)</td>
     <td>
     <math class="eqn">
-      <mrow><mi>x</mi></mrow>
+      <mrow><msup><mi>x</mi><mi>y</mi></msup></mrow>
     </math>
-     to the
-    <math class="eqn">
-      <mrow><mi>y</mi></mrow>
-    </math>
-     power</td>
+    </td>
   </tr>
   <tr id="LOG">
     <td><a class="permalink" href="#LOG"><code class="Fn">LOG</code></a>(<var class="Fa">x</var>,
@@ -559,7 +551,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <math class="eqn">
       <mrow><mi>x</mi></mrow>
     </math>
-     up to an integer</td>
+     up to the nearest integer</td>
   </tr>
   <tr id="FLOOR">
     <td><a class="permalink" href="#FLOOR"><code class="Fn">FLOOR</code></a>(<var class="Fa">x</var>)</td>
@@ -567,7 +559,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <math class="eqn">
       <mrow><mi>x</mi></mrow>
     </math>
-     down to an integer</td>
+     down to the nearest integer</td>
   </tr>
   <tr id="SIN">
     <td><a class="permalink" href="#SIN"><code class="Fn">SIN</code></a>(<var class="Fa">x</var>)</td>
@@ -631,11 +623,27 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     </td>
   </tr>
 </table>
-<p class="Pp">All of these fixed-point functions can take an optional final
-    argument, which is the precision to use. For example,
-    &#x2018;<code class="Li">MUL(6.0q8, 7.0q8, 8)</code>&#x2019; will evaluate
-    to &#x2018;<code class="Li">42.0q8</code>&#x2019; no matter what value is
-    set as the current <code class="Cm">Q</code> option.</p>
+<p class="Pp">There are no functions for fixed-point addition and subtraction,
+    because the &#x2018;+&#x2019; and &#x2018;-&#x2019; operators can add and
+    subtract pairs of fixed-point operands.</p>
+<div class="Bd Pp Bd-indent">Note that some operators or functions are
+  meaningful when combining integers and fixed-point values. For example,
+  &#x2018;<code class="Li">2.0 * 3</code>&#x2019; is equivalent to
+  &#x2018;<code class="Li">MUL(2.0, 3.0)</code>&#x2019;, and
+  &#x2018;<code class="Li">6.0 / 2</code>&#x2019; is equivalent to
+  &#x2018;<code class="Li">DIV(6.0, 2.0)</code>&#x2019;. Be careful and think
+  about what the operations mean when doing this sort of thing.</div>
+<p class="Pp" id="does">All of these fixed-point functions can take an optional
+    final argument, which is the precision to use for that one operation. For
+    example, &#x2018;<code class="Li">MUL(6.0q8, 7.0q8, 8)</code>&#x2019; will
+    evaluate to &#x2018;<code class="Li">42.0q8</code>&#x2019; no matter what
+    value is set as the current <code class="Cm">Q</code> option.
+    <code class="Nm">rgbasm</code>
+    <a class="permalink" href="#does"><i class="Em">does not check precisions
+    for consistency</i></a>, so nonsensical input like
+    &#x2018;<code class="Li">MUL(4.2q8, 6.9q12, 16)</code>&#x2019; will produce
+    a nonsensical (but technically correct) result: &#x201C;garbage in, garbage
+    out&#x201D;.</p>
 <p class="Pp" id="dividend">The <code class="Ic">FMOD</code> function is used to
     get the remainder of the corresponding fixed-point division, so that
     &#x2018;<code class="Li">MUL(DIV(x, y), y) + FMOD(x, y) == x</code>&#x2019;
@@ -643,19 +651,22 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <a class="permalink" href="#dividend"><i class="Em">dividend</i></a>; this
     is the opposite of how the integer modulo operator &#x2018;%&#x2019;
   works!</p>
-<p class="Pp">The trigonometry functions ( <code class="Ic">SIN</code>,
-    <code class="Ic">COS</code>, <code class="Ic">TAN</code>, etc) are defined
-    in terms of a circle divided into 1.0 &quot;turns&quot; (equal to 2pi
-    radians or 360 degrees).</p>
+<p class="Pp">The trigonometry functions (<code class="Ic">SIN</code>,
+    <code class="Ic">COS</code>, <code class="Ic">TAN</code>,
+    <span class="No">etc</span>) are defined in terms of a circle divided into
+    1.0 &#x201C;turns&#x201D; (equal to
+  <math class="eqn">
+    <mrow><mn>2</mn><mo>&#x03C0;</mo></mrow>
+  </math>
+   radians, or 360 degrees).</p>
 <p class="Pp">These functions are useful for automatic generation of various
     tables. For example:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>; Generate a table of sine values from sin(0.0) to sin(1.0), with
-; amplitude scaled from [-1.0, 1.0] to [0.0, 128.0]
-DEF turns = 0.0
-REPT 256
-    db MUL(64.0, SIN(turns) + 1.0) &gt;&gt; 16
-    DEF turns += 1.0 / 256
+<pre>; Generate a table of 128 sine values
+; from sin(0.0) to sin(0.5) excluded,
+; with amplitude scaled from [-1.0, 1.0] to [0.0, 128.0].
+FOR angle, 0.0, 0.5, 0.5 / 128
+    db MUL(SIN(angle) + 1.0, 128.0 / 2) &gt;&gt; 16
 ENDR</pre>
 </div>
 </section>
