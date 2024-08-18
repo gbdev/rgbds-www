@@ -71,6 +71,15 @@
         defaults to the beginning of the bank (e.g.
         <span class="Ad">$4000</span> <span class="No">for</span>
         <code class="Ic">ROMX</code> <span class="No">sections</span>).</p>
+    <p class="Pp">Instead of giving a bank number, the keyword
+        <code class="Ic">FLOATING</code> can be used instead; this sets the type
+        of the subsequent sections without binding them to a particular bank.
+        (If the type only allows a single bank, e.g.
+        <code class="Ic">ROM0</code>, then <code class="Ic">FLOATING</code> is
+        valid but redundant and has no effect.) Since no particular section is
+        active, the &#x201C;current address&#x201D; is made floating (as if by a
+        &#x2018;<code class="Li"><code class="Ic">FLOATING</code></code>&#x2019;
+        directive), and <code class="Ic">ORG</code> is not allowed.</p>
   </dd>
   <dt>Changing the current address</dt>
   <dd>A bank must be active for any of these directives to be used.
@@ -82,7 +91,8 @@
     <p class="Pp">&#x2018;<code class="Li"><code class="Ic">FLOATING</code></code>&#x2019;
         causes all sections between it and the next <code class="Ic">ORG</code>
         or bank specification to be placed at addresses automatically determined
-        by <code class="Nm">rgblink</code>.</p>
+        by <code class="Nm">rgblink</code>. (It is, however, compatible with
+        <code class="Ic">ALIGN</code> <span class="No">below.</span>)</p>
     <p class="Pp">&#x2018;<code class="Li"><code class="Ic">ALIGN</code>
         <var class="Ar">addr</var>, <var class="Ar">offset</var></code>&#x2019;
         increases the &#x201C;current address&#x201D; until it is aligned to the
