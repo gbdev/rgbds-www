@@ -33,14 +33,22 @@
     instructions on one line can be separated by double colons
     &#x2018;<code class="Li">::</code>&#x2019;.</p>
 <p class="Pp">The available instructions are documented in
-    <a class="Xr" href="./gbz80.7">gbz80(7)</a>. Note that where an instruction
-    requires an 8-bit register <var class="Ar">r8</var>,
-    <code class="Nm">rgbasm</code> can interpret
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>.</p>
+<p class="Pp">Note that where an instruction requires an 8-bit register
+    <var class="Ar">r8</var>, <code class="Nm">rgbasm</code> can interpret
     <code class="Ic">HIGH</code>(<var class="Ar">r16</var>) as the top 8-bit
-    register of the given <var class="Ar">r16</var>, and
-    <code class="Ic">LOW</code>(<var class="Ar">r16</var>) as the bottom one
-    (except for <code class="Ic">LOW</code>(<code class="Ic">AF</code>), since
+    register of the given <var class="Ar">r16</var>, for example,
+    <code class="Ic">HIGH</code>(<code class="Ic">HL</code>) for
+    <code class="Ic">H</code>; and
+    <code class="Ic">LOW</code>(<var class="Ar">r16</var>) as the bottom one,
+    for example, <code class="Ic">LOW</code>(<code class="Ic">HL</code>) for
+    <code class="Ic">L</code> (except for
+    <code class="Ic">LOW</code>(<code class="Ic">AF</code>), since
     <code class="Ic">F</code> is not a valid register).</p>
+<p class="Pp">Note also that where an instruction requires a condition code
+    <var class="Ar">cc</var>, <code class="Nm">rgbasm</code> can interpret
+    !<var class="Ar">cc</var> as the opposite condition code; for example,
+    <code class="Ic">!nz</code> for <code class="Ic">z</code>.</p>
 <p class="Pp">All reserved keywords (directives, register names, etc.) are
     case-insensitive; all identifiers (labels and other symbol names) are
     case-sensitive.</p>
