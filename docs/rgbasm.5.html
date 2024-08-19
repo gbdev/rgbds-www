@@ -936,8 +936,19 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
     <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
     <td><a class="permalink" href="#Operation~4"><b class="Sy" id="Operation~4">Operation</b></a></td>
   </tr>
-  <tr id="BANK">
-    <td><a class="permalink" href="#BANK"><code class="Fn">BANK</code></a>(<var class="Fa">arg</var>)</td>
+  <tr id="DEF">
+    <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
+    <td>Returns 1 if <var class="Ar">symbol</var> has been defined, 0 otherwise.
+      String constants are not expanded within the parentheses.</td>
+  </tr>
+  <tr id="ISCONST">
+    <td><a class="permalink" href="#ISCONST"><code class="Fn">ISCONST</code></a>(<var class="Fa">arg</var>)</td>
+    <td>Returns 1 if <var class="Ar">arg</var>'s value is known by RGBASM (e.g.
+      if it can be an argument to <code class="Ic">IF</code>), or 0 if only
+      RGBLINK can compute its value.</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">BANK</code>(<var class="Fa">arg</var>)</td>
     <td>Returns a bank number. If <var class="Ar">arg</var> is the symbol
       <code class="Ic">@</code>, this function returns the bank of the current
       section. If <var class="Ar">arg</var> is a string, it returns the bank of
@@ -965,17 +976,6 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
       <var class="Ar">arg</var> is a section type keyword, it returns the
       starting address of that section type. The result is not constant, since
       only RGBLINK can compute its value.</td>
-  </tr>
-  <tr id="DEF">
-    <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
-    <td>Returns 1 if <var class="Ar">symbol</var> has been defined, 0 otherwise.
-      String constants are not expanded within the parentheses.</td>
-  </tr>
-  <tr id="ISCONST">
-    <td><a class="permalink" href="#ISCONST"><code class="Fn">ISCONST</code></a>(<var class="Fa">arg</var>)</td>
-    <td>Returns 1 if <var class="Ar">arg</var>'s value is known by RGBASM (e.g.
-      if it can be an argument to <code class="Ic">IF</code>), or 0 if only
-      RGBLINK can compute its value.</td>
   </tr>
 </table>
 </section>
@@ -1044,7 +1044,7 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 <p class="Pp"><var class="Ar">option</var>s are comma-separated and may
   include:</p>
 <dl class="Bl-tag">
-  <dt id="BANK~2"><a class="permalink" href="#BANK~2"><code class="Ic">BANK</code></a>[<var class="Ar">bank</var>]</dt>
+  <dt id="BANK"><a class="permalink" href="#BANK"><code class="Ic">BANK</code></a>[<var class="Ar">bank</var>]</dt>
   <dd>Specify which <var class="Ar">bank</var> for the linker to place the
       section in. See above for possible values for <var class="Ar">bank</var>,
       depending on <var class="Ar">type</var>.</dd>
@@ -1075,25 +1075,25 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 <ul class="Bl-item">
   <li>
     <div class="Bd Pp Bd-indent Li">
-    <pre>SECTION &quot;Cool Stuff&quot;,ROMX</pre>
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX</pre>
     </div>
     This switches to the section called &#x201C;CoolStuff&#x201D;, creating it
       if it doesn't already exist. It can end up in any ROM bank. Code and data
       may follow.</li>
   <li>If it is needed, the the base address of the section can be specified:
     <div class="Bd Pp Bd-indent Li">
-    <pre>SECTION &quot;Cool Stuff&quot;,ROMX[$4567]</pre>
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567]</pre>
     </div>
   </li>
   <li>An example with a fixed bank:
     <div class="Bd Pp Bd-indent Li">
-    <pre>SECTION &quot;Cool Stuff&quot;,ROMX[$4567],BANK[3]</pre>
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567], BANK[3]</pre>
     </div>
   </li>
   <li>And if you want to force only the section's bank, and not its position
       within the bank, that's also possible:
     <div class="Bd Pp Bd-indent Li">
-    <pre>SECTION &quot;Cool Stuff&quot;,ROMX,BANK[7]</pre>
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX, BANK[7]</pre>
     </div>
   </li>
   <li>Alignment examples: The first one could be useful for defining an OAM
@@ -1101,8 +1101,8 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
       could also be appropriate for GBC HDMA, or for an optimized copy code that
       requires alignment.
     <div class="Bd Pp Bd-indent Li">
-    <pre>SECTION &quot;OAM Data&quot;,WRAM0,ALIGN[8] ;&#x00A0;align to 256 bytes
-SECTION &quot;VRAM Data&quot;,ROMX,BANK[2],ALIGN[4] ;&#x00A0;align to 16 bytes</pre>
+    <pre>SECTION &quot;OAM Data&quot;, WRAM0, ALIGN[8] ;&#x00A0;align to 256 bytes
+SECTION &quot;VRAM Data&quot;, ROMX, BANK[2], ALIGN[4] ;&#x00A0;align to 16 bytes</pre>
     </div>
   </li>
 </ul>
@@ -1519,31 +1519,37 @@ DEF str_SIZEOF EQU 259</pre>
     <td>Sets the <code class="Ic">_RS</code> <span class="No">counter to</span>
       <var class="Ar">constexpr</var>.</td>
   </tr>
-  <tr id="RB">
-    <td><a class="permalink" href="#RB"><code class="Ic">RB</code></a>
+  <tr id="DEF~2">
+    <td><a class="permalink" href="#DEF~2"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RB</code>
       <var class="Ar">constexpr</var></td>
-    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-      <span class="No">and adds</span> <var class="Ar">constexpr</var>
-      <span class="No">to</span> <code class="Ic">_RS</code>.</td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">to</span>
+      <code class="Ic">_RS</code>.</td>
   </tr>
-  <tr id="RW">
-    <td><a class="permalink" href="#RW"><code class="Ic">RW</code></a>
+  <tr id="DEF~3">
+    <td><a class="permalink" href="#DEF~3"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RW</code>
       <var class="Ar">constexpr</var></td>
-    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-      <span class="No">and adds</span> <var class="Ar">constexpr</var>
-      <span class="No">* 2 to</span> <code class="Ic">_RS</code>.</td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">* 2 to</span>
+      <code class="Ic">_RS</code>.</td>
   </tr>
-  <tr id="RL">
-    <td><a class="permalink" href="#RL"><code class="Ic">RL</code></a>
+  <tr id="DEF~4">
+    <td><a class="permalink" href="#DEF~4"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RL</code>
       <var class="Ar">constexpr</var></td>
-    <td>Sets the preceding symbol to <code class="Ic">_RS</code>
-      <span class="No">and adds</span> <var class="Ar">constexpr</var>
-      <span class="No">* 4 to</span> <code class="Ic">_RS</code>.</td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">* 4 to</span>
+      <code class="Ic">_RS</code>.</td>
   </tr>
 </table>
-<p class="Pp">If the argument to <code class="Ic">RB</code>,
-    <code class="Ic">RW</code>, or <code class="Ic">RL</code> is omitted, it's
-    assumed to be 1.</p>
+<p class="Pp">If the <var class="Ar">constexpr</var> argument to
+    <code class="Ic">RB</code>, <code class="Ic">RW</code>, or
+    <code class="Ic">RL</code> is omitted, it's assumed to be 1.</p>
 <p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
     following the name are not allowed.</p>
 <p class="Pp">Declaring an offset constant with <code class="Ic">EXPORT
@@ -1567,14 +1573,14 @@ DEF str_SIZEOF EQU 259</pre>
     constants in their names.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>DEF COUNTREG EQUS &quot;[hl+]&quot;
-    ld a,COUNTREG
+    ld a, COUNTREG
 
 DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
     db PLAYER_NAME</pre>
 </div>
 <p class="Pp">This will be interpreted as:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>    ld a,[hl+]
+<pre>    ld a, [hl+]
     db &quot;John&quot;</pre>
 </div>
 <p class="Pp">String constants can also be used to define small one-line
@@ -1609,8 +1615,8 @@ PRINTLN &quot;{s}\n&quot;</pre>
     on input using <code class="Ic">IF</code> constructs.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO MyMacro
-         ld a, 80
-         call MyFunc
+    ld a, 80
+    call MyFunc
 ENDM</pre>
 </div>
 <p class="Pp">The example above defines
@@ -1623,8 +1629,8 @@ ENDM</pre>
 <pre>MACRO outer
     MACRO inner
         PRINTLN &quot;Hello!&quot;
-    ENDM
-ENDM</pre>
+    ENDM ; this actually ends the 'outer' macro...
+ENDM     ; ...and then this is a syntax error!</pre>
 </div>
 <p class="Pp">But this will:</p>
 <div class="Bd Pp Bd-indent Li">
@@ -1666,14 +1672,14 @@ LabelA:</pre>
 <pre>SECTION &quot;b&quot;, WRAM0
 ExportedLabelB1::
 ExportedLabelB2:
-	EXPORT ExportedLabelB2</pre>
+    EXPORT ExportedLabelB2</pre>
 </div>
 <p class="Pp">&#x2018;<code class="Li">c.asm</code>&#x2019;:</p>
 <div class="Bd Bd-indent Li">
 <pre>SECTION &quot;C&quot;, ROM0[0]
-	dw LabelA
-	dw ExportedLabelB1
-	dw ExportedLabelB2</pre>
+    dw LabelA
+    dw ExportedLabelB1
+    dw ExportedLabelB2</pre>
 </div>
 <p class="Pp">Then &#x2018;<code class="Li">c.asm</code>&#x2019; can use
     &#x2018;<code class="Li">ExportedLabelB1</code>&#x2019; and
@@ -1910,7 +1916,7 @@ INCBIN &quot;sprites/hero.bin&quot;</pre>
     <code class="Ic">INCBIN</code>. The example below includes 256 bytes from
     data.bin, starting from byte 78.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>INCBIN &quot;data.bin&quot;,78,256</pre>
+<pre>INCBIN &quot;data.bin&quot;, 78, 256</pre>
 </div>
 <p class="Pp">The length argument is optional. If only the start position is
     specified, the bytes from the start position until the end of the file will
@@ -1967,10 +1973,10 @@ VideoBuffer: ds 19
   macros</a></h3>
 <p class="Pp">You execute the macro by inserting its name.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>         add a,b
-         ld sp,hl
-         MyMacro ;&#x00A0;This will be expanded
-         sub a,87</pre>
+<pre>    add a, b
+    ld sp, hl
+    MyMacro ;&#x00A0;This will be expanded
+    sub a, 87</pre>
 </div>
 <p class="Pp">It's valid to call a macro from a macro (yes, even the same
   one).</p>
@@ -1981,10 +1987,11 @@ VideoBuffer: ds 19
 <p class="Pp">Suppose your macro contains a loop.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO LoopyMacro
-            xor  a,a
-.loop       ld   [hl+],a
-            dec  c
-            jr   nz,.loop
+    xor a, a
+.loop
+    ld [hl+], a
+    dec  c
+    jr nz, .loop
 ENDM</pre>
 </div>
 <p class="Pp">This is fine, but only if you use the macro no more than once per
@@ -1994,10 +2001,11 @@ ENDM</pre>
     <code class="Ic">REPT</code> blocks.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO LoopyMacro
-            xor  a,a
-.loop\@     ld   [hl+],a
-            dec  c
-            jr   nz,.loop\@
+    xor a, a
+.loop\@
+    ld [hl+], a
+    dec c
+    jr nz, .loop\@
 ENDM</pre>
 </div>
 <p class="Pp"><b class="Sy">Important note</b>: Since a macro can call itself
@@ -2014,19 +2022,20 @@ ENDM</pre>
     first argument specified on the macro invocation.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO LoopyMacro
-            ld   hl,\1
-            ld   c,\2
-            xor  a,a
-.loop\@     ld   [hl+],a
-            dec  c
-            jr   nz,.loop\@
-            ENDM</pre>
+    ld hl, \1
+    ld c, \2
+    xor a, a
+.loop\@
+    ld [hl+], a
+    dec c
+    jr nz, .loop\@
+ENDM</pre>
 </div>
 <p class="Pp">Now you can call the macro specifying two arguments, the first
     being the address and the second being a byte count. The generated code will
     then reset all bytes in this range.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>LoopyMacro MyVars,54</pre>
+<pre>    LoopyMacro MyVars, 54</pre>
 </div>
 <p class="Pp">Arguments are passed as string constants, although there's no need
     to enclose them in quotes. Thus, an expression will not be evaluated first
@@ -2128,10 +2137,10 @@ PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
     Everything between <code class="Ic">REPT</code> and the matching
     <code class="Ic">ENDR</code> will be repeated a number of times just as if
     you had done a copy/paste operation yourself. The following example will
-    assemble &#x2018;<code class="Li">add a,c</code>&#x2019; four times:</p>
+    assemble &#x2018;<code class="Li">add a, c</code>&#x2019; four times:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>REPT 4
-  add  a,c
+    add a, c
 ENDR</pre>
 </div>
 <p class="Pp">You can also use <code class="Ic">REPT</code> to generate tables
@@ -2156,21 +2165,21 @@ ENDR</pre>
     of squared values from 0 to 255:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>FOR N, 256
-      dw N * N
+    dw N * N
 ENDR</pre>
 </div>
 <p class="Pp">It acts just as if you had done:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>N = 0
-      dw N * N
-N = 1
-      dw N * N
-N = 2
-      dw N * N
+<pre>DEF N = 0
+    dw N * N
+DEF N = 1
+    dw N * N
+DEF N = 2
+    dw N * N
 ; ...
-N = 255
-      dw N * N
-N = 256</pre>
+DEF N = 255
+    dw N * N
+DEF N = 256</pre>
 </div>
 <p class="Pp">You can customize the range of <code class="Ic">FOR</code> values,
     similarly to Python's &#x2018;<code class="Li">range</code>&#x2019;
@@ -2217,10 +2226,10 @@ N = 256</pre>
   example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>FOR V, 4, 25, 5
-      PRINT &quot;{d:V} &quot;
-      DEF V *= 2
+    PRINT &quot;{d:V} &quot;
+    DEF V *= 2
 ENDR
-      PRINTLN &quot;done {d:V}&quot;</pre>
+    PRINTLN &quot;done {d:V}&quot;</pre>
 </div>
 <p class="Pp">This will print:</p>
 <div class="Bd Pp Bd-indent Li">
@@ -2237,14 +2246,14 @@ ENDR
     example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>FOR V, 1, 100
-      PRINT &quot;{d:V}&quot;
-      IF V == 5
-          PRINT &quot; stop! &quot;
-          BREAK
-      ENDC
-      PRINT &quot;, &quot;
+    PRINT &quot;{d:V}&quot;
+    IF V == 5
+        PRINT &quot; stop! &quot;
+        BREAK
+    ENDC
+    PRINT &quot;, &quot;
 ENDR
-      PRINTLN &quot;done {d:V}&quot;</pre>
+    PRINTLN &quot;done {d:V}&quot;</pre>
 </div>
 <p class="Pp">This will print:</p>
 <div class="Bd Pp Bd-indent Li">
@@ -2267,23 +2276,23 @@ ENDR
     <code class="Ic">STATIC_ASSERT</code>. Syntax examples are given below:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>Function:
-      xor a
+    xor a
 ASSERT LOW(MyByte) == 0
-      ld h, HIGH(MyByte)
-      ld l, a
-      ld a, [hli]
+    ld h, HIGH(MyByte)
+    ld l, a
+    ld a, [hli]
 ; You can also indent this!
-      ASSERT BANK(OtherFunction) == BANK(Function)
-      call OtherFunction
+    ASSERT BANK(OtherFunction) == BANK(Function)
+    call OtherFunction
 ; Lowercase also works
-      ld hl, FirstByte
-      ld a, [hli]
+    ld hl, FirstByte
+    ld a, [hli]
 assert FirstByte + 1 == SecondByte
-      ld b, [hl]
-      ret
+    ld b, [hl]
+    ret
 .end
-      ; If you specify one, a message will be printed
-      STATIC_ASSERT .end - Function &lt; 256, &quot;Function is too large!&quot;</pre>
+    ; If you specify one, a message will be printed
+    STATIC_ASSERT .end - Function &lt; 256, &quot;Function is too large!&quot;</pre>
 </div>
 <p class="Pp">First, the difference between <code class="Ic">ASSERT</code> and
     <code class="Ic">STATIC_ASSERT</code> is that the former is evaluated by
