@@ -2099,18 +2099,17 @@ ENDM
     &#x2018;<code class="Li">x = 10</code>&#x2019;, then
     &#x2018;<code class="Li">\&lt;v{d:x}&gt;</code>&#x2019; will expand to
     &#x2018;<code class="Li">\&lt;42&gt;</code>&#x2019;.</p>
-<p class="Pp">Another way to access more than nine macro arguments is the
-    <code class="Ic">SHIFT</code> command, a special command only available in
-    macros. It will shift the arguments by one to the left, and decrease
-    <code class="Dv">_NARG</code> by 1. <code class="Ic">\1</code> will get the
-    value of <code class="Ic">\2</code>, <code class="Ic">\2</code> will get the
-    value of <code class="Ic">\3</code>, and so forth.</p>
+<p class="Pp">The <code class="Ic">SHIFT</code> directive is only available
+    inside macros. It will shift the arguments by one to the left, and decrease
+    <code class="Dv">_NARG</code> by 1: <code class="Ic">\1</code> takes the
+    value of <code class="Ic">\2</code>, then <code class="Ic">\2</code> takes
+    the value of <code class="Ic">\3</code>, and so forth.</p>
 <p class="Pp"><code class="Ic">SHIFT</code> can optionally be given an integer
     parameter, and will apply the above shifting that number of times. A
     negative parameter will shift the arguments in reverse.</p>
-<p class="Pp"><code class="Ic">SHIFT</code> is useful in
-    <code class="Ic">REPT</code> blocks to repeat the same commands with
-    multiple arguments.</p>
+<p class="Pp"><code class="Ic">SHIFT</code> is especially useful in
+    <code class="Ic">REPT</code> loops, to repeat the same commands but with
+    different arguments each time.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
@@ -2124,7 +2123,6 @@ ENDM
 PRINTLN &quot;Hello world!&quot;
 PRINT _NARG, &quot; arguments\n&quot;
 PRINTLN &quot;sum: &quot;, 2+3, &quot; product: &quot;, 2*3
-PRINTLN &quot;Line #&quot;, __LINE__
 PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
 </div>
 <dl class="Bl-inset">
