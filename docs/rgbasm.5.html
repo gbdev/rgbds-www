@@ -1300,7 +1300,14 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
     Additionally, label names can contain up to a single dot
     &#x2018;<code class="Li">.</code>&#x2019;, which may not be the first
     character.</p>
-<p class="Pp">A symbol cannot have the same name as a reserved keyword.</p>
+<p class="Pp">A symbol cannot have the same name as a reserved keyword, unless
+    it is prefixed by a hash &#x2018;#&#x2019;. For example,
+    &#x2018;<code class="Li">#load</code>&#x2019; denotes a symbol named
+    &#x2018;<code class="Li">load</code>&#x2019;, and
+    &#x2018;<code class="Li">#LOAD</code>&#x2019; denotes a different symbol
+    named &#x2018;<code class="Li">LOAD</code>&#x2019;; in both cases the
+    &#x2018;#&#x2019; prevents them from being treated as the keyword
+    <code class="Ic">LOAD</code>.</p>
 <section class="Ss">
 <h3 class="Ss" id="Labels"><a class="permalink" href="#Labels">Labels</a></h3>
 <p class="Pp">One of the assembler's main tasks is to keep track of addresses
