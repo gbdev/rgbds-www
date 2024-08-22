@@ -94,9 +94,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        { name: "og:image", content: "https://rgbds.gbdev.io/img/logo.png" },
-        { name: "og:image:width", content: "128" },
-        { name: "og:image:height", content: "128" },
+        { name: "og:image", content: "https://rgbds.gbdev.io/img/logo-lock.png" },
+        { name: "og:image:width", content: "1002" },
+        { name: "og:image:height", content: "250" },
         { name: "og:image:alt", content: "RGBDS' logo" },
         { name: "twitter:site", content: "@gbdev0" },
       ],
