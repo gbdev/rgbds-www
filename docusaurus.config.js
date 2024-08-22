@@ -32,6 +32,7 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "gbdev",
   projectName: "rgbds-www",
+  trailingSlash: false,
 
   presets: [
     [

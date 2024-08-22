@@ -31,13 +31,6 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-          for version in build/docs/{v*,master}; do
-            for f in "$version"/*/index.html; do
-              [ -e "$f" ] || continue
-              mv -v "$f" "${f%/index.html}.html"
-              rmdir --ignore-fail-on-non-empty "${f%index.html}"
-            done
-          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
