@@ -56,7 +56,10 @@ const config = {
         sitemap: {
           lastmod: "date",
           changefreq: "monthly",
-        }
+        },
+        pages: {
+          editUrl: "https://github.com/gbdev/rgbds-www/tree/master",
+        },
       },
     ],
   ],
