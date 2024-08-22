@@ -1947,33 +1947,42 @@ INCBIN &quot;sprites/hero.bin&quot;</pre>
     <code class="Ic">NEXTU</code> separates each block of allocations, and you
     may use it as many times within a union as necessary.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>    ; Let's say PC = $C0DE here
-    UNION
-    ; Here, PC = $C0DE
-Name: ds 8
-    ; PC = $C0E6
-Nickname: ds 8
-    ; PC = $C0EE
-    NEXTU
+<pre>; Let's say PC == $C0DE here
+UNION
+    ; Here, PC == $C0DE
+    wName:: ds 10
+    ; Now, PC == $C0E8
+    wNickname:: ds 10
+    ; PC == $C0F2
+NEXTU
     ; PC is back to $C0DE
-Health: dw
-    ; PC = $C0E0
-Something: ds 6
-    ; And so on
-Lives: db
-    NEXTU
-VideoBuffer: ds 19
-    ENDU</pre>
+    wHealth:: dw
+    ; PC == $C0E0
+    wLives:: db
+    ; PC == $C0E1
+    ds 7
+    ; PC == $C0E8
+    wBonus:: db
+    ; PC == $C0E9
+NEXTU
+    ; PC is back to $C0DE again
+    wVideoBuffer: ds 16
+    ; PC == $C0EE
+ENDU
+; Afterward, PC == $C0F2</pre>
 </div>
-<p class="Pp">In the example above, &#x2018;Name, Health, VideoBuffer&#x2019;
-    all have the same value, as do &#x2018;Nickname&#x2019; and
-    &#x2018;Lives&#x2019;. Thus, keep in mind that &#x2018;<code class="Li">ld
-    [Health], a</code>&#x2019; is identical to &#x2018;<code class="Li">ld
-    [Name], a</code>&#x2019;.</p>
-<p class="Pp">The size of this union is 19 bytes, as this is the size of the
-    largest block (the last one, containing &#x2018;VideoBuffer&#x2019;).
-    Nesting unions is possible, with each inner union's size being considered as
-    described above.</p>
+<p class="Pp">In the example above, &#x2018;wName, wHealth&#x2019;, and
+    &#x2018;wVideoBuffer&#x2019; all have the same value; so do
+    &#x2018;wNickname&#x2019; and &#x2018;wBonus&#x2019;. Thus, keep in mind
+    that &#x2018;<code class="Li">ld [wHealth], a</code>&#x2019; assembles to
+    the exact same thing as &#x2018;<code class="Li">ld [wName],
+    a</code>&#x2019;.</p>
+<p class="Pp">This whole union's total size is 20 bytes, the size of the largest
+    block (the first one, containing &#x2018;wName&#x2019; and
+    &#x2018;wNickname&#x2019;).</p>
+<p class="Pp">Unions may be nested, with each inner union's size being
+    determined as above, and affecting its outer union like any other
+    allocation.</p>
 <p class="Pp">Unions may be used in any section, but they may only contain
     space-allocating directives like <code class="Ic">DS</code> (see
     <a class="Sx" href="#Statically_allocating_space_in_RAM">Statically
@@ -1986,12 +1995,14 @@ VideoBuffer: ds 19
 <section class="Ss">
 <h3 class="Ss" id="Invoking_macros"><a class="permalink" href="#Invoking_macros">Invoking
   macros</a></h3>
-<p class="Pp">You execute the macro by inserting its name.</p>
+<p class="Pp">A macro is invoked by writing its name at the beginning of a line,
+    followed by any arguments.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>    add a, b
     ld sp, hl
-    MyMacro ;&#x00A0;This will be expanded
-    sub a, 87</pre>
+    MyMacro    ;&#x00A0;This will be expanded
+    sub a, 87
+    MyMacro 42 ;&#x00A0;So will this</pre>
 </div>
 <p class="Pp">It's valid to call a macro from a macro (yes, even the same
   one).</p>
