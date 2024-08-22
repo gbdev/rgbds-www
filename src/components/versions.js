@@ -1,4 +1,4 @@
-const versions = require("../../versions.json");
+import versions from "../../versions.json";
 const latestStable = versions.find((id) => id.indexOf("-") == -1);
 
-module.exports = { versions, latestStable };
+export { versions, latestStable };

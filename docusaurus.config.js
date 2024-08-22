@@ -1,10 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const {
-  versions: versionList,
-  latestStable,
-} = require("./src/components/versions.js");
+import { latestStable } from "./src/components/versions.js";
 
 const versions = {
   current: {
@@ -218,4 +215,4 @@ const config = {
     }),
 };
 
-module.exports = config;
+export default config;
