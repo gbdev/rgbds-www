@@ -176,18 +176,13 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "Printing things during assembly",
-	"id": "Printing_things_during_assembly",
-	"level": 3,
-},
-{
 	"value": "Automatically repeating blocks of code",
 	"id": "Automatically_repeating_blocks_of_code",
 	"level": 3,
 },
 {
-	"value": "Aborting the assembly process",
-	"id": "Aborting_the_assembly_process",
+	"value": "Conditionally assembling blocks of code",
+	"id": "Conditionally_assembling_blocks_of_code",
 	"level": 3,
 },
 {
@@ -196,8 +191,13 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "Conditional assembling",
-	"id": "Conditional_assembling",
+	"value": "Printing things during assembly",
+	"id": "Printing_things_during_assembly",
+	"level": 3,
+},
+{
+	"value": "Aborting the assembly process",
+	"id": "Aborting_the_assembly_process",
 	"level": 3,
 },
 {

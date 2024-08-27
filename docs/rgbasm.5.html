@@ -132,11 +132,9 @@ PURGE topic, meaning, {meaning}</pre>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;prefix&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
-      the appropriate prefix for numbers,
-      &#x2018;<code class="Li">$</code>&#x2019;,
-      &#x2018;<code class="Li">&amp;</code>&#x2019;, or
-      &#x2018;<code class="Li">%</code>&#x2019;.</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints a
+      base prefix for non-decimal integer types (&#x2018;$&#x2019;,
+      &#x2018;&amp;&#x2019;, or &#x2018;%&#x2019;).</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
@@ -159,8 +157,8 @@ PURGE topic, meaning, {meaning}</pre>
     <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by one or more
       &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
       &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
-      digits of a fixed-point fraction. Defaults to 5 digits, maximum 255
-      digits.</td>
+      fractional digits of a fixed-point number. Defaults to 5 digits, maximum
+      255 digits.</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
@@ -171,8 +169,8 @@ PURGE topic, meaning, {meaning}</pre>
     &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. Valid print types
   are:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Print">
-    <td><a class="permalink" href="#Print"><b class="Sy">Print type</b></a></td>
+  <tr id="Type">
+    <td><a class="permalink" href="#Type"><b class="Sy">Type</b></a></td>
     <td><a class="permalink" href="#Format"><b class="Sy" id="Format">Format</b></a></td>
     <td><a class="permalink" href="#Example"><b class="Sy" id="Example">Example</b></a></td>
   </tr>
@@ -214,7 +212,7 @@ PURGE topic, meaning, {meaning}</pre>
   <tr>
     <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
     <td>String</td>
-    <td>&quot;example&quot;</td>
+    <td>string contents</td>
   </tr>
 </table>
 <p class="Pp">Examples:</p>
@@ -689,60 +687,43 @@ ENDR</pre>
     treated differently from normal. There are a number of escape sequences you
     can use within a string:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="String">
-    <td><a class="permalink" href="#String"><b class="Sy">String</b></a></td>
+  <tr id="Sequence">
+    <td><a class="permalink" href="#Sequence"><b class="Sy">Sequence</b></a></td>
     <td><a class="permalink" href="#Meaning~3"><b class="Sy" id="Meaning~3">Meaning</b></a></td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\\</code>&#x2019;</td>
-    <td>Produces a backslash</td>
+    <td>Backslash (escapes the escape character itself)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\&quot;</code>&#x2019;</td>
-    <td>Produces a double quote without terminating</td>
+    <td>Double quote (does not terminate the string)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\{</code>&#x2019;</td>
-    <td>Curly bracket left</td>
+    <td>Open curly brace (does not start interpolation)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\}</code>&#x2019;</td>
-    <td>Curly bracket right</td>
+    <td>Close curly brace (does not end interpolation)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\n</code>&#x2019;</td>
-    <td>Newline ($0A)</td>
+    <td>Newline (ASCII $0A)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\r</code>&#x2019;</td>
-    <td>Carriage return ($0D)</td>
+    <td>Carriage return (ASCII $0D)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\t</code>&#x2019;</td>
-    <td>Tab ($09)</td>
+    <td>Tab (ASCII $09)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\0</code>&#x2019;</td>
-    <td>Null ($00)</td>
-  </tr>
-  <tr>
-    <td>&quot;\1&quot; &#x2013; &quot;\9&quot;</td>
-    <td>Macro argument (Only in the body of a macro; see
-      <a class="Sx" href="#Invoking_macros">Invoking macros</a>)</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\#</code>&#x2019;</td>
-    <td>All <code class="Dv">_NARG</code> <span class="No">macro arguments,
-      separated by commas</span> (Only in the body of a macro)</td>
-  </tr>
-  <tr>
-    <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
-    <td>Label name suffix (Only in the body of a macro or a
-      <code class="Ic">REPT</code> <span class="No">block</span>)</td>
+    <td>Null (ASCII $00)</td>
   </tr>
 </table>
-(Note that some of those can be used outside of strings, when noted further in
-  this document.)
 <p class="Pp">Multi-line strings are contained in triple quotes
     (&#x2018;<code class="Li">&quot;&quot;&quot;for
     instance&quot;&quot;&quot;</code>&#x2019;). Escape sequences work the same
@@ -1085,9 +1066,10 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
     <div class="Bd Pp Bd-indent Li">
     <pre>SECTION &quot;Cool Stuff&quot;, ROMX</pre>
     </div>
-    This switches to the section called &#x201C;CoolStuff&#x201D;, creating it
-      if it doesn't already exist. It can end up in any ROM bank. Code and data
-      may follow.</li>
+    <p class="Pp">This switches to the section called &#x201C;CoolStuff&#x201D;,
+        creating it if it doesn't already exist. It can end up in any ROM bank.
+        Code and data may follow.</p>
+  </li>
   <li>If it is needed, the the base address of the section can be specified:
     <div class="Bd Pp Bd-indent Li">
     <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567]</pre>
@@ -1291,7 +1273,7 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
   <dt id="Macro"><a class="permalink" href="#Macro"><b class="Sy">Macro</b></a></dt>
   <dd>A block of <code class="Nm">rgbasm</code> code that can be invoked
     later.</dd>
-  <dt id="String~2"><a class="permalink" href="#String~2"><b class="Sy">String</b></a></dt>
+  <dt id="String"><a class="permalink" href="#String"><b class="Sy">String</b></a></dt>
   <dd>A text string that can be expanded later, similarly to a macro.</dd>
 </dl>
 <p class="Pp">Symbol names can contain ASCII letters, numbers, underscores
@@ -1578,8 +1560,8 @@ DEF str_SIZEOF EQU 259</pre>
 <p class="Pp"><code class="Ic">EQUS</code> is used to define string constant
     symbols. Wherever the assembler reads a string constant, it gets
     <a class="permalink" href="#expanded"><i class="Em" id="expanded">expanded</i></a>:
-    the symbol's name is replaced with its contents. If you are familiar with C,
-    you can think of it as similar to <code class="Fd">#define .</code> This
+    the symbol's name is replaced with its contents, similarly to
+    <code class="Ic">#define</code> in the C programming language. This
     expansion is disabled in a few contexts:
     &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
     &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
@@ -1617,11 +1599,12 @@ PRINTLN &quot;{s}\n&quot;</pre>
 <p class="Pp">String constants can't be exported or imported.</p>
 <p class="Pp"><b class="Sy">Important note</b>: When a string constant is
     expanded, its expansion may contain another string constant, which will be
-    expanded as well. If this creates an infinite loop,
+    expanded as well, and may be recursive. If this creates an infinite loop,
     <code class="Nm">rgbasm</code> will error out once a certain depth is
-    reached. See the <code class="Fl">-r</code> command-line option in
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>. The same problem can occur if
-    the expansion of a macro invokes another macro, recursively.</p>
+    reached (see the <code class="Fl">-r</code> command-line option in
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>). The same problem can occur
+    if the expansion of a string constant invokes a macro, which itself
+  expands.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Macros"><a class="permalink" href="#Macros">Macros</a></h3>
@@ -1629,17 +1612,16 @@ PRINTLN &quot;{s}\n&quot;</pre>
     macros for it. Macros can be called with arguments, and can react depending
     on input using <code class="Ic">IF</code> constructs.</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>MACRO MyMacro
+<pre>MACRO my_macro
     ld a, 80
     call MyFunc
 ENDM</pre>
 </div>
 <p class="Pp">The example above defines
-    &#x2018;<code class="Li">MyMacro</code>&#x2019; as a new macro. String
+    &#x2018;<code class="Li">my_macro</code>&#x2019; as a new macro. String
     constants are not expanded within the name of the macro.</p>
 <p class="Pp">Macros can't be exported or imported.</p>
-<p class="Pp">Plainly nesting macro definitions is not allowed, but this can be
-    worked around using <code class="Ic">EQUS</code>. So this won't work:</p>
+<p class="Pp">Nesting macro definitions is not possible, so this won't work:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO outer
     MACRO inner
@@ -1647,19 +1629,17 @@ ENDM</pre>
     ENDM ; this actually ends the 'outer' macro...
 ENDM     ; ...and then this is a syntax error!</pre>
 </div>
-<p class="Pp">But this will:</p>
+<p class="Pp">But you can work around this limitation using
+    <code class="Ic">EQUS</code>, so this will work:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>MACRO outer
-DEF definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
+    DEF definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
     definition
     PURGE definition
 ENDM</pre>
 </div>
-<p class="Pp">Macro arguments support all the escape sequences of strings, as
-    well as &#x2018;<code class="Li">\,</code>&#x2019; to escape commas, as well
-    as &#x2018;<code class="Li">\(</code>&#x2019; and
-    &#x2018;<code class="Li">\)</code>&#x2019; to escape parentheses, since
-    those otherwise separate and enclose arguments, respectively.</p>
+<p class="Pp">More about how to define and invoke macros is described in
+    <a class="Sx" href="#THE_MACRO_LANGUAGE">THE MACRO LANGUAGE</a> below.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Exporting_and_importing_symbols"><a class="permalink" href="#Exporting_and_importing_symbols">Exporting
@@ -1736,7 +1716,7 @@ ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
 <table class="Bl-column Bd-indent">
   <tr id="Name~5">
     <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Type"><b class="Sy" id="Type">Type</b></a></td>
+    <td><a class="permalink" href="#Type~2"><b class="Sy" id="Type~2">Type</b></a></td>
     <td><a class="permalink" href="#Contents"><b class="Sy" id="Contents">Contents</b></a></td>
   </tr>
   <tr id="@">
@@ -1995,89 +1975,82 @@ ENDU
 <section class="Ss">
 <h3 class="Ss" id="Invoking_macros"><a class="permalink" href="#Invoking_macros">Invoking
   macros</a></h3>
-<p class="Pp">A macro is invoked by writing its name at the beginning of a line,
-    followed by any arguments.</p>
+<p class="Pp">A macro is invoked by using its name at the beginning of a line,
+    like a directive, followed by any comma-separated arguments.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>    add a, b
     ld sp, hl
-    MyMacro    ;&#x00A0;This will be expanded
+    my_macro      ;&#x00A0;This will be expanded
     sub a, 87
-    MyMacro 42 ;&#x00A0;So will this</pre>
+    my_macro 42   ;&#x00A0;So will this
+    ret c
+    my_macro 1, 2 ;&#x00A0;And this</pre>
 </div>
-<p class="Pp">It's valid to call a macro from a macro (yes, even the same
-  one).</p>
-<p class="Pp">When <code class="Nm">rgbasm</code> sees
-    <code class="Ic">MyMacro</code> it will insert the macro definition (the
-    code enclosed in <code class="Ic">MACRO</code> /
-    <code class="Ic">ENDM</code>).</p>
-<p class="Pp">Suppose your macro contains a loop.</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>MACRO LoopyMacro
-    xor a, a
-.loop
-    ld [hl+], a
-    dec  c
-    jr nz, .loop
-ENDM</pre>
-</div>
-<p class="Pp">This is fine, but only if you use the macro no more than once per
-    scope. To get around this problem, there is the escape sequence
-    <code class="Ic">\@</code> that expands to a unique string.</p>
-<p class="Pp"><code class="Ic">\@</code> also works in
-    <code class="Ic">REPT</code> blocks.</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>MACRO LoopyMacro
-    xor a, a
-.loop\@
-    ld [hl+], a
-    dec c
-    jr nz, .loop\@
-ENDM</pre>
-</div>
-<p class="Pp"><b class="Sy">Important note</b>: Since a macro can call itself
-    (or a different macro that calls the first one), there can be circular
-    dependency problems. If this creates an infinite loop,
+<p class="Pp">After <code class="Nm">rgbasm</code> has read the macro invocation
+    line, it will expand the body of the macro (the lines between
+    <code class="Ic">MACRO</code> and <code class="Ic">ENDM</code>) in its
+    place.</p>
+<p class="Pp"><b class="Sy">Important note</b>: When a macro body is expanded,
+    its expansion may contain another macro invocation, which will be expanded
+    as well, and may be recursive. If this creates an infinite loop,
     <code class="Nm">rgbasm</code> will error out once a certain depth is
-    reached. See the <code class="Fl">-r</code> command-line option in
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>. Also, a macro can have inside
-    an <b class="Sy">EQUS</b> which references the same macro, which has the
-    same problem.</p>
-<p class="Pp">It's possible to pass arguments to macros as well! You retrieve
-    the arguments by using the escape sequences <code class="Ic">\1</code>
-    through <code class="Ic">\9</code>, <code class="Ic">\1</code> being the
-    first argument specified on the macro invocation.</p>
+    reached (see the <code class="Fl">-r</code> command-line option in
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>). The same problem can occur
+    if the expansion of a macro then expands a string constant, which itself
+    expands.</p>
+<p class="Pp">It's possible to pass arguments to macros as well!</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>MACRO LoopyMacro
-    ld hl, \1
-    ld c, \2
-    xor a, a
-.loop\@
-    ld [hl+], a
-    dec c
-    jr nz, .loop\@
-ENDM</pre>
-</div>
-<p class="Pp">Now you can call the macro specifying two arguments, the first
-    being the address and the second being a byte count. The generated code will
-    then reset all bytes in this range.</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>    LoopyMacro MyVars, 54</pre>
-</div>
-<p class="Pp">Arguments are passed as string constants, although there's no need
-    to enclose them in quotes. Thus, an expression will not be evaluated first
-    but kind of copy-pasted. This means that it's probably a very good idea to
-    use brackets around <code class="Ic">\1</code> to <code class="Ic">\9</code>
-    if you perform further calculations on them. For instance, consider the
-    following:</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>MACRO print_double
-    PRINTLN \1 * 2
+<pre>MACRO lb
+    ld \1, (\2) &lt;&lt; 8 | (\3)
 ENDM
-    print_double 1 + 2</pre>
+    lb hl, 20, 18        ; Expands to &quot;ld hl, ((20) &lt;&lt; 8) | (18)&quot;
+    lb de, 3 + 1, NUM**2 ; Expands to &quot;ld de, ((3 + 1) &lt;&lt; 8) | (NUM**2)&quot;</pre>
 </div>
-<p class="Pp">The <code class="Ic">PRINTLN</code> statement will expand to
-    &#x2018;<code class="Li">PRINTLN 1 + 2 * 2</code>&#x2019;, which will print
-    5 and not 6 as you might have expected.</p>
+<p class="Pp">You expand the arguments inside the macro body by using the escape
+    sequences <code class="Ic">\1</code> through <code class="Ic">\9</code>,
+    <code class="Ic">\1</code> being the first argument,
+    <code class="Ic">\2</code> being the second, and so on. Since there are only
+    nine digits, you can only use the first nine macro arguments that way. To
+    use the rest, you put the argument number in angle brackets, like
+    <code class="Ic">\&lt;10&gt;</code>.</p>
+<p class="Pp">This bracketed syntax supports decimal numbers and numeric
+    constant symbols. For example,
+    &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; will get the last
+    argument.</p>
+<p class="Pp">Other macro arguments and symbol interpolations will also be
+    expanded inside the angle brackets. For example, if
+    &#x2018;<code class="Li">\1</code>&#x2019; is
+    &#x2018;<code class="Li">13</code>&#x2019;, then
+    &#x2018;<code class="Li">\&lt;\1&gt;</code>&#x2019; inside the macro body
+    will expand to &#x2018;<code class="Li">\&lt;13&gt;</code>&#x2019;. Or if
+    &#x2018;<code class="Li">DEF v10 = 42</code>&#x2019; and
+    &#x2018;<code class="Li">DEF x = 10</code>&#x2019;, then
+    &#x2018;<code class="Li">\&lt;v{d:x}&gt;</code>&#x2019; will expand to
+    &#x2018;<code class="Li">\&lt;42&gt;</code>&#x2019;.</p>
+<p class="Pp">Macro arguments are passed as string constants, although there's
+    no need to enclose them in quotes. Thus, arguments are not evaluated as
+    expressions, but instead are expanded directly inside the macro body. This
+    means that they support all the escape sequences of strings (see
+    <a class="Sx" href="#String_expressions">String expressions</a> above), as
+    well as some of their own:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Sequence~2">
+    <td><a class="permalink" href="#Sequence~2"><b class="Sy">Sequence</b></a></td>
+    <td><a class="permalink" href="#Meaning~7"><b class="Sy" id="Meaning~7">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\,</code>&#x2019;</td>
+    <td>Comma (does not terminate the argument)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\(</code>&#x2019;</td>
+    <td>Open parenthesis (does not start enclosing argument contents)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\)</code>&#x2019;</td>
+    <td>Close parenthesis (does not end enclosing argument contents)</td>
+  </tr>
+</table>
 <p class="Pp">Line continuations work as usual inside macros or lists of macro
     arguments. However, some characters need to be escaped, as in the following
     example:</p>
@@ -2096,67 +2069,95 @@ ENDM
 <p class="Pp">The comma in &#x2018;<code class="Li">PrintMacro1</code>&#x2019;
     needs to be escaped to prevent it from starting another macro argument. The
     comma in &#x2018;<code class="Li">PrintMacro2</code>&#x2019; does not need
-    escaping because it is inside parentheses, similar to macro arguments in C.
-    The backslash in &#x2018;<code class="Li">\n</code>&#x2019; also does not
-    need escaping because string literals work as usual inside macro
-  arguments.</p>
-<p class="Pp">Since there are only nine digits, you can only access the first
-    nine macro arguments like this. To use the rest, you need to put the
-    multi-digit argument number in angle brackets, like
-    &#x2018;<code class="Li">\&lt;10&gt;</code>&#x2019;. This bracketed syntax
-    supports decimal numbers and numeric constant symbols. For example,
-    &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; will get the last
-    argument.</p>
-<p class="Pp">Other macro arguments and symbol interpolations will be expanded
-    inside the angle brackets. For example, if
-    &#x2018;<code class="Li">\1</code>&#x2019; is
-    &#x2018;<code class="Li">13</code>&#x2019;, then
-    &#x2018;<code class="Li">\&lt;\1&gt;</code>&#x2019; will expand to
-    &#x2018;<code class="Li">\&lt;13&gt;</code>&#x2019;. Or if
-    &#x2018;<code class="Li">v10 = 42</code>&#x2019; and
-    &#x2018;<code class="Li">x = 10</code>&#x2019;, then
-    &#x2018;<code class="Li">\&lt;v{d:x}&gt;</code>&#x2019; will expand to
-    &#x2018;<code class="Li">\&lt;42&gt;</code>&#x2019;.</p>
-<p class="Pp">The <code class="Ic">SHIFT</code> directive is only available
-    inside macros. It will shift the arguments by one to the left, and decrease
-    <code class="Dv">_NARG</code> by 1: <code class="Ic">\1</code> takes the
-    value of <code class="Ic">\2</code>, then <code class="Ic">\2</code> takes
-    the value of <code class="Ic">\3</code>, and so forth.</p>
-<p class="Pp"><code class="Ic">SHIFT</code> can optionally be given an integer
-    parameter, and will apply the above shifting that number of times. A
-    negative parameter will shift the arguments in reverse.</p>
-<p class="Pp"><code class="Ic">SHIFT</code> is especially useful in
-    <code class="Ic">REPT</code> loops, to repeat the same commands but with
-    different arguments each time.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
-  things during assembly</a></h3>
-<p class="Pp">The <code class="Ic">PRINT</code> and
-    <code class="Ic">PRINTLN</code> commands print text and values to the
-    standard output. Useful for debugging macros, or wherever you may feel the
-    need to tell yourself some important information.</p>
+    escaping because it is inside parentheses, similar to macro arguments in the
+    C programming language. The backslash in
+    &#x2018;<code class="Li">\n</code>&#x2019; also does not need escaping
+    because quoted string literals work as usual inside macro arguments.</p>
+<p class="Pp">Since macro arguments are expanded directly, it's often a good
+    idea to put parentheses around them if they're meant as part of a numeric
+    expression. For instance, consider the following:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>PRINT &quot;Hello world!\n&quot;
-PRINTLN &quot;Hello world!&quot;
-PRINT _NARG, &quot; arguments\n&quot;
-PRINTLN &quot;sum: &quot;, 2+3, &quot; product: &quot;, 2*3
-PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
+<pre>MACRO print_double
+    PRINTLN \1 * 3
+ENDM
+    print_double 1 + 2</pre>
 </div>
-<dl class="Bl-inset">
-  <dt id="PRINT"><a class="permalink" href="#PRINT"><code class="Ic">PRINT</code></a></dt>
-  <dd>prints out each of its comma-separated arguments. Numbers are printed as
-      unsigned uppercase hexadecimal with a leading &#x2018;$&#x2019;. For
-      different formats, use <code class="Ic">STRFMT</code>.</dd>
-  <dt id="PRINTLN"><a class="permalink" href="#PRINTLN"><code class="Ic">PRINTLN</code></a></dt>
-  <dd>prints out each of its comma-separated arguments, if any, followed by a
-      line feed (&#x2018;<code class="Li">\n</code>&#x2019;).</dd>
-</dl>
+<p class="Pp">The body will expand to &#x2018;<code class="Li">PRINTLN 1 + 2 *
+    3</code>&#x2019;, which will print 7 and not 9 as you might have
+  expected.</p>
+<p class="Pp">The <code class="Ic">SHIFT</code> directive is only available
+    inside macro bodies. It shifts the argument numbers by one to the left, so
+    what was <code class="Ic">\2</code> is now <code class="Ic">\1</code>, what
+    was <code class="Ic">\3</code> is now <code class="Ic">\2</code>, and so
+    forth. (What was <code class="Ic">\1</code> is no longer accessible, so
+    <code class="Dv">_NARG</code> is decreased by 1.)</p>
+<p class="Pp"><code class="Ic">SHIFT</code> can also take an integer parameter
+    to shift that many times instead of once. A negative parameter will shift
+    the arguments to the right, which can regain access to previously shifted
+    ones.</p>
+<p class="Pp"><code class="Ic">SHIFT</code> is especially useful in
+    <code class="Ic">REPT</code> loops to iterate over different arguments,
+    evaluating the same loop body each time.</p>
+<p class="Pp">There are some escape sequences which are only valid inside the
+    body of a macro:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Sequence~3">
+    <td><a class="permalink" href="#Sequence~3"><b class="Sy">Sequence</b></a></td>
+    <td><a class="permalink" href="#Meaning~8"><b class="Sy" id="Meaning~8">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;\1&#x2019; &#x2013; &#x2018;\9&#x2019;</td>
+    <td>The 1st&#x2013;9th macro argument</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\&lt;...&gt;</code>&#x2019;</td>
+    <td>Further macro arguments</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\#</code>&#x2019;</td>
+    <td>All <code class="Dv">_NARG</code> <span class="No">macro arguments,
+      separated by commas</span></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
+    <td>Unique symbol name affix (see below)</td>
+  </tr>
+</table>
+<p class="Pp">The <code class="Ic">\@</code> escape sequence is often useful in
+    macros which define symbols. Suppose your macro expands to a loop of
+    assembly code:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO loop_c_times
+    xor a, a
+.loop
+    ld [hl+], a
+    dec c
+    jr nz, .loop
+ENDM</pre>
+</div>
+<p class="Pp">If you use this macro more than once in the same label scope, it
+    will define &#x2018;<code class="Li">.loop</code>&#x2019; twice, which is an
+    error. To work around this problem, you can use <code class="Ic">\@</code>
+    as a label suffix:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO loop_c_times_fixed
+    xor a, a
+.loop\@
+    ld [hl+], a
+    dec c
+    jr nz, .loop\@
+ENDM</pre>
+</div>
+<p class="Pp">This will expand to a different value in each invocation, similar
+    to <code class="Ic">gensym</code> in the Lisp programming language.</p>
+<p class="Pp"><code class="Ic">\@</code> also works in
+    <code class="Ic">REPT</code> blocks, expanding to a different value in each
+    iteration.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Automatically_repeating_blocks_of_code"><a class="permalink" href="#Automatically_repeating_blocks_of_code">Automatically
   repeating blocks of code</a></h3>
-<p class="Pp">Suppose you want to unroll a time consuming loop without
+<p class="Pp">Suppose you want to unroll a time-consuming loop without
     copy-pasting it. <code class="Ic">REPT</code> is here for that purpose.
     Everything between <code class="Ic">REPT</code> and the matching
     <code class="Ic">ENDR</code> will be repeated a number of times just as if
@@ -2206,8 +2207,8 @@ DEF N = 255
 DEF N = 256</pre>
 </div>
 <p class="Pp">You can customize the range of <code class="Ic">FOR</code> values,
-    similarly to Python's &#x2018;<code class="Li">range</code>&#x2019;
-    function:</p>
+    similarly to the &#x2018;<code class="Li">range</code>&#x2019; function in
+    the Python programming language:</p>
 <table class="Bl-column">
   <tr id="Code">
     <td><a class="permalink" href="#Code"><b class="Sy">Code</b></a></td>
@@ -2285,6 +2286,76 @@ ENDR
 </div>
 </section>
 <section class="Ss">
+<h3 class="Ss" id="Conditionally_assembling_blocks_of_code"><a class="permalink" href="#Conditionally_assembling_blocks_of_code">Conditionally
+  assembling blocks of code</a></h3>
+<p class="Pp">The four commands <code class="Ic">IF</code>,
+    <code class="Ic">ELIF</code>, <code class="Ic">ELSE</code>, and
+    <code class="Ic">ENDC</code> let you have <code class="Nm">rgbasm</code>
+    skip over parts of your code depending on a condition. This is a powerful
+    feature commonly used in macros.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>IF NUM &lt; 0
+  PRINTLN &quot;NUM &lt; 0&quot;
+ELIF NUM == 0
+  PRINTLN &quot;NUM == 0&quot;
+ELSE
+  PRINTLN &quot;NUM &gt; 0&quot;
+ENDC</pre>
+</div>
+<p class="Pp">The <code class="Ic">ELIF</code> (standing for &quot;else
+    if&quot;) and <code class="Ic">ELSE</code> blocks are optional.
+    <code class="Ic">IF</code> / <code class="Ic">ELIF</code> /
+    <code class="Ic">ELSE</code> / <code class="Ic">ENDC</code> blocks can be
+    nested.</p>
+<p class="Pp">Note that if an <code class="Ic">ELSE</code> block is found before
+    an <code class="Ic">ELIF</code> block, the <code class="Ic">ELIF</code>
+    block will be ignored. All <code class="Ic">ELIF</code> blocks must go
+    before the <code class="Ic">ELSE</code> block. Also, if there is more than
+    one <code class="Ic">ELSE</code> block, all of them but the first one are
+    ignored.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Including_other_source_files"><a class="permalink" href="#Including_other_source_files">Including
+  other source files</a></h3>
+<p class="Pp">Use <code class="Ic">INCLUDE</code> to process another assembler
+    file and then return to the current file when done. If the file isn't found
+    in the current directory, the include path list (see the
+    <code class="Fl">-I</code> option in
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>) will be searched. You may
+    nest <code class="Ic">INCLUDE</code> calls infinitely (or until you run out
+    of memory, whichever comes first).</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    INCLUDE &quot;irq.inc&quot;</pre>
+</div>
+<p class="Pp">You may also implicitly <code class="Ic">INCLUDE</code> a file
+    before the source file with the <code class="Fl">-P</code> option of
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
+  things during assembly</a></h3>
+<p class="Pp">The <code class="Ic">PRINT</code> and
+    <code class="Ic">PRINTLN</code> commands print text and values to the
+    standard output. Useful for debugging macros, or wherever you may feel the
+    need to tell yourself some important information.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>PRINT &quot;Hello world!\n&quot;
+PRINTLN &quot;Hello world!&quot;
+PRINT _NARG, &quot; arguments\n&quot;
+PRINTLN &quot;sum: &quot;, 2+3, &quot; product: &quot;, 2*3
+PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
+</div>
+<dl class="Bl-inset">
+  <dt id="PRINT"><a class="permalink" href="#PRINT"><code class="Ic">PRINT</code></a></dt>
+  <dd>prints out each of its comma-separated arguments. Numbers are printed as
+      unsigned uppercase hexadecimal with a leading &#x2018;$&#x2019;. For
+      different formats, use <code class="Ic">STRFMT</code>.</dd>
+  <dt id="PRINTLN"><a class="permalink" href="#PRINTLN"><code class="Ic">PRINTLN</code></a></dt>
+  <dd>prints out each of its comma-separated arguments, if any, followed by a
+      line feed (&#x2018;<code class="Li">\n</code>&#x2019;).</dd>
+</dl>
+</section>
+<section class="Ss">
 <h3 class="Ss" id="Aborting_the_assembly_process"><a class="permalink" href="#Aborting_the_assembly_process">Aborting
   the assembly process</a></h3>
 <p class="Pp"><code class="Ic">FAIL</code> and <code class="Ic">WARN</code> can
@@ -2334,52 +2405,6 @@ assert FirstByte + 1 == SecondByte
     <code class="Fl">-Wassert</code>) to be emitted;
     <code class="Ic">FAIL</code> (the default) will cause a non-fatal error; and
     <code class="Ic">FATAL</code> immediately aborts.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Including_other_source_files"><a class="permalink" href="#Including_other_source_files">Including
-  other source files</a></h3>
-<p class="Pp">Use <code class="Ic">INCLUDE</code> to process another assembler
-    file and then return to the current file when done. If the file isn't found
-    in the current directory, the include path list (see the
-    <code class="Fl">-I</code> option in
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>) will be searched. You may
-    nest <code class="Ic">INCLUDE</code> calls infinitely (or until you run out
-    of memory, whichever comes first).</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>    INCLUDE &quot;irq.inc&quot;</pre>
-</div>
-<p class="Pp">You may also implicitly <code class="Ic">INCLUDE</code> a file
-    before the source file with the <code class="Fl">-P</code> option of
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Conditional_assembling"><a class="permalink" href="#Conditional_assembling">Conditional
-  assembling</a></h3>
-<p class="Pp">The four commands <code class="Ic">IF</code>,
-    <code class="Ic">ELIF</code>, <code class="Ic">ELSE</code>, and
-    <code class="Ic">ENDC</code> let you have <code class="Nm">rgbasm</code>
-    skip over parts of your code depending on a condition. This is a powerful
-    feature commonly used in macros.</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>IF NUM &lt; 0
-  PRINTLN &quot;NUM &lt; 0&quot;
-ELIF NUM == 0
-  PRINTLN &quot;NUM == 0&quot;
-ELSE
-  PRINTLN &quot;NUM &gt; 0&quot;
-ENDC</pre>
-</div>
-<p class="Pp">The <code class="Ic">ELIF</code> (standing for &quot;else
-    if&quot;) and <code class="Ic">ELSE</code> blocks are optional.
-    <code class="Ic">IF</code> / <code class="Ic">ELIF</code> /
-    <code class="Ic">ELSE</code> / <code class="Ic">ENDC</code> blocks can be
-    nested.</p>
-<p class="Pp">Note that if an <code class="Ic">ELSE</code> block is found before
-    an <code class="Ic">ELIF</code> block, the <code class="Ic">ELIF</code>
-    block will be ignored. All <code class="Ic">ELIF</code> blocks must go
-    before the <code class="Ic">ELSE</code> block. Also, if there is more than
-    one <code class="Ic">ELSE</code> block, all of them but the first one are
-    ignored.</p>
 </section>
 </section>
 <section class="Sh">
