@@ -117,7 +117,7 @@ PURGE topic, meaning, {meaning}</pre>
     &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
     &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of these
     parts:
-    &#x2018;<code class="Li">&lt;sign&gt;&lt;prefix&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;type&gt;</code>&#x2019;.
+    &#x2018;<code class="Li">&lt;sign&gt;&lt;exact&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;prec&gt;&lt;type&gt;</code>&#x2019;.
     These parts are:</p>
 <table class="Bl-column">
   <tr id="Part">
@@ -131,10 +131,14 @@ PURGE topic, meaning, {meaning}</pre>
       this character in front of non-negative numbers.</td>
   </tr>
   <tr>
-    <td>&#x2018;<code class="Li">&lt;prefix&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints a
-      base prefix for non-decimal integer types (&#x2018;$&#x2019;,
-      &#x2018;&amp;&#x2019;, or &#x2018;%&#x2019;).</td>
+    <td>&#x2018;<code class="Li">&lt;exact&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
+      the value in an &quot;exact&quot; format: with a base prefix for
+      non-decimal integer types (&#x2018;$&#x2019;, &#x2018;&amp;&#x2019;, or
+      &#x2018;%&#x2019;); with a &#x2018;<code class="Li">q</code>&#x2019;
+      precision suffix for fixed-point numbers; or with
+      &#x2018;<code class="Li">\</code>&#x2019; escape characters for
+      strings.</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
@@ -159,6 +163,14 @@ PURGE topic, meaning, {meaning}</pre>
       &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
       fractional digits of a fixed-point number. Defaults to 5 digits, maximum
       255 digits.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;prec&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">q</code>&#x2019; followed by one or more
+      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints a
+      fixed-point number at this precision. Defaults to the current
+      <code class="Fl">-Q</code> option.</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
