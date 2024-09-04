@@ -9,7 +9,8 @@
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
       <var class="Ar">base_ids</var>] [<code class="Fl"><a href="#c">-c</a></code>
       <var class="Ar">pal_spec</var>] [<code class="Fl"><a href="#d">-d</a></code>
-      <var class="Ar">depth</var>] [<code class="Fl"><a href="#L">-L</a></code>
+      <var class="Ar">depth</var>] [<code class="Fl"><a href="#i">-i</a></code>
+      <var class="Ar">input_tiles</var>] [<code class="Fl"><a href="#L">-L</a></code>
       <var class="Ar">slice</var>] [<code class="Fl"><a href="#N">-N</a></code>
       <var class="Ar">nb_tiles</var>] [<code class="Fl"><a href="#n">-n</a></code>
       <var class="Ar">nb_pals</var>] [<code class="Fl"><a href="#o">-o</a></code>
@@ -151,6 +152,43 @@
   <dd>Set the bit depth of the output tile data, in bits per pixel (bpp), either
       1 or 2 (the default). This changes how tile data is output, and the
       maximum number of colors per palette (2 and 4 respectively).</dd>
+  <dt id="i"><a class="permalink" href="#i"><code class="Fl">-i</code></a>
+    <var class="Ar">input_tiles</var>, <code class="Fl">--input-tileset</code>
+    <var class="Ar">input_tiles</var></dt>
+  <dd>Use the specified input tiles in addition to having
+      <code class="Nm">rgbgfx</code> automatically determine some. The input
+      tiles will always be first in the <code class="Fl">-o</code> image output,
+      and will always get the first IDs in the <code class="Fl">-t</code>
+      tilemap output. <var class="Ar">input_tiles</var> must contain 1bpp or
+      2bpp tile data (whichever matches the <code class="Fl">-d</code>
+      <span class="No">option used here</span>), as could be previously
+      generated with the <code class="Fl">-o</code> option.
+    <p class="Pp" id="not">If the <code class="Fl">-o</code> option is also
+        specified, then the input tiles will be assigned the first tile IDs, and
+        any tiles from the input image that are not in the input tileset will be
+        assigned subsequent IDs. But if the <code class="Fl">-o</code> option is
+        <a class="permalink" href="#not"><i class="Em">not</i></a> specified,
+        then the tile map can
+        <a class="permalink" href="#only"><i class="Em" id="only">only</i></a>
+        use tiles from the input tileset. Using <code class="Fl">-o</code> with
+        <code class="Fl">-i</code> is useful if you want to precisely control
+        the tile IDs of its tile map. Using <code class="Fl">-i</code> alone is
+        more useful if you want several images to use a subset of shared
+      tiles.</p>
+    <p class="Pp" id="strongly">If the image will use more than one color
+        palette, it is
+        <a class="permalink" href="#strongly"><i class="Em">strongly</i></a>
+        advised to generate the palette set along with the input tile data, and
+        pass <code class="Fl">-c</code>
+        <code class="Cm">gbc:</code><var class="Ar">input_palette</var> along
+        with <code class="Fl">-i</code> <var class="Ar">input_tiles</var>. This
+        is because <code class="Nm">rgbgfx</code> might not generate the same
+        palette set for this image as it did for its input tileset.</p>
+    <p class="Pp">See <a class="Sx" href="#EXAMPLES">EXAMPLES</a> for examples
+        of how to use this option.</p>
+    <p class="Pp">This option is ignored in
+        <a class="Sx" href="#REVERSE_MODE">REVERSE MODE</a>.</p>
+  </dd>
   <dt id="L"><a class="permalink" href="#L"><code class="Fl">-L</code></a>
     <var class="Ar">slice</var>, <code class="Fl">--slice</code>
     <var class="Ar">slice</var></dt>
@@ -665,7 +703,13 @@ $ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbgfx -c '#fff,#ff0,#f80,#000' -p
   colors.pal</code></div>
-<p class="Pp">TODO: more examples.</p>
+<p class="Pp">The following will convert two level images using the same
+    tileset, and error out if any of them contain tiles not in the tileset.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbgfx tileset.png -o tileset.2bpp -O -P
+$ rgbgfx level1.png -i tileset.2bpp -c gbc:tileset.pal -t level1.tilemap -a level1.attrmap
+$ rgbgfx level2.png -i tileset.2bpp -c gbc:tileset.pal -t level2.tilemap -a level2.attrmap</pre>
+</div>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h2>
