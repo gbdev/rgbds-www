@@ -2339,8 +2339,13 @@ ENDC</pre>
 <div class="Bd Pp Bd-indent Li">
 <pre>    INCLUDE &quot;irq.inc&quot;</pre>
 </div>
-<p class="Pp">You may also implicitly <code class="Ic">INCLUDE</code> a file
-    before the source file with the <code class="Fl">-P</code> option of
+<p class="Pp">You may also ensure a file only gets included once by using
+    <code class="Ic">INCLUDE_ONCE</code> instead of
+    <code class="Ic">INCLUDE</code>. This will skip including a file if it has
+    already been included before (with <code class="Ic">INCLUDE</code>,
+    <code class="Ic">INCLUDE_ONCE</code>, or <code class="Fl">-P</code>).</p>
+<p class="Pp">You can implicitly <code class="Ic">INCLUDE</code> a file before
+    the source file with the <code class="Fl">-P</code> option of
     <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>.</p>
 </section>
 <section class="Ss">
