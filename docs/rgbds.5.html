@@ -209,6 +209,12 @@
         <var class="Ar">Name</var></dt>
       <dd>The section's name.</dd>
       <dt id="LONG~13"><a class="permalink" href="#LONG~13"><code class="Cm">LONG</code></a>
+        <var class="Ar">NodeID</var></dt>
+      <dd>Context in which the section was defined.</dd>
+      <dt id="LONG~14"><a class="permalink" href="#LONG~14"><code class="Cm">LONG</code></a>
+        <var class="Ar">LineNo</var></dt>
+      <dd>Line number in the context at which the section was defined.</dd>
+      <dt id="LONG~15"><a class="permalink" href="#LONG~15"><code class="Cm">LONG</code></a>
         <var class="Ar">Size</var></dt>
       <dd>The section's size, in bytes.</dd>
       <dt id="BYTE~4"><a class="permalink" href="#BYTE~4"><code class="Cm">BYTE</code></a>
@@ -260,7 +266,7 @@
             <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>). These two bits are
             mutually exclusive.</p>
       </dd>
-      <dt id="LONG~14"><a class="permalink" href="#LONG~14"><code class="Cm">LONG</code></a>
+      <dt id="LONG~16"><a class="permalink" href="#LONG~16"><code class="Cm">LONG</code></a>
         <var class="Ar">Address</var></dt>
       <dd>Address this section must be placed at. This must either be valid for
           the section's <var class="Ar">Type</var> (as affected by flags like
@@ -268,7 +274,7 @@
           <a class="Xr" href="./rgblink.1">rgblink(1)</a>), or -1 to indicate
           that the linker should automatically decide (the section is
           &#x201C;floating&#x201D;).</dd>
-      <dt id="LONG~15"><a class="permalink" href="#LONG~15"><code class="Cm">LONG</code></a>
+      <dt id="LONG~17"><a class="permalink" href="#LONG~17"><code class="Cm">LONG</code></a>
         <var class="Ar">Bank</var></dt>
       <dd>ID of the bank this section must be placed in. This must either be
           valid for the section's <var class="Ar">Type</var> (with the same
@@ -279,7 +285,7 @@
       <dd>How many bits of the section's address should be equal to
           <var class="Ar">AlignOfs</var>, starting from the least-significant
           bit.</dd>
-      <dt id="LONG~16"><a class="permalink" href="#LONG~16"><code class="Cm">LONG</code></a>
+      <dt id="LONG~18"><a class="permalink" href="#LONG~18"><code class="Cm">LONG</code></a>
         <var class="Ar">AlignOfs</var></dt>
       <dd>Alignment offset. Must be strictly less than
           &#x2018;<code class="Li">1 &lt;&lt;
@@ -294,7 +300,7 @@
             <var class="Ar">Data</var>[Size]</dt>
           <dd>The section's raw data. Bytes that will be patched over must be
               present, even though their contents will be overwritten.</dd>
-          <dt id="LONG~17"><a class="permalink" href="#LONG~17"><code class="Cm">LONG</code></a>
+          <dt id="LONG~19"><a class="permalink" href="#LONG~19"><code class="Cm">LONG</code></a>
             <var class="Ar">NumberOfPatches</var></dt>
           <dd>How many patches must be applied to this section's
               <var class="Ar">Data</var>.</dd>
@@ -302,28 +308,28 @@
             <var class="Ar">NumberOfPatches</var></dt>
           <dd>
             <dl class="Bl-tag Bl-compact">
-              <dt id="LONG~18"><a class="permalink" href="#LONG~18"><code class="Cm">LONG</code></a>
+              <dt id="LONG~20"><a class="permalink" href="#LONG~20"><code class="Cm">LONG</code></a>
                 <var class="Ar">NodeID</var></dt>
               <dd>Context in which the patch was defined.</dd>
-              <dt id="LONG~19"><a class="permalink" href="#LONG~19"><code class="Cm">LONG</code></a>
+              <dt id="LONG~21"><a class="permalink" href="#LONG~21"><code class="Cm">LONG</code></a>
                 <var class="Ar">LineNo</var></dt>
               <dd>Line number in the context at which the patch was
                 defined.</dd>
-              <dt id="LONG~20"><a class="permalink" href="#LONG~20"><code class="Cm">LONG</code></a>
+              <dt id="LONG~22"><a class="permalink" href="#LONG~22"><code class="Cm">LONG</code></a>
                 <var class="Ar">Offset</var></dt>
               <dd>Offset within the section's <var class="Ar">Data</var> at
                   which the patch should be applied. Must not be greater than
                   the section's <var class="Ar">Size</var> minus the patch's
                   size (see <var class="Ar">Type</var>
                   <span class="No">below</span>).</dd>
-              <dt id="LONG~21"><a class="permalink" href="#LONG~21"><code class="Cm">LONG</code></a>
+              <dt id="LONG~23"><a class="permalink" href="#LONG~23"><code class="Cm">LONG</code></a>
                 <var class="Ar">PCSectionID</var></dt>
               <dd>ID of the section in which PC is located. (This is usually the
                   same section within which the patch is applied, except for
                   e.g. &#x2018;<code class="Li">LOAD</code>&#x2019; blocks, see
                   &#x201C;RAM code&#x201D; in
                   <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>.)</dd>
-              <dt id="LONG~22"><a class="permalink" href="#LONG~22"><code class="Cm">LONG</code></a>
+              <dt id="LONG~24"><a class="permalink" href="#LONG~24"><code class="Cm">LONG</code></a>
                 <var class="Ar">PCOffset</var></dt>
               <dd>Offset of the PC symbol within the section designated by
                   <var class="Ar">PCSectionID</var>. It is expected that PC
@@ -363,7 +369,7 @@
                   </tr>
                 </table>
               </dd>
-              <dt id="LONG~23"><a class="permalink" href="#LONG~23"><code class="Cm">LONG</code></a>
+              <dt id="LONG~25"><a class="permalink" href="#LONG~25"><code class="Cm">LONG</code></a>
                 <var class="Ar">RPNSize</var></dt>
               <dd>Size of the <var class="Ar">RPNExpr</var> below.</dd>
               <dt id="BYTE~8"><a class="permalink" href="#BYTE~8"><code class="Cm">BYTE</code></a>
@@ -386,7 +392,7 @@
 <section class="Ss">
 <h3 class="Ss" id="Assertions"><a class="permalink" href="#Assertions">Assertions</a></h3>
 <dl class="Bl-tag Bl-compact">
-  <dt id="LONG~24"><a class="permalink" href="#LONG~24"><code class="Cm">LONG</code></a>
+  <dt id="LONG~26"><a class="permalink" href="#LONG~26"><code class="Cm">LONG</code></a>
     <var class="Ar">NumberOfAssertions</var></dt>
   <dd>How many assertions this object file contains.</dd>
   <dt id="REPT~5"><a class="permalink" href="#REPT~5"><code class="Cm">REPT</code></a>
@@ -394,19 +400,19 @@
   <dd>Assertions are essentially patches with a message.
     <p class="Pp"></p>
     <dl class="Bl-tag Bl-compact">
-      <dt id="LONG~25"><a class="permalink" href="#LONG~25"><code class="Cm">LONG</code></a>
+      <dt id="LONG~27"><a class="permalink" href="#LONG~27"><code class="Cm">LONG</code></a>
         <var class="Ar">NodeID</var></dt>
       <dd>Context in which the assertions was defined.</dd>
-      <dt id="LONG~26"><a class="permalink" href="#LONG~26"><code class="Cm">LONG</code></a>
+      <dt id="LONG~28"><a class="permalink" href="#LONG~28"><code class="Cm">LONG</code></a>
         <var class="Ar">LineNo</var></dt>
       <dd>Line number in the context at which the assertion was defined.</dd>
-      <dt id="LONG~27"><a class="permalink" href="#LONG~27"><code class="Cm">LONG</code></a>
+      <dt id="LONG~29"><a class="permalink" href="#LONG~29"><code class="Cm">LONG</code></a>
         <var class="Ar">Offset</var></dt>
       <dd>Unused leftover from the patch structure.</dd>
-      <dt id="LONG~28"><a class="permalink" href="#LONG~28"><code class="Cm">LONG</code></a>
+      <dt id="LONG~30"><a class="permalink" href="#LONG~30"><code class="Cm">LONG</code></a>
         <var class="Ar">PCSectionID</var></dt>
       <dd>ID of the section in which PC is located.</dd>
-      <dt id="LONG~29"><a class="permalink" href="#LONG~29"><code class="Cm">LONG</code></a>
+      <dt id="LONG~31"><a class="permalink" href="#LONG~31"><code class="Cm">LONG</code></a>
         <var class="Ar">PCOffset</var></dt>
       <dd>Offset of the PC symbol within the section designated by
           <var class="Ar">PCSectionID</var>.</dd>
@@ -434,7 +440,7 @@
           </tr>
         </table>
       </dd>
-      <dt id="LONG~30"><a class="permalink" href="#LONG~30"><code class="Cm">LONG</code></a>
+      <dt id="LONG~32"><a class="permalink" href="#LONG~32"><code class="Cm">LONG</code></a>
         <var class="Ar">RPNSize</var></dt>
       <dd>Size of the <var class="Ar">RPNExpr</var> below.</dd>
       <dt id="BYTE~10"><a class="permalink" href="#BYTE~10"><code class="Cm">BYTE</code></a>
