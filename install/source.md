@@ -9,10 +9,6 @@ import TabItem from '@theme/TabItem';
 
 RGBDS is open-source, which means you can always compile it yourself, for example if no pre-built solution is available to you, or if you want a specific version.
 
-RGBDS aims to be relatively painless to compile, keeping its dependencies to a minimum:
-- A C11-compatible compiler
-- `libpng` (optional, only required for RGBGFX)
-
 :::caution
 
 Some of the build steps vary between systems, so the instructions provided here are somewhat generic.
@@ -47,17 +43,13 @@ The following are required to build RGBDS; most of those should already be insta
 
  - `make` and/or `cmake`, depending on what method you choose below
  - The `bash` shell
- - A C compiler, typically `gcc` or `clang`
+ - A C++ compiler compatible with C++20, typically `g++` or `clang++` (and/or a C compiler prior to RGBDS 0.8.0)
  - `bison` (or `yacc`/`byacc` prior to RGBDS 0.5.0)
- - `pkg-config` (unless using `cmake`)
-
-If you are building RGBGFX, the following are also required:
-
- - A C++ compiler, typically `g++` or `clang`
- - `libpng`'s development headers. For Linux users: the package is typically called [`libpng-dev`](https://packages.ubuntu.com/focal/libpng-dev), [`libpng-devel`](https://software.opensuse.org/package/libpng16-devel-64bit), or sometimes plainly [`libpng`](https://www.archlinux.org/packages/extra/x86_64/libpng/). Additionally, a `16` or `1.6` may be present after `libpng` ([example](https://tracker.debian.org/pkg/libpng1.6)).
+ - `pkg-config` (if you are using `make`)
+ - `libpng`'s development headers (if you are building RGBGFX), typically called [`libpng-dev`](https://packages.ubuntu.com/focal/libpng-dev), [`libpng-devel`](https://software.opensuse.org/package/libpng16-devel-64bit), or just [`libpng`](https://www.archlinux.org/packages/extra/x86_64/libpng/) (a [`16` or `1.6` suffix](https://tracker.debian.org/pkg/libpng1.6) may also be present)
 
 Two build systems are supported: plain old `make`, and CMake.
-Both can be used on most systems, but Windows users will almost certainly be unable to use `make`.
+Both can be used on most systems, but Windows users will almost certainly need to use `cmake`.
 
 :::caution
 
