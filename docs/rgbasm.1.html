@@ -282,9 +282,9 @@
   <dt id="Wno-nested-comment"><a class="permalink" href="#Wno-nested-comment"><code class="Fl">-Wno-nested-comment</code></a></dt>
   <dd>Warn when the block comment start sequence
       &#x2018;<code class="Li">/*</code>&#x2019; is found inside of a block
-      comment. Block comments cannot be nested, so an &quot;inner&quot;
-      &#x2018;<code class="Li">*/</code>&#x2019; is likely to have ended the
-      whole comment.</dd>
+      comment. Block comments cannot be nested, so the first
+      &#x2018;<code class="Li">*/</code>&#x2019; will end the whole
+    comment.</dd>
   <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
   <dd>Warn when obsolete constructs such as the <code class="Ic">_PI</code>
       constant or <code class="Ic">PRINTT</code> directive are encountered.</dd>
@@ -321,7 +321,7 @@
   <dt id="Wunmapped-char="><a class="permalink" href="#Wunmapped-char="><code class="Fl">-Wunmapped-char=</code></a></dt>
   <dd>Warn when a character goes through charmap conversion but has no defined
       mapping. <code class="Fl">-Wunmapped-char=0</code> or
-      <code class="Fl">-Wunmapped-char</code> disables this warning.
+      <code class="Fl">-Wno-unmapped-char</code> disables this warning.
       <code class="Fl">-Wunmapped-char=1</code> or just
       <code class="Fl">-Wunmapped-char</code> only warns if the active charmap
       is not empty. <code class="Fl">-Wunmapped-char=2</code> warns if the
