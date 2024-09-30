@@ -279,6 +279,12 @@
   <dt id="Wmacro-shift"><a class="permalink" href="#Wmacro-shift"><code class="Fl">-Wmacro-shift</code></a></dt>
   <dd>Warn when shifting macro arguments past their limits. This warning is
       enabled by <code class="Fl">-Wextra</code>.</dd>
+  <dt id="Wno-nested-comment"><a class="permalink" href="#Wno-nested-comment"><code class="Fl">-Wno-nested-comment</code></a></dt>
+  <dd>Warn when the block comment start sequence
+      &#x2018;<code class="Li">/*</code>&#x2019; is found inside of a block
+      comment. Block comments cannot be nested, so an &quot;inner&quot;
+      &#x2018;<code class="Li">*/</code>&#x2019; is likely to have ended the
+      whole comment.</dd>
   <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
   <dd>Warn when obsolete constructs such as the <code class="Ic">_PI</code>
       constant or <code class="Ic">PRINTT</code> directive are encountered.</dd>
