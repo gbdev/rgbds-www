@@ -216,12 +216,16 @@
     following options alter the way warnings are processed.</p>
 <dl class="Bl-tag">
   <dt id="Werror"><a class="permalink" href="#Werror"><code class="Fl">-Werror</code></a></dt>
-  <dd>Make all warnings into errors.</dd>
+  <dd>Make all warnings into errors. This can be negated as
+      <code class="Fl">-Wno-error</code> to prevent turning all warnings into
+      errors.</dd>
   <dt id="Werror="><a class="permalink" href="#Werror="><code class="Fl">-Werror=</code></a></dt>
-  <dd>Make the specified warning into an error. A warning's name is appended
-      (example: <code class="Fl">-Werror=obsolete</code>), and this warning is
-      implicitly enabled and turned into an error. This is an error if used with
-      a meta warning, such as <code class="Fl">-Werror=all</code>.</dd>
+  <dd>Make the specified warning or meta warning into an error. A warning's name
+      is appended (example: <code class="Fl">-Werror=obsolete</code>), and this
+      warning is implicitly enabled and turned into an error. This can be
+      negated as <code class="Fl">-Wno-error=</code> to prevent turning a
+      specified warning into an error, even if <code class="Fl">-Werror</code>
+      is in effect.</dd>
 </dl>
 <p class="Pp">The following warnings are &#x201C;meta&#x201D; warnings, that
     enable a collection of other warnings. If a specific warning is toggled via
@@ -242,9 +246,11 @@
     description, the corresponding warning flag is included. Note that each of
     these flag also has a negation (for example,
     <code class="Fl">-Wcharmap-redef</code> enables the warning that
-    <code class="Fl">-Wno-charmap-redef</code> disables). Only the non-default
-    flag is listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are
-    listed alphabetically.</p>
+    <code class="Fl">-Wno-charmap-redef</code> disables; and
+    <code class="Fl">-Wall</code> enables every warning that
+    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
+    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
+    alphabetically.</p>
 <dl class="Bl-tag">
   <dt id="Wno-assert"><a class="permalink" href="#Wno-assert"><code class="Fl">-Wno-assert</code></a></dt>
   <dd>Warn when <code class="Ic">WARN</code><span class="No">-type</span>
