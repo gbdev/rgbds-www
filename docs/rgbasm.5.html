@@ -270,30 +270,34 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   formats</a></h3>
 <p class="Pp">There are a number of numeric formats.</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Prefix">
+  <tr id="Possible">
     <th>Format type</th>
-    <td><a class="permalink" href="#Prefix"><b class="Sy">Prefix</b></a></td>
+    <td><a class="permalink" href="#Possible"><b class="Sy">Possible
+      prefixes</b></a></td>
     <td><a class="permalink" href="#Accepted"><b class="Sy" id="Accepted">Accepted
       characters</b></a></td>
-  </tr>
-  <tr>
-    <td>Hexadecimal</td>
-    <td>$</td>
-    <td>0123456789ABCDEF</td>
   </tr>
   <tr>
     <td>Decimal</td>
     <td>none</td>
     <td>0123456789</td>
   </tr>
-  <tr>
+  <tr id="$">
+    <td>Hexadecimal</td>
+    <td><a class="permalink" href="#$"><code class="Li">$</code></a>,
+      <code class="Li">0x</code>, <code class="Li">0X</code></td>
+    <td>0123456789ABCDEF</td>
+  </tr>
+  <tr id="&amp;">
     <td>Octal</td>
-    <td>&amp;</td>
+    <td><a class="permalink" href="#&amp;"><code class="Li">&amp;</code></a>,
+      <code class="Li">0o</code>, <code class="Li">0O</code></td>
     <td>01234567</td>
   </tr>
-  <tr>
+  <tr id="_">
     <td>Binary</td>
-    <td>%</td>
+    <td><a class="permalink" href="#_"><code class="Li">%</code></a>,
+      <code class="Li">0b</code>, <code class="Li">0B</code></td>
     <td>01</td>
   </tr>
   <tr>
@@ -313,7 +317,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   </tr>
   <tr>
     <td>Game Boy graphics</td>
-    <td>`</td>
+    <td><code class="Li">`</code></td>
     <td>0123</td>
   </tr>
 </table>
@@ -356,8 +360,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <td><a class="permalink" href="#**"><code class="Li">**</code></a></td>
     <td>Exponent</td>
   </tr>
-  <tr id="_">
-    <td><a class="permalink" href="#_"><code class="Li">~ + -</code></a></td>
+  <tr id="_~2">
+    <td><a class="permalink" href="#_~2"><code class="Li">~ + -</code></a></td>
     <td>Unary complement/plus/minus</td>
   </tr>
   <tr id="*">
@@ -376,9 +380,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <td><a class="permalink" href="#___"><code class="Li">&gt;&gt;&gt;</code></a></td>
     <td>Unsigned shift right (zero-extension)</td>
   </tr>
-  <tr id="&amp;">
-    <td><a class="permalink" href="#&amp;"><code class="Li">&amp; |
-      ^</code></a></td>
+  <tr>
+    <td><code class="Li">&amp; | ^</code></td>
     <td>Binary and/or/xor</td>
   </tr>
   <tr id="+">
