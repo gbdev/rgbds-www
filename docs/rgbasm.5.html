@@ -442,13 +442,13 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   </tr>
   <tr id="HIGH">
     <td><a class="permalink" href="#HIGH"><code class="Fn">HIGH</code></a>(<var class="Fa">n</var>)</td>
-    <td>Equivalent to &#x2018;<code class="Li"><var class="Ar">n</var>
-      <span class="No">&amp; $FF</span></code>&#x2019;.</td>
+    <td>Equivalent to &#x2018;<code class="Li">(<var class="Ar">n</var>
+      <span class="No">&amp; $FF00</span>) &gt;&gt; 8</code>&#x2019;.</td>
   </tr>
   <tr id="LOW">
     <td><a class="permalink" href="#LOW"><code class="Fn">LOW</code></a>(<var class="Fa">n</var>)</td>
-    <td>Equivalent to &#x2018;<code class="Li">(<var class="Ar">n</var>
-      <span class="No">&amp; $FF00</span>) &gt;&gt; 8</code>&#x2019;.</td>
+    <td>Equivalent to &#x2018;<code class="Li"><var class="Ar">n</var>
+      <span class="No">&amp; $FF</span></code>&#x2019;.</td>
   </tr>
   <tr id="BITWIDTH">
     <td><a class="permalink" href="#BITWIDTH"><code class="Fn">BITWIDTH</code></a>(<var class="Fa">n</var>)</td>
