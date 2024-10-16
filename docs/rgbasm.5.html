@@ -1153,7 +1153,7 @@ Function:
 CopyCode:
     ld de, RAMCode
     ld hl, RAMLocation
-    ld c, RAMLocation.end - RAMLocation
+    ld c, RAMCode.end - RAMCode
 .loop
     ld a, [de]
     inc de
@@ -1177,8 +1177,8 @@ RAMLocation:
 
 .string
     db &quot;Hello World!\0&quot;
-.end
-  ENDL</pre>
+  ENDL
+.end</pre>
 </div>
 <p class="Pp">A <code class="Ic">LOAD</code> block feels similar to a
     <code class="Ic">SECTION</code> declaration because it creates a new one.
@@ -1186,12 +1186,19 @@ RAMLocation:
     section like usual, but all labels are created as if they were placed in
     this newly-created section.</p>
 <p class="Pp">In the example above, all of the code and data will end up in the
-    &quot;LOAD example&quot; section. You will notice the
+    &#x201C;LOAD example&#x201D; section. You will notice the
     &#x2018;RAMCode&#x2019; and &#x2018;RAMLocation&#x2019; labels. The former
     is situated in ROM, where the code is stored, the latter in RAM, where the
     code will be loaded.</p>
 <p class="Pp">You cannot nest <code class="Ic">LOAD</code> blocks, nor can you
     change or stop the current section within them.</p>
+<p class="Pp">The current <code class="Ic">LOAD</code> block can be ended by
+    using <code class="Ic">ENDL</code>. This directive is only necessary if you
+    want to resume writing code in its containing ROM section. Any of
+    <code class="Ic">LOAD</code>, <code class="Ic">SECTION</code>,
+    <code class="Ic">ENDSECTION</code>, or <code class="Ic">POPS</code> will end
+    the current <code class="Ic">LOAD</code> block before performing its own
+    function.</p>
 <p class="Pp"><code class="Ic">LOAD</code> blocks can use the
     <code class="Ic">UNION</code> or <code class="Ic">FRAGMENT</code> modifiers,
     as described below.</p>
