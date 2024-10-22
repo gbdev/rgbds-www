@@ -4,7 +4,7 @@
     <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>, including a short
     description, the number of bytes needed to encode them and the number of CPU
     cycles at 1MHz (or 2MHz in GBC dual speed mode) needed to complete them.</p>
-<p class="Pp">Note: All arithmetic/logic instructions that use register
+<p class="Pp">Note: All arithmetic and logic instructions that use register
     <b class="Sy">A</b> as a destination can omit the destination, since it is
     assumed to be register <b class="Sy">A</b> by default. So the following two
     lines have the same effect:</p>
@@ -72,146 +72,8 @@ CPL A</pre>
 <h2 class="Sh" id="INSTRUCTION_OVERVIEW"><a class="permalink" href="#INSTRUCTION_OVERVIEW">INSTRUCTION
   OVERVIEW</a></h2>
 <section class="Ss">
-<h3 class="Ss" id="8-bit_Arithmetic_and_Logic_Instructions"><a class="permalink" href="#8-bit_Arithmetic_and_Logic_Instructions">8-bit
-  Arithmetic and Logic Instructions</a></h3>
-<dl class="Bl-inset Bl-compact">
-  <dt><a class="Sx" href="#ADC_A,r8">ADC A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#ADC_A,_HL_">ADC A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#ADC_A,n8">ADC A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#ADD_A,r8">ADD A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#ADD_A,_HL_">ADD A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#ADD_A,n8">ADD A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#AND_A,r8">AND A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#AND_A,_HL_">AND A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#AND_A,n8">AND A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#CP_A,r8">CP A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#CP_A,_HL_">CP A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#CP_A,n8">CP A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#DEC_r8">DEC r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#DEC__HL_">DEC [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#INC_r8">INC r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#INC__HL_">INC [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#OR_A,r8">OR A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#OR_A,_HL_">OR A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#OR_A,n8">OR A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SBC_A,r8">SBC A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SBC_A,_HL_">SBC A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SBC_A,n8">SBC A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SUB_A,r8">SUB A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SUB_A,_HL_">SUB A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SUB_A,n8">SUB A,n8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#XOR_A,r8">XOR A,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#XOR_A,_HL_">XOR A,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#XOR_A,n8">XOR A,n8</a></dt>
-  <dd></dd>
-</dl>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="16-bit_Arithmetic_Instructions"><a class="permalink" href="#16-bit_Arithmetic_Instructions">16-bit
-  Arithmetic Instructions</a></h3>
-<dl class="Bl-inset Bl-compact">
-  <dt><a class="Sx" href="#ADD_HL,r16">ADD HL,r16</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#DEC_r16">DEC r16</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#INC_r16">INC r16</a></dt>
-  <dd></dd>
-</dl>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Bit_Operations_Instructions"><a class="permalink" href="#Bit_Operations_Instructions">Bit
-  Operations Instructions</a></h3>
-<dl class="Bl-inset Bl-compact">
-  <dt><a class="Sx" href="#BIT_u3,r8">BIT u3,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#BIT_u3,_HL_">BIT u3,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RES_u3,r8">RES u3,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RES_u3,_HL_">RES u3,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SET_u3,r8">SET u3,r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SET_u3,_HL_">SET u3,[HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SWAP_r8">SWAP r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SWAP__HL_">SWAP [HL]</a></dt>
-  <dd></dd>
-</dl>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Bit_Shift_Instructions"><a class="permalink" href="#Bit_Shift_Instructions">Bit
-  Shift Instructions</a></h3>
-<dl class="Bl-inset Bl-compact">
-  <dt><a class="Sx" href="#RL_r8">RL r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RL__HL_">RL [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RLA">RLA</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RLC_r8">RLC r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RLC__HL_">RLC [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RLCA">RLCA</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RR_r8">RR r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RR__HL_">RR [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RRA">RRA</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RRC_r8">RRC r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RRC__HL_">RRC [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#RRCA">RRCA</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SLA_r8">SLA r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SLA__HL_">SLA [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SRA_r8">SRA r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SRA__HL_">SRA [HL]</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SRL_r8">SRL r8</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#SRL__HL_">SRL [HL]</a></dt>
-  <dd></dd>
-</dl>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Load_Instructions"><a class="permalink" href="#Load_Instructions">Load
-  Instructions</a></h3>
+<h3 class="Ss" id="Load_instructions"><a class="permalink" href="#Load_instructions">Load
+  instructions</a></h3>
 <dl class="Bl-inset Bl-compact">
   <dt><a class="Sx" href="#LD_r8,r8">LD r8,r8</a></dt>
   <dd></dd>
@@ -252,8 +114,154 @@ CPL A</pre>
 </dl>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="Jumps_and_Subroutines"><a class="permalink" href="#Jumps_and_Subroutines">Jumps
-  and Subroutines</a></h3>
+<h3 class="Ss" id="8-bit_arithmetic_instructions"><a class="permalink" href="#8-bit_arithmetic_instructions">8-bit
+  arithmetic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#ADC_A,r8">ADC A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADC_A,_HL_">ADC A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADC_A,n8">ADC A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,r8">ADD A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,_HL_">ADD A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,n8">ADD A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,r8">CP A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,_HL_">CP A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,n8">CP A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC_r8">DEC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC__HL_">DEC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC_r8">INC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC__HL_">INC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,r8">SBC A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,_HL_">SBC A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,n8">SBC A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,r8">SUB A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,_HL_">SUB A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,n8">SUB A,n8</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="16-bit_arithmetic_instructions"><a class="permalink" href="#16-bit_arithmetic_instructions">16-bit
+  arithmetic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#ADD_HL,r16">ADD HL,r16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC_r16">DEC r16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC_r16">INC r16</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bitwise_logic_instructions"><a class="permalink" href="#Bitwise_logic_instructions">Bitwise
+  logic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#AND_A,r8">AND A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#AND_A,_HL_">AND A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#AND_A,n8">AND A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CPL">CPL</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,r8">OR A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,_HL_">OR A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,n8">OR A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,r8">XOR A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,_HL_">XOR A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,n8">XOR A,n8</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bit_flag_instructions"><a class="permalink" href="#Bit_flag_instructions">Bit
+  flag instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#BIT_u3,r8">BIT u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#BIT_u3,_HL_">BIT u3,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RES_u3,r8">RES u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RES_u3,_HL_">RES u3,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SET_u3,r8">SET u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SET_u3,_HL_">SET u3,[HL]</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bit_shift_instructions"><a class="permalink" href="#Bit_shift_instructions">Bit
+  shift instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#RL_r8">RL r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RL__HL_">RL [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLA">RLA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLC_r8">RLC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLC__HL_">RLC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLCA">RLCA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RR_r8">RR r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RR__HL_">RR [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRA">RRA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRC_r8">RRC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRC__HL_">RRC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRCA">RRCA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SLA_r8">SLA r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SLA__HL_">SLA [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRA_r8">SRA r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRA__HL_">SRA [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRL_r8">SRL r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRL__HL_">SRL [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SWAP_r8">SWAP r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SWAP__HL_">SWAP [HL]</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Jumps_and_subroutine_instructions"><a class="permalink" href="#Jumps_and_subroutine_instructions">Jumps
+  and subroutine instructions</a></h3>
 <dl class="Bl-inset Bl-compact">
   <dt><a class="Sx" href="#CALL_n16">CALL n16</a></dt>
   <dd></dd>
@@ -280,8 +288,18 @@ CPL A</pre>
 </dl>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="Stack_Operations_Instructions"><a class="permalink" href="#Stack_Operations_Instructions">Stack
-  Operations Instructions</a></h3>
+<h3 class="Ss" id="Carry_flag_instructions"><a class="permalink" href="#Carry_flag_instructions">Carry
+  flag instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#CCF">CCF</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SCF">SCF</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Stack_manipulation_instructions"><a class="permalink" href="#Stack_manipulation_instructions">Stack
+  manipulation instructions</a></h3>
 <dl class="Bl-inset Bl-compact">
   <dt><a class="Sx" href="#ADD_HL,SP">ADD HL,SP</a></dt>
   <dd></dd>
@@ -310,24 +328,24 @@ CPL A</pre>
 </dl>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="Miscellaneous_Instructions"><a class="permalink" href="#Miscellaneous_Instructions">Miscellaneous
-  Instructions</a></h3>
+<h3 class="Ss" id="Interrupt-related_instructions"><a class="permalink" href="#Interrupt-related_instructions">Interrupt-related
+  instructions</a></h3>
 <dl class="Bl-inset Bl-compact">
-  <dt><a class="Sx" href="#CCF">CCF</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#CPL">CPL</a></dt>
-  <dd></dd>
-  <dt><a class="Sx" href="#DAA">DAA</a></dt>
-  <dd></dd>
   <dt><a class="Sx" href="#DI">DI</a></dt>
   <dd></dd>
   <dt><a class="Sx" href="#EI">EI</a></dt>
   <dd></dd>
   <dt><a class="Sx" href="#HALT">HALT</a></dt>
   <dd></dd>
-  <dt><a class="Sx" href="#NOP">NOP</a></dt>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Miscellaneous_instructions"><a class="permalink" href="#Miscellaneous_instructions">Miscellaneous
+  instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#DAA">DAA</a></dt>
   <dd></dd>
-  <dt><a class="Sx" href="#SCF">SCF</a></dt>
+  <dt><a class="Sx" href="#NOP">NOP</a></dt>
   <dd></dd>
   <dt><a class="Sx" href="#STOP">STOP</a></dt>
   <dd></dd>
@@ -345,7 +363,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~2"><a class="permalink" href="#Z~2"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N"><a class="permalink" href="#N"><b class="Sy">N</b></a></dt>
@@ -382,7 +400,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~3"><a class="permalink" href="#Z~3"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~2"><a class="permalink" href="#N~2"><b class="Sy">N</b></a></dt>
@@ -418,7 +436,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="N~3"><a class="permalink" href="#N~3"><b class="Sy">N</b></a></dt>
   <dd>0</dd>
   <dt id="H~3"><a class="permalink" href="#H~3"><b class="Sy">H</b></a></dt>
@@ -443,7 +461,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~4"><a class="permalink" href="#Z~4"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~4"><a class="permalink" href="#N~4"><b class="Sy">N</b></a></dt>
@@ -462,7 +480,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~5"><a class="permalink" href="#Z~5"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~5"><a class="permalink" href="#N~5"><b class="Sy">N</b></a></dt>
@@ -499,7 +517,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~6"><a class="permalink" href="#Z~6"><b class="Sy">Z</b></a></dt>
   <dd>Set if the selected bit is 0.</dd>
   <dt id="N~6"><a class="permalink" href="#N~6"><b class="Sy">N</b></a></dt>
@@ -544,7 +562,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="N~7"><a class="permalink" href="#N~7"><b class="Sy">N</b></a></dt>
   <dd>0</dd>
   <dt id="H~7"><a class="permalink" href="#H~7"><b class="Sy">H</b></a></dt>
@@ -562,7 +580,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~7"><a class="permalink" href="#Z~7"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~8"><a class="permalink" href="#N~8"><b class="Sy">N</b></a></dt>
@@ -601,7 +619,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="N~9"><a class="permalink" href="#N~9"><b class="Sy">N</b></a></dt>
   <dd>1</dd>
   <dt id="H~9"><a class="permalink" href="#H~9"><b class="Sy">H</b></a></dt>
@@ -615,7 +633,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~8"><a class="permalink" href="#Z~8"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="H~10"><a class="permalink" href="#H~10"><b class="Sy">H</b></a></dt>
@@ -630,7 +648,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~9"><a class="permalink" href="#Z~9"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~10"><a class="permalink" href="#N~10"><b class="Sy">N</b></a></dt>
@@ -717,7 +735,7 @@ CPL A</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~10"><a class="permalink" href="#Z~10"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~11"><a class="permalink" href="#N~11"><b class="Sy">N</b></a></dt>
@@ -1014,7 +1032,7 @@ Label:
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~11"><a class="permalink" href="#Z~11"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~12"><a class="permalink" href="#N~12"><b class="Sy">N</b></a></dt>
@@ -1049,7 +1067,7 @@ Label:
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~12"><a class="permalink" href="#Z~12"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~13"><a class="permalink" href="#N~13"><b class="Sy">N</b></a></dt>
@@ -1091,7 +1109,7 @@ inc sp</pre>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~13"><a class="permalink" href="#Z~13"><b class="Sy">Z</b></a></dt>
   <dd>Set from bit 7 of the popped low byte.</dd>
   <dt id="N~14"><a class="permalink" href="#N~14"><b class="Sy">N</b></a></dt>
@@ -1210,7 +1228,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~14"><a class="permalink" href="#Z~14"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~15"><a class="permalink" href="#N~15"><b class="Sy">N</b></a></dt>
@@ -1249,7 +1267,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~15"><a class="permalink" href="#Z~15"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~16"><a class="permalink" href="#N~16"><b class="Sy">N</b></a></dt>
@@ -1272,7 +1290,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~16"><a class="permalink" href="#Z~16"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~17"><a class="permalink" href="#N~17"><b class="Sy">N</b></a></dt>
@@ -1309,7 +1327,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~17"><a class="permalink" href="#Z~17"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~18"><a class="permalink" href="#N~18"><b class="Sy">N</b></a></dt>
@@ -1333,7 +1351,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~18"><a class="permalink" href="#Z~18"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~19"><a class="permalink" href="#N~19"><b class="Sy">N</b></a></dt>
@@ -1372,7 +1390,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~19"><a class="permalink" href="#Z~19"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~20"><a class="permalink" href="#N~20"><b class="Sy">N</b></a></dt>
@@ -1395,7 +1413,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~20"><a class="permalink" href="#Z~20"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~21"><a class="permalink" href="#N~21"><b class="Sy">N</b></a></dt>
@@ -1432,7 +1450,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~21"><a class="permalink" href="#Z~21"><b class="Sy">Z</b></a></dt>
   <dd>0</dd>
   <dt id="N~22"><a class="permalink" href="#N~22"><b class="Sy">N</b></a></dt>
@@ -1461,7 +1479,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~22"><a class="permalink" href="#Z~22"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~23"><a class="permalink" href="#N~23"><b class="Sy">N</b></a></dt>
@@ -1497,7 +1515,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="N~24"><a class="permalink" href="#N~24"><b class="Sy">N</b></a></dt>
   <dd>0</dd>
   <dt id="H~25"><a class="permalink" href="#H~25"><b class="Sy">H</b></a></dt>
@@ -1537,7 +1555,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~23"><a class="permalink" href="#Z~23"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~25"><a class="permalink" href="#N~25"><b class="Sy">N</b></a></dt>
@@ -1574,7 +1592,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~24"><a class="permalink" href="#Z~24"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~26"><a class="permalink" href="#N~26"><b class="Sy">N</b></a></dt>
@@ -1611,7 +1629,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~25"><a class="permalink" href="#Z~25"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~27"><a class="permalink" href="#N~27"><b class="Sy">N</b></a></dt>
@@ -1652,7 +1670,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~26"><a class="permalink" href="#Z~26"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~28"><a class="permalink" href="#N~28"><b class="Sy">N</b></a></dt>
@@ -1690,7 +1708,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~27"><a class="permalink" href="#Z~27"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~29"><a class="permalink" href="#N~29"><b class="Sy">N</b></a></dt>
@@ -1718,7 +1736,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
-<dl class="Bl-hang Bl-compact">
+<dl class="Bl-tag">
   <dt id="Z~28"><a class="permalink" href="#Z~28"><b class="Sy">Z</b></a></dt>
   <dd>Set if result is 0.</dd>
   <dt id="N~30"><a class="permalink" href="#N~30"><b class="Sy">N</b></a></dt>

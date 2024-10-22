@@ -41,8 +41,8 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "RPN EXPRESSIONS",
-	"id": "RPN_EXPRESSIONS",
+	"value": "RPN expressions",
+	"id": "RPN_expressions",
 	"level": 3,
 },
 {

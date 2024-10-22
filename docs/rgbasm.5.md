@@ -146,23 +146,28 @@ export const toc = [
 	"level": 2,
 },
 {
-	"value": "Statically allocating space in RAM",
-	"id": "Statically_allocating_space_in_RAM",
-	"level": 3,
-},
-{
 	"value": "Defining constant data in ROM",
 	"id": "Defining_constant_data_in_ROM",
 	"level": 3,
 },
 {
-	"value": "Including binary files",
-	"id": "Including_binary_files",
+	"value": "Including binary data files",
+	"id": "Including_binary_data_files",
 	"level": 3,
 },
 {
-	"value": "Unions",
-	"id": "Unions",
+	"value": "Statically allocating space in RAM",
+	"id": "Statically_allocating_space_in_RAM",
+	"level": 3,
+},
+{
+	"value": "Allocating overlapping spaces in RAM",
+	"id": "Allocating_overlapping_spaces_in_RAM",
+	"level": 3,
+},
+{
+	"value": "Requesting alignment",
+	"id": "Requesting_alignment",
 	"level": 3,
 },
 {
@@ -208,11 +213,6 @@ export const toc = [
 {
 	"value": "Changing options while assembling",
 	"id": "Changing_options_while_assembling",
-	"level": 3,
-},
-{
-	"value": "Requesting alignment",
-	"id": "Requesting_alignment",
 	"level": 3,
 },
 {

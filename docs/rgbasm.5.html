@@ -248,7 +248,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 </div>
 <p class="Pp">Although, for these examples, <code class="Ic">STRFMT</code> would
     be more appropriate; see <a class="Sx" href="#String_expressions">String
-    expressions</a> further below.</p>
+    expressions</a> below.</p>
 </section>
 </section>
 <section class="Sh">
@@ -262,7 +262,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     case, unless a label is involved, as explained in the
     <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section. However, some operators
     can be constant even with non-constant operands, as explained in
-    <a class="Sx" href="#Operators">Operators</a> further below.</p>
+    <a class="Sx" href="#Operators">Operators</a> below.</p>
 <p class="Pp">The instructions in the macro-language generally require constant
     expressions.</p>
 <section class="Ss">
@@ -1200,15 +1200,17 @@ RAMLocation:
     the current <code class="Ic">LOAD</code> block before performing its own
     function.</p>
 <p class="Pp"><code class="Ic">LOAD</code> blocks can use the
-    <code class="Ic">UNION</code> modifier as described below, but not the
-    <code class="Ic">FRAGMENT</code> modifier.</p>
+    <code class="Ic">UNION</code> modifier as described in
+    <a class="Sx" href="#Unionized_sections">Unionized sections</a> below, but
+    not the <code class="Ic">FRAGMENT</code> modifier.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Unionized_sections"><a class="permalink" href="#Unionized_sections">Unionized
   sections</a></h3>
 <p class="Pp">When you're tight on RAM, you may want to define overlapping
     static memory allocations, as explained in the
-    <a class="Sx" href="#Unions">Unions</a> section. However, a
+    <a class="Sx" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+    overlapping spaces in RAM</a> section. However, a
     <code class="Ic">UNION</code> only works within a single file, so it can't
     be used e.g. to define temporary variables across several files, all of
     which use the same statically allocated memory. Unionized sections solve
@@ -1237,8 +1239,9 @@ RAMLocation:
 </ul>
 <p class="Pp">Different declarations of the same unionized section are not
     appended, but instead overlaid on top of each other, just like
-    <a class="Sx" href="#Unions">Unions</a>. Similarly, the size of an unionized
-    section is the largest of all its declarations.</p>
+    <a class="Sx" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+    overlapping spaces in RAM</a>. Similarly, the size of an unionized section
+    is the largest of all its declarations.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Section_fragments"><a class="permalink" href="#Section_fragments">Section
@@ -1335,8 +1338,8 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
     <a class="permalink" href="#global"><i class="Em" id="global">global</i></a>
     (not to be mistaken with &#x201C;exported&#x201D;, explained in
     <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
-    importing symbols</a> further below). More than one dot in label names is
-    not allowed.</p>
+    importing symbols</a> below). More than one dot in label names is not
+    allowed.</p>
 <p class="Pp">For convenience, local labels can use a shorthand syntax: when a
     symbol name starting with a dot is found (for example, inside an expression,
     or when declaring a label), then the current &#x201C;label scope&#x201D; is
@@ -1853,39 +1856,6 @@ ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
 <h2 class="Sh" id="DEFINING_DATA"><a class="permalink" href="#DEFINING_DATA">DEFINING
   DATA</a></h2>
 <section class="Ss">
-<h3 class="Ss" id="Statically_allocating_space_in_RAM"><a class="permalink" href="#Statically_allocating_space_in_RAM">Statically
-  allocating space in RAM</a></h3>
-<p class="Pp"><code class="Ic">DS</code> statically allocates a number of empty
-    bytes. This is the preferred method of allocating space in a RAM section.
-    You can also use <code class="Ic">DB</code>, <code class="Ic">DW</code> and
-    <code class="Ic">DL</code> without any arguments instead (see
-    <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data
-    in ROM</a> below).</p>
-<div class="Bd Pp Bd-indent Li">
-<pre>DS 42 ;&#x00A0;Allocates 42 bytes</pre>
-</div>
-<p class="Pp">Empty space in RAM sections will not be initialized. In ROM
-    sections, it will be filled with the value passed to the
-    <code class="Fl">-p</code> command-line option, except when using overlays
-    with <code class="Fl">-O</code>.</p>
-<p class="Pp">Instead of an exact number of bytes, you can specify
-    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
-    <var class="Ar">offset</var>] to allocate however many bytes are required to
-    align the subsequent data. Thus, &#x2018;<code class="Ic">DS
-    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>],
-    <span class="No">...</span>&#x2019; is equivalent to
-    &#x2018;<code class="Ic">DS</code> <var class="Ar">n</var>,
-    <span class="No">...</span>&#x2019; followed by
-    &#x2018;<code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
-    <var class="Ar">offset</var>]&#x2019;, where <var class="Ar">n</var> is the
-    minimum value needed to satisfy the <code class="Ic">ALIGN</code> constraint
-    (see <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
-    below). Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>]
-    is a shorthand for
-    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
-    <span class="No">0</span>].</p>
-</section>
-<section class="Ss">
 <h3 class="Ss" id="Defining_constant_data_in_ROM"><a class="permalink" href="#Defining_constant_data_in_ROM">Defining
   constant data in ROM</a></h3>
 <p class="Pp"><code class="Ic">DB</code> defines a list of bytes that will be
@@ -1927,8 +1897,8 @@ DS 7, $BB, $CC</pre>
     <code class="Ic">VRAM</code> / <code class="Ic">SRAM</code> section.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="Including_binary_files"><a class="permalink" href="#Including_binary_files">Including
-  binary files</a></h3>
+<h3 class="Ss" id="Including_binary_data_files"><a class="permalink" href="#Including_binary_data_files">Including
+  binary data files</a></h3>
 <p class="Pp">You probably have some graphics, level data, etc. you'd like to
     include. Use <code class="Ic">INCBIN</code> to include a raw binary file as
     it is. If the file isn't found in the current directory, the include-path
@@ -1949,7 +1919,41 @@ INCBIN &quot;sprites/hero.bin&quot;</pre>
     be included.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="Unions"><a class="permalink" href="#Unions">Unions</a></h3>
+<h3 class="Ss" id="Statically_allocating_space_in_RAM"><a class="permalink" href="#Statically_allocating_space_in_RAM">Statically
+  allocating space in RAM</a></h3>
+<p class="Pp"><code class="Ic">DS</code> statically allocates a number of empty
+    bytes. This is the preferred method of allocating space in a RAM section.
+    You can also use <code class="Ic">DB</code>, <code class="Ic">DW</code> and
+    <code class="Ic">DL</code> without any arguments instead (see
+    <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data
+    in ROM</a> below).</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DS 42 ;&#x00A0;Allocates 42 bytes</pre>
+</div>
+<p class="Pp">Empty space in RAM sections will not be initialized. In ROM
+    sections, it will be filled with the value passed to the
+    <code class="Fl">-p</code> command-line option, except when using overlays
+    with <code class="Fl">-O</code>.</p>
+<p class="Pp">Instead of an exact number of bytes, you can specify
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>] to allocate however many bytes are required to
+    align the subsequent data. Thus, &#x2018;<code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>],
+    <span class="No">...</span>&#x2019; is equivalent to
+    &#x2018;<code class="Ic">DS</code> <var class="Ar">n</var>,
+    <span class="No">...</span>&#x2019; followed by
+    &#x2018;<code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>]&#x2019;, where <var class="Ar">n</var> is the
+    minimum value needed to satisfy the <code class="Ic">ALIGN</code> constraint
+    (see <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
+    below). Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>]
+    is a shorthand for
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Allocating_overlapping_spaces_in_RAM"><a class="permalink" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+  overlapping spaces in RAM</a></h3>
 <p class="Pp">Unions allow multiple static memory allocations to overlap, like
     unions in C. This does not increase the amount of memory available, but
     allows re-using the same memory region for different purposes.</p>
@@ -1998,6 +2002,34 @@ ENDU
     space-allocating directives like <code class="Ic">DS</code> (see
     <a class="Sx" href="#Statically_allocating_space_in_RAM">Statically
     allocating space in RAM</a>).</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Requesting_alignment"><a class="permalink" href="#Requesting_alignment">Requesting
+  alignment</a></h3>
+<p class="Pp">While <code class="Ic">ALIGN</code> as presented in
+    <a class="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is, sometimes
+    you instead want a particular piece of data (or code) in the middle of the
+    section to be aligned. This is made easier through the use of mid-section
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
+    <var class="Ar">offset</var>. It will retroactively alter the section's
+    attributes to ensure that the location the <code class="Ic">ALIGN</code>
+    directive is at, has its <var class="Ar">align</var> lower bits equal to
+    <var class="Ar">offset</var>.</p>
+<p class="Pp">If the constraint cannot be met (for example because the section
+    is fixed at an incompatible address), an error is produced. Note that
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var> is a shorthand for
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
+    <span class="No">0</span>.</p>
+<p class="Pp">There may be times when you don't just want to specify an
+    alignment constraint at the current location, but also skip ahead until the
+    constraint can be satisfied. In that case, you can use <code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>] to
+    allocate however many bytes are required to align the subsequent data.</p>
+<p class="Pp">If the constraint cannot be met by skipping any amount of space,
+    an error is produced. Note that
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a shorthand
+    for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
 </section>
 </section>
 <section class="Sh">
@@ -2479,34 +2511,6 @@ POPO
     DW `..ooOOXX
 POPO</pre>
 </div>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="Requesting_alignment"><a class="permalink" href="#Requesting_alignment">Requesting
-  alignment</a></h3>
-<p class="Pp">While <code class="Ic">ALIGN</code> as presented in
-    <a class="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is, sometimes
-    you instead want a particular piece of data (or code) in the middle of the
-    section to be aligned. This is made easier through the use of mid-section
-    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
-    <var class="Ar">offset</var>. It will alter the section's attributes to
-    ensure that the location the <code class="Ic">ALIGN</code> directive is at,
-    has its <var class="Ar">align</var> lower bits equal to
-    <var class="Ar">offset</var>.</p>
-<p class="Pp">If the constraint cannot be met (for example because the section
-    is fixed at an incompatible address), an error is produced. Note that
-    <code class="Ic">ALIGN</code> <var class="Ar">align</var> is a shorthand for
-    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
-    <span class="No">0</span>.</p>
-<p class="Pp">There may be times when you don't just want to specify an
-    alignment constraint at the current location, but also skip ahead until the
-    constraint can be satisfied. In that case, you can use <code class="Ic">DS
-    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>] to
-    allocate however many bytes are required to align the subsequent data.</p>
-<p class="Pp">If the constraint cannot be met by skipping any amount of space,
-    an error is produced. Note that
-    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a shorthand
-    for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
-    <span class="No">0</span>].</p>
 </section>
 </section>
 <section class="Sh">
