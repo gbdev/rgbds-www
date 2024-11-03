@@ -3,7 +3,7 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbgfx</code></td>
-    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
+    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#X">X</a><a href="#Y">Y</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
       [<code class="Fl"><a href="#v">-v</a></code> <span class="No">...</span>]]
       [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
@@ -208,13 +208,13 @@
   </dd>
   <dt id="m"><a class="permalink" href="#m"><code class="Fl">-m</code></a>,
     <code class="Fl">--mirror-tiles</code></dt>
-  <dd>Deduplicate tiles that are symmetrical mirror images of each other. Only
-      one of each unique tile will be saved in the tile data file, with mirror
-      images counting as duplicates. Tiles are checked for horizontal, vertical,
-      and horizontal-vertical mirroring. Useful with a tile map and attribute
-      map together (see <code class="Fl">-a</code> and
+  <dd>Deduplicate tiles that are horizontally and/or vertically symmetrical
+      mirror images of each other. Only one of each unique tile will be saved in
+      the tile data file, with mirror images counting as duplicates. Useful with
+      a tile map and attribute map together (see <code class="Fl">-a</code> and
       <code class="Fl">-t</code>) to keep track of the duplicated tiles and the
-      dimension(s) mirrored. Implies <code class="Fl">-u</code>.</dd>
+      dimension(s) mirrored. Implies <code class="Fl">-u</code>. Equivalent to
+      <code class="Fl">-XY</code>.</dd>
   <dt id="N"><a class="permalink" href="#N"><code class="Fl">-N</code></a>
     <var class="Ar">nb_tiles</var>, <code class="Fl">--nb-tiles</code>
     <var class="Ar">nb_tiles</var></dt>
@@ -336,6 +336,10 @@
         humans, and may change without notice between RGBDS releases; relying on
         those for scripts is not advised.</p>
   </dd>
+  <dt id="X"><a class="permalink" href="#X"><code class="Fl">-X</code></a>,
+    <code class="Fl">--mirror-x</code></dt>
+  <dd>Deduplicate tiles that are horizontally symmetrical mirror images of each
+      other across the X axis. Implies <code class="Fl">-u</code>.</dd>
   <dt id="x"><a class="permalink" href="#x"><code class="Fl">-x</code></a>
     <var class="Ar">quantity</var>, <code class="Fl">--trim-end</code>
     <var class="Ar">quantity</var></dt>
@@ -351,6 +355,10 @@
         <code class="Fl">-u</code>. Note also that the tiles that don't get
         output will not count towards <code class="Fl">-N</code>'s limit.</p>
   </dd>
+  <dt id="Y"><a class="permalink" href="#Y"><code class="Fl">-Y</code></a>,
+    <code class="Fl">--mirror-y</code></dt>
+  <dd>Deduplicate tiles that are vertically symmetrical mirror images of each
+      other across the Y axis. Implies <code class="Fl">-u</code>.</dd>
   <dt id="Z"><a class="permalink" href="#Z"><code class="Fl">-Z</code></a>,
     <code class="Fl">--columns</code></dt>
   <dd>Read squares from the PNG in column-major order (column by column),
