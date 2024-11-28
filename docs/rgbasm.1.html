@@ -333,6 +333,12 @@
       is not empty. <code class="Fl">-Wunmapped-char=2</code> warns if the
       active charmap is empty, and/or is not the default charmap
       &#x2018;main&#x2019;.</dd>
+  <dt id="Wunmatched-directive"><a class="permalink" href="#Wunmatched-directive"><code class="Fl">-Wunmatched-directive</code></a></dt>
+  <dd>Warn when a <code class="Ic">PUSHC</code>, <code class="Ic">PUSHO</code>,
+      or <code class="Ic">PUSHS</code> directive does not have a corresponding
+      <code class="Ic">POPC</code>, <code class="Ic">POPO</code>, or
+      <code class="Ic">POPS</code>. This warning is enabled by
+      <code class="Fl">-Wextra</code>.</dd>
   <dt id="Wunterminated-load"><a class="permalink" href="#Wunterminated-load"><code class="Fl">-Wunterminated-load</code></a></dt>
   <dd>Warn when a <code class="Ic">LOAD</code> block is not terminated by an
       <code class="Ic">ENDL</code>. This warning is enabled by
