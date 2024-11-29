@@ -628,8 +628,49 @@ CPL A</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="DAA"><a class="permalink" href="#DAA">DAA</a></h3>
-<p class="Pp">Decimal Adjust Accumulator to get a correct BCD representation
-    after an arithmetic instruction.</p>
+<p class="Pp">Decimal Adjust Accumulator.</p>
+<p class="Pp" id="ADD">Designed to be used after performing an arithmetic
+    instruction (<a class="permalink" href="#ADD"><b class="Sy">ADD</b></a>,
+    <a class="permalink" href="#ADC"><b class="Sy" id="ADC">ADC</b></a>,
+    <a class="permalink" href="#SUB"><b class="Sy" id="SUB">SUB</b></a>,
+    <a class="permalink" href="#SBC"><b class="Sy" id="SBC">SBC</b></a>) whose
+    inputs were in Binary-Coded Decimal (BCD), adjusting the result to likewise
+    be in BCD.</p>
+<p class="Pp">The exact behavior of this instruction is as follows:</p>
+<div class="Bd-indent">
+<dl class="Bl-tag">
+  <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is
+    set:</span></dt>
+  <dd>
+    <ol class="Bl-enum Bl-compact">
+      <li>Initialize the adjustment to 0.</li>
+      <li>If the half-carry flag <b class="Sy">H</b> is set, then add
+          <span class="Ad">$6</span> to the adjustment.</li>
+      <li>If the carry flag is set, then add <span class="Ad">$60</span> to the
+          adjustment.</li>
+      <li>Subtract the adjustment from <b class="Sy">A</b>.</li>
+      <li>Set the carry flag if borrow (i.e. if adjustment &gt;
+          <b class="Sy">A</b>).</li>
+    </ol>
+  </dd>
+  <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is not
+    set:</span></dt>
+  <dd>
+    <ol class="Bl-enum Bl-compact">
+      <li>Initialize the adjustment to 0.</li>
+      <li>If the half-carry flag <b class="Sy">H</b> is set or
+          <b class="Sy">A</b> &amp; <span class="Ad">$F</span> &gt;
+          <span class="Ad">$9</span>, then add <span class="Ad">$6</span> to the
+          adjustment.</li>
+      <li>If the carry flag is set or <b class="Sy">A</b> &gt;
+          <span class="Ad">$9F</span>, then add <span class="Ad">$60</span> to
+          the adjustment.</li>
+      <li>Add the adjustment to <b class="Sy">A</b>.</li>
+      <li>Set the carry flag if overflow from bit 7.</li>
+    </ol>
+  </dd>
+</dl>
+</div>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1017,9 +1058,9 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__n16_,SP"><a class="permalink" href="#LD__n16_,SP">LD
   [n16],SP</a></h3>
-<p class="Pp">Store <b class="Sy">SP &amp; $FF</b> at address
-    <var class="Ar">n16</var> and <b class="Sy">SP &gt;&gt; 8</b> at address
-    <var class="Ar">n16</var> + 1.</p>
+<p class="Pp">Store <b class="Sy">SP</b> &amp; <span class="Ad">$FF</span> at
+    address <var class="Ar">n16</var> and <b class="Sy">SP</b> &gt;&gt; 8 at
+    address <var class="Ar">n16</var> + 1.</p>
 <p class="Pp">Cycles: 5</p>
 <p class="Pp">Bytes: 3</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1678,7 +1719,7 @@ ld [sp], LOW(r16) ; C, E or L</pre>
   <dt id="H~29"><a class="permalink" href="#H~29"><b class="Sy">H</b></a></dt>
   <dd>Set if borrow from bit 4.</dd>
   <dt id="C~26"><a class="permalink" href="#C~26"><b class="Sy">C</b></a></dt>
-  <dd>Set if borrow (set if <var class="Ar">r8</var> &gt;
+  <dd>Set if borrow (i.e. if <var class="Ar">r8</var> &gt;
     <b class="Sy">A</b>).</dd>
 </dl>
 </section>
