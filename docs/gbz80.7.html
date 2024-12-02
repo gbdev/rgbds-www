@@ -3,21 +3,22 @@
 <p class="Pp">This is the list of opcodes supported by
     <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>, including a short
     description, the number of bytes needed to encode them and the number of CPU
-    cycles at 1MHz (or 2MHz in GBC dual speed mode) needed to complete them.</p>
+    cycles at 1MHz (or 2MHz in GBC double speed mode) needed to complete
+  them.</p>
 <p class="Pp">Note: All arithmetic and logic instructions that use register
     <b class="Sy">A</b> as a destination can omit the destination, since it is
     assumed to be register <b class="Sy">A</b> by default. So the following two
     lines have the same effect:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>OR A,B
-OR B</pre>
+<pre>    OR A,B
+    OR B</pre>
 </div>
 <p class="Pp">Furthermore, the <b class="Sy">CPL</b> instruction can take an
     optional <b class="Sy">A</b> destination, since it can only be register
     <b class="Sy">A</b>. So the following two lines have the same effect:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>CPL
-CPL A</pre>
+<pre>    CPL
+    CPL A</pre>
 </div>
 </section>
 <section class="Sh">
@@ -37,18 +38,22 @@ CPL A</pre>
       (<a class="permalink" href="#BC"><b class="Sy">BC</b></a>,
       <a class="permalink" href="#DE"><b class="Sy" id="DE">DE</b></a>,
       <b class="Sy">HL</b>).</dd>
-  <dt><var class="Ar">n8</var></dt>
-  <dd>8-bit integer constant.</dd>
-  <dt><var class="Ar">n16</var></dt>
-  <dd>16-bit integer constant.</dd>
+  <dt id="255"><var class="Ar">n8</var></dt>
+  <dd>8-bit integer constant (signed or unsigned, <b class="Sy">-128</b> to
+      <a class="permalink" href="#255"><b class="Sy">255</b></a>).</dd>
+  <dt id="32768"><var class="Ar">n16</var></dt>
+  <dd>16-bit integer constant (signed or unsigned,
+      <a class="permalink" href="#32768"><b class="Sy">-32768</b></a> to
+      <a class="permalink" href="#65535"><b class="Sy" id="65535">65535</b></a>).</dd>
   <dt><var class="Ar">e8</var></dt>
-  <dd>8-bit offset (<b class="Sy">-128</b> to <b class="Sy">127</b>).</dd>
-  <dt id="0"><var class="Ar">u3</var></dt>
-  <dd>3-bit unsigned integer constant
-      (<a class="permalink" href="#0"><b class="Sy">0</b></a> to
-      <a class="permalink" href="#7"><b class="Sy" id="7">7</b></a>).</dd>
+  <dd>8-bit signed offset (<b class="Sy">-128</b> to
+    <b class="Sy">127</b>).</dd>
+  <dt id="7"><var class="Ar">u3</var></dt>
+  <dd>3-bit unsigned bit index (<b class="Sy">0</b> to
+      <a class="permalink" href="#7"><b class="Sy">7</b></a>, with
+      <b class="Sy">0</b> as the least significant bit).</dd>
   <dt><var class="Ar">cc</var></dt>
-  <dd>Condition codes:
+  <dd>A condition code:
     <dl class="Bl-tag Bl-compact">
       <dt id="Z"><a class="permalink" href="#Z"><b class="Sy">Z</b></a></dt>
       <dd>Execute if Z is set.</dd>
@@ -61,8 +66,8 @@ CPL A</pre>
     </dl>
   </dd>
   <dt id="RST"><var class="Ar">vec</var></dt>
-  <dd>One of the <a class="permalink" href="#RST"><b class="Sy">RST</b></a>
-      vectors (<span class="Ad">0x00</span>, <span class="Ad">0x08</span>,
+  <dd>An <a class="permalink" href="#RST"><b class="Sy">RST</b></a> vector
+      (<span class="Ad">0x00</span>, <span class="Ad">0x08</span>,
       <span class="Ad">0x10</span>, <span class="Ad">0x18</span>,
       <span class="Ad">0x20</span>, <span class="Ad">0x28</span>,
       <span class="Ad">0x30</span>, and <span class="Ad">0x38</span>).</dd>
@@ -475,8 +480,8 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="AND_A,r8"><a class="permalink" href="#AND_A,r8">AND
   A,r8</a></h3>
-<p class="Pp">Bitwise AND between the value in <var class="Ar">r8</var> and
-    <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the value in
+    <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -494,8 +499,8 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="AND_A,_HL_"><a class="permalink" href="#AND_A,_HL_">AND
   A,[HL]</a></h3>
-<p class="Pp">Bitwise AND between the byte pointed to by <b class="Sy">HL</b>
-    and <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the byte
+    pointed to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: See <a class="Sx" href="#AND_A,r8">AND A,r8</a></p>
@@ -503,8 +508,8 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="AND_A,n8"><a class="permalink" href="#AND_A,n8">AND
   A,n8</a></h3>
-<p class="Pp">Bitwise AND between the value in <var class="Ar">n8</var> and
-    <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the value
+    <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#AND_A,r8">AND A,r8</a></p>
@@ -538,11 +543,11 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="CALL_n16"><a class="permalink" href="#CALL_n16">CALL
   n16</a></h3>
-<p class="Pp">Call address <var class="Ar">n16</var>. This pushes the address of
-    the instruction after the
-    <a class="permalink" href="#CALL"><b class="Sy" id="CALL">CALL</b></a> on
-    the stack, such that <a class="Sx" href="#RET">RET</a> can pop it later;
-    then, it executes an implicit <a class="Sx" href="#JP_n16">JP n16</a>.</p>
+<p class="Pp">Call address <var class="Ar">n16</var>.</p>
+<p class="Pp" id="CALL">This pushes the address of the instruction after the
+    <a class="permalink" href="#CALL"><b class="Sy">CALL</b></a> on the stack,
+    such that <a class="Sx" href="#RET">RET</a> can pop it later; then, it
+    executes an implicit <a class="Sx" href="#JP_n16">JP n16</a>.</p>
 <p class="Pp">Cycles: 6</p>
 <p class="Pp">Bytes: 3</p>
 <p class="Pp">Flags: None affected.</p>
@@ -574,9 +579,10 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="CP_A,r8"><a class="permalink" href="#CP_A,r8">CP
   A,r8</a></h3>
-<p class="Pp">Subtract the value in <var class="Ar">r8</var> from
-    <b class="Sy">A</b> and set flags accordingly, but don't store the result.
-    This is useful for ComParing values.</p>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the value in
+    <var class="Ar">r8</var>.</p>
+<p class="Pp">This subtracts the value in <var class="Ar">r8</var> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -595,9 +601,10 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="CP_A,_HL_"><a class="permalink" href="#CP_A,_HL_">CP
   A,[HL]</a></h3>
-<p class="Pp">Subtract the byte pointed to by <b class="Sy">HL</b> from
-    <b class="Sy">A</b> and set flags accordingly, but don't store the
-  result.</p>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the byte pointed to
+    by <b class="Sy">HL</b>.</p>
+<p class="Pp">This subtracts the byte pointed to by <b class="Sy">HL</b> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: See <a class="Sx" href="#CP_A,r8">CP A,r8</a></p>
@@ -605,9 +612,10 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="CP_A,n8"><a class="permalink" href="#CP_A,n8">CP
   A,n8</a></h3>
-<p class="Pp">Subtract the value <var class="Ar">n8</var> from
-    <b class="Sy">A</b> and set flags accordingly, but don't store the
-  result.</p>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the value
+    <var class="Ar">n8</var>.</p>
+<p class="Pp">This subtracts the value <var class="Ar">n8</var> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#CP_A,r8">CP A,r8</a></p>
@@ -615,7 +623,8 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="CPL"><a class="permalink" href="#CPL">CPL</a></h3>
 <p class="Pp">ComPLement accumulator (<b class="Sy">A</b> =
-    <a class="permalink" href="#_A"><b class="Sy" id="_A">~A</b></a>).</p>
+    <a class="permalink" href="#_A"><b class="Sy" id="_A">~A</b></a>); also
+    called bitwise NOT.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -636,7 +645,8 @@ CPL A</pre>
     <a class="permalink" href="#SBC"><b class="Sy" id="SBC">SBC</b></a>) whose
     inputs were in Binary-Coded Decimal (BCD), adjusting the result to likewise
     be in BCD.</p>
-<p class="Pp">The exact behavior of this instruction is as follows:</p>
+<p class="Pp">The exact behavior of this instruction depends on the state of the
+    subtract flag <b class="Sy">N</b>:</p>
 <div class="Bd-indent">
 <dl class="Bl-tag">
   <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is
@@ -685,7 +695,7 @@ CPL A</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="DEC_r8"><a class="permalink" href="#DEC_r8">DEC r8</a></h3>
-<p class="Pp">Decrement value in register <var class="Ar">r8</var> by 1.</p>
+<p class="Pp">Decrement the value in register <var class="Ar">r8</var> by 1.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -709,14 +719,15 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="DEC_r16"><a class="permalink" href="#DEC_r16">DEC
   r16</a></h3>
-<p class="Pp">Decrement value in register <var class="Ar">r16</var> by 1.</p>
+<p class="Pp">Decrement the value in register <var class="Ar">r16</var> by
+  1.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="DEC_SP"><a class="permalink" href="#DEC_SP">DEC SP</a></h3>
-<p class="Pp">Decrement value in register <b class="Sy">SP</b> by 1.</p>
+<p class="Pp">Decrement the value in register <b class="Sy">SP</b> by 1.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -730,49 +741,46 @@ CPL A</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="EI"><a class="permalink" href="#EI">EI</a></h3>
-<p class="Pp">Enable Interrupts by setting the <b class="Sy">IME</b> flag. The
-    flag is only set <i class="Em">after</i> the instruction following
-    <b class="Sy">EI</b>.</p>
+<p class="Pp">Enable Interrupts by setting the <b class="Sy">IME</b> flag.</p>
+<p class="Pp">The flag is only set <i class="Em">after</i> the instruction
+    following <b class="Sy">EI</b>.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="HALT"><a class="permalink" href="#HALT">HALT</a></h3>
-<p class="Pp">Enter CPU low-power consumption mode until an interrupt occurs.
-    The exact behavior of this instruction depends on the state of the
-    <b class="Sy">IME</b> flag.</p>
+<p class="Pp">Enter CPU low-power consumption mode until an interrupt
+  occurs.</p>
+<p class="Pp">The exact behavior of this instruction depends on the state of the
+    <b class="Sy">IME</b> flag, and whether interrupts are pending (i.e. whether
+    &#x2018;<code class="Li">[IE] &amp; [IF]</code>&#x2019; is non-zero):</p>
+<div class="Bd-indent">
 <dl class="Bl-tag">
-  <dt id="IME"><a class="permalink" href="#IME"><b class="Sy">IME</b></a>
-    <span class="No">set</span></dt>
+  <dt>If the <b class="Sy">IME</b> <span class="No">flag is set:</span></dt>
   <dd>The CPU enters low-power mode until <i class="Em">after</i> an interrupt
       is about to be serviced. The handler is executed normally, and the CPU
       resumes execution after the <code class="Ic">HALT</code> when that
       returns.</dd>
-  <dt id="IME~2"><a class="permalink" href="#IME~2"><b class="Sy">IME</b></a>
-    <span class="No">not set</span></dt>
-  <dd>The behavior depends on whether an interrupt is pending (i.e.
-      &#x2018;<code class="Li">[IE] &amp; [IF]</code>&#x2019; is non-zero).
-    <dl class="Bl-tag">
-      <dt id="not">None pending</dt>
-      <dd>As soon as an interrupt becomes pending, the CPU resumes execution.
-          This is like the above, except that the handler is
-          <a class="permalink" href="#not"><i class="Em">not</i></a>
-        called.</dd>
-      <dt>Some pending</dt>
-      <dd>The CPU continues execution after the <code class="Ic">HALT</code>,
-          but the byte after it is read twice in a row (<b class="Sy">PC</b> is
-          not incremented, due to a hardware bug).</dd>
-    </dl>
-  </dd>
+  <dt id="not">If the <b class="Sy">IME</b> <span class="No">flag is not set,
+    and no interrupts are pending:</span></dt>
+  <dd>As soon as an interrupt becomes pending, the CPU resumes execution. This
+      is like the above, except that the handler is
+      <a class="permalink" href="#not"><i class="Em">not</i></a> called.</dd>
+  <dt>If the <b class="Sy">IME</b> <span class="No">flag is not set, and some
+    interrupt is pending:</span></dt>
+  <dd>The CPU continues execution after the <code class="Ic">HALT</code>, but
+      the byte after it is read twice in a row (<b class="Sy">PC</b> is not
+      incremented, due to a hardware bug).</dd>
 </dl>
+</div>
 <p class="Pp">Cycles: -</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="INC_r8"><a class="permalink" href="#INC_r8">INC r8</a></h3>
-<p class="Pp">Increment value in register <var class="Ar">r8</var> by 1.</p>
+<p class="Pp">Increment the value in register <var class="Ar">r8</var> by 1.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -796,21 +804,22 @@ CPL A</pre>
 <section class="Ss">
 <h3 class="Ss" id="INC_r16"><a class="permalink" href="#INC_r16">INC
   r16</a></h3>
-<p class="Pp">Increment value in register <var class="Ar">r16</var> by 1.</p>
+<p class="Pp">Increment the value in register <var class="Ar">r16</var> by
+  1.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="INC_SP"><a class="permalink" href="#INC_SP">INC SP</a></h3>
-<p class="Pp">Increment value in register <b class="Sy">SP</b> by 1.</p>
+<p class="Pp">Increment the value in register <b class="Sy">SP</b> by 1.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="JP_n16"><a class="permalink" href="#JP_n16">JP n16</a></h3>
-<p class="Pp">Jump to address <var class="Ar">n16</var>; effectively, store
+<p class="Pp">Jump to address <var class="Ar">n16</var>; effectively, copy
     <var class="Ar">n16</var> into <b class="Sy">PC</b>.</p>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 3</p>
@@ -827,19 +836,20 @@ CPL A</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="JP_HL"><a class="permalink" href="#JP_HL">JP HL</a></h3>
-<p class="Pp">Jump to address in <b class="Sy">HL</b>; effectively, load
-    <b class="Sy">PC</b> with value in register <b class="Sy">HL</b>.</p>
+<p class="Pp">Jump to address in <b class="Sy">HL</b>; effectively, copy the
+    value in register <b class="Sy">HL</b> into <b class="Sy">PC</b>.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="JR_n16"><a class="permalink" href="#JR_n16">JR n16</a></h3>
-<p class="Pp">Relative Jump to address <var class="Ar">n16</var>. The address is
-    encoded as a signed 8-bit offset from the address immediately following the
-    <code class="Ic">JR</code> instruction, so the target address
-    <var class="Ar">n16</var> must be between <b class="Sy">-128</b> and
-    <b class="Sy">127</b> bytes away. For example:</p>
+<p class="Pp">Relative Jump to address <var class="Ar">n16</var>.</p>
+<p class="Pp">The address is encoded as a signed 8-bit offset from the address
+    immediately following the <code class="Ic">JR</code> instruction, so the
+    target address <var class="Ar">n16</var> must be between
+    <b class="Sy">-128</b> and <b class="Sy">127</b> bytes away. For
+  example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>    JR Label  ; no-op; encoded offset of 0
 Label:
@@ -861,8 +871,12 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_r8,r8"><a class="permalink" href="#LD_r8,r8">LD
   r8,r8</a></h3>
-<p class="Pp">Load (copy) value in register on the right into register on the
-    left.</p>
+<p class="Pp">Copy (aka Load) the value in register on the right into the
+    register on the left.</p>
+<p class="Pp">Storing a register into itself is a no-op; however, some Game Boy
+    emulators interpret <b class="Sy">LD B,B</b> as a breakpoint, or
+    <b class="Sy">LD D,D</b> as a debug message (such as
+    <a class="Lk" href="https://bgb.bircd.org/manual.html#expressions">BGB</a>).</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -870,7 +884,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_r8,n8"><a class="permalink" href="#LD_r8,n8">LD
   r8,n8</a></h3>
-<p class="Pp">Load value <var class="Ar">n8</var> into register
+<p class="Pp">Copy the value <var class="Ar">n8</var> into register
     <var class="Ar">r8</var>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
@@ -879,7 +893,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_r16,n16"><a class="permalink" href="#LD_r16,n16">LD
   r16,n16</a></h3>
-<p class="Pp">Load value <var class="Ar">n16</var> into register
+<p class="Pp">Copy the value <var class="Ar">n16</var> into register
     <var class="Ar">r16</var>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 3</p>
@@ -888,8 +902,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__HL_,r8"><a class="permalink" href="#LD__HL_,r8">LD
   [HL],r8</a></h3>
-<p class="Pp">Store value in register <var class="Ar">r8</var> into the byte
-    pointed to by register <b class="Sy">HL</b>.</p>
+<p class="Pp">Copy the value in register <var class="Ar">r8</var> into the byte
+    pointed to by <b class="Sy">HL</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -897,8 +911,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__HL_,n8"><a class="permalink" href="#LD__HL_,n8">LD
   [HL],n8</a></h3>
-<p class="Pp">Store value <var class="Ar">n8</var> into the byte pointed to by
-    register <b class="Sy">HL</b>.</p>
+<p class="Pp">Copy the value <var class="Ar">n8</var> into the byte pointed to
+    by <b class="Sy">HL</b>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
@@ -906,8 +920,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_r8,_HL_"><a class="permalink" href="#LD_r8,_HL_">LD
   r8,[HL]</a></h3>
-<p class="Pp">Load value into register <var class="Ar">r8</var> from the byte
-    pointed to by register <b class="Sy">HL</b>.</p>
+<p class="Pp">Copy the value pointed to by <b class="Sy">HL</b> into register
+    <var class="Ar">r8</var>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -915,8 +929,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__r16_,A"><a class="permalink" href="#LD__r16_,A">LD
   [r16],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte pointed
-    to by register <var class="Ar">r16</var>.</p>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed to by <var class="Ar">r16</var>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -924,7 +938,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__n16_,A"><a class="permalink" href="#LD__n16_,A">LD
   [n16],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte at
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
     address <var class="Ar">n16</var>.</p>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 3</p>
@@ -933,7 +947,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LDH__n16_,A"><a class="permalink" href="#LDH__n16_,A">LDH
   [n16],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte at
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
     address <var class="Ar">n16</var>, provided the address is between
     <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
 <p class="Pp">Cycles: 3</p>
@@ -946,7 +960,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LDH__C_,A"><a class="permalink" href="#LDH__C_,A">LDH
   [C],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte at
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
     address <span class="Ad">$FF00+C</span>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -958,8 +972,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_A,_r16_"><a class="permalink" href="#LD_A,_r16_">LD
   A,[r16]</a></h3>
-<p class="Pp">Load value in register <b class="Sy">A</b> from the byte pointed
-    to by register <var class="Ar">r16</var>.</p>
+<p class="Pp">Copy the byte pointed to by <var class="Ar">r16</var> into
+    register <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -967,8 +981,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_A,_n16_"><a class="permalink" href="#LD_A,_n16_">LD
   A,[n16]</a></h3>
-<p class="Pp">Load value in register <b class="Sy">A</b> from the byte at
-    address <var class="Ar">n16</var>.</p>
+<p class="Pp">Copy the byte at address <var class="Ar">n16</var> into register
+    <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 3</p>
 <p class="Pp">Flags: None affected.</p>
@@ -976,8 +990,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LDH_A,_n16_"><a class="permalink" href="#LDH_A,_n16_">LDH
   A,[n16]</a></h3>
-<p class="Pp">Load value in register <b class="Sy">A</b> from the byte at
-    address <var class="Ar">n16</var>, provided the address is between
+<p class="Pp">Copy the byte at address <var class="Ar">n16</var> into register
+    <b class="Sy">A</b>, provided the address is between
     <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
@@ -989,8 +1003,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LDH_A,_C_"><a class="permalink" href="#LDH_A,_C_">LDH
   A,[C]</a></h3>
-<p class="Pp">Load value in register <b class="Sy">A</b> from the byte at
-    address <span class="Ad">$FF00+c</span>.</p>
+<p class="Pp">Copy the byte at address <span class="Ad">$FF00+c</span> into
+    register <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1001,8 +1015,9 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__HLI_,A"><a class="permalink" href="#LD__HLI_,A">LD
   [HLI],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte pointed
-    by <b class="Sy">HL</b> and increment <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed by <b class="Sy">HL</b> and increment <b class="Sy">HL</b>
+    afterwards.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1013,8 +1028,9 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__HLD_,A"><a class="permalink" href="#LD__HLD_,A">LD
   [HLD],A</a></h3>
-<p class="Pp">Store value in register <b class="Sy">A</b> into the byte pointed
-    by <b class="Sy">HL</b> and decrement <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed by <b class="Sy">HL</b> and decrement <b class="Sy">HL</b>
+    afterwards.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1025,8 +1041,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_A,_HLD_"><a class="permalink" href="#LD_A,_HLD_">LD
   A,[HLD]</a></h3>
-<p class="Pp">Load value into register <b class="Sy">A</b> from the byte pointed
-    by <b class="Sy">HL</b> and decrement <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Copy the byte pointed to by <b class="Sy">HL</b> into register
+    <b class="Sy">A</b>, and decrement <b class="Sy">HL</b> afterwards.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1037,8 +1053,8 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_A,_HLI_"><a class="permalink" href="#LD_A,_HLI_">LD
   A,[HLI]</a></h3>
-<p class="Pp">Load value into register <b class="Sy">A</b> from the byte pointed
-    by <b class="Sy">HL</b> and increment <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Copy the byte pointed to by <b class="Sy">HL</b> into register
+    <b class="Sy">A</b>, and increment <b class="Sy">HL</b> afterwards.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1049,7 +1065,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_SP,n16"><a class="permalink" href="#LD_SP,n16">LD
   SP,n16</a></h3>
-<p class="Pp">Load value <var class="Ar">n16</var> into register
+<p class="Pp">Copy the value <var class="Ar">n16</var> into register
     <b class="Sy">SP</b>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 3</p>
@@ -1058,7 +1074,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD__n16_,SP"><a class="permalink" href="#LD__n16_,SP">LD
   [n16],SP</a></h3>
-<p class="Pp">Store <b class="Sy">SP</b> &amp; <span class="Ad">$FF</span> at
+<p class="Pp">Copy <b class="Sy">SP</b> &amp; <span class="Ad">$FF</span> at
     address <var class="Ar">n16</var> and <b class="Sy">SP</b> &gt;&gt; 8 at
     address <var class="Ar">n16</var> + 1.</p>
 <p class="Pp">Cycles: 5</p>
@@ -1069,7 +1085,7 @@ Label:
 <h3 class="Ss" id="LD_HL,SP+e8"><a class="permalink" href="#LD_HL,SP+e8">LD
   HL,SP+e8</a></h3>
 <p class="Pp">Add the signed value <var class="Ar">e8</var> to
-    <b class="Sy">SP</b> and store the result in <b class="Sy">HL</b>.</p>
+    <b class="Sy">SP</b> and copy the result in <b class="Sy">HL</b>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags:</p>
@@ -1087,7 +1103,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="LD_SP,HL"><a class="permalink" href="#LD_SP,HL">LD
   SP,HL</a></h3>
-<p class="Pp">Load register <b class="Sy">HL</b> into register
+<p class="Pp">Copy register <b class="Sy">HL</b> into register
     <b class="Sy">SP</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -1103,7 +1119,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="OR_A,r8"><a class="permalink" href="#OR_A,r8">OR
   A,r8</a></h3>
-<p class="Pp">Store into <b class="Sy">A</b> the bitwise OR of the value in
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the value in
     <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
@@ -1122,7 +1138,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="OR_A,_HL_"><a class="permalink" href="#OR_A,_HL_">OR
   A,[HL]</a></h3>
-<p class="Pp">Store into <b class="Sy">A</b> the bitwise OR of the byte pointed
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the byte pointed
     to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
@@ -1131,7 +1147,7 @@ Label:
 <section class="Ss">
 <h3 class="Ss" id="OR_A,n8"><a class="permalink" href="#OR_A,n8">OR
   A,n8</a></h3>
-<p class="Pp">Store into <b class="Sy">A</b> the bitwise OR of
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the value
     <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
@@ -1142,10 +1158,10 @@ Label:
 <p class="Pp">Pop register <b class="Sy">AF</b> from the stack. This is roughly
     equivalent to the following <i class="Em">imaginary</i> instructions:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>ld f, [sp] ; See below for individual flags
-inc sp
-ld a, [sp]
-inc sp</pre>
+<pre>    LD F, [SP]  ; See below for individual flags
+    INC SP
+    LD A, [SP]
+    INC SP</pre>
 </div>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 1</p>
@@ -1168,10 +1184,10 @@ inc sp</pre>
     roughly equivalent to the following <i class="Em">imaginary</i>
     instructions:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>ld LOW(r16), [sp] ; C, E or L
-inc sp
-ld HIGH(r16), [sp] ; B, D or H
-inc sp</pre>
+<pre>    LD LOW(r16), [SP]   ; C, E or L
+    INC SP
+    LD HIGH(r16), [SP]  ; B, D or H
+    INC SP</pre>
 </div>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 1</p>
@@ -1183,10 +1199,10 @@ inc sp</pre>
 <p class="Pp">Push register <b class="Sy">AF</b> into the stack. This is roughly
     equivalent to the following <i class="Em">imaginary</i> instructions:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>dec sp
-ld [sp], a
-dec sp
-ld [sp], flag_Z &lt;&lt; 7 | flag_N &lt;&lt; 6 | flag_H &lt;&lt; 5 | flag_C &lt;&lt; 4</pre>
+<pre>    DEC SP
+    LD [SP], A
+    DEC SP
+    LD [SP], F.Z &lt;&lt; 7 | F.N &lt;&lt; 6 | F.H &lt;&lt; 5 | F.C &lt;&lt; 4</pre>
 </div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 1</p>
@@ -1199,10 +1215,10 @@ ld [sp], flag_Z &lt;&lt; 7 | flag_N &lt;&lt; 6 | flag_H &lt;&lt; 5 | flag_C &lt;
     roughly equivalent to the following <i class="Em">imaginary</i>
     instructions:</p>
 <div class="Bd Pp Bd-indent Li">
-<pre>dec sp
-ld [sp], HIGH(r16) ; B, D or H
-dec sp
-ld [sp], LOW(r16) ; C, E or L</pre>
+<pre>    DEC SP
+    LD [SP], HIGH(r16)  ; B, D or H
+    DEC SP
+    LD [SP], LOW(r16)   ; C, E or L</pre>
 </div>
 <p class="Pp">Cycles: 4</p>
 <p class="Pp">Bytes: 1</p>
@@ -1697,8 +1713,15 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="STOP"><a class="permalink" href="#STOP">STOP</a></h3>
-<p class="Pp">Enter CPU very low power mode. Also used to switch between double
-    and normal speed CPU modes in GBC.</p>
+<p class="Pp">Enter CPU very low power mode. Also used to switch between GBC
+    double speed and normal speed CPU modes.</p>
+<p class="Pp">The exact behavior of this instruction is fragile and may
+    interpret its second byte as a separate instruction (see
+    <a class="Lk" href="https://gbdev.io/pandocs/Reducing_Power_Consumption.html#using-the-stop-instruction">the
+    Pan Docs</a>), which is why <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>
+    allows explicitly specifying the second byte (<b class="Sy">STOP</b>
+    <var class="Ar">n8</var>) to override the default of
+    <span class="Ad">$00</span> (a <b class="Sy">NOP</b> instruction).</p>
 <p class="Pp">Cycles: -</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
@@ -1772,8 +1795,8 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="XOR_A,r8"><a class="permalink" href="#XOR_A,r8">XOR
   A,r8</a></h3>
-<p class="Pp">Bitwise XOR between the value in <var class="Ar">r8</var> and
-    <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the value in
+    <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 1</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags:</p>
@@ -1791,8 +1814,8 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="XOR_A,_HL_"><a class="permalink" href="#XOR_A,_HL_">XOR
   A,[HL]</a></h3>
-<p class="Pp">Bitwise XOR between the byte pointed to by <b class="Sy">HL</b>
-    and <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the byte
+    pointed to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 1</p>
 <p class="Pp">Flags: See <a class="Sx" href="#XOR_A,r8">XOR A,r8</a></p>
@@ -1800,8 +1823,8 @@ ld [sp], LOW(r16) ; C, E or L</pre>
 <section class="Ss">
 <h3 class="Ss" id="XOR_A,n8"><a class="permalink" href="#XOR_A,n8">XOR
   A,n8</a></h3>
-<p class="Pp">Bitwise XOR between the value in <var class="Ar">n8</var> and
-    <b class="Sy">A</b>.</p>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the value
+    <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
 <p class="Pp">Cycles: 2</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: See <a class="Sx" href="#XOR_A,r8">XOR A,r8</a></p>
