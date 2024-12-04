@@ -341,8 +341,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Operators"><a class="permalink" href="#Operators">Operators</a></h3>
-<p class="Pp">A great number of operators you can use in expressions are
-    available (listed from highest to lowest precedence):</p>
+<p class="Pp">You can use these operators in numeric expressions (listed from
+    highest to lowest precedence):</p>
 <table class="Bl-column Bd-indent">
   <tr id="Operator">
     <td><a class="permalink" href="#Operator"><b class="Sy">Operator</b></a></td>
@@ -350,7 +350,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   </tr>
   <tr id="(">
     <td><a class="permalink" href="#("><code class="Li">( )</code></a></td>
-    <td>Precedence override</td>
+    <td>Grouping</td>
   </tr>
   <tr id="FUNC()">
     <td><a class="permalink" href="#FUNC()"><code class="Li">FUNC()</code></a></td>
@@ -358,53 +358,53 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   </tr>
   <tr id="**">
     <td><a class="permalink" href="#**"><code class="Li">**</code></a></td>
-    <td>Exponent</td>
+    <td>Exponentiation</td>
   </tr>
-  <tr id="_~2">
-    <td><a class="permalink" href="#_~2"><code class="Li">~ + -</code></a></td>
-    <td>Unary complement/plus/minus</td>
+  <tr id="+">
+    <td><a class="permalink" href="#+"><code class="Li">+ - ~ !</code></a></td>
+    <td>Unary plus, minus (negation), complement (bitwise negation), and Boolean
+      negation</td>
   </tr>
   <tr id="*">
     <td><a class="permalink" href="#*"><code class="Li">* / %</code></a></td>
-    <td>Multiply/divide/modulo</td>
+    <td>Multiplication, division, and modulo (remainder)</td>
   </tr>
   <tr id="__">
-    <td><a class="permalink" href="#__"><code class="Li">&lt;&lt;</code></a></td>
-    <td>Shift left</td>
-  </tr>
-  <tr id="__~2">
-    <td><a class="permalink" href="#__~2"><code class="Li">&gt;&gt;</code></a></td>
-    <td>Signed shift right (sign-extension)</td>
-  </tr>
-  <tr id="___">
-    <td><a class="permalink" href="#___"><code class="Li">&gt;&gt;&gt;</code></a></td>
-    <td>Unsigned shift right (zero-extension)</td>
+    <td><a class="permalink" href="#__"><code class="Li">&lt;&lt; &gt;&gt;
+      &gt;&gt;&gt;</code></a></td>
+    <td>Bit shifts (left, sign-extended right, zero-extended right)</td>
   </tr>
   <tr>
     <td><code class="Li">&amp; | ^</code></td>
-    <td>Binary and/or/xor</td>
+    <td>Bitwise AND/OR/XOR</td>
   </tr>
-  <tr id="+">
-    <td><a class="permalink" href="#+"><code class="Li">+ -</code></a></td>
-    <td>Add/subtract</td>
+  <tr id="+~2">
+    <td><a class="permalink" href="#+~2"><code class="Li">+ -</code></a></td>
+    <td>Addition and subtraction</td>
   </tr>
-  <tr id="!=">
-    <td><a class="permalink" href="#!="><code class="Li">!= == &lt;= &gt;= &lt;
-      &gt;</code></a></td>
-    <td>Comparison</td>
+  <tr id="==">
+    <td><a class="permalink" href="#=="><code class="Li">== != &lt; &gt; &lt;=
+      &gt;=</code></a></td>
+    <td>Comparisons</td>
   </tr>
   <tr id="&amp;&amp;">
-    <td><a class="permalink" href="#&amp;&amp;"><code class="Li">&amp;&amp;
-      ||</code></a></td>
-    <td>Boolean and/or</td>
+    <td><a class="permalink" href="#&amp;&amp;"><code class="Li">&amp;&amp;</code></a></td>
+    <td>Boolean AND</td>
   </tr>
-  <tr id="!">
-    <td><a class="permalink" href="#!"><code class="Li">!</code></a></td>
-    <td>Unary not</td>
+  <tr id="__~2">
+    <td><a class="permalink" href="#__~2"><code class="Li">||</code></a></td>
+    <td>Boolean OR</td>
   </tr>
 </table>
-<p class="Pp">&#x2018;~&#x2019; complements a value by inverting all its
-  bits.</p>
+<p class="Pp" id="right-associative">&#x2018;**&#x2019; raises a number to a
+    non-negative power. It is the only
+    <a class="permalink" href="#right-associative"><i class="Em">right-associative</i></a>
+    operator, meaning that &#x2018;<code class="Li">p ** q ** r</code>&#x2019;
+    is equal to &#x2018;<code class="Li">p ** (q ** r)</code>&#x2019;, not
+    &#x2018;<code class="Li">(p ** q) ** r</code>&#x2019;. All other binary
+    operators are left-associative.</p>
+<p class="Pp">&#x2018;~&#x2019; complements a value by inverting all 32 of its
+    bits.</p>
 <p class="Pp">&#x2018;%&#x2019; is used to get the remainder of the
     corresponding division, so that &#x2018;<code class="Li">x / y * y + x % y
     == x</code>&#x2019; is always true. The result has the same sign as the
