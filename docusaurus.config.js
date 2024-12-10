@@ -174,6 +174,10 @@ const config = {
                 href: "https://fedi.gbdev.io/@gbdev",
               },
               {
+                label: "Bluesky",
+                href: "https://bsky.app/profile/gbdev.bsky.social",
+              },
+              {
                 label: "Donate on OpenCollective",
                 href: "https://opencollective.com/gbdev",
               },
