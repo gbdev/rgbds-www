@@ -16,11 +16,6 @@ export const toc = [
 	"level": 2,
 },
 {
-	"value": "Global labels without colons",
-	"id": "Global_labels_without_colons",
-	"level": 3,
-},
-{
 	"value": "Automatic LD to LDH conversion (rgbasm -l)",
 	"id": "Automatic_LD_to_LDH_conversion_(rgbasm_-l)",
 	"level": 3,
@@ -31,8 +26,13 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "IMPORT and XREF",
-	"id": "IMPORT_and_XREF",
+	"value": "Nested macro definitions",
+	"id": "Nested_macro_definitions",
+	"level": 3,
+},
+{
+	"value": "Negative DS",
+	"id": "Negative_DS",
 	"level": 3,
 },
 {
@@ -43,26 +43,6 @@ export const toc = [
 {
 	"value": "_PI",
 	"id": "_PI",
-	"level": 3,
-},
-{
-	"value": "'\e,' in strings within macro arguments",
-	"id": "'_e,'_in_strings_within_macro_arguments",
-	"level": 3,
-},
-{
-	"value": "'*' comments",
-	"id": "'*'_comments",
-	"level": 3,
-},
-{
-	"value": "Nested macro definitions",
-	"id": "Nested_macro_definitions",
-	"level": 3,
-},
-{
-	"value": "Negative DS",
-	"id": "Negative_DS",
 	"level": 3,
 },
 {
@@ -101,8 +81,28 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Global labels without colons",
+	"id": "Global_labels_without_colons",
+	"level": 3,
+},
+{
+	"value": "'\e,' in strings within macro arguments",
+	"id": "'_e,'_in_strings_within_macro_arguments",
+	"level": 3,
+},
+{
+	"value": "'*' comments",
+	"id": "'*'_comments",
+	"level": 3,
+},
+{
 	"value": "PRINTT, PRINTI, PRINTV, and PRINTF",
 	"id": "PRINTT,_PRINTI,_PRINTV,_and_PRINTF",
+	"level": 3,
+},
+{
+	"value": "IMPORT and XREF",
+	"id": "IMPORT_and_XREF",
 	"level": 3,
 },
 {

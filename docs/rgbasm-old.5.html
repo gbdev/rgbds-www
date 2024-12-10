@@ -15,16 +15,6 @@
     direct alternatives. Usually these features were limiting the addition of
     other features, or had awkward limits on their own intended effects.</p>
 <section class="Ss">
-<h3 class="Ss" id="Global_labels_without_colons"><a class="permalink" href="#Global_labels_without_colons">Global
-  labels without colons</a></h3>
-<p class="Pp">Deprecated in 0.4.0, removed in 0.5.0.</p>
-<p class="Pp">Labels used to be definable with just a name, but had to be typed
-    in column 1.</p>
-<p class="Pp">Instead, use explicit colons; for example,
-    &#x2018;<code class="Li">Label:</code>&#x2019; or exported
-    &#x2018;<code class="Li">Label::</code>&#x2019;.</p>
-</section>
-<section class="Ss">
 <h3 class="Ss" id="Automatic_LD_to_LDH_conversion_(rgbasm_-l)"><a class="permalink" href="#Automatic_LD_to_LDH_conversion_(rgbasm_-l)">Automatic
   LD to LDH conversion (rgbasm -l)</a></h3>
 <p class="Pp">Deprecated in 0.7.0, removed in 0.8.0.</p>
@@ -56,44 +46,6 @@
     <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="IMPORT_and_XREF"><a class="permalink" href="#IMPORT_and_XREF">IMPORT
-  and XREF</a></h3>
-<p class="Pp">Removed in 0.4.0.</p>
-<p class="Pp">Symbols are now automatically resolved if they were exported from
-    elsewhere.</p>
-<p class="Pp">Instead, just remove these directives.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="__FILE___and___LINE__"><a class="permalink" href="#__FILE___and___LINE__">__FILE__
-  and __LINE__</a></h3>
-<p class="Pp">Deprecated in 0.6.0, removed in 0.7.0.</p>
-<p class="Pp">Instead, use <code class="Ic">WARN</code> or
-    <code class="Ic">FAIL</code> to print a complete trace of filenames and line
-    numbers.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="_PI"><a class="permalink" href="#_PI">_PI</a></h3>
-<p class="Pp">Deprecated in 0.5.0, removed in 0.6.0.</p>
-<p class="Pp">Instead, use &#x2018;<code class="Li">DEF _PI EQU
-    3.141592653</code>&#x2019;.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="'"><a class="permalink" href="#'">'\,' in strings within
-  macro arguments</a></h3>
-<p class="Pp">Deprecated in 0.5.0, removed in 0.7.0.</p>
-<p class="Pp">Macro arguments now handle quoted strings and parenthesized
-    expressions as single arguments, so commas inside them are not argument
-    separators and do not need escaping.</p>
-<p class="Pp">Instead, just use commas without backslashes.</p>
-</section>
-<section class="Ss">
-<h3 class="Ss" id="'*'_comments"><a class="permalink" href="#'*'_comments">'*'
-  comments</a></h3>
-<p class="Pp">Deprecated in 0.4.1, removed in 0.5.0.</p>
-<p class="Pp">Instead, use &#x2018;<code class="Li">;</code>&#x2019;
-  comments.</p>
-</section>
-<section class="Ss">
 <h3 class="Ss" id="Nested_macro_definitions"><a class="permalink" href="#Nested_macro_definitions">Nested
   macro definitions</a></h3>
 <p class="Pp">Removed in 0.4.2.</p>
@@ -105,7 +57,7 @@
 <pre>MACRO outer
     DEF definition EQUS &quot;&quot;&quot;
         MACRO inner
-            println (1) - (\1)
+            println (\1) - (\\1)
         \nENDM&quot;&quot;&quot;
     {definition}
     PURGE definition
@@ -122,6 +74,20 @@ ENDM
     <code class="Ic">@</code> in RAM sections, allowing labeled space
     allocations to overlap.</p>
 <p class="Pp">Instead, use <code class="Ic">UNION</code>.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="__FILE___and___LINE__"><a class="permalink" href="#__FILE___and___LINE__">__FILE__
+  and __LINE__</a></h3>
+<p class="Pp">Deprecated in 0.6.0, removed in 0.7.0.</p>
+<p class="Pp">Instead, use <code class="Ic">WARN</code> or
+    <code class="Ic">FAIL</code> to print a complete trace of filenames and line
+    numbers.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="_PI"><a class="permalink" href="#_PI">_PI</a></h3>
+<p class="Pp">Deprecated in 0.5.0, removed in 0.6.0.</p>
+<p class="Pp">Instead, use
+  &#x2018;<code class="Li">3.141592653</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Treating_multi-character_strings_as_numbers"><a class="permalink" href="#Treating_multi-character_strings_as_numbers">Treating
@@ -184,6 +150,32 @@ ENDM
     value</code>&#x2019;.</p>
 </section>
 <section class="Ss">
+<h3 class="Ss" id="Global_labels_without_colons"><a class="permalink" href="#Global_labels_without_colons">Global
+  labels without colons</a></h3>
+<p class="Pp">Deprecated in 0.4.0, removed in 0.5.0.</p>
+<p class="Pp">Labels used to be definable with just a name, but had to be typed
+    in column 1.</p>
+<p class="Pp">Instead, use explicit colons; for example,
+    &#x2018;<code class="Li">Label:</code>&#x2019; or exported
+    &#x2018;<code class="Li">Label::</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="'"><a class="permalink" href="#'">'\,' in strings within
+  macro arguments</a></h3>
+<p class="Pp">Deprecated in 0.5.0, removed in 0.7.0.</p>
+<p class="Pp">Macro arguments now handle quoted strings and parenthesized
+    expressions as single arguments, so commas inside them are not argument
+    separators and do not need escaping.</p>
+<p class="Pp">Instead, just use commas without backslashes.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="'*'_comments"><a class="permalink" href="#'*'_comments">'*'
+  comments</a></h3>
+<p class="Pp">Deprecated in 0.4.1, removed in 0.5.0.</p>
+<p class="Pp">Instead, use &#x2018;<code class="Li">;</code>&#x2019;
+  comments.</p>
+</section>
+<section class="Ss">
 <h3 class="Ss" id="PRINTT,_PRINTI,_PRINTV,_and_PRINTF"><a class="permalink" href="#PRINTT,_PRINTI,_PRINTV,_and_PRINTF">PRINTT,
   PRINTI, PRINTV, and PRINTF</a></h3>
 <p class="Pp">Deprecated in 0.5.0, removed in 0.6.0.</p>
@@ -192,6 +184,14 @@ ENDM
     <code class="Ic">PRINTLN</code>, with <code class="Ic">STRFMT</code> or
     &#x2018;<code class="Li">{interpolation}</code>&#x2019; for type-specific
     formatting.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="IMPORT_and_XREF"><a class="permalink" href="#IMPORT_and_XREF">IMPORT
+  and XREF</a></h3>
+<p class="Pp">Removed in 0.4.0.</p>
+<p class="Pp">Symbols are now automatically resolved if they were exported from
+    elsewhere.</p>
+<p class="Pp">Instead, just remove these directives.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="GLOBAL_and_XDEF"><a class="permalink" href="#GLOBAL_and_XDEF">GLOBAL
