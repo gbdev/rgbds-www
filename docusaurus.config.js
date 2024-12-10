@@ -81,7 +81,6 @@ const config = {
           "gbz80.7",
           "rgbasm.1",
           "rgbasm.5",
-          "rgbasm-old.5",
           "rgbds.5",
           "rgbds.7",
           "rgbfix.1",
