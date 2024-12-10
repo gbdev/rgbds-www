@@ -31,6 +31,7 @@ PDFs are also offered for offline reading, and maybe printing.
 - **Language reference**: documentation of the various languages used throughout RGBDS.
   - [Assembly syntax](./rgbasm.5.md): how to write RGBASM-flavored Game Boy assembly, and what the various directives do. ([PDF](./rgbasm.5.pdf))
   - [CPU instructions](./gbz80.7.md): a list of CPU instructions, as well as quick descriptions of their various effects.  ([PDF](./gbz80.7.pdf))
+  - [Obsolete syntax](./rgbasm-old.5.md): instructions and directives removed from previous versions of RGBDS. ([PDF](./rgbasm-old.5.pdf))
   - [Linkerscript format](./rgblink.5.md): how to write a linker script for RGBLINK. [PDF](./rgblink.5.pdf))
   - [Object file format](./rgbds.5.md): a description of the format of files emitted by RGBASM and expected by RGBLINK; useful for integrating custom tooling with RGBDS.  ([PDF](./rgbds.5.pdf))
 - **Command-line options**: how to write the command lines to invoke RGBDS programs.
