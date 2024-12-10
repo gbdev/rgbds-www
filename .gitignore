@@ -1,5 +1,7 @@
 # Dependencies
 /node_modules
+.yarn
+.yarnrc.yml
 
 # Production
 /build
