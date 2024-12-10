@@ -39,6 +39,11 @@ code, pre {
   --ifm-h5-font-size: 1.25rem;
 }
 
+/* Since the footer has always a dark background, user the dark-theme colors for links to ensure decent contrast */
+[data-theme="light"] .footer__link-item:hover, .footer a:hover, .footer__copyright a{
+  color: #7cd5f1 !important;
+}
+
 [data-theme="dark"] {
   --ifm-color-primary: #7cd5f1;
   --ifm-color-primary-dark: #5bcaed;
