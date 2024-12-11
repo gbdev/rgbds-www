@@ -136,6 +136,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "LD [C], A and LD A, [C]",
+	"id": "LD__C_,_A_and_LD_A,__C_",
+	"level": 3,
+},
+{
 	"value": "rgbasm -i",
 	"id": "rgbasm_-i",
 	"level": 3,
