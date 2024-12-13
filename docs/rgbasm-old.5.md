@@ -126,11 +126,6 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "LD HL, [SP + e8]",
-	"id": "LD_HL,__SP_+_e8_",
-	"level": 3,
-},
-{
 	"value": "LDIO",
 	"id": "LDIO",
 	"level": 3,
@@ -143,6 +138,16 @@ export const toc = [
 {
 	"value": "LDH [n8], A and LDH A, [n8]",
 	"id": "LDH__n8_,_A_and_LDH_A,__n8_",
+	"level": 3,
+},
+{
+	"value": "LD HL, [SP + e8]",
+	"id": "LD_HL,__SP_+_e8_",
+	"level": 3,
+},
+{
+	"value": "LDHL, SP, e8",
+	"id": "LDHL,_SP,_e8",
 	"level": 3,
 },
 {
