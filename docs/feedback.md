@@ -1,10 +1,10 @@
 
 # Submitting feedback
 
-Issues should be reported on GitHub, both [issues with RGBDS itself](https://github.com/gbdev/rgbds/issues) and [issues with this site](https://github.com/gbdev/rgbds-www/issues).
+Report any issues, whether with [RGBDS](https://github.com/gbdev/rgbds/issues) or this [site](https://github.com/gbdev/rgbds-www/issues), on GitHub.
 
-Additionally, developers are very active in [the various GBDev chats](https://gbdev.io/chat).
+Additionally, developers are very active in [the various GBDev community channels](https://gbdev.io/chat).
 
 ## Contributing
 
-Contributions are welcome! You can find the guidelines and instructions [on GitHub](https://github.com/gbdev/rgbds#readme).
+Contributions are welcome! Guidelines and instructions can be found on the GitHub [repository](https://github.com/gbdev/rgbds#readme).
