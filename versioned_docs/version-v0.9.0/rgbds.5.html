@@ -1,0 +1,698 @@
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">This is the description of the object files used by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a> and
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>.
+    <a class="permalink" href="#Please"><i class="Em" id="Please">Please note
+    that the specification is not stable yet.</i></a> RGBDS is still in active
+    development, and some new features require adding more information to the
+    object file, or modifying some fields, both of which break compatibility
+    with older versions.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="FILE_STRUCTURE"><a class="permalink" href="#FILE_STRUCTURE">FILE
+  STRUCTURE</a></h2>
+<p class="Pp">The following types are used:</p>
+<p class="Pp"><code class="Cm">LONG</code> is a 32-bit integer stored in
+    little-endian format. <code class="Cm">BYTE</code> is an 8-bit integer.
+    <code class="Cm">STRING</code> is a 0-terminated string of
+    <code class="Cm">BYTE</code>. Brackets after a type (e.g.
+    <code class="Cm">LONG</code>[<var class="Ar">n</var>]) indicate
+    <var class="Ar">n</var> consecutive elements (here,
+    <code class="Cm">LONG</code>s). All items are contiguous, with no padding
+    anywhere&#x2014;this also means that they may not be aligned in the
+  file!</p>
+<p class="Pp"><code class="Cm">REPT</code> <var class="Ar">n</var> indicates
+    that the fields between the <code class="Cm">REPT</code> and corresponding
+    <code class="Cm">ENDR</code> are repeated <var class="Ar">n</var> times.</p>
+<p class="Pp" id="this">All IDs refer to objects within the file; for example,
+    symbol ID $0001 refers to the second symbol defined in
+    <a class="permalink" href="#this"><i class="Em">this</i></a> object file's
+    <a class="Sx" href="#Symbols">Symbols</a> array. The only exception is the
+    <a class="Sx" href="#Source_file_info">Source file info</a> nodes, whose IDs
+    are backwards, i.e. source node ID $0000 refers to the
+    <a class="permalink" href="#last"><i class="Em" id="last">last</i></a> node
+    in the array, not the first one. References to other object files are made
+    by imports (symbols), by name (sections), etc.&#x2014;but never by ID.</p>
+<section class="Ss">
+<h3 class="Ss" id="Header"><a class="permalink" href="#Header">Header</a></h3>
+<dl class="Bl-tag Bl-compact">
+  <dt id="BYTE"><a class="permalink" href="#BYTE"><code class="Cm">BYTE</code></a>
+    <var class="Ar">Magic[4]</var></dt>
+  <dd>&quot;RGB9&quot;</dd>
+  <dt id="LONG"><a class="permalink" href="#LONG"><code class="Cm">LONG</code></a>
+    <var class="Ar">RevisionNumber</var></dt>
+  <dd>The format's revision number this file uses. (This is always in the same
+      place in all revisions.)</dd>
+  <dt id="LONG~2"><a class="permalink" href="#LONG~2"><code class="Cm">LONG</code></a>
+    <var class="Ar">NumberOfSymbols</var></dt>
+  <dd>How many symbols are defined in this object file.</dd>
+  <dt id="LONG~3"><a class="permalink" href="#LONG~3"><code class="Cm">LONG</code></a>
+    <var class="Ar">NumberOfSections</var></dt>
+  <dd>How many sections are defined in this object file.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Source_file_info"><a class="permalink" href="#Source_file_info">Source
+  file info</a></h3>
+<dl class="Bl-tag Bl-compact">
+  <dt id="LONG~4"><a class="permalink" href="#LONG~4"><code class="Cm">LONG</code></a>
+    <var class="Ar">NumberOfNodes</var></dt>
+  <dd>The number of source context nodes contained in this file.</dd>
+  <dt id="REPT"><a class="permalink" href="#REPT"><code class="Cm">REPT</code></a>
+    <var class="Ar">NumberOfNodes</var></dt>
+  <dd>
+    <dl class="Bl-tag Bl-compact">
+      <dt id="LONG~5"><a class="permalink" href="#LONG~5"><code class="Cm">LONG</code></a>
+        <var class="Ar">ParentID</var></dt>
+      <dd>ID of the parent node, -1 meaning that this is the root node.
+        <p class="Pp" id="Important"><a class="permalink" href="#Important"><b class="Sy">Important</b></a>:
+            the nodes are actually written in
+            <a class="permalink" href="#reverse"><b class="Sy" id="reverse">reverse</b></a>
+            order, meaning the node with ID 0 is the last one in the list!</p>
+      </dd>
+      <dt id="LONG~6"><a class="permalink" href="#LONG~6"><code class="Cm">LONG</code></a>
+        <var class="Ar">ParentLineNo</var></dt>
+      <dd>Line at which the parent node's context was exited; meaningless for
+          the root node.</dd>
+      <dt id="BYTE~2"><a class="permalink" href="#BYTE~2"><code class="Cm">BYTE</code></a>
+        <var class="Ar">Type</var></dt>
+      <dd>
+        <table class="Bl-column Bl-compact">
+          <tr id="Value">
+            <td><a class="permalink" href="#Value"><b class="Sy">Value</b></a></td>
+            <td><a class="permalink" href="#Meaning"><b class="Sy" id="Meaning">Meaning</b></a></td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>REPT node</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>File node</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Macro node</td>
+          </tr>
+        </table>
+      </dd>
+      <dt id="IF"><a class="permalink" href="#IF"><code class="Cm">IF</code></a>
+        <var class="Ar">Type</var> <span class="No">&#x2260; 0</span></dt>
+      <dd>If the node is not a REPT node...
+        <p class="Pp"></p>
+        <dl class="Bl-tag Bl-compact">
+          <dt id="STRING"><a class="permalink" href="#STRING"><code class="Cm">STRING</code></a>
+            <var class="Ar">Name</var></dt>
+          <dd>The node's name: either a file name, or the macro's name prefixes
+              by its definition's file name (e.g.
+              &#x2018;<code class="Li">src/includes/defines.asm::error</code>&#x2019;).</dd>
+        </dl>
+      </dd>
+      <dt id="ELSE"><a class="permalink" href="#ELSE"><code class="Cm">ELSE</code></a></dt>
+      <dd>If the node is a REPT, it also contains the iteration counter of all
+          parent REPTs.
+        <p class="Pp"></p>
+        <dl class="Bl-tag Bl-compact">
+          <dt id="LONG~7"><a class="permalink" href="#LONG~7"><code class="Cm">LONG</code></a>
+            <var class="Ar">Depth</var></dt>
+          <dd style="width: auto;">&#x00A0;</dd>
+          <dt id="LONG~8"><a class="permalink" href="#LONG~8"><code class="Cm">LONG</code></a>
+            <var class="Ar">Iter</var>[<var class="Ar">Depth</var>]</dt>
+          <dd>The number of REPT iterations, by increasing depth.</dd>
+        </dl>
+      </dd>
+      <dt id="ENDC"><a class="permalink" href="#ENDC"><code class="Cm">ENDC</code></a></dt>
+      <dd style="width: auto;">&#x00A0;</dd>
+    </dl>
+  </dd>
+  <dt id="ENDR"><a class="permalink" href="#ENDR"><code class="Cm">ENDR</code></a></dt>
+  <dd style="width: auto;">&#x00A0;</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Symbols"><a class="permalink" href="#Symbols">Symbols</a></h3>
+<dl class="Bl-tag Bl-compact">
+  <dt id="REPT~2"><a class="permalink" href="#REPT~2"><code class="Cm">REPT</code></a>
+    <var class="Ar">NumberOfSymbols</var></dt>
+  <dd>
+    <dl class="Bl-tag Bl-compact">
+      <dt id="STRING~2"><a class="permalink" href="#STRING~2"><code class="Cm">STRING</code></a>
+        <var class="Ar">Name</var></dt>
+      <dd>This symbol's name. Local symbols are stored as their full name
+          (&#x2018;<code class="Li">Scope.symbol</code>&#x2019;).</dd>
+      <dt id="BYTE~3"><a class="permalink" href="#BYTE~3"><code class="Cm">BYTE</code></a>
+        <var class="Ar">Type</var></dt>
+      <dd>
+        <table class="Bl-column Bl-compact">
+          <tr id="Value~2">
+            <td><a class="permalink" href="#Value~2"><b class="Sy">Value</b></a></td>
+            <td><a class="permalink" href="#Meaning~2"><b class="Sy" id="Meaning~2">Meaning</b></a></td>
+          </tr>
+          <tr id="Local">
+            <td>0</td>
+            <td><a class="permalink" href="#Local"><b class="Sy">Local</b></a>
+              <span class="No">symbol only used in this file</span>.</td>
+          </tr>
+          <tr id="Import">
+            <td>1</td>
+            <td><a class="permalink" href="#Import"><b class="Sy">Import</b></a>
+              <span class="No">of an exported symbol (by name) from another
+              object file</span>.</td>
+          </tr>
+          <tr id="Exported">
+            <td>2</td>
+            <td><a class="permalink" href="#Exported"><b class="Sy">Exported</b></a>
+              <span class="No">symbol visible from other object
+              files</span>.</td>
+          </tr>
+        </table>
+      </dd>
+      <dt id="IF~2"><a class="permalink" href="#IF~2"><code class="Cm">IF</code></a>
+        <var class="Ar">Type</var> <span class="No">&#x2260; 1</span></dt>
+      <dd>If the symbol is defined in this object file...
+        <p class="Pp"></p>
+        <dl class="Bl-tag Bl-compact">
+          <dt id="LONG~9"><a class="permalink" href="#LONG~9"><code class="Cm">LONG</code></a>
+            <var class="Ar">NodeID</var></dt>
+          <dd>Context in which the symbol was defined.</dd>
+          <dt id="LONG~10"><a class="permalink" href="#LONG~10"><code class="Cm">LONG</code></a>
+            <var class="Ar">LineNo</var></dt>
+          <dd>Line number in the context at which the symbol was defined.</dd>
+          <dt id="LONG~11"><a class="permalink" href="#LONG~11"><code class="Cm">LONG</code></a>
+            <var class="Ar">SectionID</var></dt>
+          <dd>The ID of the section in which the symbol is defined. If the
+              symbol doesn't belong to any specific section (i.e. it's a
+              constant), this field contains -1.</dd>
+          <dt id="LONG~12"><a class="permalink" href="#LONG~12"><code class="Cm">LONG</code></a>
+            <var class="Ar">Value</var></dt>
+          <dd>The symbol's value. If the symbol belongs to a section, this is
+              the offset within that symbol's section.</dd>
+        </dl>
+      </dd>
+      <dt id="ENDC~2"><a class="permalink" href="#ENDC~2"><code class="Cm">ENDC</code></a></dt>
+      <dd style="width: auto;">&#x00A0;</dd>
+    </dl>
+  </dd>
+  <dt id="ENDR~2"><a class="permalink" href="#ENDR~2"><code class="Cm">ENDR</code></a></dt>
+  <dd style="width: auto;">&#x00A0;</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Sections"><a class="permalink" href="#Sections">Sections</a></h3>
+<dl class="Bl-tag Bl-compact">
+  <dt id="REPT~3"><a class="permalink" href="#REPT~3"><code class="Cm">REPT</code></a>
+    <var class="Ar">NumberOfSections</var></dt>
+  <dd>
+    <dl class="Bl-tag Bl-compact">
+      <dt id="STRING~3"><a class="permalink" href="#STRING~3"><code class="Cm">STRING</code></a>
+        <var class="Ar">Name</var></dt>
+      <dd>The section's name.</dd>
+      <dt id="LONG~13"><a class="permalink" href="#LONG~13"><code class="Cm">LONG</code></a>
+        <var class="Ar">NodeID</var></dt>
+      <dd>Context in which the section was defined.</dd>
+      <dt id="LONG~14"><a class="permalink" href="#LONG~14"><code class="Cm">LONG</code></a>
+        <var class="Ar">LineNo</var></dt>
+      <dd>Line number in the context at which the section was defined.</dd>
+      <dt id="LONG~15"><a class="permalink" href="#LONG~15"><code class="Cm">LONG</code></a>
+        <var class="Ar">Size</var></dt>
+      <dd>The section's size, in bytes.</dd>
+      <dt id="BYTE~4"><a class="permalink" href="#BYTE~4"><code class="Cm">BYTE</code></a>
+        <var class="Ar">Type</var></dt>
+      <dd>Bits 0&#x2013;2 indicate the section's type:
+        <table class="Bl-column Bl-compact">
+          <tr id="Value~3">
+            <td><a class="permalink" href="#Value~3"><b class="Sy">Value</b></a></td>
+            <td><a class="permalink" href="#Meaning~3"><b class="Sy" id="Meaning~3">Meaning</b></a></td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>WRAM0</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>VRAM</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>ROMX</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>ROM0</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>HRAM</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>WRAMX</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>SRAM</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>OAM</td>
+          </tr>
+        </table>
+        <p class="Pp">Bit&#x00A0;7 being set means that the section is a
+            &quot;union&quot; (see &#x201C;Unionized sections&#x201D; in
+            <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>). Bit&#x00A0;6 being
+            set means that the section is a &quot;fragment&quot; (see
+            &#x201C;Section fragments&#x201D; in
+            <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>). These two bits are
+            mutually exclusive.</p>
+      </dd>
+      <dt id="LONG~16"><a class="permalink" href="#LONG~16"><code class="Cm">LONG</code></a>
+        <var class="Ar">Address</var></dt>
+      <dd>Address this section must be placed at. This must either be valid for
+          the section's <var class="Ar">Type</var> (as affected by flags like
+          <code class="Fl">-t</code> or <code class="Fl">-d</code> in
+          <a class="Xr" href="./rgblink.1">rgblink(1)</a>), or -1 to indicate
+          that the linker should automatically decide (the section is
+          &#x201C;floating&#x201D;).</dd>
+      <dt id="LONG~17"><a class="permalink" href="#LONG~17"><code class="Cm">LONG</code></a>
+        <var class="Ar">Bank</var></dt>
+      <dd>ID of the bank this section must be placed in. This must either be
+          valid for the section's <var class="Ar">Type</var> (with the same
+          caveats as for the <var class="Ar">Address</var>), or -1 to indicate
+          that the linker should automatically decide.</dd>
+      <dt id="BYTE~5"><a class="permalink" href="#BYTE~5"><code class="Cm">BYTE</code></a>
+        <var class="Ar">Alignment</var></dt>
+      <dd>How many bits of the section's address should be equal to
+          <var class="Ar">AlignOfs</var>, starting from the least-significant
+          bit.</dd>
+      <dt id="LONG~18"><a class="permalink" href="#LONG~18"><code class="Cm">LONG</code></a>
+        <var class="Ar">AlignOfs</var></dt>
+      <dd>Alignment offset. Must be strictly less than
+          &#x2018;<code class="Li">1 &lt;&lt;
+          <var class="Ar">Alignment</var></code>&#x2019;.</dd>
+      <dt id="IF~3"><a class="permalink" href="#IF~3"><code class="Cm">IF</code></a>
+        <var class="Ar">Type</var> <span class="No">= 2 ||</span>
+        <var class="Ar">Type</var> <span class="No">= 3</span></dt>
+      <dd>If the section has ROM type, it contains data.
+        <p class="Pp"></p>
+        <dl class="Bl-tag Bl-compact">
+          <dt id="BYTE~6"><a class="permalink" href="#BYTE~6"><code class="Cm">BYTE</code></a>
+            <var class="Ar">Data</var>[Size]</dt>
+          <dd>The section's raw data. Bytes that will be patched over must be
+              present, even though their contents will be overwritten.</dd>
+          <dt id="LONG~19"><a class="permalink" href="#LONG~19"><code class="Cm">LONG</code></a>
+            <var class="Ar">NumberOfPatches</var></dt>
+          <dd>How many patches must be applied to this section's
+              <var class="Ar">Data</var>.</dd>
+          <dt id="REPT~4"><a class="permalink" href="#REPT~4"><code class="Cm">REPT</code></a>
+            <var class="Ar">NumberOfPatches</var></dt>
+          <dd>
+            <dl class="Bl-tag Bl-compact">
+              <dt id="LONG~20"><a class="permalink" href="#LONG~20"><code class="Cm">LONG</code></a>
+                <var class="Ar">NodeID</var></dt>
+              <dd>Context in which the patch was defined.</dd>
+              <dt id="LONG~21"><a class="permalink" href="#LONG~21"><code class="Cm">LONG</code></a>
+                <var class="Ar">LineNo</var></dt>
+              <dd>Line number in the context at which the patch was
+                defined.</dd>
+              <dt id="LONG~22"><a class="permalink" href="#LONG~22"><code class="Cm">LONG</code></a>
+                <var class="Ar">Offset</var></dt>
+              <dd>Offset within the section's <var class="Ar">Data</var> at
+                  which the patch should be applied. Must not be greater than
+                  the section's <var class="Ar">Size</var> minus the patch's
+                  size (see <var class="Ar">Type</var>
+                  <span class="No">below</span>).</dd>
+              <dt id="LONG~23"><a class="permalink" href="#LONG~23"><code class="Cm">LONG</code></a>
+                <var class="Ar">PCSectionID</var></dt>
+              <dd>ID of the section in which PC is located. (This is usually the
+                  same section within which the patch is applied, except for
+                  e.g. &#x2018;<code class="Li">LOAD</code>&#x2019; blocks, see
+                  &#x201C;RAM code&#x201D; in
+                  <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>.)</dd>
+              <dt id="LONG~24"><a class="permalink" href="#LONG~24"><code class="Cm">LONG</code></a>
+                <var class="Ar">PCOffset</var></dt>
+              <dd>Offset of the PC symbol within the section designated by
+                  <var class="Ar">PCSectionID</var>. It is expected that PC
+                  points to the instruction's first byte for instruction
+                  operands (i.e. &#x2018;<code class="Li">jp @</code>&#x2019;
+                  must be an infinite loop), and to the patch's first byte
+                  otherwise (&#x2018;<code class="Li">db</code>&#x2019;,
+                  &#x2018;<code class="Li">dw</code>&#x2019;,
+                  &#x2018;<code class="Li">dl</code>&#x2019;).</dd>
+              <dt id="BYTE~7"><a class="permalink" href="#BYTE~7"><code class="Cm">BYTE</code></a>
+                <var class="Ar">Type</var></dt>
+              <dd>
+                <table class="Bl-column Bl-compact">
+                  <tr id="Value~4">
+                    <td><a class="permalink" href="#Value~4"><b class="Sy">Value</b></a></td>
+                    <td><a class="permalink" href="#Meaning~4"><b class="Sy" id="Meaning~4">Meaning</b></a></td>
+                  </tr>
+                  <tr>
+                    <td>0</td>
+                    <td>Single-byte patch</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>Little-endian two-byte patch</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Little-endian four-byte patch</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Single-byte &#x2018;<code class="Li">jr</code>&#x2019;
+                      patch; the patch's value will be subtracted to PC + 2
+                      (i.e. &#x2018;<code class="Li">jr @</code>&#x2019; must be
+                      the infinite loop &#x2018;<code class="Li">18
+                      FE</code>&#x2019;).</td>
+                  </tr>
+                </table>
+              </dd>
+              <dt id="LONG~25"><a class="permalink" href="#LONG~25"><code class="Cm">LONG</code></a>
+                <var class="Ar">RPNSize</var></dt>
+              <dd>Size of the <var class="Ar">RPNExpr</var> below.</dd>
+              <dt id="BYTE~8"><a class="permalink" href="#BYTE~8"><code class="Cm">BYTE</code></a>
+                <var class="Ar">RPNExpr</var>[RPNSize]</dt>
+              <dd>The patch's value, encoded as a RPN expression (see
+                  <a class="Sx" href="#RPN_expressions">RPN
+                expressions</a>).</dd>
+            </dl>
+          </dd>
+          <dt id="ENDR~3"><a class="permalink" href="#ENDR~3"><code class="Cm">ENDR</code></a></dt>
+          <dd style="width: auto;">&#x00A0;</dd>
+        </dl>
+      </dd>
+      <dt id="ENDC~3"><a class="permalink" href="#ENDC~3"><code class="Cm">ENDC</code></a></dt>
+      <dd style="width: auto;">&#x00A0;</dd>
+    </dl>
+  </dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Assertions"><a class="permalink" href="#Assertions">Assertions</a></h3>
+<dl class="Bl-tag Bl-compact">
+  <dt id="LONG~26"><a class="permalink" href="#LONG~26"><code class="Cm">LONG</code></a>
+    <var class="Ar">NumberOfAssertions</var></dt>
+  <dd>How many assertions this object file contains.</dd>
+  <dt id="REPT~5"><a class="permalink" href="#REPT~5"><code class="Cm">REPT</code></a>
+    <var class="Ar">NumberOfAssertions</var></dt>
+  <dd>Assertions are essentially patches with a message.
+    <p class="Pp"></p>
+    <dl class="Bl-tag Bl-compact">
+      <dt id="LONG~27"><a class="permalink" href="#LONG~27"><code class="Cm">LONG</code></a>
+        <var class="Ar">NodeID</var></dt>
+      <dd>Context in which the assertions was defined.</dd>
+      <dt id="LONG~28"><a class="permalink" href="#LONG~28"><code class="Cm">LONG</code></a>
+        <var class="Ar">LineNo</var></dt>
+      <dd>Line number in the context at which the assertion was defined.</dd>
+      <dt id="LONG~29"><a class="permalink" href="#LONG~29"><code class="Cm">LONG</code></a>
+        <var class="Ar">Offset</var></dt>
+      <dd>Unused leftover from the patch structure.</dd>
+      <dt id="LONG~30"><a class="permalink" href="#LONG~30"><code class="Cm">LONG</code></a>
+        <var class="Ar">PCSectionID</var></dt>
+      <dd>ID of the section in which PC is located.</dd>
+      <dt id="LONG~31"><a class="permalink" href="#LONG~31"><code class="Cm">LONG</code></a>
+        <var class="Ar">PCOffset</var></dt>
+      <dd>Offset of the PC symbol within the section designated by
+          <var class="Ar">PCSectionID</var>.</dd>
+      <dt id="BYTE~9"><a class="permalink" href="#BYTE~9"><code class="Cm">BYTE</code></a>
+        <var class="Ar">Type</var></dt>
+      <dd>Describes what should happen if the expression evaluates to a non-zero
+          value.
+        <table class="Bl-column Bl-compact">
+          <tr id="Value~5">
+            <td><a class="permalink" href="#Value~5"><b class="Sy">Value</b></a></td>
+            <td><a class="permalink" href="#Meaning~5"><b class="Sy" id="Meaning~5">Meaning</b></a></td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>Print a warning message, and continue linking normally.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Print an error message, so linking will fail, but allow other
+              assertions to be evaluated.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Print a fatal error message, and abort immediately.</td>
+          </tr>
+        </table>
+      </dd>
+      <dt id="LONG~32"><a class="permalink" href="#LONG~32"><code class="Cm">LONG</code></a>
+        <var class="Ar">RPNSize</var></dt>
+      <dd>Size of the <var class="Ar">RPNExpr</var> below.</dd>
+      <dt id="BYTE~10"><a class="permalink" href="#BYTE~10"><code class="Cm">BYTE</code></a>
+        <var class="Ar">RPNExpr</var>[RPNSize]</dt>
+      <dd>The patch's value, encoded as a RPN expression (see
+          <a class="Sx" href="#RPN_expressions">RPN expressions</a>).</dd>
+      <dt id="STRING~4"><a class="permalink" href="#STRING~4"><code class="Cm">STRING</code></a>
+        <var class="Ar">Message</var></dt>
+      <dd>The message displayed if the expression evaluates to a non-zero value.
+          If empty, a generic message is displayed instead.</dd>
+    </dl>
+  </dd>
+  <dt id="ENDR~4"><a class="permalink" href="#ENDR~4"><code class="Cm">ENDR</code></a></dt>
+  <dd style="width: auto;">&#x00A0;</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RPN_expressions"><a class="permalink" href="#RPN_expressions">RPN
+  expressions</a></h3>
+<p class="Pp">Expressions in the object file are stored as RPN, or
+    &#x201C;Reverse Polish Notation&#x201D;, which is a notation that allows
+    computing arbitrary expressions with just a simple stack. For example, the
+    expression &#x2018;<code class="Li">2 5 -</code>&#x2019; will first push the
+    value &#x201C;2&#x201D; to the stack, then &#x201C;5&#x201D;. The
+    &#x2018;<code class="Li">-</code>&#x2019; operator pops two arguments from
+    the stack, subtracts them, and then pushes back the result
+    (&#x201C;3&#x201D;) on the stack. A well-formed RPN expression never tries
+    to pop from an empty stack, and leaves exactly one value in it at the
+  end.</p>
+<p class="Pp">RGBDS encodes RPN expressions as an array of
+    <code class="Cm">BYTE</code>s. The first byte encodes either an operator, or
+    a literal, which consumes more <code class="Cm">BYTE</code>s after it:</p>
+<table class="Bl-column">
+  <tr id="Value~6">
+    <td><a class="permalink" href="#Value~6"><b class="Sy">Value</b></a></td>
+    <td><a class="permalink" href="#Meaning~6"><b class="Sy" id="Meaning~6">Meaning</b></a></td>
+  </tr>
+  <tr id="$00">
+    <td><a class="permalink" href="#$00"><code class="Li">$00</code></a></td>
+    <td>Addition operator (&#x2018;<code class="Li">+</code>&#x2019;)</td>
+  </tr>
+  <tr id="$01">
+    <td><a class="permalink" href="#$01"><code class="Li">$01</code></a></td>
+    <td>Subtraction operator (&#x2018;<code class="Li">-</code>&#x2019;)</td>
+  </tr>
+  <tr id="$02">
+    <td><a class="permalink" href="#$02"><code class="Li">$02</code></a></td>
+    <td>Multiplication operator (&#x2018;<code class="Li">*</code>&#x2019;)</td>
+  </tr>
+  <tr id="$03">
+    <td><a class="permalink" href="#$03"><code class="Li">$03</code></a></td>
+    <td>Division operator (&#x2018;<code class="Li">/</code>&#x2019;)</td>
+  </tr>
+  <tr id="$04">
+    <td><a class="permalink" href="#$04"><code class="Li">$04</code></a></td>
+    <td>Modulo operator (&#x2018;<code class="Li">%</code>&#x2019;)</td>
+  </tr>
+  <tr id="$05">
+    <td><a class="permalink" href="#$05"><code class="Li">$05</code></a></td>
+    <td>Negation (unary &#x2018;<code class="Li">-</code>&#x2019;)</td>
+  </tr>
+  <tr id="$06">
+    <td><a class="permalink" href="#$06"><code class="Li">$06</code></a></td>
+    <td>Exponent operator (&#x2018;<code class="Li">**</code>&#x2019;)</td>
+  </tr>
+  <tr id="$10">
+    <td><a class="permalink" href="#$10"><code class="Li">$10</code></a></td>
+    <td>Bitwise OR operator (&#x2018;<code class="Li">|</code>&#x2019;)</td>
+  </tr>
+  <tr id="$11">
+    <td><a class="permalink" href="#$11"><code class="Li">$11</code></a></td>
+    <td>Bitwise AND operator
+      (&#x2018;<code class="Li">&amp;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$12">
+    <td><a class="permalink" href="#$12"><code class="Li">$12</code></a></td>
+    <td>Bitwise XOR operator (&#x2018;<code class="Li">^</code>&#x2019;)</td>
+  </tr>
+  <tr id="$13">
+    <td><a class="permalink" href="#$13"><code class="Li">$13</code></a></td>
+    <td>Bitwise complement operator (unary
+      &#x2018;<code class="Li">~</code>&#x2019;)</td>
+  </tr>
+  <tr id="$21">
+    <td><a class="permalink" href="#$21"><code class="Li">$21</code></a></td>
+    <td>Logical AND operator
+      (&#x2018;<code class="Li">&amp;&amp;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$22">
+    <td><a class="permalink" href="#$22"><code class="Li">$22</code></a></td>
+    <td>Logical OR operator (&#x2018;<code class="Li">||</code>&#x2019;)</td>
+  </tr>
+  <tr id="$23">
+    <td><a class="permalink" href="#$23"><code class="Li">$23</code></a></td>
+    <td>Logical complement operator (unary
+      &#x2018;<code class="Li">!</code>&#x2019;)</td>
+  </tr>
+  <tr id="$30">
+    <td><a class="permalink" href="#$30"><code class="Li">$30</code></a></td>
+    <td>Equality operator (&#x2018;<code class="Li">==</code>&#x2019;)</td>
+  </tr>
+  <tr id="$31">
+    <td><a class="permalink" href="#$31"><code class="Li">$31</code></a></td>
+    <td>Non-equality operator (&#x2018;<code class="Li">!=</code>&#x2019;)</td>
+  </tr>
+  <tr id="$32">
+    <td><a class="permalink" href="#$32"><code class="Li">$32</code></a></td>
+    <td>Greater-than operator
+      (&#x2018;<code class="Li">&gt;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$33">
+    <td><a class="permalink" href="#$33"><code class="Li">$33</code></a></td>
+    <td>Less-than operator (&#x2018;<code class="Li">&lt;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$34">
+    <td><a class="permalink" href="#$34"><code class="Li">$34</code></a></td>
+    <td>Greater-than-or-equal operator
+      (&#x2018;<code class="Li">&gt;=</code>&#x2019;)</td>
+  </tr>
+  <tr id="$35">
+    <td><a class="permalink" href="#$35"><code class="Li">$35</code></a></td>
+    <td>Less-than-or-equal operator
+      (&#x2018;<code class="Li">&lt;=</code>&#x2019;)</td>
+  </tr>
+  <tr id="$40">
+    <td><a class="permalink" href="#$40"><code class="Li">$40</code></a></td>
+    <td>Left shift operator
+      (&#x2018;<code class="Li">&lt;&lt;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$41">
+    <td><a class="permalink" href="#$41"><code class="Li">$41</code></a></td>
+    <td>Arithmetic/signed right shift operator
+      (&#x2018;<code class="Li">&gt;&gt;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$42">
+    <td><a class="permalink" href="#$42"><code class="Li">$42</code></a></td>
+    <td>Logical/unsigned right shift operator
+      (&#x2018;<code class="Li">&gt;&gt;&gt;</code>&#x2019;)</td>
+  </tr>
+  <tr id="$50">
+    <td><a class="permalink" href="#$50"><code class="Li">$50</code></a></td>
+    <td><a class="permalink" href="#BANK"><code class="Fn" id="BANK">BANK</code></a>(<var class="Fa">symbol</var>);
+      followed by the <var class="Ar">symbol</var>'s
+      <code class="Cm">LONG</code> ID.</td>
+  </tr>
+  <tr id="$51">
+    <td><a class="permalink" href="#$51"><code class="Li">$51</code></a></td>
+    <td><code class="Fn">BANK</code>(<var class="Fa">section</var>); followed by
+      the <var class="Ar">section</var>'s <code class="Cm">STRING</code>
+      name.</td>
+  </tr>
+  <tr id="$52">
+    <td><a class="permalink" href="#$52"><code class="Li">$52</code></a></td>
+    <td>PC's <code class="Fn">BANK</code>() (i.e.
+      &#x2018;<code class="Li">BANK(@)</code>&#x2019;).</td>
+  </tr>
+  <tr id="$53">
+    <td><a class="permalink" href="#$53"><code class="Li">$53</code></a></td>
+    <td><a class="permalink" href="#SIZEOF"><code class="Fn" id="SIZEOF">SIZEOF</code></a>(<var class="Fa">section</var>);
+      followed by the <var class="Ar">section</var>'s
+      <code class="Cm">STRING</code> name.</td>
+  </tr>
+  <tr id="$54">
+    <td><a class="permalink" href="#$54"><code class="Li">$54</code></a></td>
+    <td><a class="permalink" href="#STARTOF"><code class="Fn" id="STARTOF">STARTOF</code></a>(<var class="Fa">section</var>);
+      followed by the <var class="Ar">section</var>'s
+      <code class="Cm">STRING</code> name.</td>
+  </tr>
+  <tr id="$55">
+    <td><a class="permalink" href="#$55"><code class="Li">$55</code></a></td>
+    <td><code class="Fn">SIZEOF</code>(<var class="Fa">sectiontype</var>);
+      followed by the <var class="Ar">sectiontype</var>'s
+      <code class="Cm">BYTE</code> value (see the <var class="Ar">Type</var>
+      <span class="No">values in</span>
+      <a class="Sx" href="#Sections">Sections</a>).</td>
+  </tr>
+  <tr id="$56">
+    <td><a class="permalink" href="#$56"><code class="Li">$56</code></a></td>
+    <td><code class="Fn">STARTOF</code>(<var class="Fa">sectiontype</var>);
+      followed by the <var class="Ar">sectiontype</var>'s
+      <code class="Cm">BYTE</code> value (see the <var class="Ar">Type</var>
+      <span class="No">values in</span>
+      <a class="Sx" href="#Sections">Sections</a>).</td>
+  </tr>
+  <tr id="$60">
+    <td><a class="permalink" href="#$60"><code class="Li">$60</code></a></td>
+    <td>&#x2018;<code class="Li">ldh</code>&#x2019; check. Checks if the value
+      is a valid &#x2018;<code class="Li">ldh</code>&#x2019; operand (see
+      &#x201C;Load Instructions&#x201D; in
+      <a class="Xr" href="./gbz80.7">gbz80(7)</a>), i.e. that it is between
+      either $00 and $FF, or $FF00 and $FFFF, both inclusive. The value is then
+      ANDed with $00FF (&#x2018;<code class="Li">&amp; $FF</code>&#x2019;).</td>
+  </tr>
+  <tr id="$61">
+    <td><a class="permalink" href="#$61"><code class="Li">$61</code></a></td>
+    <td>&#x2018;<code class="Li">rst</code>&#x2019; check. Checks if the value
+      is a valid &#x2018;<code class="Li">rst</code>&#x2019; (see &#x201C;RST
+      vec&#x201D; in <a class="Xr" href="./gbz80.7">gbz80(7)</a>) vector, that
+      is one of $00, $08, $10, $18, $20, $28, $30, or $38. The value is then
+      ORed with $C7 (&#x2018;<code class="Li">| $C7</code>&#x2019;).</td>
+  </tr>
+  <tr id="$80">
+    <td><a class="permalink" href="#$80"><code class="Li">$80</code></a></td>
+    <td>Integer literal; followed by the <code class="Cm">LONG</code>
+      integer.</td>
+  </tr>
+  <tr id="$70">
+    <td><a class="permalink" href="#$70"><code class="Li">$70</code></a></td>
+    <td><a class="permalink" href="#HIGH"><code class="Cm" id="HIGH">HIGH</code></a>
+      byte.</td>
+  </tr>
+  <tr id="$71">
+    <td><a class="permalink" href="#$71"><code class="Li">$71</code></a></td>
+    <td><a class="permalink" href="#LOW"><code class="Cm" id="LOW">LOW</code></a>
+      byte.</td>
+  </tr>
+  <tr id="$72">
+    <td><a class="permalink" href="#$72"><code class="Li">$72</code></a></td>
+    <td><a class="permalink" href="#BITWIDTH"><code class="Cm" id="BITWIDTH">BITWIDTH</code></a>
+      value.</td>
+  </tr>
+  <tr id="$73">
+    <td><a class="permalink" href="#$73"><code class="Li">$73</code></a></td>
+    <td><a class="permalink" href="#TZCOUNT"><code class="Cm" id="TZCOUNT">TZCOUNT</code></a>
+      value.</td>
+  </tr>
+  <tr id="$81">
+    <td><a class="permalink" href="#$81"><code class="Li">$81</code></a></td>
+    <td>A symbol's value; followed by the symbol's <code class="Cm">LONG</code>
+      ID.</td>
+  </tr>
+</table>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgblink.5">rgblink(5)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a> and
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a> were originally written by
+    <span class="An">Carsten S&#x00F8;rensen</span> as part of the ASMotor
+    package, and was later repackaged in RGBDS by <span class="An">Justin
+    Lloyd</span>. It is now maintained by a number of contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>
