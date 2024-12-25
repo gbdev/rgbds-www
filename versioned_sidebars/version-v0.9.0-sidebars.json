@@ -15,6 +15,11 @@
         },
         {
           "type": "doc",
+          "id": "rgbasm-old.5",
+          "label": "Obsolete syntax"
+        },
+        {
+          "type": "doc",
           "id": "rgblink.5",
           "label": "Linkerscript format"
         },

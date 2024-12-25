@@ -8,6 +8,7 @@ const sidebars = {
       "Language reference": [
         { type: 'doc', id: 'rgbasm.5', label: "Assembly syntax" },
         { type: 'doc', id: 'gbz80.7', label: "CPU instructions" },
+        { type: 'doc', id: 'rgbasm-old.5', label: "Obsolete syntax" },
         { type: 'doc', id: 'rgblink.5', label: "Linkerscript format" },
         { type: 'doc', id: 'rgbds.5', label: "Object file format" },
       ]
