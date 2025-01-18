@@ -659,8 +659,6 @@
       <li>If the carry flag is set, then add <span class="Ad">$60</span> to the
           adjustment.</li>
       <li>Subtract the adjustment from <b class="Sy">A</b>.</li>
-      <li>Set the carry flag if borrow (i.e. if adjustment &gt;
-          <b class="Sy">A</b>).</li>
     </ol>
   </dd>
   <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is not
@@ -673,10 +671,9 @@
           <span class="Ad">$9</span>, then add <span class="Ad">$6</span> to the
           adjustment.</li>
       <li>If the carry flag is set or <b class="Sy">A</b> &gt;
-          <span class="Ad">$9F</span>, then add <span class="Ad">$60</span> to
-          the adjustment.</li>
+          <span class="Ad">$99</span>, then add <span class="Ad">$60</span> to
+          the adjustment and set the carry flag.</li>
       <li>Add the adjustment to <b class="Sy">A</b>.</li>
-      <li>Set the carry flag if overflow from bit 7.</li>
     </ol>
   </dd>
 </dl>
