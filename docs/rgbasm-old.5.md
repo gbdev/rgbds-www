@@ -146,8 +146,8 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "LDHL, SP, e8",
-	"id": "LDHL,_SP,_e8",
+	"value": "LDHL SP, e8",
+	"id": "LDHL_SP,_e8",
 	"level": 3,
 },
 {
@@ -178,6 +178,31 @@ export const toc = [
 {
 	"value": "** operator associativity",
 	"id": "**_operator_associativity",
+	"level": 3,
+},
+{
+	"value": "BUGS",
+	"id": "BUGS",
+	"level": 2,
+},
+{
+	"value": "Space between exported labels' colons",
+	"id": "Space_between_exported_labels'_colons",
+	"level": 3,
+},
+{
+	"value": "Space between label and colon",
+	"id": "Space_between_label_and_colon",
+	"level": 3,
+},
+{
+	"value": "ADD r16 with implicit first HL operand",
+	"id": "ADD_r16_with_implicit_first_HL_operand",
+	"level": 3,
+},
+{
+	"value": "= instead of SET",
+	"id": "=_instead_of_SET",
 	"level": 3,
 },
 {

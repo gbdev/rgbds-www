@@ -6,8 +6,8 @@
     be a reference for backwards incompatibility, when upgrading an old assembly
     codebase to work with the latest RGBDS release. It does
     <a class="permalink" href="#not"><i class="Em" id="not">not</i></a> attempt
-    to list syntax bugs that were fixed, nor new reserved keywords that may
-    conflict with old identifiers.</p>
+    to list every syntax bug that was ever fixed (with some notable exceptions),
+    nor new reserved keywords that may conflict with old identifiers.</p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="REMOVED"><a class="permalink" href="#REMOVED">REMOVED</a></h2>
@@ -258,7 +258,7 @@ ENDM
     e8</code>&#x2019;.</p>
 </section>
 <section class="Ss">
-<h3 class="Ss" id="LDHL,_SP,_e8"><a class="permalink" href="#LDHL,_SP,_e8">LDHL,
+<h3 class="Ss" id="LDHL_SP,_e8"><a class="permalink" href="#LDHL_SP,_e8">LDHL
   SP, e8</a></h3>
 <p class="Pp">Supported in ASMotor, removed in RGBDS.</p>
 <p class="Pp">Instead, use &#x2018;<code class="Li">LD HL, SP +
@@ -384,6 +384,55 @@ ENDM
     ** r</code>&#x2019;.</p>
 <p class="Pp">Instead, now we have &#x2018;<code class="Li">p ** q ** r == p **
     (q ** r)</code>&#x2019;.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h2>
+<p class="Pp">These are misfeatures that may have been possible by mistake. They
+    do not get deprecated, just fixed.</p>
+<section class="Ss">
+<h3 class="Ss" id="Space_between_exported_labels'_colons"><a class="permalink" href="#Space_between_exported_labels'_colons">Space
+  between exported labels' colons</a></h3>
+<p class="Pp">Fixed in 0.7.0.</p>
+<p class="Pp">Labels with two colons used to ignore a space between them; for
+    example, &#x2018;<code class="Li">Label:&#x00A0;:</code>&#x2019;.</p>
+<p class="Pp">Instead, use &#x2018;<code class="Li">Label::</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Space_between_label_and_colon"><a class="permalink" href="#Space_between_label_and_colon">Space
+  between label and colon</a></h3>
+<p class="Pp">Fixed in 0.9.0.</p>
+<p class="Pp">Space between a label and its colon(s) used to be ignored; for
+    example, &#x2018;<code class="Li">Label&#x00A0;:</code>&#x2019; and
+    &#x2018;<code class="Li">Label&#x00A0;::</code>&#x2019;. Now they are
+    treated as invocations of the &#x2018;<code class="Li">Label</code>&#x2019;
+    macro with &#x2018;<code class="Li">:</code>&#x2019; and
+    &#x2018;<code class="Li">::</code>&#x2019; as arguments.</p>
+<p class="Pp">Instead, use &#x2018;<code class="Li">Label:</code>&#x2019; and
+    &#x2018;<code class="Li">Label::</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_r16_with_implicit_first_HL_operand"><a class="permalink" href="#ADD_r16_with_implicit_first_HL_operand">ADD
+  r16 with implicit first HL operand</a></h3>
+<p class="Pp">Fixed in 0.5.0.</p>
+<p class="Pp">For example, &#x2018;<code class="Li">ADD BC</code>&#x2019; used
+    to be treated as &#x2018;<code class="Li">ADD HL, BC</code>&#x2019;, and
+    likewise for &#x2018;<code class="Li">DE</code>&#x2019;,
+    &#x2018;<code class="Li">HL</code>&#x2019;, and
+    &#x2018;<code class="Li">SP</code>&#x2019;.</p>
+<p class="Pp">Instead, use an explicit first
+    &#x2018;<code class="Li">HL</code>&#x2019; operand.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="=_instead_of_SET"><a class="permalink" href="#=_instead_of_SET">=
+  instead of SET</a></h3>
+<p class="Pp">Fixed in 0.4.0.</p>
+<p class="Pp" id="instruction">The <code class="Ic">=</code> operator used to be
+    an alias for the <code class="Ic">SET</code> keyword, which included using
+    <code class="Ic">=</code> for the <code class="Ic">SET</code>
+    <a class="permalink" href="#instruction"><i class="Em">instruction</i></a>.</p>
+<p class="Pp">Instead, just use <code class="Ic">SET</code> for the
+  instruction.</p>
 </section>
 </section>
 <section class="Sh">
