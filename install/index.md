@@ -24,6 +24,8 @@ It contains the built executables *and* the build dependencies, in case you want
 docker pull ghcr.io/gbdev/rgbds:latest
 ```
 
+Each released version has a corresponding tag, while the `master` tag reflects the latest Git commit.
+
 ### Installing a development version
 
 If you are willing to help us test new features, consider [using a development version](master.md).
