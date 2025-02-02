@@ -1,0 +1,61 @@
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<p class="Pp">To get a working ROM image from a single assembly source file:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbasm -o game.o game.asm
+$ rgblink -o game.gb game.o
+$ rgbfix -v -p 0 game.gb</pre>
+</div>
+<p class="Pp">Or in a single command line, without creating an intermediate
+    object file:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ (rgbasm -o - - | rgblink -o - - | rgbfix -v -p 0) &lt; game.asm &gt; game.gb</pre>
+</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgblink.5">rgblink(5)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<ul class="Bl-item">
+  <li>1996-10-01: <span class="An">Carsten S&#x00F8;rensen</span> (a.k.a.
+      SurfSmurf) releases xAsm, xLink, and RGBFix, a Game Boy SM83 (GBZ80)
+      assembler/linker system for DOS/Win32.</li>
+  <li>1997-07-03: S&#x00F8;rensen releases ASMotor, packaging the three programs
+      together and moving towards making them a general-purpose
+      target-independent system.</li>
+  <li>1999-08-01: <span class="An">Justin Lloyd</span> (a.k.a. Otaku no Zoku)
+      adapts ASMotor to re-focus on SM83 assembly/machine code, and releases
+      this version as RGBDS.</li>
+  <li>2009-06-11: <span class="An">Vegard Nossum</span> adapts the code to be
+      more UNIX-like and releases this version as rgbds-linux.</li>
+  <li>2010-01-12: <span class="An">Anthony J. Bentley</span> forks Nossum's
+      repository. The fork becomes the reference implementation of RGBDS.</li>
+  <li>2010-09-25: S&#x00F8;rensen continues development of
+      <a class="Lk" href="https://github.com/asmotor/asmotor">ASMotor</a> to
+      this day.</li>
+  <li>2015-01-18: <span class="An">stag019</span> begins implementing RGBGFX, a
+      PNG&#x2010;to&#x2010;Game Boy graphics converter, for eventual integration
+      into RGBDS.</li>
+  <li>2016-09-05: RGBGFX is integrated into Bentley's repository.</li>
+  <li>2017-02-23: Bentley's repository is moved to the
+      <a class="Lk" href="https://github.com/rednex/rgbds">rednex</a>
+      organization.</li>
+  <li>2018-01-26: The codebase is relicensed under the MIT license.</li>
+  <li>2020-09-15: The repository is moved to the
+      <a class="Lk" href="https://github.com/gbdev/rgbds">gbdev</a>
+      organization.</li>
+  <li>2022-05-17: The
+      <a class="Lk" href="https://rgbds.gbdev.io">rgbds.gbdev.io</a> website for
+      RGBDS documentation and downloads is published.</li>
+</ul>
+</section>
