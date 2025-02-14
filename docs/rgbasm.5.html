@@ -755,54 +755,16 @@ ENDR</pre>
     character.) Raw strings also may be contained in triple quotes for them to
     be multi-line, so they can include literal newline or quote characters
     (although still not three quotes in a row).</p>
-<p class="Pp">The following functions operate on string expressions. Most of
-    them return a string, however some of these functions actually return an
-    integer and can be used as part of an integer expression!</p>
+<p class="Pp">The following functions operate on string expressions, and return
+    strings themselves.</p>
 <table class="Bl-column">
   <tr id="Name~3">
     <td><a class="permalink" href="#Name~3"><b class="Sy">Name</b></a></td>
     <td><a class="permalink" href="#Operation~3"><b class="Sy" id="Operation~3">Operation</b></a></td>
   </tr>
-  <tr id="STRLEN">
-    <td><a class="permalink" href="#STRLEN"><code class="Fn">STRLEN</code></a>(<var class="Fa">str</var>)</td>
-    <td>Returns the number of characters in <var class="Ar">str</var>.</td>
-  </tr>
   <tr id="STRCAT">
     <td><a class="permalink" href="#STRCAT"><code class="Fn">STRCAT</code></a>(<var class="Fa">strs...</var>)</td>
     <td>Concatenates <var class="Ar">strs</var>.</td>
-  </tr>
-  <tr id="STRCMP">
-    <td><a class="permalink" href="#STRCMP"><code class="Fn">STRCMP</code></a>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Returns -1 if <var class="Ar">str1</var> <span class="No">is
-      alphabetically lower than</span> <var class="Ar">str2</var> ,
-      <span class="No">zero if they match, 1 if</span>
-      <var class="Ar">str1</var> <span class="No">is greater than</span>
-      <var class="Ar">str2</var>.</td>
-  </tr>
-  <tr id="STRIN">
-    <td><a class="permalink" href="#STRIN"><code class="Fn">STRIN</code></a>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Returns the first position of <var class="Ar">str2</var>
-      <span class="No">in</span> <var class="Ar">str1</var> <span class="No">or
-      zero if it's not present</span> (first character is position 1).</td>
-  </tr>
-  <tr id="STRRIN">
-    <td><a class="permalink" href="#STRRIN"><code class="Fn">STRRIN</code></a>(<var class="Fa">str1</var>,
-      <var class="Fa">str2</var>)</td>
-    <td>Returns the last position of <var class="Ar">str2</var>
-      <span class="No">in</span> <var class="Ar">str1</var> <span class="No">or
-      zero if it's not present</span> (first character is position 1).</td>
-  </tr>
-  <tr id="STRSUB">
-    <td><a class="permalink" href="#STRSUB"><code class="Fn">STRSUB</code></a>(<var class="Fa">str</var>,
-      <var class="Fa">pos</var>, <var class="Fa">len</var>)</td>
-    <td>Returns a substring from <var class="Ar">str</var>
-      <span class="No">starting at</span> <var class="Ar">pos</var>
-      <span class="No">(first character is position 1, last is position -1)
-      and</span> <var class="Ar">len</var> <span class="No">characters long.
-      If</span> <var class="Ar">len</var> <span class="No">is not specified the
-      substring continues to the end of</span> <var class="Ar">str</var>.</td>
   </tr>
   <tr id="STRUPR">
     <td><a class="permalink" href="#STRUPR"><code class="Fn">STRUPR</code></a>(<var class="Fa">str</var>)</td>
@@ -815,6 +777,16 @@ ENDR</pre>
     <td>Returns <var class="Ar">str</var> <span class="No">with all ASCII
       letters</span> (&#x2018;<code class="Li">A-Z</code>&#x2019;) in
       lowercase.</td>
+  </tr>
+  <tr id="STRSLICE">
+    <td><a class="permalink" href="#STRSLICE"><code class="Fn">STRSLICE</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">start</var>, <var class="Fa">stop</var>)</td>
+    <td>Returns a substring of <var class="Ar">str</var>
+      <span class="No">starting at</span> <var class="Ar">start</var>
+      <span class="No">and ending at</span> <var class="Ar">stop</var>
+      <span class="No">(exclusive). If</span> <var class="Ar">stop</var>
+      <span class="No">is not specified, the substring continues to the end
+      of</span> <var class="Ar">str</var>.</td>
   </tr>
   <tr id="STRRPL">
     <td><a class="permalink" href="#STRRPL"><code class="Fn">STRRPL</code></a>(<var class="Fa">str</var>,
@@ -835,23 +807,129 @@ ENDR</pre>
       <var class="Ar">args</var> (&#x2018;%%&#x2019; is replaced by the
       &#x2018;%&#x2019; character).</td>
   </tr>
+  <tr id="STRCHAR">
+    <td><a class="permalink" href="#STRCHAR"><code class="Fn">STRCHAR</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the substring of <var class="Ar">str</var> <span class="No">for
+      the charmap entry at</span> <var class="Ar">idx</var>
+      <span class="No">with the current charmap</span>.
+      (<var class="Ar">idx</var> <span class="No">counts charmap entries, not
+      characters.</span>)</td>
+  </tr>
+  <tr id="REVCHAR">
+    <td><a class="permalink" href="#REVCHAR"><code class="Fn">REVCHAR</code></a>(<var class="Fa">vals...</var>)</td>
+    <td>Returns the string that is mapped to <var class="Ar">vals</var>
+      <span class="No">with the current charmap. If there is no unique charmap
+      entry for</span> <var class="Ar">vals</var>, an error occurs.</td>
+  </tr>
+</table>
+<p class="Pp">The following functions operate on string expressions, but return
+    integers.</p>
+<table class="Bl-column">
+  <tr id="Name~4">
+    <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~4"><b class="Sy" id="Operation~4">Operation</b></a></td>
+  </tr>
+  <tr id="STRLEN">
+    <td><a class="permalink" href="#STRLEN"><code class="Fn">STRLEN</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of characters in <var class="Ar">str</var>.</td>
+  </tr>
+  <tr id="STRCMP">
+    <td><a class="permalink" href="#STRCMP"><code class="Fn">STRCMP</code></a>(<var class="Fa">str1</var>,
+      <var class="Fa">str2</var>)</td>
+    <td>Compares <var class="Ar">str1</var> <span class="No">and</span>
+      <var class="Ar">str2</var> <span class="No">according to ASCII ordering of
+      their characters. Returns -1 if</span> <var class="Ar">str1</var>
+      <span class="No">is lower than</span> <var class="Ar">str2</var>, 1 if
+      <var class="Ar">str1</var> <span class="No">is greater than</span>
+      <var class="Ar">str2</var>, or 0 if they match.</td>
+  </tr>
+  <tr id="STRFIND">
+    <td><a class="permalink" href="#STRFIND"><code class="Fn">STRFIND</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the first index of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or -1 if it's not
+      present.</td>
+  </tr>
+  <tr id="STRRFIND">
+    <td><a class="permalink" href="#STRRFIND"><code class="Fn">STRRFIND</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the last index of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or -1 if it's not
+      present.</td>
+  </tr>
   <tr id="INCHARMAP">
     <td><a class="permalink" href="#INCHARMAP"><code class="Fn">INCHARMAP</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns 1 if <var class="Ar">str</var> <span class="No">has an entry in
-      the current charmap, and 0 otherwise</span>.</td>
+      the current charmap, or 0 otherwise</span>.</td>
   </tr>
   <tr id="CHARLEN">
     <td><a class="permalink" href="#CHARLEN"><code class="Fn">CHARLEN</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns the number of charmap entries in <var class="Ar">str</var>
       <span class="No">with the current charmap</span>.</td>
   </tr>
+  <tr id="CHARCMP">
+    <td><a class="permalink" href="#CHARCMP"><code class="Fn">CHARCMP</code></a>(<var class="Fa">str1</var>,
+      <var class="Fa">str2</var>)</td>
+    <td>Compares <var class="Ar">str1</var> <span class="No">and</span>
+      <var class="Ar">str2</var> <span class="No">according to their charmap
+      entry values with the current charmap. Returns -1 if</span>
+      <var class="Ar">str1</var> <span class="No">is lower than</span>
+      <var class="Ar">str2</var>, 1 if <var class="Ar">str1</var>
+      <span class="No">is greater than</span> <var class="Ar">str2</var>, or 0
+      if they match.</td>
+  </tr>
+  <tr id="CHARSIZE">
+    <td><a class="permalink" href="#CHARSIZE"><code class="Fn">CHARSIZE</code></a>(<var class="Fa">char</var>)</td>
+    <td>Returns how many values are in the charmap entry for
+      <var class="Ar">char</var> <span class="No">with the current
+      charmap.</span></td>
+  </tr>
+</table>
+<p class="Pp">Note that the first character of a string is at index 0, and the
+    last is at index -1.</p>
+<p class="Pp" id="position">The following legacy functions are similar to other
+    functions that operate on string expressions, but for historical reasons,
+    they count characters starting from
+    <a class="permalink" href="#position"><i class="Em">position 1</i></a>, not
+    from index 0! (Position -1 still counts from the last character.)</p>
+<table class="Bl-column">
+  <tr id="Name~5">
+    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~5"><b class="Sy" id="Operation~5">Operation</b></a></td>
+  </tr>
+  <tr id="STRSUB">
+    <td><a class="permalink" href="#STRSUB"><code class="Fn">STRSUB</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">pos</var>, <var class="Fa">len</var>)</td>
+    <td>Returns a substring of <var class="Ar">str</var>
+      <span class="No">starting at</span> <var class="Ar">pos</var>
+      <span class="No">and</span> <var class="Ar">len</var>
+      <span class="No">characters long. If</span> <var class="Ar">len</var>
+      <span class="No">is not specified, the substring continues to the end
+      of</span> <var class="Ar">str</var> .</td>
+  </tr>
+  <tr id="STRIN">
+    <td><a class="permalink" href="#STRIN"><code class="Fn">STRIN</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the first position of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or 0 if it's not
+      present.</td>
+  </tr>
+  <tr id="STRRIN">
+    <td><a class="permalink" href="#STRRIN"><code class="Fn">STRRIN</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the last position of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or 0 if it's not
+      present.</td>
+  </tr>
   <tr id="CHARSUB">
     <td><a class="permalink" href="#CHARSUB"><code class="Fn">CHARSUB</code></a>(<var class="Fa">str</var>,
       <var class="Fa">pos</var>)</td>
-    <td>Returns the substring for the charmap entry at <var class="Ar">pos</var>
-      <span class="No">in</span> <var class="Ar">str</var>
-      <span class="No">(first character is position 1, last is position -1) with
-      the current charmap</span>.</td>
+    <td>Returns the substring of <var class="Ar">str</var> <span class="No">for
+      the charmap entry at</span> <var class="Ar">pos</var>
+      <span class="No">with the current charmap</span>.
+      (<var class="Ar">pos</var> <span class="No">counts charmap entries, not
+      characters.</span>)</td>
   </tr>
 </table>
 </section>
@@ -935,9 +1013,9 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 <p class="Pp">There are a few other functions that do things beyond numeric or
     string operations:</p>
 <table class="Bl-column">
-  <tr id="Name~4">
-    <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation~4"><b class="Sy" id="Operation~4">Operation</b></a></td>
+  <tr id="Name~6">
+    <td><a class="permalink" href="#Name~6"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~6"><b class="Sy" id="Operation~6">Operation</b></a></td>
   </tr>
   <tr id="DEF">
     <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
@@ -1738,8 +1816,8 @@ ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
   symbols</a></h3>
 <p class="Pp">The following symbols are defined by the assembler:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Name~5">
-    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
+  <tr id="Name~7">
+    <td><a class="permalink" href="#Name~7"><b class="Sy">Name</b></a></td>
     <td><a class="permalink" href="#Type~2"><b class="Sy" id="Type~2">Type</b></a></td>
     <td><a class="permalink" href="#Contents"><b class="Sy" id="Contents">Contents</b></a></td>
   </tr>
