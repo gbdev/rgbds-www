@@ -1385,7 +1385,8 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
     single dot &#x2018;<code class="Li">.</code>&#x2019;, which may not be the
     first character.</p>
 <p class="Pp">A symbol cannot have the same name as a reserved keyword, unless
-    it is prefixed by a hash &#x2018;#&#x2019;. For example,
+    its name is a &#x201C;raw identifier&#x201D; prefixed by a hash
+    &#x2018;#&#x2019;. For example,
     &#x2018;<code class="Li">#load</code>&#x2019; denotes a symbol named
     &#x2018;<code class="Li">load</code>&#x2019;, and
     &#x2018;<code class="Li">#LOAD</code>&#x2019; denotes a different symbol
@@ -1548,7 +1549,7 @@ DEF x ^= y    ; x == 1</pre>
 <section class="Ss">
 <h3 class="Ss" id="Numeric_constants"><a class="permalink" href="#Numeric_constants">Numeric
   constants</a></h3>
-<p class="Pp"><code class="Ic">EQU</code> is used to define immutable numeric
+<p class="Pp"><code class="Ic">EQU</code> is used to define numeric constant
     symbols. Unlike &#x2018;=&#x2019; above, constants defined this way cannot
     be redefined. These constants can be used for unchanging values such as
     properties of the hardware.</p>
@@ -1669,7 +1670,9 @@ DEF str_SIZEOF EQU 259</pre>
     &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
     &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
     &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
-    constants in their names.</p>
+    constants in their names. Expansion is also disabled if the string
+    constant's name is a raw identifier prefixed by a hash
+  &#x2018;#&#x2019;.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>DEF COUNTREG EQUS &quot;[hl+]&quot;
     ld a, COUNTREG
@@ -2155,9 +2158,8 @@ ENDM
     use the rest, you put the argument number in angle brackets, like
     <code class="Ic">\&lt;10&gt;</code>.</p>
 <p class="Pp">This bracketed syntax supports decimal numbers and numeric
-    constant symbols. For example,
-    &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; will get the last
-    argument.</p>
+    symbols. For example, &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019;
+    will get the last argument.</p>
 <p class="Pp">Other macro arguments and symbol interpolations will also be
     expanded inside the angle brackets. For example, if
     &#x2018;<code class="Li">\1</code>&#x2019; is
