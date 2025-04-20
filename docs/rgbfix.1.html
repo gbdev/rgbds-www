@@ -11,7 +11,8 @@
       <var class="Ar">logo_file</var>] [<code class="Fl"><a href="#l">-l</a></code>
       <var class="Ar">licensee_id</var>] [<code class="Fl"><a href="#m">-m</a></code>
       <var class="Ar">mbc_type</var>] [<code class="Fl"><a href="#n">-n</a></code>
-      <var class="Ar">rom_version</var>] [<code class="Fl"><a href="#p">-p</a></code>
+      <var class="Ar">rom_version</var>] [<code class="Fl"><a href="#o">-o</a></code>
+      <var class="Ar">out_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
       <var class="Ar">pad_value</var>] [<code class="Fl"><a href="#r">-r</a></code>
       <var class="Ar">ram_size</var>] [<code class="Fl"><a href="#t">-t</a></code>
       <var class="Ar">title_str</var>] [<var class="Ar">file ...</var>]</td>
@@ -129,6 +130,12 @@
     <code class="Fl">--overwrite</code></dt>
   <dd>Allow overwriting different non-zero bytes in the header without a warning
       being emitted.</dd>
+  <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
+    <var class="Ar">out_file</var>, <code class="Fl">--output</code>
+    <var class="Ar">out_file</var></dt>
+  <dd>Write the modified ROM image to the given file, or '-' to write to
+      standard output. If not specified, the input files are modified in-place,
+      or written to standard output if read from standard input.</dd>
   <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
     <var class="Ar">pad_value</var>, <code class="Fl">--pad-value</code>
     <var class="Ar">pad_value</var></dt>
