@@ -2158,8 +2158,10 @@ ENDM
     use the rest, you put the argument number in angle brackets, like
     <code class="Ic">\&lt;10&gt;</code>.</p>
 <p class="Pp">This bracketed syntax supports decimal numbers and numeric
-    symbols. For example, &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019;
-    will get the last argument.</p>
+    symbols, where negative values count from the last argument. For example,
+    &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; or
+    &#x2018;<code class="Li">\&lt;-1&gt;</code>&#x2019; will get the last
+    argument.</p>
 <p class="Pp">Other macro arguments and symbol interpolations will also be
     expanded inside the angle brackets. For example, if
     &#x2018;<code class="Li">\1</code>&#x2019; is
