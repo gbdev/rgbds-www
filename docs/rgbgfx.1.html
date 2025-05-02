@@ -89,6 +89,18 @@
   <dd>Same as <code class="Fl">-a</code> <var class="Ar">base_path</var>.attrmap
       (see <a class="Sx" href="#Automatic_output_paths">Automatic output
       paths</a>).</dd>
+  <dt id="B"><a class="permalink" href="#B"><code class="Fl">-B</code></a>
+    <var class="Ar">color</var>, <code class="Fl">--background-color</code>
+    <var class="Ar">color</var></dt>
+  <dd>Set a background color to be omitted from output. Colors are accepted in
+      &#x2018;<code class="Li">#rgb</code>&#x2019; or
+      &#x2018;<code class="Li">#rrggbb</code>&#x2019; format, or as
+      &#x2018;<code class="Li">transparent</code>&#x2019;. Input tiles which are
+      entirely the specified background color are ignored and will not be output
+      in tile data file. The tilemap, atrribute map, or palette map files
+      <a class="permalink" href="#will"><i class="Em" id="will">will</i></a> use
+      placeholder values where background tiles were. If a background color is
+      specified, it cannot be used within tiles which are not ignored.</dd>
   <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
     <var class="Ar">base_ids</var>, <code class="Fl">--base-tiles</code>
     <var class="Ar">base_ids</var></dt>
@@ -113,8 +125,8 @@
       <dd>If <var class="Ar">pal_spec</var> begins with a hash character
           &#x2018;<code class="Li">#</code>&#x2019;, it is treated as an inline
           palette specification. It should contain a comma-separated list of
-          hexadecimal colors, each beginning with a hash. Colors are accepted
-          either as &#x2018;<code class="Li">#rgb</code>&#x2019; or
+          hexadecimal colors, each beginning with a hash. Colors are accepted in
+          &#x2018;<code class="Li">#rgb</code>&#x2019; or
           &#x2018;<code class="Li">#rrggbb</code>&#x2019; format. To leave one
           or more gaps in the palette,
           &#x2018;<code class="Li">#none</code>&#x2019; can be used instead of
