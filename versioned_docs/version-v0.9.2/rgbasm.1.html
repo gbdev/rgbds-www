@@ -1,0 +1,401 @@
+<section class="Sh">
+<h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm">rgbasm</code></td>
+    <td>[<code class="Fl"><a href="#E">-E</a><a href="#h">h</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
+      <var class="Ar">chars</var>] [<code class="Fl"><a href="#D">-D</a></code>
+      <var class="Ar">name</var>[=<var class="Ar">value</var>]]
+      [<code class="Fl"><a href="#g">-g</a></code> <var class="Ar">chars</var>]
+      [<code class="Fl"><a href="#I">-I</a></code> <var class="Ar">path</var>]
+      [<code class="Fl"><a href="#M">-M</a></code> <var class="Ar">depend_file</var>]
+      [<code class="Fl"><a href="#M">-M</a><a href="#G">G</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#P">P</a></code>]
+      [<code class="Fl"><a href="#M">-M</a><a href="#T">T</a></code> <var class="Ar">target_file</var>]
+      [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code> <var class="Ar">target_file</var>]
+      [<code class="Fl"><a href="#o">-o</a></code> <var class="Ar">out_file</var>]
+      [<code class="Fl"><a href="#P">-P</a></code> <var class="Ar">include_file</var>]
+      [<code class="Fl"><a href="#p">-p</a></code> <var class="Ar">pad_value</var>]
+      [<code class="Fl"><a href="#Q">-Q</a></code> <var class="Ar">fix_precision</var>]
+      [<code class="Fl"><a href="#r">-r</a></code> <var class="Ar">recursion_depth</var>]
+      [<code class="Fl"><a href="#s">-s</a></code>
+      <var class="Ar">features</var>:<var class="Ar">state_file</var>]
+      [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
+      [<code class="Fl"><a href="#X">-X</a></code> <var class="Ar">max_errors</var>]
+      <var class="Ar">asmfile</var></td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">The <code class="Nm">rgbasm</code> program creates an RGB object
+    file from an assembly source file. The object file format is documented in
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>.</p>
+<p class="Pp">The input <var class="Ar">asmfile</var> can be a path to a file,
+    or <code class="Cm">-</code> to read from standard input.</p>
+<p class="Pp">Note that options can be abbreviated as long as the abbreviation
+    is unambiguous: <code class="Fl">--verb</code> is
+    <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
+    invalid because it could also be <code class="Fl">--version</code>. The
+    arguments are as follows:</p>
+<dl class="Bl-tag">
+  <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
+    <var class="Ar">chars</var>, <code class="Fl">--binary-digits</code>
+    <var class="Ar">chars</var></dt>
+  <dd>Change the two characters used for binary constants. The defaults are
+    01.</dd>
+  <dt id="D"><a class="permalink" href="#D"><code class="Fl">-D</code></a>
+    <var class="Ar">name</var>[=<var class="Ar">value</var>],
+    <code class="Fl">--define</code>
+    <var class="Ar">name</var>[=<var class="Ar">value</var>]</dt>
+  <dd>Add a string symbol to the compiled source code. This is equivalent to
+      &#x2018;<code class="Li"><var class="Ar">name</var>
+      <code class="Ic">EQUS</code>
+      <span class="No">&quot;</span><var class="Ar">value</var>&quot;</code>&#x2019;
+      in code, or &#x2018;<code class="Li"><var class="Ar">name</var>
+      <code class="Ic">EQUS</code>
+      <span class="No">&quot;1&quot;</span></code>&#x2019; if
+      <var class="Ar">value</var> is not specified.</dd>
+  <dt id="E"><a class="permalink" href="#E"><code class="Fl">-E</code></a>,
+    <code class="Fl">--export-all</code></dt>
+  <dd>Export all labels, including unreferenced and local labels.</dd>
+  <dt id="g"><a class="permalink" href="#g"><code class="Fl">-g</code></a>
+    <var class="Ar">chars</var>, <code class="Fl">--gfx-chars</code>
+    <var class="Ar">chars</var></dt>
+  <dd>Change the four characters used for gfx constants. The defaults are
+    0123.</dd>
+  <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
+    <code class="Fl">--help</code></dt>
+  <dd>Print help text for the program and exit.</dd>
+  <dt id="I"><a class="permalink" href="#I"><code class="Fl">-I</code></a>
+    <var class="Ar">path</var>, <code class="Fl">--include</code>
+    <var class="Ar">path</var></dt>
+  <dd>Add a new &#x201C;include path&#x201D;; <var class="Ar">path</var> must
+      point to a directory. When a <code class="Ic">INCLUDE</code> (including
+      the implicit one from <code class="Fl">-P</code>) or
+      <code class="Ic">INCBIN</code> is attempted,
+      <code class="Nm">rgbasm</code> first looks up the provided path from its
+      working directory; if this fails, it tries again from each of the
+      &#x201C;include path&#x201D; directories, in the order they were
+    provided.</dd>
+  <dt id="M"><a class="permalink" href="#M"><code class="Fl">-M</code></a>
+    <var class="Ar">depend_file</var>, <code class="Fl">--dependfile</code>
+    <var class="Ar">depend_file</var></dt>
+  <dd>Write
+      <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
+      dependencies to <var class="Ar">depend_file</var>.</dd>
+  <dt id="MG"><a class="permalink" href="#MG"><code class="Fl">-MG</code></a></dt>
+  <dd>To be used in conjunction with <code class="Fl">-M</code>. This makes
+      <code class="Nm">rgbasm</code> assume that missing files are
+      auto-generated: when <code class="Ic">INCLUDE</code> (including the
+      implicit one from <code class="Fl">-P</code>) or
+      <code class="Ic">INCBIN</code> is attempted on a non-existent file, it is
+      added as a dependency, then <code class="Nm">rgbasm</code> exits normally
+      instead of erroring out. This feature is used in automatic updating of
+      makefiles.</dd>
+  <dt id="MP"><a class="permalink" href="#MP"><code class="Fl">-MP</code></a></dt>
+  <dd>When enabled, this causes a phony target to be added for each dependency
+      other than the main file. This prevents
+      <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
+      from erroring out when dependency files are deleted.</dd>
+  <dt id="MT"><a class="permalink" href="#MT"><code class="Fl">-MT</code></a>
+    <var class="Ar">target_file</var></dt>
+  <dd>Add a target to the rules emitted by <code class="Fl">-M</code>. The exact
+      string provided will be written, including spaces and special characters.
+    <div class="Bd Bd-indent"><code class="Li"><code class="Fl">-MT</code>
+      <span class="No">fileA</span> <code class="Fl">-MT</code>
+      <span class="No">fileB</span></code></div>
+    is equivalent to
+    <div class="Bd Bd-indent"><code class="Li"><code class="Fl">-MT</code>
+      <span class="No">'fileA fileB'</span></code></div>
+    . If neither this nor <code class="Fl">-MQ</code> is specified, the output
+      file name is used.</dd>
+  <dt id="MQ"><a class="permalink" href="#MQ"><code class="Fl">-MQ</code></a>
+    <var class="Ar">target_file</var></dt>
+  <dd>Same as <code class="Fl">-MT</code>, but additionally escapes any special
+      <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
+      characters, essentially &#x2018;$&#x2019;.</dd>
+  <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
+    <var class="Ar">out_file</var>, <code class="Fl">--output</code>
+    <var class="Ar">out_file</var></dt>
+  <dd>Write an object file to the given filename.</dd>
+  <dt id="P"><a class="permalink" href="#P"><code class="Fl">-P</code></a>
+    <var class="Ar">include_file</var>, <code class="Fl">--preinclude</code>
+    <var class="Ar">include_file</var></dt>
+  <dd>Pre-include a file. This acts as if a
+      &#x2018;<code class="Li"><code class="Ic">INCLUDE</code>
+      &quot;<var class="Ar">include_file</var>&quot;</code>&#x2019; was read
+      before the input <var class="Ar">asmfile</var>.</dd>
+  <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
+    <var class="Ar">pad_value</var>, <code class="Fl">--pad-value</code>
+    <var class="Ar">pad_value</var></dt>
+  <dd>Use this as the value for <code class="Ic">DS</code> directives in ROM
+      sections, unless overridden. The default is 0x00.</dd>
+  <dt id="Q"><a class="permalink" href="#Q"><code class="Fl">-Q</code></a>
+    <var class="Ar">fix_precision</var>, <code class="Fl">--q-precision</code>
+    <var class="Ar">fix_precision</var></dt>
+  <dd>Use this as the precision of fixed-point numbers after the decimal point,
+      unless they specify their own precision. The default is 16, so fixed-point
+      numbers are Q16.16 (since they are 32-bit integers). The argument may
+      start with a &#x2018;<code class="Li">.</code>&#x2019; to match the Q
+      notation, for example, &#x2018;<code class="Li"><code class="Fl">-Q</code>
+      <var class="Ar">.16</var></code>&#x2019;.</dd>
+  <dt id="r"><a class="permalink" href="#r"><code class="Fl">-r</code></a>
+    <var class="Ar">recursion_depth</var>,
+    <code class="Fl">--recursion-depth</code>
+    <var class="Ar">recursion_depth</var></dt>
+  <dd>Specifies the recursion depth past which <code class="Nm">rgbasm</code>
+      will assume being in an infinite loop. The default is 64.</dd>
+  <dt id="s"><a class="permalink" href="#s"><code class="Fl">-s</code></a>
+    <var class="Ar">features</var>:<var class="Ar">state_file</var>,
+    <code class="Fl">--state</code>
+    <var class="Ar">features</var>:<var class="Ar">state_file</var></dt>
+  <dd>Write the specified <var class="Ar">features</var> to
+      <var class="Ar">state_file</var>, based on the final state of
+      <code class="Nm">rgbasm</code> at the end of its input. The expected
+      <var class="Ar">features</var> are a comma-separated subset of the
+      following:
+    <dl class="Bl-tag">
+      <dt id="equ"><a class="permalink" href="#equ"><code class="Cm">equ</code></a></dt>
+      <dd>Write all numeric constants as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">equ</code>
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="var"><a class="permalink" href="#var"><code class="Cm">var</code></a></dt>
+      <dd>Write all variables as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">=</code>
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="equs"><a class="permalink" href="#equs"><code class="Cm">equs</code></a></dt>
+      <dd>Write all string constants as
+          &#x2018;<code class="Li"><code class="Ic">def</code>
+          <var class="Ar">name</var> <code class="Ic">equs</code>
+          &quot;<var class="Ar">value</var>&quot;</code>&#x2019;.</dd>
+      <dt id="char"><a class="permalink" href="#char"><code class="Cm">char</code></a></dt>
+      <dd>Write all characters as
+          &#x2018;<code class="Li"><code class="Ic">charmap</code>
+          <var class="Ar">name</var>,
+          <var class="Ar">value</var></code>&#x2019;.</dd>
+      <dt id="macro"><a class="permalink" href="#macro"><code class="Cm">macro</code></a></dt>
+      <dd>Write all macros as
+          &#x2018;<code class="Li"><code class="Ic">macro</code>
+          <var class="Ar">name</var> <span class="No">...</span>
+          <code class="Ic">endm</code></code>&#x2019;.</dd>
+      <dt id="all"><a class="permalink" href="#all"><code class="Cm">all</code></a></dt>
+      <dd>Acts like <code class="Cm">equ,var,equs,char,macro</code>.</dd>
+    </dl>
+    <p class="Pp">This flag may be specified multiple times with different
+        feature subsets to write them to different files (see
+        <a class="Sx" href="#EXAMPLES">EXAMPLES</a> below).</p>
+  </dd>
+  <dt id="V"><a class="permalink" href="#V"><code class="Fl">-V</code></a>,
+    <code class="Fl">--version</code></dt>
+  <dd>Print the version of the program and exit.</dd>
+  <dt id="v"><a class="permalink" href="#v"><code class="Fl">-v</code></a>,
+    <code class="Fl">--verbose</code></dt>
+  <dd>Be verbose.</dd>
+  <dt id="W"><a class="permalink" href="#W"><code class="Fl">-W</code></a>
+    <var class="Ar">warning</var>, <code class="Fl">--warning</code>
+    <var class="Ar">warning</var></dt>
+  <dd>Set warning flag <var class="Ar">warning</var>. A warning message will be
+      printed if <var class="Ar">warning</var> is an unknown warning flag. See
+      the <a class="Sx" href="#DIAGNOSTICS">DIAGNOSTICS</a> section for a list
+      of warnings.</dd>
+  <dt id="w"><a class="permalink" href="#w"><code class="Fl">-w</code></a></dt>
+  <dd>Disable all warning output, even when turned into errors.</dd>
+  <dt id="X"><a class="permalink" href="#X"><code class="Fl">-X</code></a>
+    <var class="Ar">max_errors</var>, <code class="Fl">--max-errors</code>
+    <var class="Ar">max_errors</var></dt>
+  <dd>If more than this number of errors (not warnings) occur, then abort the
+      assembly process; <code class="Fl">-X</code> <var class="Ar">0</var>
+      disables this behavior. The default is 100 if
+      <code class="Nm">rgbasm</code> is printing errors to a terminal, and 0
+      otherwise.</dd>
+</dl>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DIAGNOSTICS"><a class="permalink" href="#DIAGNOSTICS">DIAGNOSTICS</a></h2>
+<p class="Pp">Warnings are diagnostic messages that indicate possibly erroneous
+    behavior that does not necessarily compromise the assembling process. The
+    following options alter the way warnings are processed.</p>
+<dl class="Bl-tag">
+  <dt id="Werror"><a class="permalink" href="#Werror"><code class="Fl">-Werror</code></a></dt>
+  <dd>Make all warnings into errors. This can be negated as
+      <code class="Fl">-Wno-error</code> to prevent turning all warnings into
+      errors.</dd>
+  <dt id="Werror="><a class="permalink" href="#Werror="><code class="Fl">-Werror=</code></a></dt>
+  <dd>Make the specified warning or meta warning into an error. A warning's name
+      is appended (example: <code class="Fl">-Werror=obsolete</code>), and this
+      warning is implicitly enabled and turned into an error. This can be
+      negated as <code class="Fl">-Wno-error=</code> to prevent turning a
+      specified warning into an error, even if <code class="Fl">-Werror</code>
+      is in effect.</dd>
+</dl>
+<p class="Pp">The following warnings are &#x201C;meta&#x201D; warnings, that
+    enable a collection of other warnings. If a specific warning is toggled via
+    a meta flag and a specific one, the more specific one takes priority. The
+    position on the command-line acts as a tie breaker, the last one taking
+    effect.</p>
+<dl class="Bl-tag">
+  <dt id="Wall"><a class="permalink" href="#Wall"><code class="Fl">-Wall</code></a></dt>
+  <dd>This enables warnings that are likely to indicate an error or undesired
+      behavior, and that can easily be fixed.</dd>
+  <dt id="Wextra"><a class="permalink" href="#Wextra"><code class="Fl">-Wextra</code></a></dt>
+  <dd>This enables extra warnings that are less likely to pose a problem, but
+      that may still be wanted.</dd>
+  <dt id="Weverything"><a class="permalink" href="#Weverything"><code class="Fl">-Weverything</code></a></dt>
+  <dd>Enables literally every warning.</dd>
+</dl>
+<p class="Pp">The following warnings are actual warning flags; with each
+    description, the corresponding warning flag is included. Note that each of
+    these flag also has a negation (for example,
+    <code class="Fl">-Wcharmap-redef</code> enables the warning that
+    <code class="Fl">-Wno-charmap-redef</code> disables; and
+    <code class="Fl">-Wall</code> enables every warning that
+    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
+    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
+    alphabetically.</p>
+<dl class="Bl-tag">
+  <dt id="Wno-assert"><a class="permalink" href="#Wno-assert"><code class="Fl">-Wno-assert</code></a></dt>
+  <dd>Warn when <code class="Ic">WARN</code><span class="No">-type</span>
+      assertions fail. (See &#x201C;Aborting the assembly process&#x201D; in
+      <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for
+      <code class="Ic">ASSERT</code>).</dd>
+  <dt id="Wbackwards-for"><a class="permalink" href="#Wbackwards-for"><code class="Fl">-Wbackwards-for</code></a></dt>
+  <dd>Warn when <code class="Ic">FOR</code> loops have their start and stop
+      values switched according to the step value. This warning is enabled by
+      <code class="Fl">-Wall</code>.</dd>
+  <dt id="Wbuiltin-args"><a class="permalink" href="#Wbuiltin-args"><code class="Fl">-Wbuiltin-args</code></a></dt>
+  <dd>Warn about incorrect arguments to built-in functions, such as
+      <code class="Fn">STRSUB</code>() with indexes outside of the string's
+      bounds. This warning is enabled by <code class="Fl">-Wall</code>.</dd>
+  <dt id="Wcharmap-redef"><a class="permalink" href="#Wcharmap-redef"><code class="Fl">-Wcharmap-redef</code></a></dt>
+  <dd>Warn when re-defining a charmap mapping. This warning is enabled by
+      <code class="Fl">-Wall</code>.</dd>
+  <dt id="Wdiv"><a class="permalink" href="#Wdiv"><code class="Fl">-Wdiv</code></a></dt>
+  <dd>Warn when dividing the smallest negative integer (-2**31) by -1, which
+      yields itself due to integer overflow.</dd>
+  <dt id="Wempty-macro-arg"><a class="permalink" href="#Wempty-macro-arg"><code class="Fl">-Wempty-macro-arg</code></a></dt>
+  <dd>Warn when a macro argument is empty. This warning is enabled by
+      <code class="Fl">-Wextra</code>.</dd>
+  <dt id="Wempty-strrpl"><a class="permalink" href="#Wempty-strrpl"><code class="Fl">-Wempty-strrpl</code></a></dt>
+  <dd>Warn when <code class="Fn">STRRPL</code>() is called with an empty string
+      as its second argument (the substring to replace). This warning is enabled
+      by <code class="Fl">-Wall</code>.</dd>
+  <dt id="Wlarge-constant"><a class="permalink" href="#Wlarge-constant"><code class="Fl">-Wlarge-constant</code></a></dt>
+  <dd>Warn when a constant too large to fit in a signed 32-bit integer is
+      encountered. This warning is enabled by
+    <code class="Fl">-Wall</code>.</dd>
+  <dt id="Wmacro-shift"><a class="permalink" href="#Wmacro-shift"><code class="Fl">-Wmacro-shift</code></a></dt>
+  <dd>Warn when shifting macro arguments past their limits. This warning is
+      enabled by <code class="Fl">-Wextra</code>.</dd>
+  <dt id="Wno-nested-comment"><a class="permalink" href="#Wno-nested-comment"><code class="Fl">-Wno-nested-comment</code></a></dt>
+  <dd>Warn when the block comment start sequence
+      &#x2018;<code class="Li">/*</code>&#x2019; is found inside of a block
+      comment. Block comments cannot be nested, so the first
+      &#x2018;<code class="Li">*/</code>&#x2019; will end the whole
+    comment.</dd>
+  <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
+  <dd>Warn when obsolete constructs such as the <code class="Ic">_PI</code>
+      constant or <code class="Ic">PRINTT</code> directive are encountered.</dd>
+  <dt id="Wnumeric-string="><a class="permalink" href="#Wnumeric-string="><code class="Fl">-Wnumeric-string=</code></a></dt>
+  <dd>Warn when a multi-character string is treated as a number.
+      <code class="Fl">-Wnumeric-string=0</code> or
+      <code class="Fl">-Wno-numeric-string</code> disables this warning.
+      <code class="Fl">-Wnumeric-string=1</code> or just
+      <code class="Fl">-Wnumeric-string</code> warns about strings longer than
+      four characters, since four or fewer characters fit within a 32-bit
+      integer. <code class="Fl">-Wnumeric-string=2</code> warns about any
+      multi-character string.</dd>
+  <dt id="Wpurge="><a class="permalink" href="#Wpurge="><code class="Fl">-Wpurge=</code></a></dt>
+  <dd>Warn when purging symbols which are likely to have been necessary.
+      <code class="Fl">-Wpurge=0</code> or <code class="Fl">-Wno-purge</code>
+      disables this warning. <code class="Fl">-Wpurge=1</code> or just
+      <code class="Fl">-Wpurge</code> warns when purging any exported symbol
+      (regardless of type). <code class="Fl">-Wpurge=2</code> also warns when
+      purging any label (even if not exported).</dd>
+  <dt id="Wshift"><a class="permalink" href="#Wshift"><code class="Fl">-Wshift</code></a></dt>
+  <dd>Warn when shifting right a negative value. Use a division by 2**N
+    instead.</dd>
+  <dt id="Wshift-amount"><a class="permalink" href="#Wshift-amount"><code class="Fl">-Wshift-amount</code></a></dt>
+  <dd>Warn when a shift's operand is negative or greater than 32.</dd>
+  <dt id="Wtruncation="><a class="permalink" href="#Wtruncation="><code class="Fl">-Wtruncation=</code></a></dt>
+  <dd>Warn when an implicit truncation (for example, <code class="Ic">db</code>
+      to an 8-bit value) loses some bits. <code class="Fl">-Wtruncation=0</code>
+      or <code class="Fl">-Wno-truncation</code> disables this warning.
+      <code class="Fl">-Wtruncation=1</code> warns when an N-bit value is 2**N
+      or greater, or less than -2**N. <code class="Fl">-Wtruncation=2</code> or
+      just <code class="Fl">-Wtruncation</code> also warns when an N-bit value
+      is less than -2**(N-1), which will not fit in two's complement
+    encoding.</dd>
+  <dt id="Wunmapped-char="><a class="permalink" href="#Wunmapped-char="><code class="Fl">-Wunmapped-char=</code></a></dt>
+  <dd>Warn when a character goes through charmap conversion but has no defined
+      mapping. <code class="Fl">-Wunmapped-char=0</code> or
+      <code class="Fl">-Wno-unmapped-char</code> disables this warning.
+      <code class="Fl">-Wunmapped-char=1</code> or just
+      <code class="Fl">-Wunmapped-char</code> only warns if the active charmap
+      is not empty. <code class="Fl">-Wunmapped-char=2</code> warns if the
+      active charmap is empty, and/or is not the default charmap
+      &#x2018;main&#x2019;.</dd>
+  <dt id="Wunmatched-directive"><a class="permalink" href="#Wunmatched-directive"><code class="Fl">-Wunmatched-directive</code></a></dt>
+  <dd>Warn when a <code class="Ic">PUSHC</code>, <code class="Ic">PUSHO</code>,
+      or <code class="Ic">PUSHS</code> directive does not have a corresponding
+      <code class="Ic">POPC</code>, <code class="Ic">POPO</code>, or
+      <code class="Ic">POPS</code>. This warning is enabled by
+      <code class="Fl">-Wextra</code>.</dd>
+  <dt id="Wunterminated-load"><a class="permalink" href="#Wunterminated-load"><code class="Fl">-Wunterminated-load</code></a></dt>
+  <dd>Warn when a <code class="Ic">LOAD</code> block is not terminated by an
+      <code class="Ic">ENDL</code>. This warning is enabled by
+      <code class="Fl">-Wextra</code>.</dd>
+  <dt id="Wno-user"><a class="permalink" href="#Wno-user"><code class="Fl">-Wno-user</code></a></dt>
+  <dd>Warn when the <code class="Ic">WARN</code> built-in is executed. (See
+      &#x201C;Aborting the assembly process&#x201D; in
+      <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for
+      <code class="Ic">WARN</code>).</dd>
+</dl>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<p class="Pp">You can assemble a source file in two ways.</p>
+<p class="Pp">Straightforward way:</p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -o bar.o
+  foo.asm</code></div>
+<p class="Pp">Pipes way:</p>
+<div class="Bd Bd-indent"><code class="Li">$ cat foo.asm | rgbasm -o bar.o
+  -</code></div>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -o bar.o - &lt;
+  foo.asm</code></div>
+<p class="Pp">The resulting object file is not yet a usable ROM image&#x2014;it
+    must first be run through <a class="Xr" href="./rgblink.1">rgblink(1)</a>
+    and then <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>.</p>
+<p class="Pp">Writing the final assembler state to a file:</p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -s all:state.dump.asm
+  foo.asm</code></div>
+<p class="Pp">Or to multiple files:</p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbasm -s equ,var:numbers.dump.asm
+  -s equs:strings.dump.asm foo.asm</code></div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h2>
+<p class="Pp">Please report bugs on
+    <a class="Lk" href="https://github.com/gbdev/rgbds/issues">GitHub</a>.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbasm-old.5">rgbasm-old(5)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><code class="Nm">rgbasm</code> was originally written by
+    <span class="An">Carsten S&#x00F8;rensen</span> as part of the ASMotor
+    package, and was later repackaged in RGBDS by <span class="An">Justin
+    Lloyd</span>. It is now maintained by a number of contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>
