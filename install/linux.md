@@ -11,16 +11,15 @@ If a satisfactory version is available, it is a good idea to install from there.
 
 ## Using our pre-built binaries
 
-1. Go the [latest release](https://github.com/gbdev/rgbds/releases/latest) (or pick [a specific version](https://github.com/gbdev/rgbds/releases))
-2. Under "Assets" at the bottom, download <code>rgbds-<var>&lt;version&gt;</var>-linux-x86_64.tar.xz</code> (for example, version 0.7.0 would have `rgbds-0.7.0-linux-x86_64.tar.xz`)
-3. Extract the .tar.xz file into a new directory, and run `install.sh` as root in that directory. E.g.:
+1. Download the [latest release of `rgbds-linux-x86_64.tar.xz`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-linux-x86_64.tar.xz). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
+2. Extract the downloaded `rgbds-linux-x86_64.tar.xz` file into a new directory, and run `install.sh` as root in that directory. For example:
    ```console
    % mkdir rgbds
-   % tar xf rgbds-0.7.0-linux-x86_64.tar.xz -C rgbds
+   % tar xf rgbds-linux-x86_64.tar.xz -C rgbds
    % cd rgbds
    % sudo ./install.sh
    ```
-4. Check that RGBDS was correctly installed by running `rgbasm -V`.
+3. Check that RGBDS was correctly installed by running `rgbasm -V`.
    It should print out the version number you installed!
 
 ---
