@@ -21,7 +21,7 @@ You can check what your WSL distribution is by running `wsl -l -v` in the Comman
 </TabItem>
 <TabItem value="cygwin" label="Cygwin / MSYS2">
 
-1. Download the latest release of either [`rgbds-win32.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win32.zip) (for 32-bit Windows) or [`rgbds-win64.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win64.zip) (for 64-bit Windows). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
+1. Download the latest release of either [`rgbds-win64.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win64.zip) (for 64-bit Windows) or [`rgbds-win32.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win32.zip) (for 32-bit Windows). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
 2. Unzip the downloaded `.zip` file.
    It should give you the RGBDS `.exe` files and a couple of `.dll` files.
 3. Copy all of those `.exe` and `.dll` files to the `/usr/local/bin` directory of your Cygwin/MSYS2 installation.
@@ -48,7 +48,7 @@ If you can choose between using Cygwin or MSYS2, be advised that Cygwin is slowe
 </TabItem>
 <TabItem value="win32" label="None of those">
 
-1. Download the latest release of either [`rgbds-win32.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win32.zip) (for 32-bit Windows) or [`rgbds-win64.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win64.zip) (for 64-bit Windows). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
+1. Download the latest release of either [`rgbds-win64.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win64.zip) (for 64-bit Windows) or [`rgbds-win32.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-win32.zip) (for 32-bit Windows). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
 2. Unzip the `.zip` file.
    It should give you the RGBDS `.exe` files and a couple of `.dll` files.
 3. Either:
