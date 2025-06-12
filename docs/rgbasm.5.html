@@ -892,14 +892,24 @@ ENDR</pre>
       <var class="Ar">char</var> <span class="No">with the current
       charmap.</span></td>
   </tr>
+  <tr id="CHARVAL">
+    <td><a class="permalink" href="#CHARVAL"><code class="Fn">CHARVAL</code></a>(<var class="Fa">char</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the value at <var class="Ar">idx</var> <span class="No">of the
+      charmap entry for</span> <var class="Ar">char</var>.</td>
+  </tr>
 </table>
-<p class="Pp">Note that the first character of a string is at index 0, and the
-    last is at index -1.</p>
+<p class="Pp">Note that indexes count starting from 0 at the beginning, or from
+    -1 at the end. The characters of a string are counted by
+    &#x2018;<code class="Li">STRLEN</code>&#x2019;; the charmap entries of a
+    string are counted by &#x2018;<code class="Li">CHARLEN</code>&#x2019;; and
+    the values of a charmap entry are counted by
+    &#x2018;<code class="Li">CHARSIZE</code>&#x2019;.</p>
 <p class="Pp" id="position">The following legacy functions are similar to other
     functions that operate on string expressions, but for historical reasons,
-    they count characters starting from
+    they count starting from
     <a class="permalink" href="#position"><i class="Em">position 1</i></a>, not
-    from index 0! (Position -1 still counts from the last character.)</p>
+    from index 0! (Position -1 still counts from the end.)</p>
 <table class="Bl-column">
   <tr id="Name~5">
     <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
