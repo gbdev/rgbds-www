@@ -750,11 +750,18 @@ ENDR</pre>
     be expanded as macro arguments, interpolated symbols, or escape sequences.
     For example, the raw string
     &#x2018;<code class="Li">#&quot;\t\1{s}\&quot;</code>&#x2019; is equivalent
-    to the regular string &#x2018;<code class="Li">\\t\\1\{s}\\</code>&#x2019;.
-    (Note that this prevents raw strings from including the double quote
-    character.) Raw strings also may be contained in triple quotes for them to
-    be multi-line, so they can include literal newline or quote characters
-    (although still not three quotes in a row).</p>
+    to the regular string
+    &#x2018;<code class="Li">&quot;\\t\\1\{s}\\&quot;</code>&#x2019;. (Note that
+    this prevents raw strings from including the double quote character.) Raw
+    strings also may be contained in triple quotes for them to be multi-line, so
+    they can include literal newline or quote characters (although still not
+    three quotes in a row).</p>
+<p class="Pp">You can use the &#x2018;++&#x2019; operator to concatenate two
+    strings. &#x2018;<code class="Li">&quot;str&quot; ++
+    &quot;ing&quot;</code>&#x2019; is equivalent to
+    &#x2018;<code class="Li">&quot;string&quot;</code>&#x2019;, or to
+    &#x2018;<code class="Li">STRCAT(&quot;str&quot;,
+    &quot;ing&quot;)</code>&#x2019;.</p>
 <p class="Pp">The following functions operate on string expressions, and return
     strings themselves.</p>
 <table class="Bl-column">
