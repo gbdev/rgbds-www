@@ -25,7 +25,7 @@ You can check what your WSL distribution is by running `wsl -l -v` in the Comman
 2. Under "Assets" at the bottom, download either <code>rgbds-<var>&lt;version&gt;</var>-win32.zip</code> (for 32-bit Windows) or <code>rgbds-<var>&lt;version&gt;</var>-win64.zip</code> (for 64-bit Windows).
    (For example, version 0.7.0 for 64-bit Windows would have `rgbds-0.7.0-win64.zip`).
 3. Unzip the .zip file.
-   It should give you the RGBDS `.exe` files and a couple of `.dll` files.
+   It should give you four `.exe` files and a couple of `.dll` files.
 4. Copy all of those `.exe` and `.dll` files to the `/usr/local/bin` directory of your Cygwin/MSYS2 installation.
    (You can learn its equivalent Windows path by running `cygpath -w /usr/local/bin` in the Cygwin terminal.)
 
@@ -54,7 +54,7 @@ If you can choose between using Cygwin or MSYS2, be advised that Cygwin is slowe
 2. Under "Assets" at the bottom, download either <code>rgbds-<var>&lt;version&gt;</var>-win32.zip</code> (for 32-bit Windows) or <code>rgbds-<var>&lt;version&gt;</var>-win64.zip</code> (for 64-bit Windows).
    (For example, version 0.7.0 for 64-bit Windows would have `rgbds-0.7.0-win64.zip`).
 3. Unzip the .zip file.
-   It should give you the RGBDS `.exe` files and a couple of `.dll` files.
+   It should give you four `.exe` files and a couple of `.dll` files.
 4. Either:
    - ...put all of the files in a directory, then add that directory to Windows' `PATH`.
      This will *permanently* allow you to use RGBDS *from any directory*.
