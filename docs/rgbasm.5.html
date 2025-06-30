@@ -750,11 +750,18 @@ ENDR</pre>
     be expanded as macro arguments, interpolated symbols, or escape sequences.
     For example, the raw string
     &#x2018;<code class="Li">#&quot;\t\1{s}\&quot;</code>&#x2019; is equivalent
-    to the regular string &#x2018;<code class="Li">\\t\\1\{s}\\</code>&#x2019;.
-    (Note that this prevents raw strings from including the double quote
-    character.) Raw strings also may be contained in triple quotes for them to
-    be multi-line, so they can include literal newline or quote characters
-    (although still not three quotes in a row).</p>
+    to the regular string
+    &#x2018;<code class="Li">&quot;\\t\\1\{s}\\&quot;</code>&#x2019;. (Note that
+    this prevents raw strings from including the double quote character.) Raw
+    strings also may be contained in triple quotes for them to be multi-line, so
+    they can include literal newline or quote characters (although still not
+    three quotes in a row).</p>
+<p class="Pp">You can use the &#x2018;++&#x2019; operator to concatenate two
+    strings. &#x2018;<code class="Li">&quot;str&quot; ++
+    &quot;ing&quot;</code>&#x2019; is equivalent to
+    &#x2018;<code class="Li">&quot;string&quot;</code>&#x2019;, or to
+    &#x2018;<code class="Li">STRCAT(&quot;str&quot;,
+    &quot;ing&quot;)</code>&#x2019;.</p>
 <p class="Pp">The following functions operate on string expressions, and return
     strings themselves.</p>
 <table class="Bl-column">
@@ -861,12 +868,12 @@ ENDR</pre>
   <tr id="INCHARMAP">
     <td><a class="permalink" href="#INCHARMAP"><code class="Fn">INCHARMAP</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns 1 if <var class="Ar">str</var> <span class="No">has an entry in
-      the current charmap, or 0 otherwise</span>.</td>
+      the current charmap, or 0 otherwise.</span></td>
   </tr>
   <tr id="CHARLEN">
     <td><a class="permalink" href="#CHARLEN"><code class="Fn">CHARLEN</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns the number of charmap entries in <var class="Ar">str</var>
-      <span class="No">with the current charmap</span>.</td>
+      <span class="No">with the current charmap.</span></td>
   </tr>
   <tr id="CHARCMP">
     <td><a class="permalink" href="#CHARCMP"><code class="Fn">CHARCMP</code></a>(<var class="Fa">str1</var>,
@@ -885,14 +892,24 @@ ENDR</pre>
       <var class="Ar">char</var> <span class="No">with the current
       charmap.</span></td>
   </tr>
+  <tr id="CHARVAL">
+    <td><a class="permalink" href="#CHARVAL"><code class="Fn">CHARVAL</code></a>(<var class="Fa">char</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the value at <var class="Ar">idx</var> <span class="No">of the
+      charmap entry for</span> <var class="Ar">char</var>.</td>
+  </tr>
 </table>
-<p class="Pp">Note that the first character of a string is at index 0, and the
-    last is at index -1.</p>
+<p class="Pp">Note that indexes count starting from 0 at the beginning, or from
+    -1 at the end. The characters of a string are counted by
+    &#x2018;<code class="Li">STRLEN</code>&#x2019;; the charmap entries of a
+    string are counted by &#x2018;<code class="Li">CHARLEN</code>&#x2019;; and
+    the values of a charmap entry are counted by
+    &#x2018;<code class="Li">CHARSIZE</code>&#x2019;.</p>
 <p class="Pp" id="position">The following legacy functions are similar to other
     functions that operate on string expressions, but for historical reasons,
-    they count characters starting from
+    they count starting from
     <a class="permalink" href="#position"><i class="Em">position 1</i></a>, not
-    from index 0! (Position -1 still counts from the last character.)</p>
+    from index 0! (Position -1 still counts from the end.)</p>
 <table class="Bl-column">
   <tr id="Name~5">
     <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>

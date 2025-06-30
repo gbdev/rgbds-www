@@ -41,8 +41,10 @@
   <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
     <var class="Ar">chars</var>, <code class="Fl">--binary-digits</code>
     <var class="Ar">chars</var></dt>
-  <dd>Change the two characters used for binary constants. The defaults are
-    01.</dd>
+  <dd>Allow two characters to be used for binary constants in addition to the
+      default &#x2018;0&#x2019; and &#x2018;1&#x2019;. Valid characters are
+      numbers other than &#x2018;0&#x2019; and &#x2018;1&#x2019;, letters,
+      &#x2018;.&#x2019;, &#x2018;#&#x2019;, or &#x2018;@&#x2019;.</dd>
   <dt id="D"><a class="permalink" href="#D"><code class="Fl">-D</code></a>
     <var class="Ar">name</var>[=<var class="Ar">value</var>],
     <code class="Fl">--define</code>
@@ -61,8 +63,11 @@
   <dt id="g"><a class="permalink" href="#g"><code class="Fl">-g</code></a>
     <var class="Ar">chars</var>, <code class="Fl">--gfx-chars</code>
     <var class="Ar">chars</var></dt>
-  <dd>Change the four characters used for gfx constants. The defaults are
-    0123.</dd>
+  <dd>Allow four characters to be used for graphics constants in addition to the
+      default &#x2018;0&#x2019;, &#x2018;1&#x2019;, &#x2018;2&#x2019;, and
+      &#x2018;3&#x2019;. Valid characters are numbers other than
+      &#x2018;0&#x2019; to &#x2018;3&#x2019;, letters, &#x2018;.&#x2019;,
+      &#x2018;#&#x2019;, or &#x2018;@&#x2019;. The defaults are 0123.</dd>
   <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
     <code class="Fl">--help</code></dt>
   <dd>Print help text for the program and exit.</dd>
@@ -266,7 +271,7 @@
       <code class="Fl">-Wall</code>.</dd>
   <dt id="Wbuiltin-args"><a class="permalink" href="#Wbuiltin-args"><code class="Fl">-Wbuiltin-args</code></a></dt>
   <dd>Warn about incorrect arguments to built-in functions, such as
-      <code class="Fn">STRSUB</code>() with indexes outside of the string's
+      <code class="Fn">STRSLICE</code>() with indexes outside of the string's
       bounds. This warning is enabled by <code class="Fl">-Wall</code>.</dd>
   <dt id="Wcharmap-redef"><a class="permalink" href="#Wcharmap-redef"><code class="Fl">-Wcharmap-redef</code></a></dt>
   <dd>Warn when re-defining a charmap mapping. This warning is enabled by
