@@ -145,6 +145,22 @@
           different from the default behavior of indexed PNGs, as then unused
           entries in the embedded palette are ignored, whereas they are not with
           <code class="Fl">-c</code> <code class="Cm">embedded</code>).</dd>
+      <dt id="DMG"><a class="permalink" href="#DMG"><b class="Sy">DMG palette
+        spec</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> starts with case-insensitive
+          <code class="Cm">dmg=</code>, then the following two-digit hexadecimal
+          number specifies four grayscale DMG color indexes. The number
+          functions like the DMG's $FF47
+          <a class="permalink" href="#BGP"><b class="Sy" id="BGP">BGP</b></a>
+          register (see
+          <a class="Lk" href="https://gbdev.io/pandocs/Palettes.html">Pan
+          Docs</a> for more information): the low two bits 0-1 specify which
+          gray shade goes in color index 0, the next two bits 2-3 specify which
+          gray shade goes in color index 1, and so on. Gray shade 0 is the
+          lightest (white), 3 is the darkest (black). The same gray shade cannot
+          go in two color indexes. To specify a DMG palette, the input PNG must
+          have all its colors in shades of gray, without any transparent
+        colors.</dd>
       <dt id="external"><a class="permalink" href="#external"><b class="Sy">external
         palette spec</b></a></dt>
       <dd>Otherwise, <var class="Ar">pal_spec</var> is assumed to be an external
@@ -502,8 +518,9 @@
       categorized into as many &#x201C;bins&#x201D; as there are colors per
       palette, and the palette is set to these bins. The darkest gray will end
       up in bin #0, and so on; note that this is the opposite of the RGB method
-      below. If two distinct grays end up in the same bin, the RGB method is
-      used instead.
+      below. This is equivalent to having specified a DMG palette of
+      <code class="Fl">-c</code> <code class="Cm">dmg=E4</code>. If two distinct
+      grays end up in the same bin, the RGB method is used instead.
     <p class="Pp" id="exactly">Be careful that <code class="Nm">rgbgfx</code> is
         picky about what it considers &#x201C;grays&#x201D;: the red, green, and
         blue components of each color must <i class="Em">all</i> be
