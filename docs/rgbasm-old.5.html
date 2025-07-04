@@ -380,6 +380,28 @@ ENDM
 </ul>
 </section>
 <section class="Ss">
+<h3 class="Ss" id="__operator_behavior_with_negative_dividend_or_divisor"><a class="permalink" href="#__operator_behavior_with_negative_dividend_or_divisor">%
+  operator behavior with negative dividend or divisor</a></h3>
+<p class="Pp">Changed in 0.5.0.</p>
+<p class="Pp">Instead of having the same sign as the dividend (a remainder
+    operation), &#x2018;<code class="Li">%</code>&#x2019; has the same sign as
+    the divisor (a modulo operation).</p>
+<p class="Pp">For example, previously we had:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>&#x2018;<code class="Li">13 % 10 == 3</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">-13 % 10 == -3</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">13 % -10 == 3</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">-13 % -10 == -3</code>&#x2019;</li>
+</ul>
+<p class="Pp">Instead, now we have:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>&#x2018;<code class="Li">13 % 10 == 3</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">-13 % 10 == 7</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">13 % -10 == -7</code>&#x2019;</li>
+  <li>&#x2018;<code class="Li">-13 % -10 == -3</code>&#x2019;</li>
+</ul>
+</section>
+<section class="Ss">
 <h3 class="Ss" id="**_operator_associativity"><a class="permalink" href="#**_operator_associativity">**
   operator associativity</a></h3>
 <p class="Pp">Changed in 0.9.0.</p>

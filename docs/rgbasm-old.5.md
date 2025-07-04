@@ -176,6 +176,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "% operator behavior with negative dividend or divisor",
+	"id": "__operator_behavior_with_negative_dividend_or_divisor",
+	"level": 3,
+},
+{
 	"value": "** operator associativity",
 	"id": "**_operator_associativity",
 	"level": 3,
