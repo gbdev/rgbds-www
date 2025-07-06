@@ -11,7 +11,8 @@
       <var class="Ar">pal_spec</var>] [<code class="Fl"><a href="#d">-d</a></code>
       <var class="Ar">depth</var>] [<code class="Fl"><a href="#i">-i</a></code>
       <var class="Ar">input_tiles</var>] [<code class="Fl"><a href="#L">-L</a></code>
-      <var class="Ar">slice</var>] [<code class="Fl"><a href="#N">-N</a></code>
+      <var class="Ar">slice</var>] [<code class="Fl"><a href="#l">-l</a></code>
+      <var class="Ar">base_pal</var>] [<code class="Fl"><a href="#N">-N</a></code>
       <var class="Ar">nb_tiles</var>] [<code class="Fl"><a href="#n">-n</a></code>
       <var class="Ar">nb_pals</var>] [<code class="Fl"><a href="#o">-o</a></code>
       <var class="Ar">out_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
@@ -237,6 +238,12 @@
         <a class="permalink" href="#is"><b class="Sy">is ignored in reverse
         mode</b></a>, <span class="No">no padding is inserted</span>.</p>
   </dd>
+  <dt id="l"><a class="permalink" href="#l"><code class="Fl">-l</code></a>
+    <var class="Ar">base_pal</var>, <code class="Fl">--base-palette</code>
+    <var class="Ar">base_pal</var></dt>
+  <dd>Set the base ID for attribute map and palette map output.
+      <var class="Ar">base_pal</var> should be a number between 0 and 255. It
+      defaults to 0.</dd>
   <dt id="m"><a class="permalink" href="#m"><code class="Fl">-m</code></a>,
     <code class="Fl">--mirror-tiles</code></dt>
   <dd>Deduplicate tiles that are horizontally and/or vertically symmetrical
