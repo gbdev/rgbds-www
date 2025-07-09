@@ -86,6 +86,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Fragment literals",
+	"id": "Fragment_literals",
+	"level": 3,
+},
+{
 	"value": "SYMBOLS",
 	"id": "SYMBOLS",
 	"level": 2,

@@ -1379,6 +1379,106 @@ would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
   first, followed by the one from &#x2018;<code class="Li">foo.o</code>&#x2019;,
   and the one from &#x2018;<code class="Li">bar.o</code>&#x2019; last.
 </section>
+<section class="Ss">
+<h3 class="Ss" id="Fragment_literals"><a class="permalink" href="#Fragment_literals">Fragment
+  literals</a></h3>
+<p class="Pp">Fragment literals are useful for short blocks of code or data that
+    are only referenced once. They are section fragments created by surrounding
+    instructions or directives with &#x2018;<code class="Li">[[</code>&#x2019;
+    double brackets &#x2018;<code class="Li">]]</code>&#x2019;, without a
+    separate <code class="Ic">SECTION FRAGMENT</code> declaration.</p>
+<p class="Pp">The content of a fragment literal becomes a
+    <code class="Ic">SECTION FRAGMENT</code>, sharing the same name and bank as
+    its parent ROM section, but without any other constraints. The parent
+    section also becomes a <code class="Ic">FRAGMENT</code> if it was not one
+    already, so that it can be merged with its fragment literals. RGBLINK merges
+    the fragments in no particular order.</p>
+<p class="Pp">A fragment literal can take the place of any 16-bit integer
+    constant &#x2018;<code class="Li">n16</code>&#x2019; from the
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a> documentation, as well as a
+    <code class="Ic">DW</code> item. The fragment literal then evaluates to its
+    starting address. For example, you can <code class="Ic">CALL</code> or
+    <code class="Ic">JP</code> to a fragment literal.</p>
+<p class="Pp">This code using named labels:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DataTable:
+    dw First
+    dw Second
+    dw Third
+First:  db 1
+Second: db 4
+Third:  db 9
+Routine:
+    push hl
+    ld hl, Left
+    jr z, .got_it
+    ld hl, Right
+.got_it
+    call .print
+    pop hl
+    ret
+.print:
+    ld de, $1003
+    ld bc, STARTOF(VRAM)
+    jp Print
+Left:  db &quot;left\0&quot;
+Right: db &quot;right\0&quot;</pre>
+</div>
+<p class="Pp">is equivalent to this code using fragment literals:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DataTable:
+    dw [[ db 1 ]]
+    dw [[ db 4 ]]
+    dw [[ db 9 ]]
+Routine:
+    push hl
+    ld hl, [[ db &quot;left\0&quot; ]]
+    jr z, .got_it
+    ld hl, [[ db &quot;right\0&quot; ]]
+.got_it
+    call [[
+        ld de, $1003
+        ld bc, STARTOF(VRAM)
+        jp Print
+    ]]
+    pop hl
+    ret</pre>
+</div>
+<p class="Pp">The difference is that the example using fragment literals does
+    not declare a particular order for its pieces.</p>
+<p class="Pp" id="technically">Fragment literals can be arbitrarily nested, so
+    extreme use cases are
+    <a class="permalink" href="#technically"><i class="Em">technically</i></a>
+    possible. This code using named labels:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>dw FortyTwo
+FortyTwo:
+    call Sub1
+    jr Sub2
+Sub1:
+    ld a, [Twenty]
+    ret
+Twenty: db 20
+Sub2:
+    jp Sub3
+Sub3:
+    call Sub1
+    inc a
+    add a
+    ret</pre>
+</div>
+<p class="Pp">is equivalent to this code using fragment literals:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>dw [[
+    call [[
+        Sub1: ld a, [ [[db 20]] ] :: ret
+    ]]
+    jr [[
+        jp [[ call Sub1 :: inc a :: add a :: ret ]]
+    ]]
+]]</pre>
+</div>
+</section>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="SYMBOLS"><a class="permalink" href="#SYMBOLS">SYMBOLS</a></h2>
