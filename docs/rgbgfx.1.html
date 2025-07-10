@@ -3,7 +3,7 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbgfx</code></td>
-    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#h">h</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#X">X</a><a href="#Y">Y</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
+    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#h">h</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#w">w</a><a href="#X">X</a><a href="#Y">Y</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
       [<code class="Fl"><a href="#v">-v</a></code> <span class="No">...</span>]]
       [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
@@ -22,6 +22,7 @@
       <var class="Ar">width</var>] [<code class="Fl"><a href="#s">-s</a></code>
       <var class="Ar">nb_colors</var>] [<code class="Fl"><a href="#t">-t</a></code>
       <var class="Ar">tilemap</var> | <code class="Fl"><a href="#T">-T</a></code>]
+      [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
       [<code class="Fl"><a href="#x">-x</a></code> <var class="Ar">quantity</var>]
       <var class="Ar">file</var></td>
   </tr>
@@ -374,6 +375,15 @@
         humans, and may change without notice between RGBDS releases; relying on
         those for scripts is not advised.</p>
   </dd>
+  <dt id="W"><a class="permalink" href="#W"><code class="Fl">-W</code></a>
+    <var class="Ar">warning</var>, <code class="Fl">--warning</code>
+    <var class="Ar">warning</var></dt>
+  <dd>Set warning flag <var class="Ar">warning</var>. A warning message will be
+      printed if <var class="Ar">warning</var> is an unknown warning flag. See
+      the <a class="Sx" href="#DIAGNOSTICS">DIAGNOSTICS</a> section for a list
+      of warnings.</dd>
+  <dt id="w"><a class="permalink" href="#w"><code class="Fl">-w</code></a></dt>
+  <dd>Disable all warning output, even when turned into errors.</dd>
   <dt id="X"><a class="permalink" href="#X"><code class="Fl">-X</code></a>,
     <code class="Fl">--mirror-x</code></dt>
   <dd>Deduplicate tiles that are horizontally symmetrical mirror images of each
@@ -716,6 +726,57 @@ $ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
       tiles were mirrored.</td>
   </tr>
 </table>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DIAGNOSTICS"><a class="permalink" href="#DIAGNOSTICS">DIAGNOSTICS</a></h2>
+<p class="Pp">Warnings are diagnostic messages that indicate possibly erroneous
+    behavior that does not necessarily compromise the conversion process. The
+    following options alter the way warnings are processed.</p>
+<dl class="Bl-tag">
+  <dt id="Werror"><a class="permalink" href="#Werror"><code class="Fl">-Werror</code></a></dt>
+  <dd>Make all warnings into errors. This can be negated as
+      <code class="Fl">-Wno-error</code> to prevent turning all warnings into
+      errors.</dd>
+  <dt id="Werror="><a class="permalink" href="#Werror="><code class="Fl">-Werror=</code></a></dt>
+  <dd>Make the specified warning or meta warning into an error. A warning's name
+      is appended (example: <code class="Fl">-Werror=embedded</code>), and this
+      warning is implicitly enabled and turned into an error. This can be
+      negated as <code class="Fl">-Wno-error=</code> to prevent turning a
+      specified warning into an error, even if <code class="Fl">-Werror</code>
+      is in effect.</dd>
+</dl>
+<p class="Pp">The following warnings are &#x201C;meta&#x201D; warnings, that
+    enable a collection of other warnings. If a specific warning is toggled via
+    a meta flag and a specific one, the more specific one takes priority. The
+    position on the command-line acts as a tie breaker, the last one taking
+    effect.</p>
+<dl class="Bl-tag">
+  <dt id="Wall"><a class="permalink" href="#Wall"><code class="Fl">-Wall</code></a></dt>
+  <dd>This enables warnings that are likely to indicate an error or undesired
+      behavior, and that can easily be fixed.</dd>
+  <dt id="Weverything"><a class="permalink" href="#Weverything"><code class="Fl">-Weverything</code></a></dt>
+  <dd>Enables literally every warning.</dd>
+</dl>
+<p class="Pp">The following warnings are actual warning flags; with each
+    description, the corresponding warning flag is included. Note that each of
+    these flag also has a negation (for example,
+    <code class="Fl">-Wtrim-nonempty</code> enables the warning that
+    <code class="Fl">-Wno-trim-nonempty</code> disables; and
+    <code class="Fl">-Wall</code> enables every warning that
+    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
+    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
+    alphabetically.</p>
+<dl class="Bl-tag">
+  <dt id="Wembedded"><a class="permalink" href="#Wembedded"><code class="Fl">-Wembedded</code></a></dt>
+  <dd>Warn when a generated palette is sorted according to the input PNG's
+      embedded palette but <code class="Fl">-c</code>
+      <code class="Cm">embedded</code> was not provided. This warning is enabled
+      by <code class="Fl">-Weverything</code>.</dd>
+  <dt id="Wtrim-nonempty"><a class="permalink" href="#Wtrim-nonempty"><code class="Fl">-Wtrim-nonempty</code></a></dt>
+  <dd>Warn when <code class="Fl">-x</code> trims a nonempty tile. An
+      &quot;empty&quot; tile uses entirely color 0 of its palette. This warning
+      is enabled by <code class="Fl">-Wall</code>.</dd>
+</dl>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
