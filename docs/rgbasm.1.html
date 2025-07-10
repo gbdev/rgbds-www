@@ -9,15 +9,15 @@
       [<code class="Fl"><a href="#g">-g</a></code> <var class="Ar">chars</var>]
       [<code class="Fl"><a href="#I">-I</a></code> <var class="Ar">path</var>]
       [<code class="Fl"><a href="#M">-M</a></code> <var class="Ar">depend_file</var>]
-      [<code class="Fl"><a href="#M">-M</a><a href="#G">G</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#P">P</a></code>]
-      [<code class="Fl"><a href="#M">-M</a><a href="#T">T</a></code> <var class="Ar">target_file</var>]
-      [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code> <var class="Ar">target_file</var>]
-      [<code class="Fl"><a href="#o">-o</a></code> <var class="Ar">out_file</var>]
-      [<code class="Fl"><a href="#P">-P</a></code> <var class="Ar">include_file</var>]
-      [<code class="Fl"><a href="#p">-p</a></code> <var class="Ar">pad_value</var>]
-      [<code class="Fl"><a href="#Q">-Q</a></code> <var class="Ar">fix_precision</var>]
-      [<code class="Fl"><a href="#r">-r</a></code> <var class="Ar">recursion_depth</var>]
-      [<code class="Fl"><a href="#s">-s</a></code>
+      [<code class="Fl"><a href="#M">-M</a><a href="#C">C</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#G">G</a></code>]
+      [<code class="Fl"><a href="#M">-M</a><a href="#P">P</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#T">T</a></code>
+      <var class="Ar">target_file</var>] [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code>
+      <var class="Ar">target_file</var>] [<code class="Fl"><a href="#o">-o</a></code>
+      <var class="Ar">out_file</var>] [<code class="Fl"><a href="#P">-P</a></code>
+      <var class="Ar">include_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
+      <var class="Ar">pad_value</var>] [<code class="Fl"><a href="#Q">-Q</a></code>
+      <var class="Ar">fix_precision</var>] [<code class="Fl"><a href="#r">-r</a></code>
+      <var class="Ar">recursion_depth</var>] [<code class="Fl"><a href="#s">-s</a></code>
       <var class="Ar">features</var>:<var class="Ar">state_file</var>]
       [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
       [<code class="Fl"><a href="#X">-X</a></code> <var class="Ar">max_errors</var>]
@@ -88,6 +88,14 @@
   <dd>Write
       <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
       dependencies to <var class="Ar">depend_file</var>.</dd>
+  <dt id="MC"><a class="permalink" href="#MC"><code class="Fl">-MC</code></a></dt>
+  <dd>To be used in conjunction with <code class="Fl">-MG</code>. This makes
+      <code class="Nm">rgbasm</code> continue processing after a non-existent
+      dependency file, instead of exiting. Note that this is
+      <a class="permalink" href="#not"><i class="Em" id="not">not</i></a>
+      recommended if any non-existent dependencies would have influenced
+      subsequent processing, e.g. by causing an <code class="Ic">IF</code>
+      condition to take a different branch.</dd>
   <dt id="MG"><a class="permalink" href="#MG"><code class="Fl">-MG</code></a></dt>
   <dd>To be used in conjunction with <code class="Fl">-M</code>. This makes
       <code class="Nm">rgbasm</code> assume that missing files are
@@ -95,8 +103,9 @@
       implicit one from <code class="Fl">-P</code>) or
       <code class="Ic">INCBIN</code> is attempted on a non-existent file, it is
       added as a dependency, then <code class="Nm">rgbasm</code> exits normally
-      instead of erroring out. This feature is used in automatic updating of
-      makefiles.</dd>
+      or continues processing (depending on whether <code class="Fl">-MC</code>
+      was enabled) instead of erroring out. This feature is used in automatic
+      updating of Makefiles.</dd>
   <dt id="MP"><a class="permalink" href="#MP"><code class="Fl">-MP</code></a></dt>
   <dd>When enabled, this causes a phony target to be added for each dependency
       other than the main file. This prevents
@@ -252,7 +261,7 @@
 </dl>
 <p class="Pp">The following warnings are actual warning flags; with each
     description, the corresponding warning flag is included. Note that each of
-    these flag also has a negation (for example,
+    these flags also has a negation (for example,
     <code class="Fl">-Wcharmap-redef</code> enables the warning that
     <code class="Fl">-Wno-charmap-redef</code> disables; and
     <code class="Fl">-Wall</code> enables every warning that
