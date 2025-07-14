@@ -23,7 +23,7 @@ You first need to get the source files to be compiled, using one of the methods 
 <Tabs>
 <TabItem value="snapshot" label="Downloading source snapshots">
 
-1. Download the [latest release of `rgbds-source.tar.gz`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-source.tar.gz). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.) (The "Source code (`zip`)" or "Source code (`tar.gz`)" links will also work.)
+1. Download the [latest release of `rgbds-source.tar.gz`](https://github.com/gbdev/rgbds/releases/latest/download/rgbds-source.tar.gz). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.) (The "Source code (`zip`)" or "Source code (`tar.gz`)" links will also work.)
 2. Extract ("unzip") the file.
 
 </TabItem>

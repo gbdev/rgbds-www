@@ -21,7 +21,7 @@ brew install rgbds --HEAD
 
 ## Using our pre-built binaries
 
-1. Download the [latest release of `rgbds-macos.zip`](https://github.com/gbdev/rgbds/releases/download/latest/rgbds-macos.zip). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
+1. Download the [latest release of `rgbds-macos.zip`](https://github.com/gbdev/rgbds/releases/latest/download/rgbds-macos.zip). (Or pick [a specific version](https://github.com/gbdev/rgbds/releases) and download it under "Assets" at the bottom.)
 
 3. Extract the downloaded `rgbds-macos.zip` file into a new directory, and run `install.sh` as root inside that directory.
    For example, you can do that with these Console commands:
