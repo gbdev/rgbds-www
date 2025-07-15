@@ -313,7 +313,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   <tr>
     <td>Character constant</td>
     <td>none</td>
-    <td>&quot;ABYZ&quot;</td>
+    <td>'ABYZ'</td>
   </tr>
   <tr>
     <td>Game Boy graphics</td>
@@ -328,9 +328,12 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 <p class="Pp">The &quot;character constant&quot; form yields the value the
     character maps to in the current charmap. For example, by default (refer to
     <a class="Xr" href="https://man7.org/linux/man-pages/man7/ascii.7.html">ascii(7)</a>)
-    &#x2018;&quot;A&quot;&#x2019; yields 65. See
-    <a class="Sx" href="#Character_maps">Character maps</a> for information on
-    charmaps.</p>
+    &#x2018;'A'&#x2019; yields 65. A character constant must represent a single
+    value, so it cannot include multiple characters, or characters which map to
+    multiple values. See <a class="Sx" href="#Character_maps">Character maps</a>
+    for information on charmaps, and
+    <a class="Sx" href="#String_expressions">String expressions</a> for
+    information on escape characters allowed in character constants.</p>
 <p class="Pp">The last one, Game Boy graphics, is quite interesting and useful.
     After the backtick, 8 digits between 0 and 3 are expected, corresponding to
     pixel values. The resulting value is the two bytes of tile data that would
@@ -711,7 +714,11 @@ ENDR</pre>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\&quot;</code>&#x2019;</td>
-    <td>Double quote (does not terminate the string)</td>
+    <td>Double quote (does not terminate a string)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\'</code>&#x2019;</td>
+    <td>Single quote (does not terminate a character literal)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">\{</code>&#x2019;</td>
