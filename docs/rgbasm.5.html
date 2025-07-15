@@ -865,6 +865,17 @@ ENDR</pre>
       <span class="No">in</span> <var class="Ar">str</var>, or -1 if it's not
       present.</td>
   </tr>
+  <tr id="BYTELEN">
+    <td><a class="permalink" href="#BYTELEN"><code class="Fn">BYTELEN</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of bytes in <var class="Ar">str</var>. (Non-ASCII
+      characters can be multiple bytes.)</td>
+  </tr>
+  <tr id="STRBYTE">
+    <td><a class="permalink" href="#STRBYTE"><code class="Fn">STRBYTE</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the byte value at <var class="Ar">idx</var>
+      <span class="No">in</span> <var class="Ar">str</var>.</td>
+  </tr>
   <tr id="INCHARMAP">
     <td><a class="permalink" href="#INCHARMAP"><code class="Fn">INCHARMAP</code></a>(<var class="Fa">str</var>)</td>
     <td>Returns 1 if <var class="Ar">str</var> <span class="No">has an entry in
