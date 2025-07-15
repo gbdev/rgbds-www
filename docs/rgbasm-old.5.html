@@ -76,6 +76,18 @@ ENDM
 <p class="Pp">Instead, use <code class="Ic">UNION</code>.</p>
 </section>
 <section class="Ss">
+<h3 class="Ss" id="Section-local_charmaps"><a class="permalink" href="#Section-local_charmaps">Section-local
+  charmaps</a></h3>
+<p class="Pp">Deprecated in 0.3.9, removed in 0.4.0.</p>
+<p class="Pp">Defining a <code class="Ic">CHARMAP</code> inside a
+    <code class="Ic">SECTION</code> when the current global charmap was the
+    &#x2018;main&#x2019; one used to only define that character mapping within
+    that <code class="Ic">SECTION</code>.</p>
+<p class="Pp">Instead, use <code class="Ic">PUSHC</code> and
+    <code class="Ic">POPC</code> and switch to a different character mapping for
+    that section.</p>
+</section>
+<section class="Ss">
 <h3 class="Ss" id="__FILE___and___LINE__"><a class="permalink" href="#__FILE___and___LINE__">__FILE__
   and __LINE__</a></h3>
 <p class="Pp">Deprecated in 0.6.0, removed in 0.7.0.</p>
@@ -268,6 +280,11 @@ ENDM
 <p class="Pp">Supported in ASMotor, removed in RGBDS.</p>
 <p class="Pp">Instead, use &#x2018;<code class="Li">LD HL, SP +
     e8</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="OPT_z"><a class="permalink" href="#OPT_z">OPT z</a></h3>
+<p class="Pp">Deprecated in 0.4.0, removed in 0.5.0.</p>
+<p class="Pp">Instead, use <code class="Ic">OPT p</code>.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="rgbasm_-i"><a class="permalink" href="#rgbasm_-i">rgbasm

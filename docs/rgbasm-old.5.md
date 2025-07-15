@@ -36,6 +36,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Section-local charmaps",
+	"id": "Section-local_charmaps",
+	"level": 3,
+},
+{
 	"value": "__FILE__ and __LINE__",
 	"id": "__FILE___and___LINE__",
 	"level": 3,
@@ -148,6 +153,11 @@ export const toc = [
 {
 	"value": "LDHL SP, e8",
 	"id": "LDHL_SP,_e8",
+	"level": 3,
+},
+{
+	"value": "OPT z",
+	"id": "OPT_z",
 	"level": 3,
 },
 {
