@@ -17,13 +17,44 @@
     line. They are simply ignored.</p>
 <p class="Pp">Keywords are composed of letters and digits (but they can't start
     with a digit); they are all case-insensitive.</p>
-<p class="Pp">Numbers can be written in decimal format, or in binary using the
-    &#x2018;<code class="Li">%</code>&#x2019; prefix, or in hexadecimal using
-    the &#x2018;<code class="Li">$</code>&#x2019; prefix (hexadecimal digits are
-    case-insensitive). Note that unlike
-    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>, an octal
-    &#x2018;<code class="Li">&amp;</code>&#x2019; prefix is not supported, nor
-    are &#x2018;<code class="Li">_</code>&#x2019; digit separators.</p>
+<p class="Pp">Numbers can be written in a number of formats.</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Format">
+    <td><a class="permalink" href="#Format"><b class="Sy">Format
+      type</b></a></td>
+    <td><a class="permalink" href="#Possible"><b class="Sy" id="Possible">Possible
+      prefixes</b></a></td>
+    <td><a class="permalink" href="#Accepted"><b class="Sy" id="Accepted">Accepted
+      characters</b></a></td>
+  </tr>
+  <tr>
+    <td>Decimal</td>
+    <td>none</td>
+    <td>0123456789</td>
+  </tr>
+  <tr id="$">
+    <td>Hexadecimal</td>
+    <td><a class="permalink" href="#$"><code class="Li">$</code></a>,
+      <code class="Li">0x</code>, <code class="Li">0X</code></td>
+    <td>0123456789ABCDEF</td>
+  </tr>
+  <tr id="&amp;">
+    <td>Octal</td>
+    <td><a class="permalink" href="#&amp;"><code class="Li">&amp;</code></a>,
+      <code class="Li">0o</code>, <code class="Li">0O</code></td>
+    <td>01234567</td>
+  </tr>
+  <tr id="_">
+    <td>Binary</td>
+    <td><a class="permalink" href="#_"><code class="Li">%</code></a>,
+      <code class="Li">0b</code>, <code class="Li">0B</code></td>
+    <td>01</td>
+  </tr>
+</table>
+<p class="Pp">Underscores are also accepted in numbers, except at the beginning
+    of one. This can be useful for grouping digits, like
+    &#x2018;<code class="Li">1_234</code>&#x2019; or
+    &#x2018;<code class="Li">$ff_80</code>&#x2019;.</p>
 <p class="Pp">Strings begin with a double quote, and end at the next
     (non-escaped) double quote. Strings must not contain literal newline
     characters. Most of the same character escapes as
@@ -31,8 +62,9 @@
     &#x2018;<code class="Li">\\</code>&#x2019;,
     &#x2018;<code class="Li">\&quot;</code>&#x2019;,
     &#x2018;<code class="Li">\n</code>&#x2019;,
-    &#x2018;<code class="Li">\r</code>&#x2019;, and
-    &#x2018;<code class="Li">\t</code>&#x2019;. Other backslash escape sequences
+    &#x2018;<code class="Li">\r</code>&#x2019;,
+    &#x2018;<code class="Li">\t</code>&#x2019;, and
+    &#x2018;<code class="Li">\0</code>&#x2019;. Other backslash escape sequences
     in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are only relevant to
     assembly code and do not apply in linker scripts.</p>
 </section>
