@@ -21,6 +21,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "DIAGNOSTICS",
+	"id": "DIAGNOSTICS",
+	"level": 2,
+},
+{
 	"value": "EXAMPLES",
 	"id": "EXAMPLES",
 	"level": 2,
