@@ -836,6 +836,18 @@ ENDR</pre>
       <span class="No">with the current charmap. If there is no unique charmap
       entry for</span> <var class="Ar">vals</var>, an error occurs.</td>
   </tr>
+  <tr id="READFILE">
+    <td><a class="permalink" href="#READFILE"><code class="Fn">READFILE</code></a>(<var class="Fa">name</var>,
+      <var class="Fa">max</var>)</td>
+    <td>Returns the contents of the file <var class="Ar">name</var>
+      <span class="No">as a string. Reads up to</span> <var class="Ar">max</var>
+      <span class="No">bytes, or the entire contents if</span>
+      <var class="Ar">max</var> <span class="No">is not specified. If the file
+      isn't found in the current directory, the include-path list passed
+      to</span> <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s
+      <code class="Fl">-I</code> <span class="No">option on the command line
+      will be searched.</span></td>
+  </tr>
 </table>
 <p class="Pp">The following functions operate on string expressions, but return
     integers.</p>
@@ -2119,8 +2131,8 @@ DS 7, $BB, $CC</pre>
 <p class="Pp">You probably have some graphics, level data, etc. you'd like to
     include. Use <code class="Ic">INCBIN</code> to include a raw binary file as
     it is. If the file isn't found in the current directory, the include-path
-    list passed to <a class="Xr" href="./rgbasm.1">rgbasm(1)</a> (see the
-    <code class="Fl">-I</code> option) on the command line will be searched.</p>
+    list passed to <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s
+    <code class="Fl">-I</code> option on the command line will be searched.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>INCBIN &quot;titlepic.bin&quot;
 INCBIN &quot;sprites/hero.bin&quot;</pre>
@@ -2600,11 +2612,11 @@ ENDC</pre>
   other source files</a></h3>
 <p class="Pp">Use <code class="Ic">INCLUDE</code> to process another assembler
     file and then return to the current file when done. If the file isn't found
-    in the current directory, the include path list (see the
-    <code class="Fl">-I</code> option in
-    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>) will be searched. You may
-    nest <code class="Ic">INCLUDE</code> calls infinitely (or until you run out
-    of memory, whichever comes first).</p>
+    in the current directory, the include-path list passed to
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s <code class="Fl">-I</code>
+    option on the command line will be searched. You may nest
+    <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
+    memory, whichever comes first).</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>    INCLUDE &quot;irq.inc&quot;</pre>
 </div>
