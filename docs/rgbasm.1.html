@@ -89,7 +89,7 @@
       <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
       dependencies to <var class="Ar">depend_file</var>.</dd>
   <dt id="MC"><a class="permalink" href="#MC"><code class="Fl">-MC</code></a></dt>
-  <dd>To be used in conjunction with <code class="Fl">-MG</code>. This makes
+  <dd>Implies <code class="Fl">-MG</code>. This makes
       <code class="Nm">rgbasm</code> continue processing after a non-existent
       dependency file, instead of exiting. Note that this is
       <a class="permalink" href="#not"><i class="Em" id="not">not</i></a>
@@ -107,8 +107,9 @@
       was enabled) instead of erroring out. This feature is used in automatic
       updating of Makefiles.</dd>
   <dt id="MP"><a class="permalink" href="#MP"><code class="Fl">-MP</code></a></dt>
-  <dd>When enabled, this causes a phony target to be added for each dependency
-      other than the main file. This prevents
+  <dd>When enabled, this adds a phony target to the rules emitted by
+      <code class="Fl">-M</code> for each dependency other than the main file.
+      This prevents
       <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
       from erroring out when dependency files are deleted.</dd>
   <dt id="MT"><a class="permalink" href="#MT"><code class="Fl">-MT</code></a>
