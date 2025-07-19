@@ -9,7 +9,7 @@
       [<code class="Fl"><a href="#g">-g</a></code> <var class="Ar">chars</var>]
       [<code class="Fl"><a href="#I">-I</a></code> <var class="Ar">path</var>]
       [<code class="Fl"><a href="#M">-M</a></code> <var class="Ar">depend_file</var>]
-      [<code class="Fl"><a href="#M">-M</a><a href="#C">C</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#G">G</a></code>]
+      [<code class="Fl"><a href="#M">-M</a><a href="#G">G</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#C">C</a></code>]
       [<code class="Fl"><a href="#M">-M</a><a href="#P">P</a></code>] [<code class="Fl"><a href="#M">-M</a><a href="#T">T</a></code>
       <var class="Ar">target_file</var>] [<code class="Fl"><a href="#M">-M</a><a href="#Q">Q</a></code>
       <var class="Ar">target_file</var>] [<code class="Fl"><a href="#o">-o</a></code>
@@ -75,11 +75,11 @@
     <var class="Ar">path</var>, <code class="Fl">--include</code>
     <var class="Ar">path</var></dt>
   <dd>Add a new &#x201C;include path&#x201D;; <var class="Ar">path</var> must
-      point to a directory. When a <code class="Ic">INCLUDE</code> (including
-      the implicit one from <code class="Fl">-P</code>) or
-      <code class="Ic">INCBIN</code> is attempted,
-      <code class="Nm">rgbasm</code> first looks up the provided path from its
-      working directory; if this fails, it tries again from each of the
+      point to a directory. When any <code class="Ic">INCLUDE</code> (including
+      the implicit one from <code class="Fl">-P</code>),
+      <code class="Ic">INCBIN</code>, or <code class="Ic">READFILE</code> is
+      attempted, <code class="Nm">rgbasm</code> first looks up the provided path
+      from its working directory; if this fails, it tries again from each of the
       &#x201C;include path&#x201D; directories, in the order they were
     provided.</dd>
   <dt id="M"><a class="permalink" href="#M"><code class="Fl">-M</code></a>
@@ -88,6 +88,17 @@
   <dd>Write
       <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
       dependencies to <var class="Ar">depend_file</var>.</dd>
+  <dt id="MG"><a class="permalink" href="#MG"><code class="Fl">-MG</code></a></dt>
+  <dd>To be used in conjunction with <code class="Fl">-M</code>. This makes
+      <code class="Nm">rgbasm</code> assume that missing files are
+      auto-generated: when any <code class="Ic">INCLUDE</code> (including the
+      implicit one from <code class="Fl">-P</code>),
+      <code class="Ic">INCBIN</code>, or <code class="Ic">READFILE</code> is
+      attempted on a non-existent file, it is added as a dependency, then
+      <code class="Nm">rgbasm</code> exits normally or continues processing
+      (depending on whether <code class="Fl">-MC</code> was enabled) instead of
+      erroring out. This feature is used in automatic updating of
+    Makefiles.</dd>
   <dt id="MC"><a class="permalink" href="#MC"><code class="Fl">-MC</code></a></dt>
   <dd>Implies <code class="Fl">-MG</code>. This makes
       <code class="Nm">rgbasm</code> continue processing after a non-existent
@@ -96,16 +107,6 @@
       recommended if any non-existent dependencies would have influenced
       subsequent processing, e.g. by causing an <code class="Ic">IF</code>
       condition to take a different branch.</dd>
-  <dt id="MG"><a class="permalink" href="#MG"><code class="Fl">-MG</code></a></dt>
-  <dd>To be used in conjunction with <code class="Fl">-M</code>. This makes
-      <code class="Nm">rgbasm</code> assume that missing files are
-      auto-generated: when <code class="Ic">INCLUDE</code> (including the
-      implicit one from <code class="Fl">-P</code>) or
-      <code class="Ic">INCBIN</code> is attempted on a non-existent file, it is
-      added as a dependency, then <code class="Nm">rgbasm</code> exits normally
-      or continues processing (depending on whether <code class="Fl">-MC</code>
-      was enabled) instead of erroring out. This feature is used in automatic
-      updating of Makefiles.</dd>
   <dt id="MP"><a class="permalink" href="#MP"><code class="Fl">-MP</code></a></dt>
   <dd>When enabled, this adds a phony target to the rules emitted by
       <code class="Fl">-M</code> for each dependency other than the main file.
