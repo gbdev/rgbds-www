@@ -1,0 +1,1840 @@
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">This is the list of opcodes supported by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>, including a short
+    description, the number of bytes needed to encode them and the number of CPU
+    cycles at 1MHz (or 2MHz in GBC double speed mode) needed to complete
+  them.</p>
+<p class="Pp">Note: All arithmetic and logic instructions that use register
+    <b class="Sy">A</b> as a destination can omit the destination, since it is
+    assumed to be register <b class="Sy">A</b> by default. So the following two
+    lines have the same effect:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    OR A,B
+    OR B</pre>
+</div>
+<p class="Pp">Furthermore, the <b class="Sy">CPL</b> instruction can take an
+    optional <b class="Sy">A</b> destination, since it can only be register
+    <b class="Sy">A</b>. So the following two lines have the same effect:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    CPL
+    CPL A</pre>
+</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="LEGEND"><a class="permalink" href="#LEGEND">LEGEND</a></h2>
+<p class="Pp">List of abbreviations used in this document.</p>
+<dl class="Bl-tag">
+  <dt id="B"><var class="Ar">r8</var></dt>
+  <dd>Any of the 8-bit registers (<b class="Sy">A</b>,
+      <a class="permalink" href="#B"><b class="Sy">B</b></a>,
+      <b class="Sy">C</b>,
+      <a class="permalink" href="#D"><b class="Sy" id="D">D</b></a>,
+      <a class="permalink" href="#E"><b class="Sy" id="E">E</b></a>,
+      <b class="Sy">H</b>,
+      <a class="permalink" href="#L"><b class="Sy" id="L">L</b></a>).</dd>
+  <dt id="BC"><var class="Ar">r16</var></dt>
+  <dd>Any of the general-purpose 16-bit registers
+      (<a class="permalink" href="#BC"><b class="Sy">BC</b></a>,
+      <a class="permalink" href="#DE"><b class="Sy" id="DE">DE</b></a>,
+      <b class="Sy">HL</b>).</dd>
+  <dt id="255"><var class="Ar">n8</var></dt>
+  <dd>8-bit integer constant (signed or unsigned, <b class="Sy">-128</b> to
+      <a class="permalink" href="#255"><b class="Sy">255</b></a>).</dd>
+  <dt id="32768"><var class="Ar">n16</var></dt>
+  <dd>16-bit integer constant (signed or unsigned,
+      <a class="permalink" href="#32768"><b class="Sy">-32768</b></a> to
+      <a class="permalink" href="#65535"><b class="Sy" id="65535">65535</b></a>).</dd>
+  <dt><var class="Ar">e8</var></dt>
+  <dd>8-bit signed offset (<b class="Sy">-128</b> to
+    <b class="Sy">127</b>).</dd>
+  <dt id="7"><var class="Ar">u3</var></dt>
+  <dd>3-bit unsigned bit index (<b class="Sy">0</b> to
+      <a class="permalink" href="#7"><b class="Sy">7</b></a>, with
+      <b class="Sy">0</b> as the least significant bit).</dd>
+  <dt><var class="Ar">cc</var></dt>
+  <dd>A condition code:
+    <dl class="Bl-tag Bl-compact">
+      <dt id="Z"><a class="permalink" href="#Z"><b class="Sy">Z</b></a></dt>
+      <dd>Execute if Z is set.</dd>
+      <dt id="NZ"><a class="permalink" href="#NZ"><b class="Sy">NZ</b></a></dt>
+      <dd>Execute if Z is not set.</dd>
+      <dt id="C"><a class="permalink" href="#C"><b class="Sy">C</b></a></dt>
+      <dd>Execute if C is set.</dd>
+      <dt id="NC"><a class="permalink" href="#NC"><b class="Sy">NC</b></a></dt>
+      <dd>Execute if C is not set.</dd>
+    </dl>
+  </dd>
+  <dt id="RST"><var class="Ar">vec</var></dt>
+  <dd>An <a class="permalink" href="#RST"><b class="Sy">RST</b></a> vector
+      (<span class="Ad">0x00</span>, <span class="Ad">0x08</span>,
+      <span class="Ad">0x10</span>, <span class="Ad">0x18</span>,
+      <span class="Ad">0x20</span>, <span class="Ad">0x28</span>,
+      <span class="Ad">0x30</span>, and <span class="Ad">0x38</span>).</dd>
+</dl>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="INSTRUCTION_OVERVIEW"><a class="permalink" href="#INSTRUCTION_OVERVIEW">INSTRUCTION
+  OVERVIEW</a></h2>
+<section class="Ss">
+<h3 class="Ss" id="Load_instructions"><a class="permalink" href="#Load_instructions">Load
+  instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#LD_r8,r8">LD r8,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_r8,n8">LD r8,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_r16,n16">LD r16,n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__HL_,r8">LD [HL],r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__HL_,n8">LD [HL],n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_r8,_HL_">LD r8,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__r16_,A">LD [r16],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__n16_,A">LD [n16],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LDH__n16_,A">LDH [n16],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LDH__C_,A">LDH [C],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_A,_r16_">LD A,[r16]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_A,_n16_">LD A,[n16]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LDH_A,_n16_">LDH A,[n16]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LDH_A,_C_">LDH A,[C]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__HLI_,A">LD [HLI],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__HLD_,A">LD [HLD],A</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_A,_HLI_">LD A,[HLI]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_A,_HLD_">LD A,[HLD]</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="8-bit_arithmetic_instructions"><a class="permalink" href="#8-bit_arithmetic_instructions">8-bit
+  arithmetic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#ADC_A,r8">ADC A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADC_A,_HL_">ADC A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADC_A,n8">ADC A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,r8">ADD A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,_HL_">ADD A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_A,n8">ADD A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,r8">CP A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,_HL_">CP A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CP_A,n8">CP A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC_r8">DEC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC__HL_">DEC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC_r8">INC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC__HL_">INC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,r8">SBC A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,_HL_">SBC A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SBC_A,n8">SBC A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,r8">SUB A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,_HL_">SUB A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SUB_A,n8">SUB A,n8</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="16-bit_arithmetic_instructions"><a class="permalink" href="#16-bit_arithmetic_instructions">16-bit
+  arithmetic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#ADD_HL,r16">ADD HL,r16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC_r16">DEC r16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC_r16">INC r16</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bitwise_logic_instructions"><a class="permalink" href="#Bitwise_logic_instructions">Bitwise
+  logic instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#AND_A,r8">AND A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#AND_A,_HL_">AND A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#AND_A,n8">AND A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CPL">CPL</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,r8">OR A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,_HL_">OR A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#OR_A,n8">OR A,n8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,r8">XOR A,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,_HL_">XOR A,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#XOR_A,n8">XOR A,n8</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bit_flag_instructions"><a class="permalink" href="#Bit_flag_instructions">Bit
+  flag instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#BIT_u3,r8">BIT u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#BIT_u3,_HL_">BIT u3,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RES_u3,r8">RES u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RES_u3,_HL_">RES u3,[HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SET_u3,r8">SET u3,r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SET_u3,_HL_">SET u3,[HL]</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Bit_shift_instructions"><a class="permalink" href="#Bit_shift_instructions">Bit
+  shift instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#RL_r8">RL r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RL__HL_">RL [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLA">RLA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLC_r8">RLC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLC__HL_">RLC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RLCA">RLCA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RR_r8">RR r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RR__HL_">RR [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRA">RRA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRC_r8">RRC r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRC__HL_">RRC [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RRCA">RRCA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SLA_r8">SLA r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SLA__HL_">SLA [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRA_r8">SRA r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRA__HL_">SRA [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRL_r8">SRL r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SRL__HL_">SRL [HL]</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SWAP_r8">SWAP r8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SWAP__HL_">SWAP [HL]</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Jumps_and_subroutine_instructions"><a class="permalink" href="#Jumps_and_subroutine_instructions">Jumps
+  and subroutine instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#CALL_n16">CALL n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#CALL_cc,n16">CALL cc,n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#JP_HL">JP HL</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#JP_n16">JP n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#JP_cc,n16">JP cc,n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#JR_n16">JR n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#JR_cc,n16">JR cc,n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RET_cc">RET cc</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RET">RET</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RETI">RETI</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#RST_vec">RST vec</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Carry_flag_instructions"><a class="permalink" href="#Carry_flag_instructions">Carry
+  flag instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#CCF">CCF</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#SCF">SCF</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Stack_manipulation_instructions"><a class="permalink" href="#Stack_manipulation_instructions">Stack
+  manipulation instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#ADD_HL,SP">ADD HL,SP</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#ADD_SP,e8">ADD SP,e8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#DEC_SP">DEC SP</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#INC_SP">INC SP</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_SP,n16">LD SP,n16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD__n16_,SP">LD [n16],SP</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_HL,SP+e8">LD HL,SP+e8</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#LD_SP,HL">LD SP,HL</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#POP_AF">POP AF</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#POP_r16">POP r16</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#PUSH_AF">PUSH AF</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#PUSH_r16">PUSH r16</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Interrupt-related_instructions"><a class="permalink" href="#Interrupt-related_instructions">Interrupt-related
+  instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#DI">DI</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#EI">EI</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#HALT">HALT</a></dt>
+  <dd></dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Miscellaneous_instructions"><a class="permalink" href="#Miscellaneous_instructions">Miscellaneous
+  instructions</a></h3>
+<dl class="Bl-inset Bl-compact">
+  <dt><a class="Sx" href="#DAA">DAA</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#NOP">NOP</a></dt>
+  <dd></dd>
+  <dt><a class="Sx" href="#STOP">STOP</a></dt>
+  <dd></dd>
+</dl>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="INSTRUCTION_REFERENCE"><a class="permalink" href="#INSTRUCTION_REFERENCE">INSTRUCTION
+  REFERENCE</a></h2>
+<section class="Ss">
+<h3 class="Ss" id="ADC_A,r8"><a class="permalink" href="#ADC_A,r8">ADC
+  A,r8</a></h3>
+<p class="Pp">Add the value in <var class="Ar">r8</var> plus the carry flag to
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~2"><a class="permalink" href="#Z~2"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N"><a class="permalink" href="#N"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H"><a class="permalink" href="#H"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 3.</dd>
+  <dt id="C~2"><a class="permalink" href="#C~2"><b class="Sy">C</b></a></dt>
+  <dd>Set if overflow from bit 7.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADC_A,_HL_"><a class="permalink" href="#ADC_A,_HL_">ADC
+  A,[HL]</a></h3>
+<p class="Pp">Add the byte pointed to by <b class="Sy">HL</b> plus the carry
+    flag to <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#ADC_A,r8">ADC A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADC_A,n8"><a class="permalink" href="#ADC_A,n8">ADC
+  A,n8</a></h3>
+<p class="Pp">Add the value <var class="Ar">n8</var> plus the carry flag to
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#ADC_A,r8">ADC A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_A,r8"><a class="permalink" href="#ADD_A,r8">ADD
+  A,r8</a></h3>
+<p class="Pp">Add the value in <var class="Ar">r8</var> to
+  <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~3"><a class="permalink" href="#Z~3"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~2"><a class="permalink" href="#N~2"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~2"><a class="permalink" href="#H~2"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 3.</dd>
+  <dt id="C~3"><a class="permalink" href="#C~3"><b class="Sy">C</b></a></dt>
+  <dd>Set if overflow from bit 7.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_A,_HL_"><a class="permalink" href="#ADD_A,_HL_">ADD
+  A,[HL]</a></h3>
+<p class="Pp">Add the byte pointed to by <b class="Sy">HL</b> to
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#ADD_A,r8">ADD A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_A,n8"><a class="permalink" href="#ADD_A,n8">ADD
+  A,n8</a></h3>
+<p class="Pp">Add the value <var class="Ar">n8</var> to <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#ADD_A,r8">ADD A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_HL,r16"><a class="permalink" href="#ADD_HL,r16">ADD
+  HL,r16</a></h3>
+<p class="Pp">Add the value in <var class="Ar">r16</var> to
+    <b class="Sy">HL</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="N~3"><a class="permalink" href="#N~3"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~3"><a class="permalink" href="#H~3"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 11.</dd>
+  <dt id="C~4"><a class="permalink" href="#C~4"><b class="Sy">C</b></a></dt>
+  <dd>Set if overflow from bit 15.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_HL,SP"><a class="permalink" href="#ADD_HL,SP">ADD
+  HL,SP</a></h3>
+<p class="Pp">Add the value in <b class="Sy">SP</b> to <b class="Sy">HL</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#ADD_HL,r16">ADD HL,r16</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="ADD_SP,e8"><a class="permalink" href="#ADD_SP,e8">ADD
+  SP,e8</a></h3>
+<p class="Pp">Add the signed value <var class="Ar">e8</var> to
+    <b class="Sy">SP</b>.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~4"><a class="permalink" href="#Z~4"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~4"><a class="permalink" href="#N~4"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~4"><a class="permalink" href="#H~4"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 3.</dd>
+  <dt id="C~5"><a class="permalink" href="#C~5"><b class="Sy">C</b></a></dt>
+  <dd>Set if overflow from bit 7.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="AND_A,r8"><a class="permalink" href="#AND_A,r8">AND
+  A,r8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the value in
+    <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~5"><a class="permalink" href="#Z~5"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~5"><a class="permalink" href="#N~5"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~5"><a class="permalink" href="#H~5"><b class="Sy">H</b></a></dt>
+  <dd>1</dd>
+  <dt id="C~6"><a class="permalink" href="#C~6"><b class="Sy">C</b></a></dt>
+  <dd>0</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="AND_A,_HL_"><a class="permalink" href="#AND_A,_HL_">AND
+  A,[HL]</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the byte
+    pointed to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#AND_A,r8">AND A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="AND_A,n8"><a class="permalink" href="#AND_A,n8">AND
+  A,n8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise AND between the value
+    <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#AND_A,r8">AND A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="BIT_u3,r8"><a class="permalink" href="#BIT_u3,r8">BIT
+  u3,r8</a></h3>
+<p class="Pp">Test bit <var class="Ar">u3</var> in register
+    <var class="Ar">r8</var>, set the zero flag if bit not set.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~6"><a class="permalink" href="#Z~6"><b class="Sy">Z</b></a></dt>
+  <dd>Set if the selected bit is 0.</dd>
+  <dt id="N~6"><a class="permalink" href="#N~6"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~6"><a class="permalink" href="#H~6"><b class="Sy">H</b></a></dt>
+  <dd>1</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="BIT_u3,_HL_"><a class="permalink" href="#BIT_u3,_HL_">BIT
+  u3,[HL]</a></h3>
+<p class="Pp">Test bit <var class="Ar">u3</var> in the byte pointed by
+    <b class="Sy">HL</b>, set the zero flag if bit not set.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#BIT_u3,r8">BIT u3,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CALL_n16"><a class="permalink" href="#CALL_n16">CALL
+  n16</a></h3>
+<p class="Pp">Call address <var class="Ar">n16</var>.</p>
+<p class="Pp" id="CALL">This pushes the address of the instruction after the
+    <a class="permalink" href="#CALL"><b class="Sy">CALL</b></a> on the stack,
+    such that <a class="Sx" href="#RET">RET</a> can pop it later; then, it
+    executes an implicit <a class="Sx" href="#JP_n16">JP n16</a>.</p>
+<p class="Pp">Cycles: 6</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CALL_cc,n16"><a class="permalink" href="#CALL_cc,n16">CALL
+  cc,n16</a></h3>
+<p class="Pp">Call address <var class="Ar">n16</var> if condition
+    <var class="Ar">cc</var> is met.</p>
+<p class="Pp">Cycles: 6 taken / 3 untaken</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CCF"><a class="permalink" href="#CCF">CCF</a></h3>
+<p class="Pp">Complement Carry Flag.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="N~7"><a class="permalink" href="#N~7"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~7"><a class="permalink" href="#H~7"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~7"><a class="permalink" href="#C~7"><b class="Sy">C</b></a></dt>
+  <dd>Inverted.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CP_A,r8"><a class="permalink" href="#CP_A,r8">CP
+  A,r8</a></h3>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the value in
+    <var class="Ar">r8</var>.</p>
+<p class="Pp">This subtracts the value in <var class="Ar">r8</var> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~7"><a class="permalink" href="#Z~7"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~8"><a class="permalink" href="#N~8"><b class="Sy">N</b></a></dt>
+  <dd>1</dd>
+  <dt id="H~8"><a class="permalink" href="#H~8"><b class="Sy">H</b></a></dt>
+  <dd>Set if borrow from bit 4.</dd>
+  <dt id="C~8"><a class="permalink" href="#C~8"><b class="Sy">C</b></a></dt>
+  <dd>Set if borrow (i.e. if <var class="Ar">r8</var> &gt;
+    <b class="Sy">A</b>).</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CP_A,_HL_"><a class="permalink" href="#CP_A,_HL_">CP
+  A,[HL]</a></h3>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the byte pointed to
+    by <b class="Sy">HL</b>.</p>
+<p class="Pp">This subtracts the byte pointed to by <b class="Sy">HL</b> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#CP_A,r8">CP A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CP_A,n8"><a class="permalink" href="#CP_A,n8">CP
+  A,n8</a></h3>
+<p class="Pp">ComPare the value in <b class="Sy">A</b> with the value
+    <var class="Ar">n8</var>.</p>
+<p class="Pp">This subtracts the value <var class="Ar">n8</var> from
+    <b class="Sy">A</b> and sets flags accordingly, but discards the result.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#CP_A,r8">CP A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="CPL"><a class="permalink" href="#CPL">CPL</a></h3>
+<p class="Pp">ComPLement accumulator (<b class="Sy">A</b> =
+    <a class="permalink" href="#_A"><b class="Sy" id="_A">~A</b></a>); also
+    called bitwise NOT.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="N~9"><a class="permalink" href="#N~9"><b class="Sy">N</b></a></dt>
+  <dd>1</dd>
+  <dt id="H~9"><a class="permalink" href="#H~9"><b class="Sy">H</b></a></dt>
+  <dd>1</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DAA"><a class="permalink" href="#DAA">DAA</a></h3>
+<p class="Pp">Decimal Adjust Accumulator.</p>
+<p class="Pp" id="ADD">Designed to be used after performing an arithmetic
+    instruction (<a class="permalink" href="#ADD"><b class="Sy">ADD</b></a>,
+    <a class="permalink" href="#ADC"><b class="Sy" id="ADC">ADC</b></a>,
+    <a class="permalink" href="#SUB"><b class="Sy" id="SUB">SUB</b></a>,
+    <a class="permalink" href="#SBC"><b class="Sy" id="SBC">SBC</b></a>) whose
+    inputs were in Binary-Coded Decimal (BCD), adjusting the result to likewise
+    be in BCD.</p>
+<p class="Pp">The exact behavior of this instruction depends on the state of the
+    subtract flag <b class="Sy">N</b>:</p>
+<div class="Bd-indent">
+<dl class="Bl-tag">
+  <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is
+    set:</span></dt>
+  <dd>
+    <ol class="Bl-enum Bl-compact">
+      <li>Initialize the adjustment to 0.</li>
+      <li>If the half-carry flag <b class="Sy">H</b> is set, then add
+          <span class="Ad">$6</span> to the adjustment.</li>
+      <li>If the carry flag is set, then add <span class="Ad">$60</span> to the
+          adjustment.</li>
+      <li>Subtract the adjustment from <b class="Sy">A</b>.</li>
+    </ol>
+  </dd>
+  <dt>If the subtract flag <b class="Sy">N</b> <span class="No">is not
+    set:</span></dt>
+  <dd>
+    <ol class="Bl-enum Bl-compact">
+      <li>Initialize the adjustment to 0.</li>
+      <li>If the half-carry flag <b class="Sy">H</b> is set or
+          <b class="Sy">A</b> &amp; <span class="Ad">$F</span> &gt;
+          <span class="Ad">$9</span>, then add <span class="Ad">$6</span> to the
+          adjustment.</li>
+      <li>If the carry flag is set or <b class="Sy">A</b> &gt;
+          <span class="Ad">$99</span>, then add <span class="Ad">$60</span> to
+          the adjustment and set the carry flag.</li>
+      <li>Add the adjustment to <b class="Sy">A</b>.</li>
+    </ol>
+  </dd>
+</dl>
+</div>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~8"><a class="permalink" href="#Z~8"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="H~10"><a class="permalink" href="#H~10"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~9"><a class="permalink" href="#C~9"><b class="Sy">C</b></a></dt>
+  <dd>Set or reset depending on the operation.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DEC_r8"><a class="permalink" href="#DEC_r8">DEC r8</a></h3>
+<p class="Pp">Decrement the value in register <var class="Ar">r8</var> by 1.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~9"><a class="permalink" href="#Z~9"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~10"><a class="permalink" href="#N~10"><b class="Sy">N</b></a></dt>
+  <dd>1</dd>
+  <dt id="H~11"><a class="permalink" href="#H~11"><b class="Sy">H</b></a></dt>
+  <dd>Set if borrow from bit 4.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DEC__HL_"><a class="permalink" href="#DEC__HL_">DEC
+  [HL]</a></h3>
+<p class="Pp">Decrement the byte pointed to by <b class="Sy">HL</b> by 1.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#DEC_r8">DEC r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DEC_r16"><a class="permalink" href="#DEC_r16">DEC
+  r16</a></h3>
+<p class="Pp">Decrement the value in register <var class="Ar">r16</var> by
+  1.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DEC_SP"><a class="permalink" href="#DEC_SP">DEC SP</a></h3>
+<p class="Pp">Decrement the value in register <b class="Sy">SP</b> by 1.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="DI"><a class="permalink" href="#DI">DI</a></h3>
+<p class="Pp">Disable Interrupts by clearing the <b class="Sy">IME</b> flag.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="EI"><a class="permalink" href="#EI">EI</a></h3>
+<p class="Pp">Enable Interrupts by setting the <b class="Sy">IME</b> flag.</p>
+<p class="Pp">The flag is only set <i class="Em">after</i> the instruction
+    following <b class="Sy">EI</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="HALT"><a class="permalink" href="#HALT">HALT</a></h3>
+<p class="Pp">Enter CPU low-power consumption mode until an interrupt
+  occurs.</p>
+<p class="Pp">The exact behavior of this instruction depends on the state of the
+    <b class="Sy">IME</b> flag, and whether interrupts are pending (i.e. whether
+    &#x2018;<code class="Li">[IE] &amp; [IF]</code>&#x2019; is non-zero):</p>
+<div class="Bd-indent">
+<dl class="Bl-tag">
+  <dt>If the <b class="Sy">IME</b> <span class="No">flag is set:</span></dt>
+  <dd>The CPU enters low-power mode until <i class="Em">after</i> an interrupt
+      is about to be serviced. The handler is executed normally, and the CPU
+      resumes execution after the <code class="Ic">HALT</code> when that
+      returns.</dd>
+  <dt id="not">If the <b class="Sy">IME</b> <span class="No">flag is not set,
+    and no interrupts are pending:</span></dt>
+  <dd>As soon as an interrupt becomes pending, the CPU resumes execution. This
+      is like the above, except that the handler is
+      <a class="permalink" href="#not"><i class="Em">not</i></a> called.</dd>
+  <dt>If the <b class="Sy">IME</b> <span class="No">flag is not set, and some
+    interrupt is pending:</span></dt>
+  <dd>The CPU continues execution after the <code class="Ic">HALT</code>, but
+      the byte after it is read twice in a row (<b class="Sy">PC</b> is not
+      incremented, due to a hardware bug).</dd>
+</dl>
+</div>
+<p class="Pp">Cycles: -</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="INC_r8"><a class="permalink" href="#INC_r8">INC r8</a></h3>
+<p class="Pp">Increment the value in register <var class="Ar">r8</var> by 1.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~10"><a class="permalink" href="#Z~10"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~11"><a class="permalink" href="#N~11"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~12"><a class="permalink" href="#H~12"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 3.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="INC__HL_"><a class="permalink" href="#INC__HL_">INC
+  [HL]</a></h3>
+<p class="Pp">Increment the byte pointed to by <b class="Sy">HL</b> by 1.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#INC_r8">INC r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="INC_r16"><a class="permalink" href="#INC_r16">INC
+  r16</a></h3>
+<p class="Pp">Increment the value in register <var class="Ar">r16</var> by
+  1.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="INC_SP"><a class="permalink" href="#INC_SP">INC SP</a></h3>
+<p class="Pp">Increment the value in register <b class="Sy">SP</b> by 1.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="JP_n16"><a class="permalink" href="#JP_n16">JP n16</a></h3>
+<p class="Pp">Jump to address <var class="Ar">n16</var>; effectively, copy
+    <var class="Ar">n16</var> into <b class="Sy">PC</b>.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="JP_cc,n16"><a class="permalink" href="#JP_cc,n16">JP
+  cc,n16</a></h3>
+<p class="Pp">Jump to address <var class="Ar">n16</var> if condition
+    <var class="Ar">cc</var> is met.</p>
+<p class="Pp">Cycles: 4 taken / 3 untaken</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="JP_HL"><a class="permalink" href="#JP_HL">JP HL</a></h3>
+<p class="Pp">Jump to address in <b class="Sy">HL</b>; effectively, copy the
+    value in register <b class="Sy">HL</b> into <b class="Sy">PC</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="JR_n16"><a class="permalink" href="#JR_n16">JR n16</a></h3>
+<p class="Pp">Relative Jump to address <var class="Ar">n16</var>.</p>
+<p class="Pp">The address is encoded as a signed 8-bit offset from the address
+    immediately following the <code class="Ic">JR</code> instruction, so the
+    target address <var class="Ar">n16</var> must be between
+    <b class="Sy">-128</b> and <b class="Sy">127</b> bytes away. For
+  example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    JR Label  ; no-op; encoded offset of 0
+Label:
+    JR Label  ; infinite loop; encoded offset of -2</pre>
+</div>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="JR_cc,n16"><a class="permalink" href="#JR_cc,n16">JR
+  cc,n16</a></h3>
+<p class="Pp">Relative Jump to address <var class="Ar">n16</var> if condition
+    <var class="Ar">cc</var> is met.</p>
+<p class="Pp">Cycles: 3 taken / 2 untaken</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_r8,r8"><a class="permalink" href="#LD_r8,r8">LD
+  r8,r8</a></h3>
+<p class="Pp">Copy (aka Load) the value in register on the right into the
+    register on the left.</p>
+<p class="Pp">Storing a register into itself is a no-op; however, some Game Boy
+    emulators interpret <b class="Sy">LD B,B</b> as a breakpoint, or
+    <b class="Sy">LD D,D</b> as a debug message (such as
+    <a class="Lk" href="https://bgb.bircd.org/manual.html#expressions">BGB</a>).</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_r8,n8"><a class="permalink" href="#LD_r8,n8">LD
+  r8,n8</a></h3>
+<p class="Pp">Copy the value <var class="Ar">n8</var> into register
+    <var class="Ar">r8</var>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_r16,n16"><a class="permalink" href="#LD_r16,n16">LD
+  r16,n16</a></h3>
+<p class="Pp">Copy the value <var class="Ar">n16</var> into register
+    <var class="Ar">r16</var>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__HL_,r8"><a class="permalink" href="#LD__HL_,r8">LD
+  [HL],r8</a></h3>
+<p class="Pp">Copy the value in register <var class="Ar">r8</var> into the byte
+    pointed to by <b class="Sy">HL</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__HL_,n8"><a class="permalink" href="#LD__HL_,n8">LD
+  [HL],n8</a></h3>
+<p class="Pp">Copy the value <var class="Ar">n8</var> into the byte pointed to
+    by <b class="Sy">HL</b>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_r8,_HL_"><a class="permalink" href="#LD_r8,_HL_">LD
+  r8,[HL]</a></h3>
+<p class="Pp">Copy the value pointed to by <b class="Sy">HL</b> into register
+    <var class="Ar">r8</var>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__r16_,A"><a class="permalink" href="#LD__r16_,A">LD
+  [r16],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed to by <var class="Ar">r16</var>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__n16_,A"><a class="permalink" href="#LD__n16_,A">LD
+  [n16],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
+    address <var class="Ar">n16</var>.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LDH__n16_,A"><a class="permalink" href="#LDH__n16_,A">LDH
+  [n16],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
+    address <var class="Ar">n16</var>, provided the address is between
+    <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LDH__C_,A"><a class="permalink" href="#LDH__C_,A">LDH
+  [C],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
+    address <span class="Ad">$FF00+C</span>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    [$FF00+C],A</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_A,_r16_"><a class="permalink" href="#LD_A,_r16_">LD
+  A,[r16]</a></h3>
+<p class="Pp">Copy the byte pointed to by <var class="Ar">r16</var> into
+    register <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_A,_n16_"><a class="permalink" href="#LD_A,_n16_">LD
+  A,[n16]</a></h3>
+<p class="Pp">Copy the byte at address <var class="Ar">n16</var> into register
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LDH_A,_n16_"><a class="permalink" href="#LDH_A,_n16_">LDH
+  A,[n16]</a></h3>
+<p class="Pp">Copy the byte at address <var class="Ar">n16</var> into register
+    <b class="Sy">A</b>, provided the address is between
+    <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LDH_A,_C_"><a class="permalink" href="#LDH_A,_C_">LDH
+  A,[C]</a></h3>
+<p class="Pp">Copy the byte at address <span class="Ad">$FF00+C</span> into
+    register <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    A,[$FF00+C]</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__HLI_,A"><a class="permalink" href="#LD__HLI_,A">LD
+  [HLI],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed by <b class="Sy">HL</b> and increment <b class="Sy">HL</b>
+    afterwards.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    [HL+],A</code>&#x2019;, or &#x2018;<code class="Li">LDI
+    [HL],A</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__HLD_,A"><a class="permalink" href="#LD__HLD_,A">LD
+  [HLD],A</a></h3>
+<p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte
+    pointed by <b class="Sy">HL</b> and decrement <b class="Sy">HL</b>
+    afterwards.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    [HL-],A</code>&#x2019;, or &#x2018;<code class="Li">LDD
+    [HL],A</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_A,_HLD_"><a class="permalink" href="#LD_A,_HLD_">LD
+  A,[HLD]</a></h3>
+<p class="Pp">Copy the byte pointed to by <b class="Sy">HL</b> into register
+    <b class="Sy">A</b>, and decrement <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    A,[HL-]</code>&#x2019;, or &#x2018;<code class="Li">LDD
+    A,[HL]</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_A,_HLI_"><a class="permalink" href="#LD_A,_HLI_">LD
+  A,[HLI]</a></h3>
+<p class="Pp">Copy the byte pointed to by <b class="Sy">HL</b> into register
+    <b class="Sy">A</b>, and increment <b class="Sy">HL</b> afterwards.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+<p class="Pp">This is sometimes written as &#x2018;<code class="Li">LD
+    A,[HL+]</code>&#x2019;, or &#x2018;<code class="Li">LDI
+    A,[HL]</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_SP,n16"><a class="permalink" href="#LD_SP,n16">LD
+  SP,n16</a></h3>
+<p class="Pp">Copy the value <var class="Ar">n16</var> into register
+    <b class="Sy">SP</b>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD__n16_,SP"><a class="permalink" href="#LD__n16_,SP">LD
+  [n16],SP</a></h3>
+<p class="Pp">Copy <b class="Sy">SP</b> &amp; <span class="Ad">$FF</span> at
+    address <var class="Ar">n16</var> and <b class="Sy">SP</b> &gt;&gt; 8 at
+    address <var class="Ar">n16</var> + 1.</p>
+<p class="Pp">Cycles: 5</p>
+<p class="Pp">Bytes: 3</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_HL,SP+e8"><a class="permalink" href="#LD_HL,SP+e8">LD
+  HL,SP+e8</a></h3>
+<p class="Pp">Add the signed value <var class="Ar">e8</var> to
+    <b class="Sy">SP</b> and copy the result in <b class="Sy">HL</b>.</p>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~11"><a class="permalink" href="#Z~11"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~12"><a class="permalink" href="#N~12"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~13"><a class="permalink" href="#H~13"><b class="Sy">H</b></a></dt>
+  <dd>Set if overflow from bit 3.</dd>
+  <dt id="C~10"><a class="permalink" href="#C~10"><b class="Sy">C</b></a></dt>
+  <dd>Set if overflow from bit 7.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="LD_SP,HL"><a class="permalink" href="#LD_SP,HL">LD
+  SP,HL</a></h3>
+<p class="Pp">Copy register <b class="Sy">HL</b> into register
+    <b class="Sy">SP</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="NOP"><a class="permalink" href="#NOP">NOP</a></h3>
+<p class="Pp">No OPeration.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="OR_A,r8"><a class="permalink" href="#OR_A,r8">OR
+  A,r8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the value in
+    <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~12"><a class="permalink" href="#Z~12"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~13"><a class="permalink" href="#N~13"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~14"><a class="permalink" href="#H~14"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~11"><a class="permalink" href="#C~11"><b class="Sy">C</b></a></dt>
+  <dd>0</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="OR_A,_HL_"><a class="permalink" href="#OR_A,_HL_">OR
+  A,[HL]</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the byte pointed
+    to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#OR_A,r8">OR A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="OR_A,n8"><a class="permalink" href="#OR_A,n8">OR
+  A,n8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise OR between the value
+    <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#OR_A,r8">OR A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="POP_AF"><a class="permalink" href="#POP_AF">POP AF</a></h3>
+<p class="Pp">Pop register <b class="Sy">AF</b> from the stack. This is roughly
+    equivalent to the following <i class="Em">imaginary</i> instructions:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    LD F, [SP]  ; See below for individual flags
+    INC SP
+    LD A, [SP]
+    INC SP</pre>
+</div>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~13"><a class="permalink" href="#Z~13"><b class="Sy">Z</b></a></dt>
+  <dd>Set from bit 7 of the popped low byte.</dd>
+  <dt id="N~14"><a class="permalink" href="#N~14"><b class="Sy">N</b></a></dt>
+  <dd>Set from bit 6 of the popped low byte.</dd>
+  <dt id="H~15"><a class="permalink" href="#H~15"><b class="Sy">H</b></a></dt>
+  <dd>Set from bit 5 of the popped low byte.</dd>
+  <dt id="C~12"><a class="permalink" href="#C~12"><b class="Sy">C</b></a></dt>
+  <dd>Set from bit 4 of the popped low byte.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="POP_r16"><a class="permalink" href="#POP_r16">POP
+  r16</a></h3>
+<p class="Pp">Pop register <var class="Ar">r16</var> from the stack. This is
+    roughly equivalent to the following <i class="Em">imaginary</i>
+    instructions:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    LD LOW(r16), [SP]   ; C, E or L
+    INC SP
+    LD HIGH(r16), [SP]  ; B, D or H
+    INC SP</pre>
+</div>
+<p class="Pp">Cycles: 3</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="PUSH_AF"><a class="permalink" href="#PUSH_AF">PUSH
+  AF</a></h3>
+<p class="Pp">Push register <b class="Sy">AF</b> into the stack. This is roughly
+    equivalent to the following <i class="Em">imaginary</i> instructions:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    DEC SP
+    LD [SP], A
+    DEC SP
+    LD [SP], F.Z &lt;&lt; 7 | F.N &lt;&lt; 6 | F.H &lt;&lt; 5 | F.C &lt;&lt; 4</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="PUSH_r16"><a class="permalink" href="#PUSH_r16">PUSH
+  r16</a></h3>
+<p class="Pp">Push register <var class="Ar">r16</var> into the stack. This is
+    roughly equivalent to the following <i class="Em">imaginary</i>
+    instructions:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    DEC SP
+    LD [SP], HIGH(r16)  ; B, D or H
+    DEC SP
+    LD [SP], LOW(r16)   ; C, E or L</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RES_u3,r8"><a class="permalink" href="#RES_u3,r8">RES
+  u3,r8</a></h3>
+<p class="Pp">Set bit <var class="Ar">u3</var> in register
+    <var class="Ar">r8</var> to 0. Bit 0 is the rightmost one, bit 7 the
+    leftmost one.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RES_u3,_HL_"><a class="permalink" href="#RES_u3,_HL_">RES
+  u3,[HL]</a></h3>
+<p class="Pp">Set bit <var class="Ar">u3</var> in the byte pointed by
+    <b class="Sy">HL</b> to 0. Bit 0 is the rightmost one, bit 7 the leftmost
+    one.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RET"><a class="permalink" href="#RET">RET</a></h3>
+<p class="Pp">Return from subroutine. This is basically a <b class="Sy">POP
+    PC</b> (if such an instruction existed). See
+    <a class="Sx" href="#POP_r16">POP r16</a> for an explanation of how
+    <b class="Sy">POP</b> works.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RET_cc"><a class="permalink" href="#RET_cc">RET cc</a></h3>
+<p class="Pp">Return from subroutine if condition <var class="Ar">cc</var> is
+    met.</p>
+<p class="Pp">Cycles: 5 taken / 2 untaken</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RETI"><a class="permalink" href="#RETI">RETI</a></h3>
+<p class="Pp">Return from subroutine and enable interrupts. This is basically
+    equivalent to executing <a class="Sx" href="#EI">EI</a> then
+    <a class="Sx" href="#RET">RET</a>, meaning that <b class="Sy">IME</b> is set
+    right after this instruction.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RL_r8"><a class="permalink" href="#RL_r8">RL r8</a></h3>
+<p class="Pp">Rotate bits in register <var class="Ar">r8</var> left, through the
+    carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~14"><a class="permalink" href="#Z~14"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~15"><a class="permalink" href="#N~15"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~16"><a class="permalink" href="#H~16"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~13"><a class="permalink" href="#C~13"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RL__HL_"><a class="permalink" href="#RL__HL_">RL
+  [HL]</a></h3>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> left, through
+    the carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#RL_r8">RL r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RLA"><a class="permalink" href="#RLA">RLA</a></h3>
+<p class="Pp">Rotate register <b class="Sy">A</b> left, through the carry
+  flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2500;   C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~15"><a class="permalink" href="#Z~15"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~16"><a class="permalink" href="#N~16"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~17"><a class="permalink" href="#H~17"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~14"><a class="permalink" href="#C~14"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RLC_r8"><a class="permalink" href="#RLC_r8">RLC r8</a></h3>
+<p class="Pp">Rotate register <var class="Ar">r8</var> left.</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~16"><a class="permalink" href="#Z~16"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~17"><a class="permalink" href="#N~17"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~18"><a class="permalink" href="#H~18"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~15"><a class="permalink" href="#C~15"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RLC__HL_"><a class="permalink" href="#RLC__HL_">RLC
+  [HL]</a></h3>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> left.</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#RLC_r8">RLC r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RLCA"><a class="permalink" href="#RLCA">RLCA</a></h3>
+<p class="Pp">Rotate register <b class="Sy">A</b> left.</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513;   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500;&#x2510;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+            &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~17"><a class="permalink" href="#Z~17"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~18"><a class="permalink" href="#N~18"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~19"><a class="permalink" href="#H~19"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~16"><a class="permalink" href="#C~16"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RR_r8"><a class="permalink" href="#RR_r8">RR r8</a></h3>
+<p class="Pp">Rotate register <var class="Ar">r8</var> right, through the carry
+    flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~18"><a class="permalink" href="#Z~18"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~19"><a class="permalink" href="#N~19"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~20"><a class="permalink" href="#H~20"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~17"><a class="permalink" href="#C~17"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RR__HL_"><a class="permalink" href="#RR__HL_">RR
+  [HL]</a></h3>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> right, through
+    the carry flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#RR_r8">RR r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RRA"><a class="permalink" href="#RRA">RRA</a></h3>
+<p class="Pp">Rotate register <b class="Sy">A</b> right, through the carry
+  flag.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C   &#x2500;&#x2542;&#x2500;&#x2510;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~19"><a class="permalink" href="#Z~19"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~20"><a class="permalink" href="#N~20"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~21"><a class="permalink" href="#H~21"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~18"><a class="permalink" href="#C~18"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RRC_r8"><a class="permalink" href="#RRC_r8">RRC r8</a></h3>
+<p class="Pp">Rotate register <var class="Ar">r8</var> right.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~20"><a class="permalink" href="#Z~20"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~21"><a class="permalink" href="#N~21"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~22"><a class="permalink" href="#H~22"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~19"><a class="permalink" href="#C~19"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RRC__HL_"><a class="permalink" href="#RRC__HL_">RRC
+  [HL]</a></h3>
+<p class="Pp">Rotate the byte pointed to by <b class="Sy">HL</b> right.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#RRC_r8">RRC r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RRCA"><a class="permalink" href="#RRCA">RRCA</a></h3>
+<p class="Pp">Rotate register <b class="Sy">A</b> right.</p>
+<div class="Bd Pp Li">
+<pre>  &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; A &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;   &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x250C;&#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x252C;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2502; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+</div>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~21"><a class="permalink" href="#Z~21"><b class="Sy">Z</b></a></dt>
+  <dd>0</dd>
+  <dt id="N~22"><a class="permalink" href="#N~22"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~23"><a class="permalink" href="#H~23"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~20"><a class="permalink" href="#C~20"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RST_vec"><a class="permalink" href="#RST_vec">RST
+  vec</a></h3>
+<p class="Pp">Call address <var class="Ar">vec</var>. This is a shorter and
+    faster equivalent to <a class="Sx" href="#CALL">CALL</a> for suitable values
+    of <var class="Ar">vec</var>.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SBC_A,r8"><a class="permalink" href="#SBC_A,r8">SBC
+  A,r8</a></h3>
+<p class="Pp">Subtract the value in <var class="Ar">r8</var> and the carry flag
+    from <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~22"><a class="permalink" href="#Z~22"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~23"><a class="permalink" href="#N~23"><b class="Sy">N</b></a></dt>
+  <dd>1</dd>
+  <dt id="H~24"><a class="permalink" href="#H~24"><b class="Sy">H</b></a></dt>
+  <dd>Set if borrow from bit 4.</dd>
+  <dt id="C~21"><a class="permalink" href="#C~21"><b class="Sy">C</b></a></dt>
+  <dd>Set if borrow (i.e. if (<var class="Ar">r8</var> + carry) &gt;
+      <b class="Sy">A</b>).</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SBC_A,_HL_"><a class="permalink" href="#SBC_A,_HL_">SBC
+  A,[HL]</a></h3>
+<p class="Pp">Subtract the byte pointed to by <b class="Sy">HL</b> and the carry
+    flag from <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SBC_A,r8">SBC A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SBC_A,n8"><a class="permalink" href="#SBC_A,n8">SBC
+  A,n8</a></h3>
+<p class="Pp">Subtract the value <var class="Ar">n8</var> and the carry flag
+    from <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SBC_A,r8">SBC A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SCF"><a class="permalink" href="#SCF">SCF</a></h3>
+<p class="Pp">Set Carry Flag.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="N~24"><a class="permalink" href="#N~24"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~25"><a class="permalink" href="#H~25"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~22"><a class="permalink" href="#C~22"><b class="Sy">C</b></a></dt>
+  <dd>1</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SET_u3,r8"><a class="permalink" href="#SET_u3,r8">SET
+  u3,r8</a></h3>
+<p class="Pp">Set bit <var class="Ar">u3</var> in register
+    <var class="Ar">r8</var> to 1. Bit 0 is the rightmost one, bit 7 the
+    leftmost one.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SET_u3,_HL_"><a class="permalink" href="#SET_u3,_HL_">SET
+  u3,[HL]</a></h3>
+<p class="Pp">Set bit <var class="Ar">u3</var> in the byte pointed by
+    <b class="Sy">HL</b> to 1. Bit 0 is the rightmost one, bit 7 the leftmost
+    one.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SLA_r8"><a class="permalink" href="#SLA_r8">SLA r8</a></h3>
+<p class="Pp">Shift Left Arithmetically register <var class="Ar">r8</var>.</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500; 0
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~23"><a class="permalink" href="#Z~23"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~25"><a class="permalink" href="#N~25"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~26"><a class="permalink" href="#H~26"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~23"><a class="permalink" href="#C~23"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SLA__HL_"><a class="permalink" href="#SLA__HL_">SLA
+  [HL]</a></h3>
+<p class="Pp">Shift Left Arithmetically the byte pointed to by
+    <b class="Sy">HL</b>.</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501; Flags &#x2501;&#x2513; &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513;
+&#x2503;    C   &#x2190;&#x2542;&#x2500;&#x2542;&#x2500; b7 &#x2190; ... &#x2190; b0 &#x2190;&#x2542;&#x2500; 0
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SLA_r8">SLA r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SRA_r8"><a class="permalink" href="#SRA_r8">SRA r8</a></h3>
+<p class="Pp">Shift Right Arithmetically register <var class="Ar">r8</var> (bit
+    7 of <var class="Ar">r8</var> <span class="No">is unchanged</span>).</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x2503; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~24"><a class="permalink" href="#Z~24"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~26"><a class="permalink" href="#N~26"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~27"><a class="permalink" href="#H~27"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~24"><a class="permalink" href="#C~24"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SRA__HL_"><a class="permalink" href="#SRA__HL_">SRA
+  [HL]</a></h3>
+<p class="Pp">Shift Right Arithmetically the byte pointed to by
+    <b class="Sy">HL</b> (bit 7 of the byte pointed to by <b class="Sy">HL</b>
+    <span class="No">is unchanged</span>).</p>
+<div class="Bd Pp Li">
+<pre>&#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+&#x2503; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+&#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SRA_r8">SRA r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SRL_r8"><a class="permalink" href="#SRL_r8">SRL r8</a></h3>
+<p class="Pp">Shift Right Logically register <var class="Ar">r8</var>.</p>
+<div class="Bd Pp Li">
+<pre>   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; r8 &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+0 &#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+   &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~25"><a class="permalink" href="#Z~25"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~27"><a class="permalink" href="#N~27"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~28"><a class="permalink" href="#H~28"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~25"><a class="permalink" href="#C~25"><b class="Sy">C</b></a></dt>
+  <dd>Set according to result.</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SRL__HL_"><a class="permalink" href="#SRL__HL_">SRL
+  [HL]</a></h3>
+<p class="Pp">Shift Right Logically the byte pointed to by
+  <b class="Sy">HL</b>.</p>
+<div class="Bd Pp Li">
+<pre>   &#x250F;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501; [HL] &#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2513; &#x250F;&#x2501; Flags &#x2501;&#x2513;
+0 &#x2500;&#x2542;&#x2192; b7 &#x2192; ... &#x2192; b0 &#x2500;&#x2542;&#x2500;&#x2542;&#x2192;   C    &#x2503;
+   &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B; &#x2517;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x251B;</pre>
+</div>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SRL_r8">SRL r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="STOP"><a class="permalink" href="#STOP">STOP</a></h3>
+<p class="Pp">Enter CPU very low power mode. Also used to switch between GBC
+    double speed and normal speed CPU modes.</p>
+<p class="Pp">The exact behavior of this instruction is fragile and may
+    interpret its second byte as a separate instruction (see
+    <a class="Lk" href="https://gbdev.io/pandocs/Reducing_Power_Consumption.html#using-the-stop-instruction">the
+    Pan Docs</a>), which is why <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>
+    allows explicitly specifying the second byte (<b class="Sy">STOP</b>
+    <var class="Ar">n8</var>) to override the default of
+    <span class="Ad">$00</span> (a <b class="Sy">NOP</b> instruction).</p>
+<p class="Pp">Cycles: -</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: None affected.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SUB_A,r8"><a class="permalink" href="#SUB_A,r8">SUB
+  A,r8</a></h3>
+<p class="Pp">Subtract the value in <var class="Ar">r8</var> from
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~26"><a class="permalink" href="#Z~26"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~28"><a class="permalink" href="#N~28"><b class="Sy">N</b></a></dt>
+  <dd>1</dd>
+  <dt id="H~29"><a class="permalink" href="#H~29"><b class="Sy">H</b></a></dt>
+  <dd>Set if borrow from bit 4.</dd>
+  <dt id="C~26"><a class="permalink" href="#C~26"><b class="Sy">C</b></a></dt>
+  <dd>Set if borrow (i.e. if <var class="Ar">r8</var> &gt;
+    <b class="Sy">A</b>).</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SUB_A,_HL_"><a class="permalink" href="#SUB_A,_HL_">SUB
+  A,[HL]</a></h3>
+<p class="Pp">Subtract the byte pointed to by <b class="Sy">HL</b> from
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SUB_A,r8">SUB A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SUB_A,n8"><a class="permalink" href="#SUB_A,n8">SUB
+  A,n8</a></h3>
+<p class="Pp">Subtract the value <var class="Ar">n8</var> from
+    <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SUB_A,r8">SUB A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SWAP_r8"><a class="permalink" href="#SWAP_r8">SWAP
+  r8</a></h3>
+<p class="Pp">Swap the upper 4 bits in register <var class="Ar">r8</var> and the
+    lower 4 ones.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~27"><a class="permalink" href="#Z~27"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~29"><a class="permalink" href="#N~29"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~30"><a class="permalink" href="#H~30"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~27"><a class="permalink" href="#C~27"><b class="Sy">C</b></a></dt>
+  <dd>0</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="SWAP__HL_"><a class="permalink" href="#SWAP__HL_">SWAP
+  [HL]</a></h3>
+<p class="Pp">Swap the upper 4 bits in the byte pointed by <b class="Sy">HL</b>
+    and the lower 4 ones.</p>
+<p class="Pp">Cycles: 4</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#SWAP_r8">SWAP r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="XOR_A,r8"><a class="permalink" href="#XOR_A,r8">XOR
+  A,r8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the value in
+    <var class="Ar">r8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 1</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags:</p>
+<dl class="Bl-tag">
+  <dt id="Z~28"><a class="permalink" href="#Z~28"><b class="Sy">Z</b></a></dt>
+  <dd>Set if result is 0.</dd>
+  <dt id="N~30"><a class="permalink" href="#N~30"><b class="Sy">N</b></a></dt>
+  <dd>0</dd>
+  <dt id="H~31"><a class="permalink" href="#H~31"><b class="Sy">H</b></a></dt>
+  <dd>0</dd>
+  <dt id="C~28"><a class="permalink" href="#C~28"><b class="Sy">C</b></a></dt>
+  <dd>0</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="XOR_A,_HL_"><a class="permalink" href="#XOR_A,_HL_">XOR
+  A,[HL]</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the byte
+    pointed to by <b class="Sy">HL</b> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 1</p>
+<p class="Pp">Flags: See <a class="Sx" href="#XOR_A,r8">XOR A,r8</a></p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="XOR_A,n8"><a class="permalink" href="#XOR_A,n8">XOR
+  A,n8</a></h3>
+<p class="Pp">Set <b class="Sy">A</b> to the bitwise XOR between the value
+    <var class="Ar">n8</var> and <b class="Sy">A</b>.</p>
+<p class="Pp">Cycles: 2</p>
+<p class="Pp">Bytes: 2</p>
+<p class="Pp">Flags: See <a class="Sx" href="#XOR_A,r8">XOR A,r8</a></p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./rgbasm-old.5">rgbasm-old(5)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a> was originally
+    written by <span class="An">Carsten S&#x00F8;rensen</span> as part of the
+    ASMotor package, and was later repackaged in RGBDS by
+    <span class="An">Justin Lloyd</span>. It is now maintained by a number of
+    contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>
