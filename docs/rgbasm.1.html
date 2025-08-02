@@ -209,7 +209,21 @@
   <dd>Print the version of the program and exit.</dd>
   <dt id="v"><a class="permalink" href="#v"><code class="Fl">-v</code></a>,
     <code class="Fl">--verbose</code></dt>
-  <dd>Be verbose.</dd>
+  <dd>Be verbose. The verbosity level is increased by one each time the flag is
+      specified, with each level including the previous:
+    <ol class="Bl-enum Bl-compact">
+      <li>Print the <code class="Nm">rgbasm</code> configuration before taking
+          actions.</li>
+      <li>Print a notice before significant actions.</li>
+      <li>Print some of the actions' intermediate results.</li>
+      <li>Print some internal debug information.</li>
+      <li>Print detailed internal information.</li>
+    </ol>
+    The verbosity level does not go past 6.
+    <p class="Pp">Note that verbose output is only intended to be consumed by
+        humans, and may change without notice between RGBDS releases; relying on
+        those for scripts is not advised.</p>
+  </dd>
   <dt id="W"><a class="permalink" href="#W"><code class="Fl">-W</code></a>
     <var class="Ar">warning</var>, <code class="Fl">--warning</code>
     <var class="Ar">warning</var></dt>
