@@ -8,7 +8,8 @@
       [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
       <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
       <var class="Ar">base_ids</var>] [<code class="Fl"><a href="#c">-c</a></code>
-      <var class="Ar">pal_spec</var>] [<code class="Fl"><a href="#d">-d</a></code>
+      <var class="Ar">pal_spec</var>] [<code class="Fl">--color</code>
+      <var class="Ar">when</var>] [<code class="Fl"><a href="#d">-d</a></code>
       <var class="Ar">depth</var>] [<code class="Fl"><a href="#i">-i</a></code>
       <var class="Ar">input_tiles</var>] [<code class="Fl"><a href="#L">-L</a></code>
       <var class="Ar">slice</var>] [<code class="Fl"><a href="#l">-l</a></code>
@@ -176,6 +177,18 @@
           descriptions.</dd>
     </dl>
   </dd>
+  <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
+    <var class="Ar">when</var></dt>
+  <dd>Specify when to highlight warning and error messages with color:
+      &#x2018;<code class="Li">always</code>&#x2019;,
+      &#x2018;<code class="Li">never</code>&#x2019;, or
+      &#x2018;<code class="Li">auto</code>&#x2019;.
+      &#x2018;<code class="Li">auto</code>&#x2019; determines whether to use
+      colors based on the
+      &#x2018;<code class="Li"><a class="Lk" href="https://no-color.org/">NO_COLOR</a></code>&#x2019;
+      or
+      &#x2018;<code class="Li"><a class="Lk" href="https://force-color.org/">FORCE_COLOR</a></code>&#x2019;
+      environment variables, or whether the output is to a TTY.</dd>
   <dt id="d"><a class="permalink" href="#d"><code class="Fl">-d</code></a>
     <var class="Ar">depth</var>, <code class="Fl">--depth</code>
     <var class="Ar">depth</var></dt>

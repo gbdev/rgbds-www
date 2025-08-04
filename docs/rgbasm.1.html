@@ -4,7 +4,8 @@
   <tr>
     <td><code class="Nm">rgbasm</code></td>
     <td>[<code class="Fl"><a href="#E">-E</a><a href="#h">h</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
-      <var class="Ar">chars</var>] [<code class="Fl"><a href="#D">-D</a></code>
+      <var class="Ar">chars</var>] [<code class="Fl">--color</code>
+      <var class="Ar">when</var>] [<code class="Fl"><a href="#D">-D</a></code>
       <var class="Ar">name</var>[=<var class="Ar">value</var>]]
       [<code class="Fl"><a href="#g">-g</a></code> <var class="Ar">chars</var>]
       [<code class="Fl"><a href="#I">-I</a></code> <var class="Ar">path</var>]
@@ -45,6 +46,18 @@
       default &#x2018;0&#x2019; and &#x2018;1&#x2019;. Valid characters are
       numbers other than &#x2018;0&#x2019; and &#x2018;1&#x2019;, letters,
       &#x2018;.&#x2019;, &#x2018;#&#x2019;, or &#x2018;@&#x2019;.</dd>
+  <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
+    <var class="Ar">when</var></dt>
+  <dd>Specify when to highlight warning and error messages with color:
+      &#x2018;<code class="Li">always</code>&#x2019;,
+      &#x2018;<code class="Li">never</code>&#x2019;, or
+      &#x2018;<code class="Li">auto</code>&#x2019;.
+      &#x2018;<code class="Li">auto</code>&#x2019; determines whether to use
+      colors based on the
+      &#x2018;<code class="Li"><a class="Lk" href="https://no-color.org/">NO_COLOR</a></code>&#x2019;
+      or
+      &#x2018;<code class="Li"><a class="Lk" href="https://force-color.org/">FORCE_COLOR</a></code>&#x2019;
+      environment variables, or whether the output is to a TTY.</dd>
   <dt id="D"><a class="permalink" href="#D"><code class="Fl">-D</code></a>
     <var class="Ar">name</var>[=<var class="Ar">value</var>],
     <code class="Fl">--define</code>

@@ -4,7 +4,8 @@
   <tr>
     <td><code class="Nm">rgbfix</code></td>
     <td>[<code class="Fl"><a href="#h">-h</a><a href="#j">j</a><a href="#O">O</a><a href="#s">s</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#C">-C</a></code> |
-      <code class="Fl"><a href="#c">-c</a></code>] [<code class="Fl"><a href="#f">-f</a></code>
+      <code class="Fl"><a href="#c">-c</a></code>] [<code class="Fl">--color</code>
+      <var class="Ar">when</var>] [<code class="Fl"><a href="#f">-f</a></code>
       <var class="Ar">fix_spec</var>] [<code class="Fl"><a href="#i">-i</a></code>
       <var class="Ar">game_id</var>] [<code class="Fl"><a href="#k">-k</a></code>
       <var class="Ar">licensee_str</var>] [<code class="Fl"><a href="#L">-L</a></code>
@@ -35,11 +36,11 @@
 <p class="Pp">The input <var class="Ar">asmfile</var> can be a path to a file,
     or <code class="Cm">-</code> to read from standard input.</p>
 <p class="Pp">Note that options can be abbreviated as long as the abbreviation
-    is unambiguous: <code class="Fl">--color-o</code> is
-    <code class="Fl">--color-only</code>, but <code class="Fl">--color</code> is
-    invalid because it could also be <code class="Fl">--color-compatible</code>.
-    Options later in the command line override those set earlier. Accepted
-    options are as follows:</p>
+    is unambiguous: <code class="Fl">--verb</code> is
+    <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
+    invalid because it could also be <code class="Fl">--version</code>. Options
+    later in the command line override those set earlier. Accepted options are
+    as follows:</p>
 <dl class="Bl-tag">
   <dt id="C"><a class="permalink" href="#C"><code class="Fl">-C</code></a>,
     <code class="Fl">--color-only</code></dt>
@@ -50,6 +51,18 @@
   <dd>Set the Game Boy Color&#x2013;compatible flag:
       (<span class="Ad">0x143</span>) to 0x80. This overrides
       <code class="Fl">-c</code> if it was set prior.</dd>
+  <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
+    <var class="Ar">when</var></dt>
+  <dd>Specify when to highlight warning and error messages with color:
+      &#x2018;<code class="Li">always</code>&#x2019;,
+      &#x2018;<code class="Li">never</code>&#x2019;, or
+      &#x2018;<code class="Li">auto</code>&#x2019;.
+      &#x2018;<code class="Li">auto</code>&#x2019; determines whether to use
+      colors based on the
+      &#x2018;<code class="Li"><a class="Lk" href="https://no-color.org/">NO_COLOR</a></code>&#x2019;
+      or
+      &#x2018;<code class="Li"><a class="Lk" href="https://force-color.org/">FORCE_COLOR</a></code>&#x2019;
+      environment variables, or whether the output is to a TTY.</dd>
   <dt id="f"><a class="permalink" href="#f"><code class="Fl">-f</code></a>
     <var class="Ar">fix_spec</var>, <code class="Fl">--fix-spec</code>
     <var class="Ar">fix_spec</var></dt>

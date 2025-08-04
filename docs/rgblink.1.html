@@ -3,7 +3,8 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgblink</code></td>
-    <td>[<code class="Fl"><a href="#d">-d</a><a href="#h">h</a><a href="#M">M</a><a href="#t">t</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a><a href="#x">x</a></code>] [<code class="Fl"><a href="#l">-l</a></code>
+    <td>[<code class="Fl"><a href="#d">-d</a><a href="#h">h</a><a href="#M">M</a><a href="#t">t</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a><a href="#x">x</a></code>] [<code class="Fl">--color</code>
+      <var class="Ar">when</var>] [<code class="Fl"><a href="#l">-l</a></code>
       <var class="Ar">linker_script</var>] [<code class="Fl"><a href="#m">-m</a></code>
       <var class="Ar">map_file</var>] [<code class="Fl"><a href="#n">-n</a></code>
       <var class="Ar">sym_file</var>] [<code class="Fl"><a href="#O">-O</a></code>
@@ -41,6 +42,18 @@
     invalid because it could also be <code class="Fl">--version</code>. The
     arguments are as follows:</p>
 <dl class="Bl-tag">
+  <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
+    <var class="Ar">when</var></dt>
+  <dd>Specify when to highlight warning and error messages with color:
+      &#x2018;<code class="Li">always</code>&#x2019;,
+      &#x2018;<code class="Li">never</code>&#x2019;, or
+      &#x2018;<code class="Li">auto</code>&#x2019;.
+      &#x2018;<code class="Li">auto</code>&#x2019; determines whether to use
+      colors based on the
+      &#x2018;<code class="Li"><a class="Lk" href="https://no-color.org/">NO_COLOR</a></code>&#x2019;
+      or
+      &#x2018;<code class="Li"><a class="Lk" href="https://force-color.org/">FORCE_COLOR</a></code>&#x2019;
+      environment variables, or whether the output is to a TTY.</dd>
   <dt id="d"><a class="permalink" href="#d"><code class="Fl">-d</code></a>,
     <code class="Fl">--dmg</code></dt>
   <dd>Enable DMG mode. Prohibit the use of sections that doesn't exist on a DMG,
