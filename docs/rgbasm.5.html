@@ -938,50 +938,6 @@ ENDR</pre>
     string are counted by &#x2018;<code class="Li">CHARLEN</code>&#x2019;; and
     the values of a charmap entry are counted by
     &#x2018;<code class="Li">CHARSIZE</code>&#x2019;.</p>
-<p class="Pp" id="position">The following legacy functions are similar to other
-    functions that operate on string expressions, but for historical reasons,
-    they count starting from
-    <a class="permalink" href="#position"><i class="Em">position 1</i></a>, not
-    from index 0! (Position -1 still counts from the end.)</p>
-<table class="Bl-column">
-  <tr id="Name~5">
-    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation~5"><b class="Sy" id="Operation~5">Operation</b></a></td>
-  </tr>
-  <tr id="STRSUB">
-    <td><a class="permalink" href="#STRSUB"><code class="Fn">STRSUB</code></a>(<var class="Fa">str</var>,
-      <var class="Fa">pos</var>, <var class="Fa">len</var>)</td>
-    <td>Returns a substring of <var class="Ar">str</var>
-      <span class="No">starting at</span> <var class="Ar">pos</var>
-      <span class="No">and</span> <var class="Ar">len</var>
-      <span class="No">characters long. If</span> <var class="Ar">len</var>
-      <span class="No">is not specified, the substring continues to the end
-      of</span> <var class="Ar">str</var> .</td>
-  </tr>
-  <tr id="STRIN">
-    <td><a class="permalink" href="#STRIN"><code class="Fn">STRIN</code></a>(<var class="Fa">str</var>,
-      <var class="Fa">sub</var>)</td>
-    <td>Returns the first position of <var class="Ar">sub</var>
-      <span class="No">in</span> <var class="Ar">str</var>, or 0 if it's not
-      present.</td>
-  </tr>
-  <tr id="STRRIN">
-    <td><a class="permalink" href="#STRRIN"><code class="Fn">STRRIN</code></a>(<var class="Fa">str</var>,
-      <var class="Fa">sub</var>)</td>
-    <td>Returns the last position of <var class="Ar">sub</var>
-      <span class="No">in</span> <var class="Ar">str</var>, or 0 if it's not
-      present.</td>
-  </tr>
-  <tr id="CHARSUB">
-    <td><a class="permalink" href="#CHARSUB"><code class="Fn">CHARSUB</code></a>(<var class="Fa">str</var>,
-      <var class="Fa">pos</var>)</td>
-    <td>Returns the substring of <var class="Ar">str</var> <span class="No">for
-      the charmap entry at</span> <var class="Ar">pos</var>
-      <span class="No">with the current charmap</span>.
-      (<var class="Ar">pos</var> <span class="No">counts charmap entries, not
-      characters.</span>)</td>
-  </tr>
-</table>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Character_maps"><a class="permalink" href="#Character_maps">Character
@@ -1063,9 +1019,9 @@ CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
 <p class="Pp">There are a few other functions that do things beyond numeric or
     string operations:</p>
 <table class="Bl-column">
-  <tr id="Name~6">
-    <td><a class="permalink" href="#Name~6"><b class="Sy">Name</b></a></td>
-    <td><a class="permalink" href="#Operation~6"><b class="Sy" id="Operation~6">Operation</b></a></td>
+  <tr id="Name~5">
+    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~5"><b class="Sy" id="Operation~5">Operation</b></a></td>
   </tr>
   <tr id="DEF">
     <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
@@ -1970,8 +1926,8 @@ ASSERT !DEF(Kamikaze) &amp;&amp; !DEF(AOLer)</pre>
   symbols</a></h3>
 <p class="Pp">The following symbols are defined by the assembler:</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Name~7">
-    <td><a class="permalink" href="#Name~7"><b class="Sy">Name</b></a></td>
+  <tr id="Name~6">
+    <td><a class="permalink" href="#Name~6"><b class="Sy">Name</b></a></td>
     <td><a class="permalink" href="#Type~2"><b class="Sy" id="Type~2">Type</b></a></td>
     <td><a class="permalink" href="#Contents"><b class="Sy" id="Contents">Contents</b></a></td>
   </tr>

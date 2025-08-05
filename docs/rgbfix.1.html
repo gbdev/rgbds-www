@@ -3,7 +3,7 @@
 <table class="Nm">
   <tr>
     <td><code class="Nm">rgbfix</code></td>
-    <td>[<code class="Fl"><a href="#h">-h</a><a href="#j">j</a><a href="#O">O</a><a href="#s">s</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#C">-C</a></code> |
+    <td>[<code class="Fl"><a href="#h">-h</a><a href="#j">j</a><a href="#s">s</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#C">-C</a></code> |
       <code class="Fl"><a href="#c">-c</a></code>] [<code class="Fl">--color</code>
       <var class="Ar">when</var>] [<code class="Fl"><a href="#f">-f</a></code>
       <var class="Ar">fix_spec</var>] [<code class="Fl"><a href="#i">-i</a></code>
@@ -139,9 +139,6 @@
     <var class="Ar">rom_version</var></dt>
   <dd>Set the ROM version (<span class="Ad">0x14C</span>) to a given value from
       0 to 0xFF.</dd>
-  <dt id="O"><a class="permalink" href="#O"><code class="Fl">-O</code></a>,
-    <code class="Fl">--overwrite</code></dt>
-  <dd>Alias for <code class="Fl">-Wno-overwrite</code>.</dd>
   <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
     <var class="Ar">out_file</var>, <code class="Fl">--output</code>
     <var class="Ar">out_file</var></dt>
@@ -237,6 +234,9 @@
   <dt id="Wno-mbc"><a class="permalink" href="#Wno-mbc"><code class="Fl">-Wno-mbc</code></a></dt>
   <dd>Warn when there are inconsistencies with or caveats about the specified
       MBC type.</dd>
+  <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
+  <dd>Warn when obsolete features are encountered, which have been deprecated
+      and may later be removed.</dd>
   <dt id="Wno-overwrite"><a class="permalink" href="#Wno-overwrite"><code class="Fl">-Wno-overwrite</code></a></dt>
   <dd>Warn when overwriting different non-zero bytes in the header.</dd>
   <dt id="Wno-sgb"><a class="permalink" href="#Wno-sgb"><code class="Fl">-Wno-sgb</code></a></dt>
