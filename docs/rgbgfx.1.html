@@ -164,6 +164,14 @@
           go in two color indexes. To specify a DMG palette, the input PNG must
           have all its colors in shades of gray, without any transparent
         colors.</dd>
+      <dt id="automatic"><a class="permalink" href="#automatic"><b class="Sy">automatic
+        palette generation</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> is the case-insensitive word
+          <code class="Cm">auto</code>, then a palette is automatically
+          generated using the procedure described in
+          <a class="Sx" href="#PALETTE_GENERATION">PALETTE GENERATION</a>. This
+          is the default behavior if <code class="Fl">-c</code> was not
+          specified.</dd>
       <dt id="external"><a class="permalink" href="#external"><b class="Sy">external
         palette spec</b></a></dt>
       <dd>Otherwise, <var class="Ar">pal_spec</var> is assumed to be an external
