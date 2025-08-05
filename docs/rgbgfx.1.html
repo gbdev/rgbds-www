@@ -160,10 +160,13 @@
           Docs</a> for more information): the low two bits 0-1 specify which
           gray shade goes in color index 0, the next two bits 2-3 specify which
           gray shade goes in color index 1, and so on. Gray shade 0 is the
-          lightest (white), 3 is the darkest (black). The same gray shade cannot
-          go in two color indexes. To specify a DMG palette, the input PNG must
-          have all its colors in shades of gray, without any transparent
-        colors.</dd>
+          lightest (white), 3 is the darkest (black). If
+          <var class="Ar">pal_spec</var> is the case-insensitive word
+          <code class="Cm">dmg</code>, then it acts like
+          <code class="Cm">dmg=E4</code>, i.e. the darkest gray will end up in
+          color index 0, and so on. The same gray shade cannot go in two color
+          indexes. To specify a DMG palette, the input PNG must have all its
+          colors in shades of gray, without any transparent colors.</dd>
       <dt id="automatic"><a class="permalink" href="#automatic"><b class="Sy">automatic
         palette generation</b></a></dt>
       <dd>If <var class="Ar">pal_spec</var> is the case-insensitive word
