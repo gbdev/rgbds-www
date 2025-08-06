@@ -2672,7 +2672,8 @@ assert FirstByte + 1 == SecondByte
     options as its argument:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>PUSHO
-    OPT g.oOX, Wdiv       ; acts like command-line -g.oOX -Wdiv
+    OPT g.oOX, Wdiv       ; acts like command-line `-g.oOX -Wdiv`
+    OPT -Wdiv             ; dashes before the options are optional
     DW `..ooOOXX          ; uses the graphics constant characters from OPT g
     PRINTLN $80000000/-1  ; prints a warning about division
 POPO
