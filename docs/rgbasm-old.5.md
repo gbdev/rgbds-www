@@ -56,6 +56,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Treating strings as numbers",
+	"id": "Treating_strings_as_numbers",
+	"level": 3,
+},
+{
 	"value": "rgbgfx -f/--fix and -F/--fix-and-save",
 	"id": "rgbgfx_-f/--fix_and_-F/--fix-and-save",
 	"level": 3,
