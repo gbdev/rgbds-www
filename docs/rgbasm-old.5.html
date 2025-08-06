@@ -190,6 +190,22 @@ ENDM
   comments.</p>
 </section>
 <section class="Ss">
+<h3 class="Ss" id="STRIN,_STRRIN,_STRSUB,_and_CHARSUB"><a class="permalink" href="#STRIN,_STRRIN,_STRSUB,_and_CHARSUB">STRIN,
+  STRRIN, STRSUB, and CHARSUB</a></h3>
+<p class="Pp">Deprecated in 1.0.0.</p>
+<p class="Pp">These functions used 1-based indexing of string characters, which
+    was inconsistent with the 0-based indexing used more often in
+  programming.</p>
+<p class="Pp">Instead of <code class="Ic">STRIN</code>, use
+    <code class="Ic">STRFIND</code>; instead of <code class="Ic">STRRIN</code>,
+    use <code class="Ic">STRRFIND</code>; instead of
+    <code class="Ic">STRSUB</code>, use <code class="Ic">STRSLICE</code>; and
+    instead of <code class="Ic">CHARSUB</code>, use
+    <code class="Ic">STRCHAR</code>.</p>
+<p class="Pp">Note that <code class="Ic">STRSLICE</code> takes a start and end
+    index instead of a start index and a length.</p>
+</section>
+<section class="Ss">
 <h3 class="Ss" id="PRINTT,_PRINTI,_PRINTV,_and_PRINTF"><a class="permalink" href="#PRINTT,_PRINTI,_PRINTV,_and_PRINTF">PRINTT,
   PRINTI, PRINTV, and PRINTF</a></h3>
 <p class="Pp">Deprecated in 0.5.0, removed in 0.6.0.</p>
@@ -219,8 +235,8 @@ ENDM
 <p class="Pp">Deprecated in 0.3.0, removed in 0.4.0.</p>
 <p class="Pp">Instead of <code class="Ic">HOME</code>, use
     <code class="Ic">ROM0</code>; instead of <code class="Ic">CODE</code> and
-    <code class="Ic">DATA</code>, use <code class="Ic">ROMX</code>; instead of
-    <code class="Ic">BSS</code>, use <code class="Ic">WRAM0</code>.</p>
+    <code class="Ic">DATA</code>, use <code class="Ic">ROMX</code>; and instead
+    of <code class="Ic">BSS</code>, use <code class="Ic">WRAM0</code>.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="JP__HL_"><a class="permalink" href="#JP__HL_">JP
@@ -292,6 +308,14 @@ ENDM
 <p class="Pp">Deprecated in 0.6.0, removed in 0.8.0.</p>
 <p class="Pp">Instead, use <code class="Fl">-I</code> or
     <code class="Fl">--include</code>.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="rgbfix_-O/--overwrite"><a class="permalink" href="#rgbfix_-O/--overwrite">rgbfix
+  -O/--overwrite</a></h3>
+<p class="Pp">Deprecated in 1.0.0.</p>
+<p class="Pp">Instead, use</p>
+<div class="Bd Bd-indent"><code class="Li">-Wno-overwrite</code></div>
+.
 </section>
 <section class="Ss">
 <h3 class="Ss" id="rgbgfx_-h"><a class="permalink" href="#rgbgfx_-h">rgbgfx

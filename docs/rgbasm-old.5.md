@@ -101,6 +101,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "STRIN, STRRIN, STRSUB, and CHARSUB",
+	"id": "STRIN,_STRRIN,_STRSUB,_and_CHARSUB",
+	"level": 3,
+},
+{
 	"value": "PRINTT, PRINTI, PRINTV, and PRINTF",
 	"id": "PRINTT,_PRINTI,_PRINTV,_and_PRINTF",
 	"level": 3,
@@ -163,6 +168,11 @@ export const toc = [
 {
 	"value": "rgbasm -i",
 	"id": "rgbasm_-i",
+	"level": 3,
+},
+{
+	"value": "rgbfix -O/--overwrite",
+	"id": "rgbfix_-O/--overwrite",
 	"level": 3,
 },
 {
