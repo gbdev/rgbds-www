@@ -51,6 +51,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "__DATE__ and __TIME__",
+	"id": "__DATE___and___TIME__",
+	"level": 3,
+},
+{
 	"value": "Treating multi-character strings as numbers",
 	"id": "Treating_multi-character_strings_as_numbers",
 	"level": 3,
