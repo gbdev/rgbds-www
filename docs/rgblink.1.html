@@ -172,12 +172,16 @@
 <section class="Ss">
 <h3 class="Ss" id="Scrambling_algorithm"><a class="permalink" href="#Scrambling_algorithm">Scrambling
   algorithm</a></h3>
-<p class="Pp">The default section placement algorithm tries to minimize the
-    number of banks used; &#x201C;scrambling&#x201D; instead places sections
-    into a given pool of banks, trying to minimize the number of sections
-    sharing a given bank. This is useful to catch broken bank assumptions, such
-    as expecting two different sections to land in the same bank (that is not
-    guaranteed unless both are manually assigned the same bank number).</p>
+<p class="Pp">The default section placement algorithm tries to place sections
+    into as few banks as possible. (It uses a variation of the &quot;first-fit
+    bin packing&quot; algorithm to do so, although nothing is guaranteed about
+    where it will place any particular section beyond the bank, address, and
+    alignment constraints manually specified for the section.)</p>
+<p class="Pp">&#x201C;Scrambling&#x201D; instead places sections into a given
+    pool of banks, trying to minimize the number of sections sharing a given
+    bank. This is useful to catch broken bank assumptions, such as expecting two
+    different sections to land in the same bank (that is not guaranteed unless
+    both are manually assigned the same bank number).</p>
 <p class="Pp">A scrambling spec is a comma-separated list of region specs. A
     trailing comma is allowed, as well as whitespace between all specs and their
     components. Each region spec has the following form:</p>
