@@ -585,10 +585,13 @@
     &#x2018;<code class="Li">PLTE</code>&#x2019; chunk. Since few image editors
     (such as GIMP) expose that detail, this behavior is only kept for
     compatibility and should be considered deprecated.</p>
-<p class="Pp">It turns out that palette generation is an NP-complete problem, so
-    <code class="Nm">rgbgfx</code> does not attempt to find the optimal
-    solution, but instead to find a good one in a reasonable amount of time. It
-    is possible to compute the optimal solution externally (using a solver, for
+<p class="Pp">It turns out that palette generation is an NP-complete problem
+    known as &quot;pagination&quot;, so <code class="Nm">rgbgfx</code> does not
+    attempt to find the optimal solution, but instead uses an
+    &quot;overload-and-remove&quot; heuristic to find a good one in a reasonable
+    amount of time. (There are no guarantees about how this algorithm will
+    generate palettes, apart from the constraints documented above.) It is
+    possible to compute the optimal solution externally (using a solver, for
     example), and then provide it to <code class="Nm">rgbgfx</code> via
     <code class="Fl">-c</code>.</p>
 </section>
