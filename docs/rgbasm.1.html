@@ -4,7 +4,7 @@
   <tr>
     <td><code class="Nm">rgbasm</code></td>
     <td>[<code class="Fl"><a href="#E">-E</a><a href="#h">h</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a></code>] [<code class="Fl"><a href="#B">-B</a></code>
-      <var class="Ar">depth</var>] [<code class="Fl"><a href="#b">-b</a></code>
+      <var class="Ar">param</var>] [<code class="Fl"><a href="#b">-b</a></code>
       <var class="Ar">chars</var>] [<code class="Fl">--color</code>
       <var class="Ar">when</var>] [<code class="Fl"><a href="#D">-D</a></code>
       <var class="Ar">name</var>[=<var class="Ar">value</var>]]
@@ -41,14 +41,29 @@
     arguments are as follows:</p>
 <dl class="Bl-tag">
   <dt id="B"><a class="permalink" href="#B"><code class="Fl">-B</code></a>
-    <var class="Ar">depth</var>, <code class="Fl">--backtrace</code>
-    <var class="Ar">depth</var></dt>
-  <dd>Specifies the maximum depth for which <code class="Nm">rgbasm</code> will
-      print location backtraces for warnings or errors. Deeper backtraces than
-      that will be abbreviated. <code class="Fl">-B</code>
-      <var class="Ar">0</var> allows unlimited-depth backtraces.
-      <code class="Fl">-B</code> <var class="Ar">collapse</var> will print the
-      entire location trace on one line.</dd>
+    <var class="Ar">param</var>, <code class="Fl">--backtrace</code>
+    <var class="Ar">param</var></dt>
+  <dd>Configures how location backtraces are printed if warnings or errors
+      occur. This flag may be specified multiple times with different parameters
+      that combine meaningfully. If <var class="Ar">param</var> is a positive
+      number, it specifies the maximum backtrace depth, abbreviating deeper
+      ones. Other valid parameter values are the following:
+    <dl class="Bl-tag">
+      <dt id="0"><a class="permalink" href="#0"><code class="Cm">0</code></a></dt>
+      <dd>Do not limit the maximum backtrace depth; this is the default.</dd>
+      <dt id="all"><a class="permalink" href="#all"><code class="Cm">all</code></a></dt>
+      <dd>Force all locations to be printed, even &quot;quiet&quot; ones (see
+          &#x201C;Excluding locations from backtraces&#x201D; in
+          <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for details).</dd>
+      <dt id="no-all"><a class="permalink" href="#no-all"><code class="Cm">no-all</code></a></dt>
+      <dd>Do not print &quot;quieted&quot; locations in backtraces; this is the
+          default.</dd>
+      <dt id="collapse"><a class="permalink" href="#collapse"><code class="Cm">collapse</code></a></dt>
+      <dd>Print all locations on one line.</dd>
+      <dt id="no-collapse"><a class="permalink" href="#no-collapse"><code class="Cm">no-collapse</code></a></dt>
+      <dd>Print one location per line; this is the default.</dd>
+    </dl>
+  </dd>
   <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
     <var class="Ar">chars</var>, <code class="Fl">--binary-digits</code>
     <var class="Ar">chars</var></dt>
@@ -220,7 +235,7 @@
           &#x2018;<code class="Li"><code class="Ic">macro</code>
           <var class="Ar">name</var> <span class="No">...</span>
           <code class="Ic">endm</code></code>&#x2019;.</dd>
-      <dt id="all"><a class="permalink" href="#all"><code class="Cm">all</code></a></dt>
+      <dt id="all~2"><a class="permalink" href="#all~2"><code class="Cm">all</code></a></dt>
       <dd>Acts like <code class="Cm">equ,var,equs,char,macro</code>.</dd>
     </dl>
     <p class="Pp">This flag may be specified multiple times with different

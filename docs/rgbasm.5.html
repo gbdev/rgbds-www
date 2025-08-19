@@ -1900,7 +1900,8 @@ ExportedLabelB2:
 $ rgbasm -o b.o b.asm
 $ rgbasm -o c.o c.asm
 $ rgblink a.o b.o c.o
-error: c.asm(2): Unknown symbol &quot;LabelA&quot;
+error: Undefined symbol &quot;LabelA&quot;
+    at c.asm(2)
 Linking failed with 1 error</pre>
 </div>
 <p class="Pp">Note also that only exported symbols will appear in symbol and map
@@ -2692,6 +2693,53 @@ POPO
     DB %..XXXX..
     DW `..ooOOXX
 POPO</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Excluding_locations_from_backtraces"><a class="permalink" href="#Excluding_locations_from_backtraces">Excluding
+  locations from backtraces</a></h3>
+<p class="Pp">Errors and warnings print
+    <a class="permalink" href="#backtraces"><i class="Em" id="backtraces">backtraces</i></a>
+    showing the location in the source file where the problem occurred, tracing
+    the origin of the problem even through a chain of
+    <code class="Ic">REPT</code>, <code class="Ic">FOR</code>,
+    <code class="Ic">MACRO</code>, and <code class="Ic">INCLUDE</code>
+    locations. Sometimes there are locations you would like to ignore; for
+    example, a common utility macro when you only care about the line where the
+    macro is used, or an <code class="Ic">INCLUDE</code> file that only serves
+    to include other files and is just filler in the backtrace.</p>
+<p class="Pp" id="silence">In those cases, you can
+    <a class="permalink" href="#silence"><i class="Em">silence</i></a> a
+    location with a question mark &#x2018;?&#x2019; after the token: all of the
+    locations created by a &#x2018;REPT?&#x2019;, &#x2018;FOR?&#x2019;, or
+    &#x2018;MACRO?&#x2019; will not be printed, and any location created by a
+    &#x2018;INCLUDE?&#x2019;, or a macro invocation whose name is immediately
+    followed by a &#x2018;?&#x2019;, will not be printed. For example, if this
+    were assembled as &#x2018;<code class="Li">example.asm</code>&#x2019;:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO lb
+    assert -128 &lt;= (\2) &amp;&amp; (\2) &lt; 256, &quot;\2 is not a byte&quot;
+    assert -128 &lt;= (\3) &amp;&amp; (\3) &lt; 256, &quot;\3 is not a byte&quot;
+    ld \1, (LOW(\2) &lt;&lt; 8) | LOW(\3)
+ENDM
+SECTION &quot;Code&quot;, ROM0
+    lb hl, $123, $45</pre>
+</div>
+<p class="Pp">This would print an error backtrace:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>error: Assertion failed: $123 is not a byte
+    at example.asm::lb(2)
+    &lt;- example.asm(7)</pre>
+</div>
+<p class="Pp">But if &#x2018;<code class="Li">MACRO</code>&#x2019; were changed
+    to &#x2018;<code class="Li">MACRO?</code>&#x2019;, or
+    &#x2018;<code class="Li">lb hl</code>&#x2019; were changed to
+    &#x2018;<code class="Li">lb? hl</code>&#x2019;, then the error backtrace
+    would not mention the location within the
+    &#x2018;<code class="Li">lb</code>&#x2019; macro:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>error: Assertion failed: $123 is not a byte
+    at example.asm(7)</pre>
 </div>
 </section>
 </section>

@@ -77,7 +77,7 @@
           the root node.</dd>
       <dt id="BYTE~2"><a class="permalink" href="#BYTE~2"><code class="Cm">BYTE</code></a>
         <var class="Ar">Type</var></dt>
-      <dd>
+      <dd>Bits 0&#x2013;6 indicate the node's type:
         <table class="Bl-column Bl-compact">
           <tr id="Value">
             <td><a class="permalink" href="#Value"><b class="Sy">Value</b></a></td>
@@ -96,6 +96,10 @@
             <td>Macro node</td>
           </tr>
         </table>
+        <p class="Pp">Bit&#x00A0;7 being set means that the node is
+            &quot;quieted&quot; (see &#x201C;Excluding locations from
+            backtraces&#x201D; in
+            <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>).</p>
       </dd>
       <dt id="IF"><a class="permalink" href="#IF"><code class="Cm">IF</code></a>
         <var class="Ar">Type</var> <span class="No">&#x2260; 0</span></dt>

@@ -4,7 +4,7 @@
   <tr>
     <td><code class="Nm">rgblink</code></td>
     <td>[<code class="Fl"><a href="#d">-d</a><a href="#h">h</a><a href="#M">M</a><a href="#t">t</a><a href="#V">V</a><a href="#v">v</a><a href="#w">w</a><a href="#x">x</a></code>] [<code class="Fl"><a href="#B">-B</a></code>
-      <var class="Ar">depth</var>] [<code class="Fl">--color</code>
+      <var class="Ar">param</var>] [<code class="Fl">--color</code>
       <var class="Ar">when</var>] [<code class="Fl"><a href="#l">-l</a></code>
       <var class="Ar">linker_script</var>] [<code class="Fl"><a href="#m">-m</a></code>
       <var class="Ar">map_file</var>] [<code class="Fl"><a href="#n">-n</a></code>
@@ -44,14 +44,29 @@
     arguments are as follows:</p>
 <dl class="Bl-tag">
   <dt id="B"><a class="permalink" href="#B"><code class="Fl">-B</code></a>
-    <var class="Ar">depth</var>, <code class="Fl">--backtrace</code>
-    <var class="Ar">depth</var></dt>
-  <dd>Specifies the maximum depth for which <code class="Nm">rgblink</code> will
-      print location backtraces for warnings or errors. Deeper backtraces than
-      that will be abbreviated. <code class="Fl">-B</code>
-      <var class="Ar">0</var> allows unlimited-depth backtraces.
-      <code class="Fl">-B</code> <var class="Ar">collapse</var> will print the
-      entire location trace on one line.</dd>
+    <var class="Ar">param</var>, <code class="Fl">--backtrace</code>
+    <var class="Ar">param</var></dt>
+  <dd>Configures how location backtraces are printed if warnings or errors
+      occur. This flag may be specified multiple times with different parameters
+      that combine meaningfully. If <var class="Ar">param</var> is a positive
+      number, it specifies the maximum backtrace depth, abbreviating deeper
+      ones. Other valid parameter values are the following:
+    <dl class="Bl-tag">
+      <dt id="0"><a class="permalink" href="#0"><code class="Cm">0</code></a></dt>
+      <dd>Do not limit the maximum backtrace depth; this is the default.</dd>
+      <dt id="all"><a class="permalink" href="#all"><code class="Cm">all</code></a></dt>
+      <dd>Force all locations to be printed, even &quot;quiet&quot; ones (see
+          &#x201C;Excluding locations from backtraces&#x201D; in
+          <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for details).</dd>
+      <dt id="no-all"><a class="permalink" href="#no-all"><code class="Cm">no-all</code></a></dt>
+      <dd>Do not print &quot;quieted&quot; locations in backtraces; this is the
+          default.</dd>
+      <dt id="collapse"><a class="permalink" href="#collapse"><code class="Cm">collapse</code></a></dt>
+      <dd>Print all locations on one line.</dd>
+      <dt id="no-collapse"><a class="permalink" href="#no-collapse"><code class="Cm">no-collapse</code></a></dt>
+      <dd>Print one location per line; this is the default.</dd>
+    </dl>
+  </dd>
   <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
     <var class="Ar">when</var></dt>
   <dd>Specify when to highlight warning and error messages with color:

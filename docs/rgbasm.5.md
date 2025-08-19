@@ -221,6 +221,11 @@ export const toc = [
 	"level": 3,
 },
 {
+	"value": "Excluding locations from backtraces",
+	"id": "Excluding_locations_from_backtraces",
+	"level": 3,
+},
+{
 	"value": "SEE ALSO",
 	"id": "SEE_ALSO",
 	"level": 2,
