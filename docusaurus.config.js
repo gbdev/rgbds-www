@@ -130,6 +130,11 @@ const config = {
             dropdownActiveClassDisabled: true,
           },
           {
+            to: "/resources",
+            position: "left",
+            label: "Resources",
+          },
+          {
             to: "/faq",
             position: "left",
             label: "FAQ",
