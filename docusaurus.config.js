@@ -182,7 +182,7 @@ const config = {
               },
               {
                 label: "Bluesky",
-                href: "https://bsky.app/profile/gbdev.bsky.social",
+                href: "https://bsky.app/profile/gbdev.io",
               },
               {
                 label: "Donate on OpenCollective",
