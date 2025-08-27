@@ -1,0 +1,23 @@
+name: Build for PR
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build docusaurus app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: yarn
+      - name: Build website
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/
