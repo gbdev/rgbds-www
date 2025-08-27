@@ -1,0 +1,79 @@
+---
+title: Resources
+hide_table_of_contents: true
+---
+
+import Link from '@docusaurus/Link';
+
+export const Resources = () => {
+  const resources = [
+    [
+      {
+        title: (<>GB Assembly tutorial <span className="badge badge--secondary">WIP</span></>),
+        description: (<>This tutorial will guide you from a basic Hello World, to making an <i>Arkanoid</i> clone, and ending with a Shoot-'Em-Up, touching upon everything you need to know to make a Game Boy game. <br></br> <small> This guide is still work in progress, only the first lessons are available.</small> </>),
+        url: "https://gbdev.io/gb-asm-tutorial/",
+        linkText: "Learn",
+      },
+      {
+        title: "Pan Docs",
+        description: "The definitive Game Boy technical reference. Contains descriptions of all hardware registers, many behaviors (such as rendering and audio), and even pretty diagrams!",
+        url: "https://gbdev.io/pandocs",
+        linkText: "Read",
+      },
+    ],
+    [
+      {
+        title: "hardware.inc",
+        description: (<>For over 20 years, <code>hardware.inc</code> has been a staple of essentially all RGBDS projects, providing all sorts of constants to allow easy interaction with Game Boy hardware registers.</>),
+        url: "https://github.com/gbdev/hardware.inc",
+        linkText: "Download",
+      },
+      {
+        title: "rgbds-structs",
+        description: (<>RGBDS does not (<Link href="https://github.com/gbdev/rgbds/issues/98">currently</Link>) support "structs" (data structures) natively. This macro pack provides that functionality, all in a single file that you can freely <code>INCLUDE</code> anywhere in your projects.</>),
+        url: "https://github.com/ISSOtm/rgbds-structs",
+        linkText: "Download",
+      },
+    ],
+    [
+      {
+        title: "gb-boilerplate",
+        description: (<>This simple template project allows getting started on your next GB project more quickly. The provided Makefile allows simply adding new <code>.asm</code> files in a single folder, and <code>make</code> builds your ROM!</>),
+        url: "https://github.com/ISSOtm/gb-boilerplate",
+        linkText: "Get started",
+      },
+      {
+        title: "gb-starter-kit",
+        description: "gb-starter-kit is “gb-boilerplate Plus”: the same build system is included, plus some basic code such as a LCD-safe copy, a crash handler, and a data compressor + decompressor.",
+        url: "https://github.com/ISSOtm/gb-starter-kit",
+        linkText: "Get started",
+      },
+    ],
+  ];
+
+  return (
+    <section>
+      <div className="container">
+        <h2>Resources</h2>
+        {resources.map((resources) => (<div className="row">
+          {resources.map((resource) => (
+            <div className="col">
+              <div className="padding-horiz--md margin-top--md margin-bottom--md">
+                <h3>{resource.title}</h3>
+                <p>{resource.description}</p>
+                <Link
+                  className="button button--primary button--lg"
+                  href={resource.url}
+                >
+                  {resource.linkText} →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>))}
+      </div>
+    </section>
+  );
+};
+
+<Resources />
