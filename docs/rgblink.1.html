@@ -305,10 +305,15 @@
   <dt id="Wshift-amount"><a class="permalink" href="#Wshift-amount"><code class="Fl">-Wshift-amount</code></a></dt>
   <dd>Warn when a shift's operand is negative or greater than 32. This warning
       is enabled by <code class="Fl">-Wall</code>.</dd>
-  <dt id="Wno-truncation"><a class="permalink" href="#Wno-truncation"><code class="Fl">-Wno-truncation</code></a></dt>
+  <dt id="Wtruncation="><a class="permalink" href="#Wtruncation="><code class="Fl">-Wtruncation=</code></a></dt>
   <dd>Warn when an implicit truncation (for example, <code class="Ic">db</code>
-      to an 8-bit value) loses some bits. This occurs when an N-bit value is
-      2**N or greater, or less than -2**N.</dd>
+      to an 8-bit value) loses some bits. <code class="Fl">-Wtruncation=0</code>
+      or <code class="Fl">-Wno-truncation</code> disables this warning.
+      <code class="Fl">-Wtruncation=1</code> warns when an N-bit value is 2**N
+      or greater, or less than -2**N. <code class="Fl">-Wtruncation=2</code> or
+      just <code class="Fl">-Wtruncation</code> also warns when an N-bit value
+      is less than -2**(N-1), which will not fit in two's complement
+    encoding.</dd>
 </dl>
 </section>
 <section class="Sh">
