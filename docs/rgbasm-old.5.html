@@ -332,8 +332,8 @@ ENDM
 .
 </section>
 <section class="Ss">
-<h3 class="Ss" id="rgbgfx_-h"><a class="permalink" href="#rgbgfx_-h">rgbgfx
-  -h</a></h3>
+<h3 class="Ss" id="rgbgfx_-h/--horizontal"><a class="permalink" href="#rgbgfx_-h/--horizontal">rgbgfx
+  -h/--horizontal</a></h3>
 <p class="Pp">Removed in 0.6.0.</p>
 <p class="Pp">Instead, use <code class="Fl">-Z</code> or
     <code class="Fl">--columns</code>.</p>
@@ -492,6 +492,16 @@ ENDM
     &#x2018;<code class="Li">::</code>&#x2019; as arguments.</p>
 <p class="Pp">Instead, use &#x2018;<code class="Li">Label:</code>&#x2019; and
     &#x2018;<code class="Li">Label::</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Extra_underscores_in_integer_constants"><a class="permalink" href="#Extra_underscores_in_integer_constants">Extra
+  underscores in integer constants</a></h3>
+<p class="Pp">Fixed in 1.0.0.</p>
+<p class="Pp">Underscores, the optional digit separators in integer constants,
+    used to allow more than one in sequence, or trailing without digits on
+    either side. Now only one underscore is allowed between two digits, or
+    between the base prefix and a digit, or between a digit and the
+    &#x2018;<code class="Li">q</code>&#x2019; fixed-point precision suffix.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="ADD_r16_with_implicit_first_HL_operand"><a class="permalink" href="#ADD_r16_with_implicit_first_HL_operand">ADD

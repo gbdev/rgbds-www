@@ -186,8 +186,8 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "rgbgfx -h",
-	"id": "rgbgfx_-h",
+	"value": "rgbgfx -h/--horizontal",
+	"id": "rgbgfx_-h/--horizontal",
 	"level": 3,
 },
 {
@@ -228,6 +228,11 @@ export const toc = [
 {
 	"value": "Space between label and colon",
 	"id": "Space_between_label_and_colon",
+	"level": 3,
+},
+{
+	"value": "Extra underscores in integer constants",
+	"id": "Extra_underscores_in_integer_constants",
 	"level": 3,
 },
 {
