@@ -106,12 +106,6 @@ const config = {
         { name: "og:image:alt", content: "RGBDS' logo" },
         { name: "twitter:site", content: "@gbdev0" },
       ],
-      announcementBar: {
-        id: 'gbcompo25-2',
-        backgroundColor: '#FADFA1',
-        content:
-          '📢 A new Game Boy coding competition started on June 1st! Create a game, music, tool, or demoscene ROM and compete for glory and awesome prizes! <a target="_blank" href="https://itch.io/jam/gbcompo25">Join the GB Compo 25 now on Itch.io!</a>',
-      },
       navbar: {
         title: "RGBDS",
         logo: {
