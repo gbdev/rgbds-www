@@ -952,13 +952,13 @@ ENDR</pre>
     the source file encoding. For example, the tiles used for uppercase letters
     may be placed starting at tile index 128, which differs from ASCII starting
     at 65.</p>
-<p class="Pp">Character maps allow mapping strings to arbitrary sequences of
-    numbers:</p>
+<p class="Pp">Character maps allow mapping strings or character literals to
+    arbitrary sequences of numbers:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>CHARMAP &quot;A&quot;, 42
-CHARMAP &quot;:)&quot;, 39
+CHARMAP ':)', 39
 CHARMAP &quot;&lt;br&gt;&quot;, 13, 10
-CHARMAP &quot;&amp;euro;&quot;, $20ac</pre>
+CHARMAP '&amp;euro;', $20ac</pre>
 </div>
 <p class="Pp">This would result in &#x2018;<code class="Li">db &quot;Amen
     :)&lt;br&gt;&quot;</code>&#x2019; being equivalent to
