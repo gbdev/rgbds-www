@@ -34,7 +34,7 @@ The website code is licensed under the [MIT license](LICENSE).
 
 ## Acknowledgments
 
-Website designed and built by [ISSOtm](https://github.com/issotm) and [avivace](https://github.com/avivace). Special thanks to:
+Website designed and built by [ISSOtm](https://codeberg.org/ISSOtm) and [avivace](https://github.com/avivace). Special thanks to:
 
 - Eievui and Quinn for the new logo;
 - Rangi for the old logo;
