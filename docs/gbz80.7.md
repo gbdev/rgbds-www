@@ -1,4 +1,4 @@
-# gbz80(7) — CPU opcode reference
+# gbz80(7) — Game Boy CPU instruction reference
 
 import generated from '!!raw-loader!./gbz80.7.html';
 
