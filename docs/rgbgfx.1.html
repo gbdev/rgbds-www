@@ -465,7 +465,7 @@
     rule, for example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>%.2bpp %.tilemap: %.flags %.png
-	rgbgfx -o $*.2bpp -t $*.tilemap @$*.flags $*.png</pre>
+        rgbgfx -o $*.2bpp -t $*.tilemap @$*.flags $*.png</pre>
 </div>
 <p class="Pp" id="no">Since the contents of at-files are interpreted by
     <code class="Nm">rgbgfx</code>,
@@ -770,7 +770,7 @@ $ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
       errors.</dd>
   <dt id="Werror="><a class="permalink" href="#Werror="><code class="Fl">-Werror=</code></a></dt>
   <dd>Make the specified warning or meta warning into an error. A warning's name
-      is appended (example: <code class="Fl">-Werror=embedded</code>), and this
+      is appended (example: <code class="Fl">-Werror=obsolete</code>), and this
       warning is implicitly enabled and turned into an error. This can be
       negated as <code class="Fl">-Wno-error=</code> to prevent turning a
       specified warning into an error, even if <code class="Fl">-Werror</code>
@@ -790,9 +790,9 @@ $ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
 </dl>
 <p class="Pp">The following warnings are actual warning flags; with each
     description, the corresponding warning flag is included. Note that each of
-    these flag also has a negation (for example,
-    <code class="Fl">-Wtrim-nonempty</code> enables the warning that
-    <code class="Fl">-Wno-trim-nonempty</code> disables; and
+    these flags also has a negation (for example,
+    <code class="Fl">-Wobsolete</code> enables the warning that
+    <code class="Fl">-Wno-obsolete</code> disables; and
     <code class="Fl">-Wall</code> enables every warning that
     <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
     listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
