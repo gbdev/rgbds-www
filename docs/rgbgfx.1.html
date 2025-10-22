@@ -450,64 +450,51 @@
       instead of the default row-major order (line by line). This primarily
       affects tile map and attribute map output, although it may also change
       generated tile data and palettes.</dd>
+  <dt>@<var class="Ar">at_file</var></dt>
+  <dd>Read more options and arguments from a file, as if its contents were given
+      on the command line. Arguments are separated by whitespace or newlines.
+      Lines starting with a hash sign
+      (&#x2018;<code class="Li">#</code>&#x2019;) are considered comments and
+      ignored.
+    <p class="Pp" id="inside">No shell processing is performed, such as wildcard
+        or variable expansion. There is no support for escaping or quoting
+        whitespace to be included in arguments. The standard
+        &#x2018;<code class="Li">--</code>&#x2019; to stop option processing
+        also disables at-file processing. Note that while
+        &#x2018;<code class="Li">--</code>&#x2019; can be used
+        <a class="permalink" href="#inside"><i class="Em">inside</i></a> an
+        at-file, it only disables option processing within that at-file, and
+        processing continues in the parent scope.</p>
+    <p class="Pp">See <a class="Sx" href="#At_files">At-files</a> below for an
+        explanation of how this can be useful.</p>
+  </dd>
 </dl>
 <section class="Ss">
 <h3 class="Ss" id="At-files"><a class="permalink" href="#At-files">At-files</a></h3>
 <p class="Pp">In a given project, many images are to be converted with different
     flags. The traditional way of solving this problem has been to specify the
-    different flags for each image in the Makefile / build script; this can be
+    different flags for each image in the Makefile or build script; this can be
     inconvenient, as it centralizes all those flags away from the images they
     concern.</p>
-<p class="Pp">To avoid these drawbacks, <code class="Nm">rgbgfx</code> supports
-    &#x201C;at-files&#x201D;: any command-line argument that begins with an at
-    sign (&#x2018;<code class="Li">@</code>&#x2019;) is interpreted as one. The
-    rest of the argument (without the @, that is) is interpreted as the path to
-    a file, whose contents are interpreted as if given on the command line.
-    At-files can be stored right next to the corresponding image, for
-  example:</p>
+<p class="Pp">To avoid these drawbacks, you can use &#x201C;at-files&#x201D;:
+    any command-line argument that begins with an at sign
+    (&#x2018;<code class="Li">@</code>&#x2019;) is interpreted as one, as
+    documented above. At-files can be stored right next to the corresponding
+    image, for example:</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">$ rgbgfx -o image.2bpp -t
   image.tilemap @image.flags image.png</code></div>
-<p class="Pp">This will read additional flags from file
-    &#x2018;<code class="Li">image.flags</code>&#x2019;, which could contains
-    for example &#x2018;<code class="Li">-b 128</code>&#x2019; to specify a base
-    offset for the image's tiles. The above command could be generated from the
-    following
+<p class="Pp">This will read additional flags from the file
+    &#x2018;<code class="Li">image.flags</code>&#x2019;, which could contain,
+    for example, &#x2018;<code class="Li">-b 128</code>&#x2019; to specify a
+    base offset for the image's tiles. The above command could be generated from
+    the following
     <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
-    rule, for example:</p>
+    rule:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>%.2bpp %.tilemap: %.flags %.png
         rgbgfx -o $*.2bpp -t $*.tilemap @$*.flags $*.png</pre>
 </div>
-<p class="Pp" id="no">Since the contents of at-files are interpreted by
-    <code class="Nm">rgbgfx</code>,
-    <a class="permalink" href="#no"><b class="Sy">no shell processing is
-    performed</b></a>; for example, shell variables are not expanded
-    (&#x2018;<code class="Li">$PWD</code>&#x2019;,
-    &#x2018;<code class="Li">%WINDIR%</code>&#x2019;, etc.). In at-files, lines
-    that are empty or contain only whitespace are ignored; lines that begin with
-    a hash sign (&#x2018;<code class="Li">#</code>&#x2019;), optionally preceded
-    by whitespace, are considered comments and also ignored. Each line can
-    contain any number of arguments, which are separated by whitespace. (No
-    quoting feature to prevent this is provided.)</p>
-<p class="Pp">Note that a leading &#x2018;<code class="Li">@</code>&#x2019; has
-    no special meaning on option arguments, and that the standard
-    &#x2018;<code class="Li">--</code>&#x2019; to stop option processing also
-    disables at-file processing. For example, the following command line reads
-    command-line options from
-    &#x2018;<code class="Li">tilesets/town.flags</code>&#x2019; then
-    &#x2018;<code class="Li">tilesets.flags</code>&#x2019;, but processes
-    &#x2018;<code class="Li">@tilesets/town.png</code>&#x2019; as the input
-    image and outputs tile data to
-    &#x2018;<code class="Li">@tilesets/town.2bpp</code>&#x2019;:</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -o @tilesets/town.2bpp
-  @tilesets/town.flags @tilesets.flags -- @tilesets/town.png</code></div>
-<p class="Pp">At-files can also specify the input image directly, and call for
-    more at-files, both using the regular syntax. Note that while
-    &#x2018;<code class="Li">--</code>&#x2019; can be used in an at-file (with
-    identical semantics), it is only effective inside of it&#x2014;normal option
-    processing continues in the parent scope.</p>
 </section>
 </section>
 <section class="Sh">

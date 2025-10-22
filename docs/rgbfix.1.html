@@ -226,6 +226,22 @@
       of warnings.</dd>
   <dt id="w"><a class="permalink" href="#w"><code class="Fl">-w</code></a></dt>
   <dd>Disable all warning output, even when turned into errors.</dd>
+  <dt>@<var class="Ar">at_file</var></dt>
+  <dd>Read more options and arguments from a file, as if its contents were given
+      on the command line. Arguments are separated by whitespace or newlines.
+      Lines starting with a hash sign
+      (&#x2018;<code class="Li">#</code>&#x2019;) are considered comments and
+      ignored.
+    <p class="Pp" id="inside">No shell processing is performed, such as wildcard
+        or variable expansion. There is no support for escaping or quoting
+        whitespace to be included in arguments. The standard
+        &#x2018;<code class="Li">--</code>&#x2019; to stop option processing
+        also disables at-file processing. Note that while
+        &#x2018;<code class="Li">--</code>&#x2019; can be used
+        <a class="permalink" href="#inside"><i class="Em">inside</i></a> an
+        at-file, it only disables option processing within that at-file, and
+        processing continues in the parent scope.</p>
+  </dd>
 </dl>
 </section>
 <section class="Sh">
