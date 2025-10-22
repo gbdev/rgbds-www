@@ -33,14 +33,51 @@
     bytes in their source code before running <code class="Nm">rgbfix</code>,
     and to have already populated whichever fields they don't specify using
     <code class="Nm">rgbfix</code>.</p>
-<p class="Pp">The input <var class="Ar">file</var> can be a path to a file, or
-    <code class="Cm">-</code> to read from standard input.</p>
-<p class="Pp">Note that options can be abbreviated as long as the abbreviation
-    is unambiguous: <code class="Fl">--verb</code> is
-    <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
-    invalid because it could also be <code class="Fl">--version</code>. Options
-    later in the command line override those set earlier. Accepted options are
-    as follows:</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="ARGUMENTS"><a class="permalink" href="#ARGUMENTS">ARGUMENTS</a></h2>
+<p class="Pp"><code class="Nm">rgbfix</code> accepts the usual short and long
+    options, such as <code class="Fl">-V</code> and
+    <code class="Fl">--version</code>. Options later in the command line
+    override those set earlier, except for when duplicate options are considered
+    an error. Options can be abbreviated as long as the abbreviation is
+    unambiguous: <code class="Fl">--ver</code> is
+    <code class="Fl">--version</code>, but <code class="Fl">--v</code> is
+    invalid because it could also be <code class="Fl">--validate</code>.</p>
+<p class="Pp">Unless otherwise noted, passing
+    &#x2018;<code class="Li">-</code>&#x2019; (a single dash) as a file name
+    makes <code class="Nm">rgbfix</code> use standard input (for input files) or
+    standard output (for output files). To suppress this behavior, and open a
+    file in the current directory actually called
+    &#x2018;<code class="Li">-</code>&#x2019;, pass
+    &#x2018;<code class="Li">./-</code>&#x2019; instead. Using standard input or
+    output for more than one file in a single command may produce unexpected
+    results.</p>
+<p class="Pp"><code class="Nm">rgbfix</code> accepts decimal, hexadecimal,
+    octal, and binary for numeric option arguments. Decimal numbers are written
+    as usual; hexadecimal numbers must be prefixed with either
+    &#x2018;<code class="Li">$</code>&#x2019; or
+    &#x2018;<code class="Li">0x</code>&#x2019;; octal numbers must be prefixed
+    with either &#x2018;<code class="Li">&amp;</code>&#x2019; or
+    &#x2018;<code class="Li">0o</code>&#x2019;; and binary numbers must be
+    prefixed with either &#x2018;<code class="Li">%</code>&#x2019; or
+    &#x2018;<code class="Li">0b</code>&#x2019;. (The prefixes
+    &#x2018;<code class="Li">$</code>&#x2019; and
+    &#x2018;<code class="Li">&amp;</code>&#x2019; will likely need escaping or
+    quoting to avoid being interpreted by the shell.) Leading zeros (after the
+    base prefix, if any) are accepted, and letters are not case-sensitive. For
+    example, all of these are equivalent:
+    &#x2018;<code class="Li">42</code>&#x2019;,
+    &#x2018;<code class="Li">042</code>&#x2019;,
+    &#x2018;<code class="Li">0x2A</code>&#x2019;,
+    &#x2018;<code class="Li">0X2A</code>&#x2019;,
+    &#x2018;<code class="Li">0x2a</code>&#x2019;,
+    &#x2018;<code class="Li">&amp;52</code>&#x2019;,
+    &#x2018;<code class="Li">0o52</code>&#x2019;,
+    &#x2018;<code class="Li">0O052</code>&#x2019;,
+    &#x2018;<code class="Li">0b00101010</code>&#x2019;,
+    &#x2018;<code class="Li">0B101010</code>&#x2019;.</p>
+<p class="Pp">The following options are accepted:</p>
 <dl class="Bl-tag">
   <dt id="C"><a class="permalink" href="#C"><code class="Fl">-C</code></a>,
     <code class="Fl">--color-only</code></dt>
