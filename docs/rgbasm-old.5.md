@@ -216,11 +216,6 @@ export const toc = [
 	"level": 3,
 },
 {
-	"value": "8-bit and 5-bit color conversion",
-	"id": "8-bit_and_5-bit_color_conversion",
-	"level": 3,
-},
-{
 	"value": "BUGS",
 	"id": "BUGS",
 	"level": 2,
