@@ -110,6 +110,8 @@ PURGE topic, meaning, {meaning}</pre>
     of string constants: &#x2018;<code class="Li">name</code>&#x2019; will be
     expanded in all of &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
     &#x2018;<code class="Li">DEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">REDEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">FOR {name}, ...</code>&#x2019;,
     &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
     &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, but, for example,
     won't be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;.</p>
@@ -1788,6 +1790,8 @@ DEF str_SIZEOF EQU 259</pre>
     expansion is disabled in a few contexts:
     &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
     &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">REDEF name EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">FOR name, ...</code>&#x2019;,
     &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
     &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
     constants in their names. Expansion is also disabled if the string
