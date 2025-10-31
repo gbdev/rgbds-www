@@ -16,18 +16,24 @@
 <section class="Sh">
 <h2 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h2>
 <p class="Pp">The syntax is line-based, just as in any other assembler. Each
-    line may have components in this order:</p>
-<p class="Pp"></p>
-<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">directive</var>]
-  [;&#x00A0;<var class="Ar">comment</var>]</code></div>
-<div class="Bd Bd-indent"><code class="Li">[<var class="Ar">label</var>:]
-  [<var class="Ar">instruction</var> [:: <var class="Ar">instruction ...</var>]]
-  [;&#x00A0;<var class="Ar">comment</var>]</code></div>
+    line may have components in either of these orders:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>[<var class="Ar">label</var>:] [<var class="Ar">directive</var>]
+      [;&#x00A0;<var class="Ar">comment</var>]</li>
+  <li>[<var class="Ar">label</var>:] [<var class="Ar">instruction</var> [::
+      <var class="Ar">instruction ...</var>]]
+      [;&#x00A0;<var class="Ar">comment</var>]</li>
+</ul>
 <p class="Pp">Directives are commands to the assembler itself, such as
     <code class="Ic">PRINTLN</code>, <code class="Ic">SECTION</code>, or
     <code class="Ic">OPT</code>.</p>
 <p class="Pp">Labels tie a name to a specific location within a section (see
-    <a class="Sx" href="#Labels">Labels</a> below).</p>
+    <a class="Sx" href="#Labels">Labels</a> below). Labels are allowed before
+    most directives, but not before <code class="Ic">IF</code>,
+    <code class="Ic">ELIF</code>, <code class="Ic">ELSE</code>,
+    <code class="Ic">ENDC</code>, <code class="Ic">REPT</code>,
+    <code class="Ic">FOR</code>, <code class="Ic">ENDR</code>,
+    <code class="Ic">MACRO</code>, or <code class="Ic">ENDM</code>.</p>
 <p class="Pp">Instructions are assembled into Game Boy opcodes. Multiple
     instructions on one line, as well as data directives (see
     <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data
@@ -50,9 +56,9 @@
     <var class="Ar">cc</var>, <code class="Nm">rgbasm</code> can interpret
     !<var class="Ar">cc</var> as the opposite condition code; for example,
     <code class="Ic">!nz</code> for <code class="Ic">z</code>.</p>
-<p class="Pp">All reserved keywords (directives, register names, etc.) are
-    case-insensitive; all identifiers (labels and other symbol names) are
-    case-sensitive.</p>
+<p class="Pp">All reserved keywords (directives, instructions, registers,
+    built-in functions, etc.) are case-insensitive; all identifiers (labels,
+    variables, etc) are case-sensitive.</p>
 <p class="Pp" id="always">Comments are used to give humans information about the
     code, such as explanations. The assembler
     <a class="permalink" href="#always"><i class="Em">always</i></a> ignores
@@ -87,13 +93,14 @@ world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x0
 <section class="Ss">
 <h3 class="Ss" id="Symbol_interpolation"><a class="permalink" href="#Symbol_interpolation">Symbol
   interpolation</a></h3>
-<p class="Pp">A funky feature is writing a symbol between
-    &#x2018;<code class="Li">{braces}</code>&#x2019;, called &#x201C;symbol
-    interpolation&#x201D;. This will paste the symbol's contents as if they were
-    part of the source file. If it is a string symbol, its characters are simply
-    inserted as-is. If it is a numeric symbol, its value is converted to
-    hexadecimal notation with a dollar sign &#x2018;$&#x2019; prepended.</p>
-<p class="Pp">Symbol interpolations can be nested, too!</p>
+<p class="Pp">Symbols with string or numeric values can be
+    &#x201C;interpolated&#x201D; by writing them inside
+    &#x2018;<code class="Li">{braces}</code>&#x2019;. This will paste the
+    symbol's contents as if they were part of the source file. If it is a string
+    symbol, its characters are simply inserted as-is. If it is a numeric symbol,
+    its value is converted to hexadecimal notation with a dollar sign
+    &#x2018;$&#x2019; prepended.</p>
+<p class="Pp">Symbol interpolations can be nested, too.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
 DEF meaning EQUS &quot;answer&quot;
@@ -103,25 +110,25 @@ DEF {meaning} = 42
 PRINTLN &quot;The {meaning} to {topic} is {{meaning}}&quot;
 PURGE topic, meaning, {meaning}</pre>
 </div>
-<p class="Pp" id="interpolated">Symbols can be
-    <a class="permalink" href="#interpolated"><i class="Em">interpolated</i></a>
-    even in the contexts that disable automatic
-    <a class="permalink" href="#expansion"><i class="Em" id="expansion">expansion</i></a>
-    of string constants: &#x2018;<code class="Li">name</code>&#x2019; will be
-    expanded in all of &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
+<p class="Pp">Symbols can be interpolated even in contexts that disable
+    automatic expansion of string constants: that is,
+    &#x2018;<code class="Li">name</code>&#x2019; will be expanded in all of
+    &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
     &#x2018;<code class="Li">DEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
     &#x2018;<code class="Li">REDEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
     &#x2018;<code class="Li">FOR {name}, ...</code>&#x2019;,
     &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
-    &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, but, for example,
-    won't be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;.</p>
+    &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, even though it won't
+    be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, etc.</p>
 <p class="Pp">It's possible to change the way symbols are printed by specifying
     a print format like so:
     &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
-    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of these
-    parts:
+    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of parts,
+    which must be in the following order:
     &#x2018;<code class="Li">&lt;sign&gt;&lt;exact&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;prec&gt;&lt;type&gt;</code>&#x2019;.
-    These parts are:</p>
+    All the parts are optional except the required
+    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. These parts are:</p>
 <table class="Bl-column">
   <tr id="Part">
     <td><a class="permalink" href="#Part"><b class="Sy">Part</b></a></td>
@@ -135,13 +142,14 @@ PURGE topic, meaning, {meaning}</pre>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;exact&gt;</code>&#x2019;</td>
-    <td>May be &#x2018;<code class="Li">#</code>&#x2019;. If specified, prints
-      the value in an &quot;exact&quot; format: with a base prefix for
-      non-decimal integer types (&#x2018;$&#x2019;, &#x2018;&amp;&#x2019;, or
-      &#x2018;%&#x2019;); with a &#x2018;<code class="Li">q</code>&#x2019;
-      precision suffix for fixed-point numbers; or with
-      &#x2018;<code class="Li">\</code>&#x2019; escape characters for
-      strings.</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019; (only allowed for
+      non-decimal types). If specified, prints the value in an &quot;exact&quot;
+      format: with a base prefix (&#x2018;$&#x2019;, &#x2018;&amp;&#x2019;, or
+      &#x2018;%&#x2019;) for non-decimal integer types (&#x2018;x&#x2019; /
+      &#x2018;X&#x2019;, &#x2018;o&#x2019;, or &#x2018;b&#x2019;); with a
+      &#x2018;<code class="Li">q</code>&#x2019; precision suffix for fixed-point
+      numbers; or with &#x2018;<code class="Li">\</code>&#x2019; escape
+      characters (but no enclosing quotes) for strings.</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
@@ -167,8 +175,8 @@ PURGE topic, meaning, {meaning}</pre>
       fractional digits of a fixed-point number. Defaults to 5 digits, maximum
       255 digits. (A &#x2018;<code class="Li">.</code>&#x2019; followed by zero
       &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
-      &#x2018;<code class="Li">9</code>&#x2019; prints zero fractional
-      digits.)</td>
+      &#x2018;<code class="Li">9</code>&#x2019; prints zero fractional digits
+      and no decimal point.)</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">&lt;prec&gt;</code>&#x2019;</td>
@@ -183,9 +191,7 @@ PURGE topic, meaning, {meaning}</pre>
     <td>Specifies the type of value.</td>
   </tr>
 </table>
-<p class="Pp">All the format specifier parts are optional except the
-    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. Valid print types
-  are:</p>
+<p class="Pp">Valid types are:</p>
 <table class="Bl-column Bd-indent">
   <tr id="Type">
     <td><a class="permalink" href="#Type"><b class="Sy">Type</b></a></td>
@@ -200,7 +206,7 @@ PURGE topic, meaning, {meaning}</pre>
   <tr>
     <td>&#x2018;<code class="Li">u</code>&#x2019;</td>
     <td>Unsigned decimal</td>
-    <td>42</td>
+    <td>4294967254</td>
   </tr>
   <tr>
     <td>&#x2018;<code class="Li">x</code>&#x2019;</td>
@@ -260,9 +266,10 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="EXPRESSIONS"><a class="permalink" href="#EXPRESSIONS">EXPRESSIONS</a></h2>
-<p class="Pp">An expression can be composed of many things. Numeric expressions
-    are always evaluated using signed 32-bit math. Zero is considered to be the
-    only &quot;false&quot; number, all non-zero numbers (including negative) are
+<p class="Pp">There are two types of expressions: numeric and string.</p>
+<p class="Pp">Numeric expressions are always evaluated using signed 32-bit math.
+    In Boolean logic contexts, zero is considered to be the only
+    &quot;false&quot; number, and all non-zero numbers (including negative) are
     &quot;true&quot;.</p>
 <p class="Pp">An expression is said to be &quot;constant&quot; if
     <code class="Nm">rgbasm</code> knows its value. This is generally always the
@@ -270,17 +277,18 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section. However, some operators
     can be constant even with non-constant operands, as explained in
     <a class="Sx" href="#Operators">Operators</a> below.</p>
-<p class="Pp">The instructions in the macro-language generally require constant
-    expressions.</p>
+<p class="Pp">Directives generally require constant expressions: for example,
+    <code class="Ic">REPT</code> requires the number of repetitions to be known
+    at assembly time.</p>
 <section class="Ss">
-<h3 class="Ss" id="Numeric_formats"><a class="permalink" href="#Numeric_formats">Numeric
-  formats</a></h3>
-<p class="Pp">There are a number of numeric formats.</p>
+<h3 class="Ss" id="Numeric_literals"><a class="permalink" href="#Numeric_literals">Numeric
+  literals</a></h3>
+<p class="Pp"><code class="Nm">rgbasm</code> supports a variety of numeric
+    literals.</p>
 <table class="Bl-column Bd-indent">
-  <tr id="Possible">
+  <tr id="Prefixes">
     <th>Format type</th>
-    <td><a class="permalink" href="#Possible"><b class="Sy">Possible
-      prefixes</b></a></td>
+    <td><a class="permalink" href="#Prefixes"><b class="Sy">Prefixes</b></a></td>
     <td><a class="permalink" href="#Accepted"><b class="Sy" id="Accepted">Accepted
       characters</b></a></td>
   </tr>
@@ -320,7 +328,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   <tr>
     <td>Character constant</td>
     <td>none</td>
-    <td>'ABYZ'</td>
+    <td>'A'</td>
   </tr>
   <tr>
     <td>Game Boy graphics</td>
@@ -341,13 +349,13 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     for information on charmaps, and
     <a class="Sx" href="#String_expressions">String expressions</a> for
     information on escape characters allowed in character constants.</p>
-<p class="Pp">The last one, Game Boy graphics, is quite interesting and useful.
-    After the backtick, 8 digits between 0 and 3 are expected, corresponding to
-    pixel values. The resulting value is the two bytes of tile data that would
-    produce that row of pixels. For example, &#x2018;`01012323&#x2019; is
-    equivalent to &#x2018;$0F55&#x2019;.</p>
-<p class="Pp">You can also use symbols, which are implicitly replaced with their
-    value.</p>
+<p class="Pp">The last one, Game Boy graphics, expects up to eight digits
+    between 0 and 3, corresponding to pixels' two-bit shade values. The
+    resulting numeric value is the two bytes of tile data which would produce
+    that row of pixels. For example, &#x2018;`01012323&#x2019; is equivalent to
+    &#x2018;$0F55&#x2019;.</p>
+<p class="Pp">In place of a numeric literal, you can also use a numeric symbol's
+    name, which is implicitly replaced with its value.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Operators"><a class="permalink" href="#Operators">Operators</a></h3>
@@ -372,12 +380,12 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
   </tr>
   <tr id="+">
     <td><a class="permalink" href="#+"><code class="Li">+ - ~ !</code></a></td>
-    <td>Unary plus, minus (negation), complement (bitwise negation), and Boolean
-      negation</td>
+    <td>Unary plus, unary minus (negation), complement (bitwise negation), and
+      Boolean negation</td>
   </tr>
   <tr id="*">
     <td><a class="permalink" href="#*"><code class="Li">* / %</code></a></td>
-    <td>Multiplication, division, and modulo (remainder)</td>
+    <td>Multiplication, division (rounding down), and modulo (remainder)</td>
   </tr>
   <tr id="__">
     <td><a class="permalink" href="#__"><code class="Li">&lt;&lt; &gt;&gt;
@@ -444,7 +452,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
 <h3 class="Ss" id="Integer_functions"><a class="permalink" href="#Integer_functions">Integer
   functions</a></h3>
 <p class="Pp">Besides operators, there are also some functions which have more
-    specialized uses.</p>
+    specialized uses:</p>
 <table class="Bl-column">
   <tr id="Name">
     <td><a class="permalink" href="#Name"><b class="Sy">Name</b></a></td>
@@ -469,19 +477,20 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <math class="eqn">
       <mrow><mo>&#x230A;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x230B;</mo></mrow>
     </math>
-    ,
+    ;
       <code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>&#x00A0;-&#x00A0;1)
       equals
     <math class="eqn">
       <mrow><mo>&#x2308;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x2309;</mo></mrow>
     </math>
-    , and
+    ; and
       <span class="No">32&#x00A0;-&#x00A0;</span><code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>)
       equals
     <math class="eqn">
       <mrow><mrow><mi>clz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
     </math>
-    .</td>
+    , the count of leading zero bits in the binary representation of
+      <var class="Ar">n</var>.</td>
   </tr>
   <tr id="TZCOUNT">
     <td><a class="permalink" href="#TZCOUNT"><code class="Fn">TZCOUNT</code></a>(<var class="Fa">n</var>)</td>
@@ -489,7 +498,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <math class="eqn">
       <mrow><mrow><mi>ctz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
     </math>
-    , the count of trailing zero bits at the end of the binary representation of
+    , the count of trailing zero bits in the binary representation of
       <var class="Ar">n</var>.</td>
   </tr>
 </table>
@@ -511,20 +520,23 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     while assembling</a>). An individual fixed-point literal can specify its own
     precision, overriding the current default, by appending a &#x201C;q&#x201D;
     followed by the number of fractional bits: for example,
-    &#x2018;<code class="Li">1234.5q8</code>&#x2019; is equal to $0004d2_80 (
+    &#x2018;<code class="Li">789.25q8</code>&#x2019; is equal to $000315_40 (
   <math class="eqn">
-    <mrow><mo>=</mo><mn>1234.5</mn><mo>*</mo><msup><mn>2</mn><mn>8</mn></msup></mrow>
+    <mrow><mo>=</mo><mn>789.25</mn><mo>*</mo><msup><mn>2</mn><mn>8</mn></msup></mrow>
   </math>
   ).</p>
 <p class="Pp">Since fixed-point values are still just integers, you can use them
     in normal integer expressions. You can easily truncate a fixed-point number
-    into an integer by shifting it right by the number of fractional bits. It
-    follows that you can convert an integer to a fixed-point number by shifting
-    it left that same amount.</p>
+    into an integer by shifting it right by the number of fractional bits, or by
+    dividing it by 1.0. It follows that you can convert an integer to a
+    fixed-point number by shifting it left that same amount, or by multiplying
+    it by 1.0. For example, &#x2018;<code class="Li">123.0 / 1.0 ==
+    123</code>&#x2019;, and &#x2018;<code class="Li">123 * 1.0 ==
+    123.0</code>&#x2019;.</p>
 <p class="Pp">Note that the current number of fractional bits can be computed as
     <code class="Ic">TZCOUNT</code>(1.0).</p>
 <p class="Pp">The following functions are designed to operate with fixed-point
-    numbers:</p>
+    numbers (which must be known constant):</p>
 <table class="Bl-column Bd-indent">
   <tr id="Name~2">
     <td><a class="permalink" href="#Name~2"><b class="Sy">Name</b></a></td>
@@ -573,7 +585,7 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     <math class="eqn">
       <mrow><mi>x</mi></mrow>
     </math>
-     to the nearest integer</td>
+     half away from zero to the nearest integer</td>
   </tr>
   <tr id="CEIL">
     <td><a class="permalink" href="#CEIL"><code class="Fn">CEIL</code></a>(<var class="Fa">x</var>)</td>
@@ -675,9 +687,8 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     a nonsensical (but technically correct) result: &#x201C;garbage in, garbage
     out&#x201D;.</p>
 <p class="Pp" id="dividend">The <code class="Ic">FMOD</code> function is used to
-    get the remainder of the corresponding fixed-point division, so that
-    &#x2018;<code class="Li">MUL(DIV(x, y), y) + FMOD(x, y) == x</code>&#x2019;
-    is always true. The result has the same sign as the
+    get the remainder of the corresponding fixed-point division. The result has
+    the same sign as the
     <a class="permalink" href="#dividend"><i class="Em">dividend</i></a>; this
     is the opposite of how the integer modulo operator &#x2018;%&#x2019;
   works!</p>
@@ -693,18 +704,19 @@ PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
     tables. For example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>; Generate a table of 128 sine values
-; from sin(0.0) to sin(0.5) excluded,
-; with amplitude scaled from [-1.0, 1.0] to [0.0, 128.0].
+; from sin(0.0) included to sin(0.5) excluded,
+; with amplitude scaled from [-1.0, 1.0] to [0.0, 128.0],
+; then divided by 1.0 to round down to integer values.
 FOR angle, 0.0, 0.5, 0.5 / 128
-    db MUL(SIN(angle) + 1.0, 128.0 / 2) &gt;&gt; 16
+    db MUL(SIN(angle) + 1.0, 128.0 / 2) / 1.0
 ENDR</pre>
 </div>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="String_expressions"><a class="permalink" href="#String_expressions">String
   expressions</a></h3>
-<p class="Pp">The most basic string expression is any number of characters
-    contained in double quotes (&#x2018;<code class="Li">&quot;for
+<p class="Pp">The most basic string expression is a string literal: any number
+    of characters contained in double quotes (&#x2018;<code class="Li">&quot;for
     instance&quot;</code>&#x2019;). The backslash character
     &#x2018;<code class="Li">\</code>&#x2019; is special in that it causes the
     character following it to be &#x201C;escaped&#x201D;, meaning that it is
@@ -752,17 +764,17 @@ ENDR</pre>
     <td>Null (ASCII $00)</td>
   </tr>
 </table>
-<p class="Pp">Multi-line strings are contained in triple quotes
+<p class="Pp">Multi-line string literals are contained in triple quotes
     (&#x2018;<code class="Li">&quot;&quot;&quot;for
     instance&quot;&quot;&quot;</code>&#x2019;). Escape sequences work the same
     way in multi-line strings; however, literal newline characters will be
     included as-is, without needing to escape them with
     &#x2018;<code class="Li">\r</code>&#x2019; or
     &#x2018;<code class="Li">\n</code>&#x2019;.</p>
-<p class="Pp">Raw strings are prefixed by a hash &#x2018;#&#x2019;. Inside them,
-    backslashes and braces are treated like regular characters, so they will not
-    be expanded as macro arguments, interpolated symbols, or escape sequences.
-    For example, the raw string
+<p class="Pp">Raw string literals are prefixed by a hash &#x2018;#&#x2019;.
+    Inside them, backslashes and braces are treated like regular characters, so
+    they will not be expanded as macro arguments, interpolated symbols, or
+    escape sequences. For example, the raw string
     &#x2018;<code class="Li">#&quot;\t\1{s}\&quot;</code>&#x2019; is equivalent
     to the regular string
     &#x2018;<code class="Li">&quot;\\t\\1\{s}\\&quot;</code>&#x2019;. (Note that
@@ -785,7 +797,7 @@ ENDR</pre>
     &#x2018;<code class="Li">STRCMP(&quot;str&quot;, &quot;ing&quot;) !=
     0</code>&#x2019;.</p>
 <p class="Pp">The following functions operate on string expressions, and return
-    strings themselves.</p>
+    strings themselves:</p>
 <table class="Bl-column">
   <tr id="Name~3">
     <td><a class="permalink" href="#Name~3"><b class="Sy">Name</b></a></td>
@@ -820,10 +832,9 @@ ENDR</pre>
   <tr id="STRRPL">
     <td><a class="permalink" href="#STRRPL"><code class="Fn">STRRPL</code></a>(<var class="Fa">str</var>,
       <var class="Fa">old</var>, <var class="Fa">new</var>)</td>
-    <td>Returns <var class="Ar">str</var> <span class="No">with each
-      non-overlapping occurrence of the substring</span>
-      <var class="Ar">old</var> <span class="No">replaced with</span>
-      <var class="Ar">new</var>.</td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with each occurrence
+      of the substring</span> <var class="Ar">old</var>
+      <span class="No">replaced with</span> <var class="Ar">new</var>.</td>
   </tr>
   <tr id="STRFMT">
     <td><a class="permalink" href="#STRFMT"><code class="Fn">STRFMT</code></a>(<var class="Fa">fmt</var>,
@@ -845,6 +856,10 @@ ENDR</pre>
       (<var class="Ar">idx</var> <span class="No">counts charmap entries, not
       characters.</span>)</td>
   </tr>
+</table>
+<p class="Pp">The following functions take varying operands, and return
+  strings:</p>
+<table class="Bl-column">
   <tr id="REVCHAR">
     <td><a class="permalink" href="#REVCHAR"><code class="Fn">REVCHAR</code></a>(<var class="Fa">vals...</var>)</td>
     <td>Returns the string that is mapped to <var class="Ar">vals</var>
@@ -865,7 +880,7 @@ ENDR</pre>
   </tr>
 </table>
 <p class="Pp">The following functions operate on string expressions, but return
-    integers.</p>
+    integers:</p>
 <table class="Bl-column">
   <tr id="Name~4">
     <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
@@ -976,8 +991,10 @@ CHARMAP '&amp;euro;', $20ac</pre>
     10</code>&#x2019;, and &#x2018;<code class="Li">dw
     &quot;25&amp;euro;&quot;</code>&#x2019; being equivalent to
     &#x2018;<code class="Li">dw 50, 53, $20ac</code>&#x2019;.</p>
-<p class="Pp">Any characters in a string without defined mappings will be copied
-    directly, using the source file's encoding of characters to bytes.</p>
+<p class="Pp">Character mappings are matched greedily, so the longest applicable
+    one will be mapped in a string. Any characters in the string without defined
+    mappings will be copied directly, using the source file's encoding of
+    characters to bytes.</p>
 <p class="Pp">It is possible to create multiple character maps and then switch
     between them as desired. This can be used to encode debug information in
     ASCII and use a different encoding for other purposes, for example.
@@ -1086,8 +1103,8 @@ CHARMAP '&amp;euro;', $20ac</pre>
 <section class="Sh">
 <h2 class="Sh" id="SECTIONS"><a class="permalink" href="#SECTIONS">SECTIONS</a></h2>
 <p class="Pp">Before you can start writing code, you must define a section. This
-    tells the assembler what kind of information follows and, if it is code,
-    where to put it.</p>
+    tells the assembler what kind of information follows and where to put
+  it.</p>
 <p class="Pp"></p>
 <div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
   <var class="Ar">type</var></code></div>
@@ -1099,9 +1116,9 @@ CHARMAP '&amp;euro;', $20ac</pre>
   <var class="Ar">type</var>[<var class="Ar">addr</var>],
   <var class="Ar">options</var></code></div>
 <p class="Pp"><var class="Ar">name</var> is a string enclosed in double quotes,
-    and can be a new name or the name of an existing section. If the type
-    doesn't match, an error occurs. All other sections must have a unique name,
-    even in different source files, or the linker will treat it as an error.</p>
+    which is the name of the section. If the type doesn't match, an error
+    occurs. Each section must have a unique name, even across different source
+    files, or the linker will treat it as an error.</p>
 <p class="Pp">Possible section <var class="Ar">type</var>s are as follows:</p>
 <dl class="Bl-tag">
   <dt id="ROM0"><a class="permalink" href="#ROM0"><code class="Ic">ROM0</code></a></dt>
@@ -1111,10 +1128,9 @@ CHARMAP '&amp;euro;', $20ac</pre>
       mode is enabled in the linker.</dd>
   <dt id="ROMX"><a class="permalink" href="#ROMX"><code class="Ic">ROMX</code></a></dt>
   <dd>A banked ROM section. <var class="Ar">addr</var> can range from
-      <span class="Ad">$4000</span> to <span class="Ad">$7FFF</span>.
-      <var class="Ar">bank</var> can range from 1 to 511. Becomes an alias for
-      <code class="Ic">ROM0</code> if tiny ROM mode is enabled in the
-    linker.</dd>
+      <span class="Ad">$4000</span> to <span class="Ad">$7FFF</span>. Becomes an
+      alias for <code class="Ic">ROM0</code> if tiny ROM mode is enabled in the
+      linker.</dd>
   <dt id="VRAM"><a class="permalink" href="#VRAM"><code class="Ic">VRAM</code></a></dt>
   <dd>A banked video RAM section. <var class="Ar">addr</var> can range from
       <span class="Ad">$8000</span> to <span class="Ad">$9FFF</span>.
@@ -1122,8 +1138,7 @@ CHARMAP '&amp;euro;', $20ac</pre>
       mode is enabled in the linker.</dd>
   <dt id="SRAM"><a class="permalink" href="#SRAM"><code class="Ic">SRAM</code></a></dt>
   <dd>A banked external (save) RAM section. <var class="Ar">addr</var> can range
-      from <span class="Ad">$A000</span> to <span class="Ad">$BFFF</span>.
-      <var class="Ar">bank</var> can range from 0 to 15.</dd>
+      from <span class="Ad">$A000</span> to <span class="Ad">$BFFF</span>.</dd>
   <dt id="WRAM0"><a class="permalink" href="#WRAM0"><code class="Ic">WRAM0</code></a></dt>
   <dd>A general-purpose RAM section. <var class="Ar">addr</var> can range from
       <span class="Ad">$C000</span> to <span class="Ad">$CFFF</span>, or
@@ -1141,9 +1156,12 @@ CHARMAP '&amp;euro;', $20ac</pre>
   <dd>A high RAM section. <var class="Ar">addr</var> can range from
       <span class="Ad">$FF80</span> to <span class="Ad">$FFFE</span>.</dd>
 </dl>
-<p class="Pp">Since RGBDS produces ROMs, code and data can only be placed in
-    <code class="Ic">ROM0</code> and <code class="Ic">ROMX</code> sections. To
-    put some in RAM, have it stored in ROM, and copy it to RAM.</p>
+<p class="Pp">RGBDS produces ROMs, which means that code and data can only be
+    placed in <code class="Ic">ROM0</code> and <code class="Ic">ROMX</code>
+    sections. The other RAM section types are for statically allocated labels.
+    If you need code or data in RAM, you will need to copy it from ROM to RAM
+    yourself. See <a class="Sx" href="#RAM_code">RAM code</a> for an example of
+    how to conveniently do that with a <code class="Ic">LOAD</code> block.</p>
 <p class="Pp"><var class="Ar">option</var>s are comma-separated and may
   include:</p>
 <dl class="Bl-tag">
@@ -1184,7 +1202,7 @@ CHARMAP '&amp;euro;', $20ac</pre>
         creating it if it doesn't already exist. It can end up in any ROM bank.
         Code and data may follow.</p>
   </li>
-  <li>If it is needed, the the base address of the section can be specified:
+  <li>If it is needed, the base address of the section can be specified:
     <div class="Bd Pp Bd-indent Li">
     <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567]</pre>
     </div>
@@ -1242,12 +1260,13 @@ Function:
 <section class="Ss">
 <h3 class="Ss" id="RAM_code"><a class="permalink" href="#RAM_code">RAM
   code</a></h3>
-<p class="Pp">Sometimes you want to have some code in RAM. But then you can't
-    simply put it in a RAM section, you have to store it in ROM and copy it to
-    RAM at some point.</p>
-<p class="Pp">This means the code (or data) will not be stored in the place it
-    gets executed. Luckily, <code class="Ic">LOAD</code> blocks are the perfect
-    solution to that. Here's an example of how to use them:</p>
+<p class="Pp">Sometimes you want to have some code (or data) in RAM, e.g. for
+    self-modifying code. But you can't just put it directly in a RAM section;
+    you have to store it in ROM and copy it to RAM at some point. This means
+    that the code will be executed at a different address range than where it's
+    defined, which can be inconvenient for references to labels within that
+    code. This situation is what <code class="Ic">LOAD</code> blocks are
+    designed for. Here's an example of how to use them:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>SECTION &quot;LOAD example&quot;, ROMX
 CopyCode:
@@ -1314,7 +1333,7 @@ RAMLocation:
     <code class="Ic">UNION</code> only works within a single file, so it can't
     be used e.g. to define temporary variables across several files, all of
     which use the same statically allocated memory. Unionized sections solve
-    this problem. To declare an unionized section, add a
+    this problem. To declare a unionized section, add a
     <code class="Ic">UNION</code> keyword after the
     <code class="Ic">SECTION</code> one; the declaration is otherwise not
     different. Unionized sections follow some different rules from normal
@@ -1346,12 +1365,12 @@ RAMLocation:
 <section class="Ss">
 <h3 class="Ss" id="Section_fragments"><a class="permalink" href="#Section_fragments">Section
   fragments</a></h3>
-<p class="Pp">Section fragments are sections with a small twist: when several of
-    the same name are encountered, they are concatenated instead of producing an
-    error. This works within the same file (paralleling the behavior
-    &quot;plain&quot; sections has in previous versions), but also across object
-    files. To declare an section fragment, add a
-    <code class="Ic">FRAGMENT</code> keyword after the
+<p class="Pp">Section fragments are sections with a small twist: when several
+    fragments with the same name are encountered, they are concatenated into one
+    section instead of producing an error, even across multiple object files.
+    This works within the same file (paralleling the behavior &quot;plain&quot;
+    sections has in previous versions), but also across object files. To declare
+    a section fragment, add a <code class="Ic">FRAGMENT</code> keyword after the
     <code class="Ic">SECTION</code> one; the declaration is otherwise not
     different. However, similarly to
     <a class="Sx" href="#Unionized_sections">Unionized sections</a>, some rules
@@ -2197,7 +2216,7 @@ ENDU
     &#x2018;wVideoBuffer&#x2019; all have the same value; so do
     &#x2018;wNickname&#x2019; and &#x2018;wBonus&#x2019;. Thus, keep in mind
     that &#x2018;<code class="Li">ld [wHealth], a</code>&#x2019; assembles to
-    the exact same thing as &#x2018;<code class="Li">ld [wName],
+    the exact same instruction as &#x2018;<code class="Li">ld [wName],
     a</code>&#x2019;.</p>
 <p class="Pp">This whole union's total size is 20 bytes, the size of the largest
     block (the first one, containing &#x2018;wName&#x2019; and

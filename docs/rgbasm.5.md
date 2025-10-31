@@ -26,8 +26,8 @@ export const toc = [
 	"level": 2,
 },
 {
-	"value": "Numeric formats",
-	"id": "Numeric_formats",
+	"value": "Numeric literals",
+	"id": "Numeric_literals",
 	"level": 3,
 },
 {
