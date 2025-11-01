@@ -1,0 +1,2812 @@
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">This is the full description of the assembly language used by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>. For the full description of
+    instructions in the machine language supported by the Game Boy CPU, see
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>.</p>
+<p class="Pp">It is advisable to have some familiarity with the Game Boy
+    hardware before reading this document. RGBDS is specifically targeted at the
+    Game Boy, and thus a lot of its features tie directly to its concepts. This
+    document is not intended to be a Game Boy hardware reference.</p>
+<p class="Pp">Generally, &#x201C;the linker&#x201D; will refer to
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>, but any program that
+    processes RGBDS object files (described in
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>) can be used in its place.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SYNTAX"><a class="permalink" href="#SYNTAX">SYNTAX</a></h2>
+<p class="Pp">The syntax is line-based, just as in any other assembler. Each
+    line may have components in either of these orders:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>[<var class="Ar">label</var>:] [<var class="Ar">directive</var>]
+      [;&#x00A0;<var class="Ar">comment</var>]</li>
+  <li>[<var class="Ar">label</var>:] [<var class="Ar">instruction</var> [::
+      <var class="Ar">instruction ...</var>]]
+      [;&#x00A0;<var class="Ar">comment</var>]</li>
+</ul>
+<p class="Pp">Directives are commands to the assembler itself, such as
+    <code class="Ic">PRINTLN</code>, <code class="Ic">SECTION</code>, or
+    <code class="Ic">OPT</code>.</p>
+<p class="Pp">Labels tie a name to a specific location within a section (see
+    <a class="Sx" href="#Labels">Labels</a> below). Labels are allowed before
+    most directives, but not before <code class="Ic">IF</code>,
+    <code class="Ic">ELIF</code>, <code class="Ic">ELSE</code>,
+    <code class="Ic">ENDC</code>, <code class="Ic">REPT</code>,
+    <code class="Ic">FOR</code>, <code class="Ic">ENDR</code>,
+    <code class="Ic">MACRO</code>, or <code class="Ic">ENDM</code>.</p>
+<p class="Pp">Instructions are assembled into Game Boy opcodes. Multiple
+    instructions on one line, as well as data directives (see
+    <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data
+    in ROM</a> below), can be separated by double colons
+    &#x2018;<code class="Li">::</code>&#x2019;.</p>
+<p class="Pp">The available instructions are documented in
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>.</p>
+<p class="Pp">Note that where an instruction requires an 8-bit register
+    <var class="Ar">r8</var>, <code class="Nm">rgbasm</code> can interpret
+    <code class="Ic">HIGH</code>(<var class="Ar">r16</var>) as the top 8-bit
+    register of the given <var class="Ar">r16</var>, for example,
+    <code class="Ic">HIGH</code>(<code class="Ic">HL</code>) for
+    <code class="Ic">H</code>; and
+    <code class="Ic">LOW</code>(<var class="Ar">r16</var>) as the bottom one,
+    for example, <code class="Ic">LOW</code>(<code class="Ic">HL</code>) for
+    <code class="Ic">L</code> (except for
+    <code class="Ic">LOW</code>(<code class="Ic">AF</code>), since
+    <code class="Ic">F</code> is not a valid register).</p>
+<p class="Pp">Note also that where an instruction requires a condition code
+    <var class="Ar">cc</var>, <code class="Nm">rgbasm</code> can interpret
+    !<var class="Ar">cc</var> as the opposite condition code; for example,
+    <code class="Ic">!nz</code> for <code class="Ic">z</code>.</p>
+<p class="Pp">All reserved keywords (directives, instructions, registers,
+    built-in functions, etc.) are case-insensitive; all identifiers (labels,
+    variables, etc) are case-sensitive.</p>
+<p class="Pp" id="always">Comments are used to give humans information about the
+    code, such as explanations. The assembler
+    <a class="permalink" href="#always"><i class="Em">always</i></a> ignores
+    comments and their contents.</p>
+<p class="Pp">There are two kinds of comments, inline and block. Inline comments
+    are anything that follows a semicolon
+    &#x2018;<code class="Li">;</code>&#x2019; not inside a string, until the end
+    of the line. Block comments, beginning with
+    &#x2018;<code class="Li">/*</code>&#x2019; and ending with
+    &#x2018;<code class="Li">*/</code>&#x2019;, can be split across multiple
+    lines, or occur in the middle of an expression.</p>
+<p class="Pp">An example demonstrating these syntax features:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;My Code&quot;, ROM0&#x00A0;&#x00A0;;&#x00A0;a directive
+MyFunction:&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;a label
+    push hl&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;an instruction
+    /* ...and multiple instructions,
+       with mixed case */
+    ld a, [hli] :: LD H, [HL] :: Ld l, a
+    pop /*wait for it*/ hl
+    ret</pre>
+</div>
+<p class="Pp">Sometimes lines can be too long and it may be necessary to split
+    them. To do so, put a backslash at the end of the line:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    DB 1, 2, 3,&#x00A0;\
+       4, 5, 6,&#x00A0;\&#x00A0;;&#x00A0;Put it before any comments
+       7, 8, 9
+    DB &quot;Hello,&#x00A0;\&#x00A0;&#x00A0;;&#x00A0;Space before the \ is included
+world!&quot;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;;&#x00A0;Any leading space is included</pre>
+</div>
+<section class="Ss">
+<h3 class="Ss" id="Symbol_interpolation"><a class="permalink" href="#Symbol_interpolation">Symbol
+  interpolation</a></h3>
+<p class="Pp">Symbols with string or numeric values can be
+    &#x201C;interpolated&#x201D; by writing them inside
+    &#x2018;<code class="Li">{braces}</code>&#x2019;. This will paste the
+    symbol's contents as if they were part of the source file. If it is a string
+    symbol, its characters are simply inserted as-is. If it is a numeric symbol,
+    its value is converted to hexadecimal notation with a dollar sign
+    &#x2018;$&#x2019; prepended.</p>
+<p class="Pp">Symbol interpolations can be nested, too.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF topic EQUS &quot;life, the universe, and \&quot;everything\&quot;&quot;
+DEF meaning EQUS &quot;answer&quot;
+;&#x00A0;Defines answer = 42
+DEF {meaning} = 42
+;&#x00A0;Prints &quot;The answer to life, the universe, and &quot;everything&quot; is $2A&quot;
+PRINTLN &quot;The {meaning} to {topic} is {{meaning}}&quot;
+PURGE topic, meaning, {meaning}</pre>
+</div>
+<p class="Pp">Symbols can be interpolated even in contexts that disable
+    automatic expansion of string constants: that is,
+    &#x2018;<code class="Li">name</code>&#x2019; will be expanded in all of
+    &#x2018;<code class="Li">DEF({name})</code>&#x2019;,
+    &#x2018;<code class="Li">DEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">REDEF {name} EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">FOR {name}, ...</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, and
+    &#x2018;<code class="Li">MACRO {name}</code>&#x2019;, even though it won't
+    be in &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE {name}</code>&#x2019;, etc.</p>
+<p class="Pp">It's possible to change the way symbols are printed by specifying
+    a print format like so:
+    &#x2018;<code class="Li">{fmt:symbol}</code>&#x2019;. The
+    &#x2018;<code class="Li">fmt</code>&#x2019; specifier consists of parts,
+    which must be in the following order:
+    &#x2018;<code class="Li">&lt;sign&gt;&lt;exact&gt;&lt;align&gt;&lt;pad&gt;&lt;width&gt;&lt;frac&gt;&lt;prec&gt;&lt;type&gt;</code>&#x2019;.
+    All the parts are optional except the required
+    &#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;. These parts are:</p>
+<table class="Bl-column">
+  <tr id="Part">
+    <td><a class="permalink" href="#Part"><b class="Sy">Part</b></a></td>
+    <td><a class="permalink" href="#Meaning"><b class="Sy" id="Meaning">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;sign&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">+</code>&#x2019; or
+      &#x2018;<code class="Li">&#x00A0;</code>&#x2019;. If specified, prints
+      this character in front of non-negative numbers.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;exact&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">#</code>&#x2019; (only allowed for
+      non-decimal types). If specified, prints the value in an &quot;exact&quot;
+      format: with a base prefix (&#x2018;$&#x2019;, &#x2018;&amp;&#x2019;, or
+      &#x2018;%&#x2019;) for non-decimal integer types (&#x2018;x&#x2019; /
+      &#x2018;X&#x2019;, &#x2018;o&#x2019;, or &#x2018;b&#x2019;); with a
+      &#x2018;<code class="Li">q</code>&#x2019; precision suffix for fixed-point
+      numbers; or with &#x2018;<code class="Li">\</code>&#x2019; escape
+      characters (but no enclosing quotes) for strings.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;align&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">-</code>&#x2019;. If specified, aligns
+      left instead of right.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;pad&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">0</code>&#x2019;. If specified, pads
+      right-aligned numbers with zeros instead of spaces.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;width&gt;</code>&#x2019;</td>
+    <td>May be one or more &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, pads the value to
+      this width, right-aligned with spaces by default.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;frac&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">.</code>&#x2019; followed by zero or
+      more &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints this many
+      fractional digits of a fixed-point number. Defaults to 5 digits, maximum
+      255 digits. (A &#x2018;<code class="Li">.</code>&#x2019; followed by zero
+      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019; prints zero fractional digits
+      and no decimal point.)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;prec&gt;</code>&#x2019;</td>
+    <td>May be &#x2018;<code class="Li">q</code>&#x2019; followed by one or more
+      &#x2018;<code class="Li">0</code>&#x2019; &#x2013;
+      &#x2018;<code class="Li">9</code>&#x2019;. If specified, prints a
+      fixed-point number at this precision. Defaults to the current
+      <code class="Fl">-Q</code> option.</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">&lt;type&gt;</code>&#x2019;</td>
+    <td>Specifies the type of value.</td>
+  </tr>
+</table>
+<p class="Pp">Valid types are:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Type">
+    <td><a class="permalink" href="#Type"><b class="Sy">Type</b></a></td>
+    <td><a class="permalink" href="#Format"><b class="Sy" id="Format">Format</b></a></td>
+    <td><a class="permalink" href="#Example"><b class="Sy" id="Example">Example</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">d</code>&#x2019;</td>
+    <td>Signed decimal</td>
+    <td>-42</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">u</code>&#x2019;</td>
+    <td>Unsigned decimal</td>
+    <td>4294967254</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">x</code>&#x2019;</td>
+    <td>Lowercase hexadecimal</td>
+    <td>2a</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">X</code>&#x2019;</td>
+    <td>Uppercase hexadecimal</td>
+    <td>2A</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">b</code>&#x2019;</td>
+    <td>Binary</td>
+    <td>101010</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">o</code>&#x2019;</td>
+    <td>Octal</td>
+    <td>52</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">f</code>&#x2019;</td>
+    <td>Fixed-point</td>
+    <td>1234.56789</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
+    <td>String</td>
+    <td>string contents</td>
+  </tr>
+</table>
+<p class="Pp">Examples:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;Test&quot;, ROM0[2]
+X:                 ;&#x00A0;This works with labels **whose address is known**
+DEF Y = 3          ;&#x00A0;This also works with variables
+DEF SUM EQU X + Y  ;&#x00A0;And likewise with numeric constants
+; Prints &quot;%0010 + $3 == 5&quot;
+PRINTLN &quot;{#05b:X} + {#x:Y} == {d:SUM}&quot;
+
+rsset 32
+DEF PERCENT rb 1   ;&#x00A0;Same with offset constants
+DEF VALUE = 20
+DEF RESULT = MUL(20.0, 0.32)
+; Prints &quot;32% of 20 = 6.40&quot;
+PRINTLN &quot;{d:PERCENT}% of {d:VALUE} = {f:RESULT}&quot;
+
+DEF WHO EQUS STRLWR(&quot;WORLD&quot;)
+; Prints &quot;Hello world!&quot;
+PRINTLN &quot;Hello {s:WHO}!&quot;</pre>
+</div>
+<p class="Pp">Although, for these examples, <code class="Ic">STRFMT</code> would
+    be more appropriate; see <a class="Sx" href="#String_expressions">String
+    expressions</a> below.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXPRESSIONS"><a class="permalink" href="#EXPRESSIONS">EXPRESSIONS</a></h2>
+<p class="Pp">There are two types of expressions: numeric and string.</p>
+<p class="Pp">Numeric expressions are always evaluated using signed 32-bit math.
+    In Boolean logic contexts, zero is considered to be the only
+    &quot;false&quot; number, and all non-zero numbers (including negative) are
+    &quot;true&quot;.</p>
+<p class="Pp">An expression is said to be &quot;constant&quot; if
+    <code class="Nm">rgbasm</code> knows its value. This is generally always the
+    case, unless a label is involved, as explained in the
+    <a class="Sx" href="#SYMBOLS">SYMBOLS</a> section. However, some operators
+    can be constant even with non-constant operands, as explained in
+    <a class="Sx" href="#Operators">Operators</a> below.</p>
+<p class="Pp">Directives generally require constant expressions: for example,
+    <code class="Ic">REPT</code> requires the number of repetitions to be known
+    at assembly time.</p>
+<section class="Ss">
+<h3 class="Ss" id="Numeric_literals"><a class="permalink" href="#Numeric_literals">Numeric
+  literals</a></h3>
+<p class="Pp"><code class="Nm">rgbasm</code> supports a variety of numeric
+    literals.</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Prefixes">
+    <th>Format type</th>
+    <td><a class="permalink" href="#Prefixes"><b class="Sy">Prefixes</b></a></td>
+    <td><a class="permalink" href="#Accepted"><b class="Sy" id="Accepted">Accepted
+      characters</b></a></td>
+  </tr>
+  <tr>
+    <td>Decimal</td>
+    <td>none</td>
+    <td>0123456789</td>
+  </tr>
+  <tr id="$">
+    <td>Hexadecimal</td>
+    <td><a class="permalink" href="#$"><code class="Li">$</code></a>,
+      <code class="Li">0x</code>, <code class="Li">0X</code></td>
+    <td>0123456789ABCDEF</td>
+  </tr>
+  <tr id="&amp;">
+    <td>Octal</td>
+    <td><a class="permalink" href="#&amp;"><code class="Li">&amp;</code></a>,
+      <code class="Li">0o</code>, <code class="Li">0O</code></td>
+    <td>01234567</td>
+  </tr>
+  <tr id="_">
+    <td>Binary</td>
+    <td><a class="permalink" href="#_"><code class="Li">%</code></a>,
+      <code class="Li">0b</code>, <code class="Li">0B</code></td>
+    <td>01</td>
+  </tr>
+  <tr>
+    <td>Fixed-point</td>
+    <td>none</td>
+    <td>01234.56789</td>
+  </tr>
+  <tr>
+    <td>Precise fixed-point</td>
+    <td>none</td>
+    <td>12.34q8</td>
+  </tr>
+  <tr>
+    <td>Character constant</td>
+    <td>none</td>
+    <td>'A'</td>
+  </tr>
+  <tr>
+    <td>Game Boy graphics</td>
+    <td><code class="Li">`</code></td>
+    <td>0123</td>
+  </tr>
+</table>
+<p class="Pp">Underscores are also accepted in numbers, except at the beginning
+    of one. This can be useful for grouping digits, like
+    &#x2018;<code class="Li">123_456</code>&#x2019; or
+    &#x2018;<code class="Li">%1100_1001</code>&#x2019;.</p>
+<p class="Pp">The &quot;character constant&quot; form yields the value the
+    character maps to in the current charmap. For example, by default (refer to
+    <a class="Xr" href="https://man7.org/linux/man-pages/man7/ascii.7.html">ascii(7)</a>)
+    &#x2018;'A'&#x2019; yields 65. A character constant must represent a single
+    value, so it cannot include multiple characters, or characters which map to
+    multiple values. See <a class="Sx" href="#Character_maps">Character maps</a>
+    for information on charmaps, and
+    <a class="Sx" href="#String_expressions">String expressions</a> for
+    information on escape characters allowed in character constants.</p>
+<p class="Pp">The last one, Game Boy graphics, expects up to eight digits
+    between 0 and 3, corresponding to pixels' two-bit shade values. The
+    resulting numeric value is the two bytes of tile data which would produce
+    that row of pixels. For example, &#x2018;`01012323&#x2019; is equivalent to
+    &#x2018;$0F55&#x2019;.</p>
+<p class="Pp">In place of a numeric literal, you can also use a numeric symbol's
+    name, which is implicitly replaced with its value.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Operators"><a class="permalink" href="#Operators">Operators</a></h3>
+<p class="Pp">You can use these operators in numeric expressions (listed from
+    highest to lowest precedence):</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Operator">
+    <td><a class="permalink" href="#Operator"><b class="Sy">Operator</b></a></td>
+    <td><a class="permalink" href="#Meaning~2"><b class="Sy" id="Meaning~2">Meaning</b></a></td>
+  </tr>
+  <tr id="(">
+    <td><a class="permalink" href="#("><code class="Li">( )</code></a></td>
+    <td>Grouping</td>
+  </tr>
+  <tr id="FUNC()">
+    <td><a class="permalink" href="#FUNC()"><code class="Li">FUNC()</code></a></td>
+    <td>Built-in function call</td>
+  </tr>
+  <tr id="**">
+    <td><a class="permalink" href="#**"><code class="Li">**</code></a></td>
+    <td>Exponentiation</td>
+  </tr>
+  <tr id="+">
+    <td><a class="permalink" href="#+"><code class="Li">+ - ~ !</code></a></td>
+    <td>Unary plus, unary minus (negation), complement (bitwise negation), and
+      Boolean negation</td>
+  </tr>
+  <tr id="*">
+    <td><a class="permalink" href="#*"><code class="Li">* / %</code></a></td>
+    <td>Multiplication, division (rounding down), and modulo (remainder)</td>
+  </tr>
+  <tr id="__">
+    <td><a class="permalink" href="#__"><code class="Li">&lt;&lt; &gt;&gt;
+      &gt;&gt;&gt;</code></a></td>
+    <td>Bit shifts (left, sign-extended right, zero-extended right)</td>
+  </tr>
+  <tr>
+    <td><code class="Li">&amp; | ^</code></td>
+    <td>Bitwise AND/OR/XOR</td>
+  </tr>
+  <tr id="+~2">
+    <td><a class="permalink" href="#+~2"><code class="Li">+ -</code></a></td>
+    <td>Addition and subtraction</td>
+  </tr>
+  <tr id="==">
+    <td><a class="permalink" href="#=="><code class="Li">== != &lt; &gt; &lt;=
+      &gt;=</code></a></td>
+    <td>Comparisons</td>
+  </tr>
+  <tr id="&amp;&amp;">
+    <td><a class="permalink" href="#&amp;&amp;"><code class="Li">&amp;&amp;</code></a></td>
+    <td>Boolean AND</td>
+  </tr>
+  <tr id="__~2">
+    <td><a class="permalink" href="#__~2"><code class="Li">||</code></a></td>
+    <td>Boolean OR</td>
+  </tr>
+</table>
+<p class="Pp" id="right-associative">&#x2018;**&#x2019; raises a number to a
+    non-negative power. It is the only
+    <a class="permalink" href="#right-associative"><i class="Em">right-associative</i></a>
+    operator, meaning that &#x2018;<code class="Li">p ** q ** r</code>&#x2019;
+    is equal to &#x2018;<code class="Li">p ** (q ** r)</code>&#x2019;, not
+    &#x2018;<code class="Li">(p ** q) ** r</code>&#x2019;. All other binary
+    operators are left-associative.</p>
+<p class="Pp">&#x2018;~&#x2019; complements a value by inverting all 32 of its
+    bits.</p>
+<p class="Pp">&#x2018;%&#x2019; is used to get the remainder of the
+    corresponding division, so that &#x2018;<code class="Li">x / y * y + x % y
+    == x</code>&#x2019; is always true. The result has the same sign as the
+    divisor. This makes &#x2018;<code class="Li">x % y</code>&#x2019; equal to
+    &#x2018;<code class="Li">(x + y) % y</code>&#x2019; or
+    &#x2018;<code class="Li">(x - y) % y</code>&#x2019;.</p>
+<p class="Pp">Shifting works by shifting all bits in the left operand either
+    left (&#x2018;&lt;&lt;&#x2019;) or right (&#x2018;&gt;&gt;&#x2019;) by the
+    right operand's amount. When shifting left, all newly-inserted bits are
+    reset; when shifting right, they are copies of the original most significant
+    bit instead. This makes &#x2018;a &lt;&lt; b&#x2019; and &#x2018;a &gt;&gt;
+    b&#x2019; equivalent to multiplying and dividing by 2 to the power of b,
+    respectively.</p>
+<p class="Pp">Comparison operators return 0 if the comparison is false, and 1
+    otherwise.</p>
+<p class="Pp">Unlike in many other languages, and for technical reasons,
+    <code class="Nm">rgbasm</code> still evaluates both operands of
+    &#x2018;&amp;&amp;&#x2019; and &#x2018;||&#x2019;.</p>
+<p class="Pp">The operators &#x2018;&amp;&amp;&#x2019; and &#x2018;&amp;&#x2019;
+    with a zero constant as either operand will be constant 0, and
+    &#x2018;||&#x2019; with a non-zero constant as either operand will be
+    constant 1, even if the other operand is non-constant.</p>
+<p class="Pp">&#x2018;!&#x2019; returns 1 if the operand was 0, and 0 otherwise.
+    Even a non-constant operand with any non-zero bits will return 0.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Integer_functions"><a class="permalink" href="#Integer_functions">Integer
+  functions</a></h3>
+<p class="Pp">Besides operators, there are also some functions which have more
+    specialized uses:</p>
+<table class="Bl-column">
+  <tr id="Name">
+    <td><a class="permalink" href="#Name"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation"><b class="Sy" id="Operation">Operation</b></a></td>
+  </tr>
+  <tr id="HIGH">
+    <td><a class="permalink" href="#HIGH"><code class="Fn">HIGH</code></a>(<var class="Fa">n</var>)</td>
+    <td>Equivalent to &#x2018;<code class="Li">(<var class="Ar">n</var>
+      <span class="No">&amp; $FF00</span>) &gt;&gt; 8</code>&#x2019;.</td>
+  </tr>
+  <tr id="LOW">
+    <td><a class="permalink" href="#LOW"><code class="Fn">LOW</code></a>(<var class="Fa">n</var>)</td>
+    <td>Equivalent to &#x2018;<code class="Li"><var class="Ar">n</var>
+      <span class="No">&amp; $FF</span></code>&#x2019;.</td>
+  </tr>
+  <tr id="BITWIDTH">
+    <td><a class="permalink" href="#BITWIDTH"><code class="Fn">BITWIDTH</code></a>(<var class="Fa">n</var>)</td>
+    <td>Returns the number of bits necessary to represent
+      <var class="Ar">n</var>. Some useful formulas:
+      <code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>)&#x00A0;-&#x00A0;1
+      equals
+    <math class="eqn">
+      <mrow><mo>&#x230A;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x230B;</mo></mrow>
+    </math>
+    ;
+      <code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>&#x00A0;-&#x00A0;1)
+      equals
+    <math class="eqn">
+      <mrow><mo>&#x2308;</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>n</mi><mo>)</mo><mo>&#x2309;</mo></mrow>
+    </math>
+    ; and
+      <span class="No">32&#x00A0;-&#x00A0;</span><code class="Ic">BITWIDTH</code>(<var class="Ar">n</var>)
+      equals
+    <math class="eqn">
+      <mrow><mrow><mi>clz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
+    </math>
+    , the count of leading zero bits in the binary representation of
+      <var class="Ar">n</var>.</td>
+  </tr>
+  <tr id="TZCOUNT">
+    <td><a class="permalink" href="#TZCOUNT"><code class="Fn">TZCOUNT</code></a>(<var class="Fa">n</var>)</td>
+    <td>Returns
+    <math class="eqn">
+      <mrow><mrow><mi>ctz</mi></mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow>
+    </math>
+    , the count of trailing zero bits in the binary representation of
+      <var class="Ar">n</var>.</td>
+  </tr>
+</table>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Fixed-point_expressions"><a class="permalink" href="#Fixed-point_expressions">Fixed-point
+  expressions</a></h3>
+<p class="Pp">Fixed-point numbers are technically just integers, but
+    conceptually they have a decimal point at a fixed location (hence the name).
+    This gives them increased precision, at the cost of a smaller range, while
+    remaining far cheaper to manipulate than floating-point numbers (which
+    <code class="Nm">rgbasm</code> does not support).</p>
+<p class="Pp">The default precision of all fixed-point numbers is 16 bits,
+    meaning the lower 16 bits are used for the fractional part; so they count in
+    65536ths of 1.0. This precision can be changed with the
+    <code class="Fl">-Q</code> command-line option, and/or by
+    <code class="Ic">OPT Q</code> (see
+    <a class="Sx" href="#Changing_options_while_assembling">Changing options
+    while assembling</a>). An individual fixed-point literal can specify its own
+    precision, overriding the current default, by appending a &#x201C;q&#x201D;
+    followed by the number of fractional bits: for example,
+    &#x2018;<code class="Li">789.25q8</code>&#x2019; is equal to $000315_40 (
+  <math class="eqn">
+    <mrow><mo>=</mo><mn>789.25</mn><mo>*</mo><msup><mn>2</mn><mn>8</mn></msup></mrow>
+  </math>
+  ).</p>
+<p class="Pp">Since fixed-point values are still just integers, you can use them
+    in normal integer expressions. You can easily truncate a fixed-point number
+    into an integer by shifting it right by the number of fractional bits, or by
+    dividing it by 1.0. It follows that you can convert an integer to a
+    fixed-point number by shifting it left that same amount, or by multiplying
+    it by 1.0. For example, &#x2018;<code class="Li">123.0 / 1.0 ==
+    123</code>&#x2019;, and &#x2018;<code class="Li">123 * 1.0 ==
+    123.0</code>&#x2019;.</p>
+<p class="Pp">Note that the current number of fractional bits can be computed as
+    <code class="Ic">TZCOUNT</code>(1.0).</p>
+<p class="Pp">The following functions are designed to operate with fixed-point
+    numbers (which must be known constant):</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Name~2">
+    <td><a class="permalink" href="#Name~2"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~2"><b class="Sy" id="Operation~2">Operation</b></a></td>
+  </tr>
+  <tr id="DIV">
+    <td><a class="permalink" href="#DIV"><code class="Fn">DIV</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>Fixed-point division</td>
+  </tr>
+  <tr id="MUL">
+    <td><a class="permalink" href="#MUL"><code class="Fn">MUL</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>Fixed-point multiplication</td>
+  </tr>
+  <tr id="FMOD">
+    <td><a class="permalink" href="#FMOD"><code class="Fn">FMOD</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>Fixed-point modulo</td>
+  </tr>
+  <tr id="POW">
+    <td><a class="permalink" href="#POW"><code class="Fn">POW</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>
+    <math class="eqn">
+      <mrow><msup><mi>x</mi><mi>y</mi></msup></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="LOG">
+    <td><a class="permalink" href="#LOG"><code class="Fn">LOG</code></a>(<var class="Fa">x</var>,
+      <var class="Fa">y</var>)</td>
+    <td>Logarithm of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     to the base
+    <math class="eqn">
+      <mrow><mi>y</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="ROUND">
+    <td><a class="permalink" href="#ROUND"><code class="Fn">ROUND</code></a>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     half away from zero to the nearest integer</td>
+  </tr>
+  <tr id="CEIL">
+    <td><a class="permalink" href="#CEIL"><code class="Fn">CEIL</code></a>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     up to the nearest integer</td>
+  </tr>
+  <tr id="FLOOR">
+    <td><a class="permalink" href="#FLOOR"><code class="Fn">FLOOR</code></a>(<var class="Fa">x</var>)</td>
+    <td>Round
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+     down to the nearest integer</td>
+  </tr>
+  <tr id="SIN">
+    <td><a class="permalink" href="#SIN"><code class="Fn">SIN</code></a>(<var class="Fa">x</var>)</td>
+    <td>Sine of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="COS">
+    <td><a class="permalink" href="#COS"><code class="Fn">COS</code></a>(<var class="Fa">x</var>)</td>
+    <td>Cosine of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="TAN">
+    <td><a class="permalink" href="#TAN"><code class="Fn">TAN</code></a>(<var class="Fa">x</var>)</td>
+    <td>Tangent of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="ASIN">
+    <td><a class="permalink" href="#ASIN"><code class="Fn">ASIN</code></a>(<var class="Fa">x</var>)</td>
+    <td>Inverse sine of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="ACOS">
+    <td><a class="permalink" href="#ACOS"><code class="Fn">ACOS</code></a>(<var class="Fa">x</var>)</td>
+    <td>Inverse cosine of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="ATAN">
+    <td><a class="permalink" href="#ATAN"><code class="Fn">ATAN</code></a>(<var class="Fa">x</var>)</td>
+    <td>Inverse tangent of
+    <math class="eqn">
+      <mrow><mi>x</mi></mrow>
+    </math>
+    </td>
+  </tr>
+  <tr id="ATAN2">
+    <td><a class="permalink" href="#ATAN2"><code class="Fn">ATAN2</code></a>(<var class="Fa">y</var>,
+      <var class="Fa">x</var>)</td>
+    <td>Angle between
+    <math class="eqn">
+      <mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow>
+    </math>
+     and
+    <math class="eqn">
+      <mrow><mo>(</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo>)</mo></mrow>
+    </math>
+    </td>
+  </tr>
+</table>
+<p class="Pp">There are no functions for fixed-point addition and subtraction,
+    because the &#x2018;+&#x2019; and &#x2018;-&#x2019; operators can add and
+    subtract pairs of fixed-point operands.</p>
+<div class="Bd Pp Bd-indent">Note that some operators or functions are
+  meaningful when combining integers and fixed-point values. For example,
+  &#x2018;<code class="Li">2.0 * 3</code>&#x2019; is equivalent to
+  &#x2018;<code class="Li">MUL(2.0, 3.0)</code>&#x2019;, and
+  &#x2018;<code class="Li">6.0 / 2</code>&#x2019; is equivalent to
+  &#x2018;<code class="Li">DIV(6.0, 2.0)</code>&#x2019;. Be careful and think
+  about what the operations mean when doing this sort of thing.</div>
+<p class="Pp" id="does">All of these fixed-point functions can take an optional
+    final argument, which is the precision to use for that one operation. For
+    example, &#x2018;<code class="Li">MUL(6.0q8, 7.0q8, 8)</code>&#x2019; will
+    evaluate to &#x2018;<code class="Li">42.0q8</code>&#x2019; no matter what
+    value is set as the current <code class="Cm">Q</code> option.
+    <code class="Nm">rgbasm</code>
+    <a class="permalink" href="#does"><i class="Em">does not check precisions
+    for consistency</i></a>, so nonsensical input like
+    &#x2018;<code class="Li">MUL(4.2q8, 6.9q12, 16)</code>&#x2019; will produce
+    a nonsensical (but technically correct) result: &#x201C;garbage in, garbage
+    out&#x201D;.</p>
+<p class="Pp" id="dividend">The <code class="Ic">FMOD</code> function is used to
+    get the remainder of the corresponding fixed-point division. The result has
+    the same sign as the
+    <a class="permalink" href="#dividend"><i class="Em">dividend</i></a>; this
+    is the opposite of how the integer modulo operator &#x2018;%&#x2019;
+  works!</p>
+<p class="Pp">The trigonometry functions (<code class="Ic">SIN</code>,
+    <code class="Ic">COS</code>, <code class="Ic">TAN</code>,
+    <span class="No">etc</span>) are defined in terms of a circle divided into
+    1.0 &#x201C;turns&#x201D; (equal to
+  <math class="eqn">
+    <mrow><mn>2</mn><mo>&#x03C0;</mo></mrow>
+  </math>
+   radians, or 360 degrees).</p>
+<p class="Pp">These functions are useful for automatic generation of various
+    tables. For example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>; Generate a table of 128 sine values
+; from sin(0.0) included to sin(0.5) excluded,
+; with amplitude scaled from [-1.0, 1.0] to [0.0, 128.0],
+; then divided by 1.0 to round down to integer values.
+FOR angle, 0.0, 0.5, 0.5 / 128
+    db MUL(SIN(angle) + 1.0, 128.0 / 2) / 1.0
+ENDR</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="String_expressions"><a class="permalink" href="#String_expressions">String
+  expressions</a></h3>
+<p class="Pp">The most basic string expression is a string literal: any number
+    of characters contained in double quotes (&#x2018;<code class="Li">&quot;for
+    instance&quot;</code>&#x2019;). The backslash character
+    &#x2018;<code class="Li">\</code>&#x2019; is special in that it causes the
+    character following it to be &#x201C;escaped&#x201D;, meaning that it is
+    treated differently from normal. There are a number of escape sequences you
+    can use within a string:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Sequence">
+    <td><a class="permalink" href="#Sequence"><b class="Sy">Sequence</b></a></td>
+    <td><a class="permalink" href="#Meaning~3"><b class="Sy" id="Meaning~3">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\\</code>&#x2019;</td>
+    <td>Backslash (escapes the escape character itself)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\&quot;</code>&#x2019;</td>
+    <td>Double quote (does not terminate a string)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\'</code>&#x2019;</td>
+    <td>Single quote (does not terminate a character literal)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\{</code>&#x2019;</td>
+    <td>Open curly brace (does not start interpolation)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\}</code>&#x2019;</td>
+    <td>Close curly brace (does not end interpolation)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\n</code>&#x2019;</td>
+    <td>Newline (ASCII $0A)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\r</code>&#x2019;</td>
+    <td>Carriage return (ASCII $0D)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\t</code>&#x2019;</td>
+    <td>Tab (ASCII $09)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\0</code>&#x2019;</td>
+    <td>Null (ASCII $00)</td>
+  </tr>
+</table>
+<p class="Pp">Multi-line string literals are contained in triple quotes
+    (&#x2018;<code class="Li">&quot;&quot;&quot;for
+    instance&quot;&quot;&quot;</code>&#x2019;). Escape sequences work the same
+    way in multi-line strings; however, literal newline characters will be
+    included as-is, without needing to escape them with
+    &#x2018;<code class="Li">\r</code>&#x2019; or
+    &#x2018;<code class="Li">\n</code>&#x2019;.</p>
+<p class="Pp">Raw string literals are prefixed by a hash &#x2018;#&#x2019;.
+    Inside them, backslashes and braces are treated like regular characters, so
+    they will not be expanded as macro arguments, interpolated symbols, or
+    escape sequences. For example, the raw string
+    &#x2018;<code class="Li">#&quot;\t\1{s}\&quot;</code>&#x2019; is equivalent
+    to the regular string
+    &#x2018;<code class="Li">&quot;\\t\\1\{s}\\&quot;</code>&#x2019;. (Note that
+    this prevents raw strings from including the double quote character.) Raw
+    strings also may be contained in triple quotes for them to be multi-line, so
+    they can include literal newline or quote characters (although still not
+    three quotes in a row).</p>
+<p class="Pp">You can use the &#x2018;++&#x2019; operator to concatenate two
+    strings. &#x2018;<code class="Li">&quot;str&quot; ++
+    &quot;ing&quot;</code>&#x2019; is equivalent to
+    &#x2018;<code class="Li">&quot;string&quot;</code>&#x2019;, or to
+    &#x2018;<code class="Li">STRCAT(&quot;str&quot;,
+    &quot;ing&quot;)</code>&#x2019;.</p>
+<p class="Pp">You can use the &#x2018;===&#x2019; and &#x2018;!==&#x2019;
+    operators to compare two strings. &#x2018;<code class="Li">&quot;str&quot;
+    === &quot;ing&quot;</code>&#x2019; is equivalent to
+    &#x2018;<code class="Li">STRCMP(&quot;str&quot;, &quot;ing&quot;) ==
+    0</code>&#x2019;, and &#x2018;<code class="Li">&quot;str&quot; !==
+    &quot;ing&quot;</code>&#x2019; is equivalent to
+    &#x2018;<code class="Li">STRCMP(&quot;str&quot;, &quot;ing&quot;) !=
+    0</code>&#x2019;.</p>
+<p class="Pp">The following functions operate on string expressions, and return
+    strings themselves:</p>
+<table class="Bl-column">
+  <tr id="Name~3">
+    <td><a class="permalink" href="#Name~3"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~3"><b class="Sy" id="Operation~3">Operation</b></a></td>
+  </tr>
+  <tr id="STRCAT">
+    <td><a class="permalink" href="#STRCAT"><code class="Fn">STRCAT</code></a>(<var class="Fa">strs...</var>)</td>
+    <td>Concatenates <var class="Ar">strs</var>.</td>
+  </tr>
+  <tr id="STRUPR">
+    <td><a class="permalink" href="#STRUPR"><code class="Fn">STRUPR</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with all ASCII
+      letters</span> (&#x2018;<code class="Li">a-z</code>&#x2019;) in
+      uppercase.</td>
+  </tr>
+  <tr id="STRLWR">
+    <td><a class="permalink" href="#STRLWR"><code class="Fn">STRLWR</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with all ASCII
+      letters</span> (&#x2018;<code class="Li">A-Z</code>&#x2019;) in
+      lowercase.</td>
+  </tr>
+  <tr id="STRSLICE">
+    <td><a class="permalink" href="#STRSLICE"><code class="Fn">STRSLICE</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">start</var>, <var class="Fa">stop</var>)</td>
+    <td>Returns a substring of <var class="Ar">str</var>
+      <span class="No">starting at</span> <var class="Ar">start</var>
+      <span class="No">and ending at</span> <var class="Ar">stop</var>
+      <span class="No">(exclusive). If</span> <var class="Ar">stop</var>
+      <span class="No">is not specified, the substring continues to the end
+      of</span> <var class="Ar">str</var>.</td>
+  </tr>
+  <tr id="STRRPL">
+    <td><a class="permalink" href="#STRRPL"><code class="Fn">STRRPL</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">old</var>, <var class="Fa">new</var>)</td>
+    <td>Returns <var class="Ar">str</var> <span class="No">with each occurrence
+      of the substring</span> <var class="Ar">old</var>
+      <span class="No">replaced with</span> <var class="Ar">new</var>.</td>
+  </tr>
+  <tr id="STRFMT">
+    <td><a class="permalink" href="#STRFMT"><code class="Fn">STRFMT</code></a>(<var class="Fa">fmt</var>,
+      <var class="Fa">args...</var>)</td>
+    <td>Returns the string <var class="Ar">fmt</var> <span class="No">with
+      each</span> &#x2018;<code class="Li">%spec</code>&#x2019; pattern replaced
+      by interpolating the format <var class="Ar">spec</var> (using the same
+      syntax as <a class="Sx" href="#Symbol_interpolation">Symbol
+      interpolation</a>) with its corresponding argument in
+      <var class="Ar">args</var> (&#x2018;%%&#x2019; is replaced by the
+      &#x2018;%&#x2019; character).</td>
+  </tr>
+  <tr id="STRCHAR">
+    <td><a class="permalink" href="#STRCHAR"><code class="Fn">STRCHAR</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the substring of <var class="Ar">str</var> <span class="No">for
+      the charmap entry at</span> <var class="Ar">idx</var>
+      <span class="No">with the current charmap</span>.
+      (<var class="Ar">idx</var> <span class="No">counts charmap entries, not
+      characters.</span>)</td>
+  </tr>
+</table>
+<p class="Pp">The following functions take varying operands, and return
+  strings:</p>
+<table class="Bl-column">
+  <tr id="REVCHAR">
+    <td><a class="permalink" href="#REVCHAR"><code class="Fn">REVCHAR</code></a>(<var class="Fa">vals...</var>)</td>
+    <td>Returns the string that is mapped to <var class="Ar">vals</var>
+      <span class="No">with the current charmap. If there is no unique charmap
+      entry for</span> <var class="Ar">vals</var>, an error occurs.</td>
+  </tr>
+  <tr id="READFILE">
+    <td><a class="permalink" href="#READFILE"><code class="Fn">READFILE</code></a>(<var class="Fa">name</var>,
+      <var class="Fa">max</var>)</td>
+    <td>Returns the contents of the file <var class="Ar">name</var>
+      <span class="No">as a string. Reads up to</span> <var class="Ar">max</var>
+      <span class="No">bytes, or the entire contents if</span>
+      <var class="Ar">max</var> <span class="No">is not specified. If the file
+      isn't found in the current directory, the include-path list passed
+      to</span> <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s
+      <code class="Fl">-I</code> <span class="No">option on the command line
+      will be searched.</span></td>
+  </tr>
+</table>
+<p class="Pp">The following functions operate on string expressions, but return
+    integers:</p>
+<table class="Bl-column">
+  <tr id="Name~4">
+    <td><a class="permalink" href="#Name~4"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~4"><b class="Sy" id="Operation~4">Operation</b></a></td>
+  </tr>
+  <tr id="STRLEN">
+    <td><a class="permalink" href="#STRLEN"><code class="Fn">STRLEN</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of characters in <var class="Ar">str</var>.</td>
+  </tr>
+  <tr id="STRCMP">
+    <td><a class="permalink" href="#STRCMP"><code class="Fn">STRCMP</code></a>(<var class="Fa">str1</var>,
+      <var class="Fa">str2</var>)</td>
+    <td>Compares <var class="Ar">str1</var> <span class="No">and</span>
+      <var class="Ar">str2</var> <span class="No">according to ASCII ordering of
+      their characters. Returns -1 if</span> <var class="Ar">str1</var>
+      <span class="No">is lower than</span> <var class="Ar">str2</var>, 1 if
+      <var class="Ar">str1</var> <span class="No">is greater than</span>
+      <var class="Ar">str2</var>, or 0 if they match.</td>
+  </tr>
+  <tr id="STRFIND">
+    <td><a class="permalink" href="#STRFIND"><code class="Fn">STRFIND</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the first index of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or -1 if it's not
+      present.</td>
+  </tr>
+  <tr id="STRRFIND">
+    <td><a class="permalink" href="#STRRFIND"><code class="Fn">STRRFIND</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">sub</var>)</td>
+    <td>Returns the last index of <var class="Ar">sub</var>
+      <span class="No">in</span> <var class="Ar">str</var>, or -1 if it's not
+      present.</td>
+  </tr>
+  <tr id="BYTELEN">
+    <td><a class="permalink" href="#BYTELEN"><code class="Fn">BYTELEN</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of bytes in <var class="Ar">str</var>. (Non-ASCII
+      characters can be multiple bytes.)</td>
+  </tr>
+  <tr id="STRBYTE">
+    <td><a class="permalink" href="#STRBYTE"><code class="Fn">STRBYTE</code></a>(<var class="Fa">str</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the byte value at <var class="Ar">idx</var>
+      <span class="No">in</span> <var class="Ar">str</var>.</td>
+  </tr>
+  <tr id="INCHARMAP">
+    <td><a class="permalink" href="#INCHARMAP"><code class="Fn">INCHARMAP</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns 1 if <var class="Ar">str</var> <span class="No">has an entry in
+      the current charmap, or 0 otherwise.</span></td>
+  </tr>
+  <tr id="CHARLEN">
+    <td><a class="permalink" href="#CHARLEN"><code class="Fn">CHARLEN</code></a>(<var class="Fa">str</var>)</td>
+    <td>Returns the number of charmap entries in <var class="Ar">str</var>
+      <span class="No">with the current charmap.</span></td>
+  </tr>
+  <tr id="CHARCMP">
+    <td><a class="permalink" href="#CHARCMP"><code class="Fn">CHARCMP</code></a>(<var class="Fa">str1</var>,
+      <var class="Fa">str2</var>)</td>
+    <td>Compares <var class="Ar">str1</var> <span class="No">and</span>
+      <var class="Ar">str2</var> <span class="No">according to their charmap
+      entry values with the current charmap. Returns -1 if</span>
+      <var class="Ar">str1</var> <span class="No">is lower than</span>
+      <var class="Ar">str2</var>, 1 if <var class="Ar">str1</var>
+      <span class="No">is greater than</span> <var class="Ar">str2</var>, or 0
+      if they match.</td>
+  </tr>
+  <tr id="CHARSIZE">
+    <td><a class="permalink" href="#CHARSIZE"><code class="Fn">CHARSIZE</code></a>(<var class="Fa">char</var>)</td>
+    <td>Returns how many values are in the charmap entry for
+      <var class="Ar">char</var> <span class="No">with the current
+      charmap.</span></td>
+  </tr>
+  <tr id="CHARVAL">
+    <td><a class="permalink" href="#CHARVAL"><code class="Fn">CHARVAL</code></a>(<var class="Fa">char</var>,
+      <var class="Fa">idx</var>)</td>
+    <td>Returns the value at <var class="Ar">idx</var> <span class="No">of the
+      charmap entry for</span> <var class="Ar">char</var>.
+      <var class="Ar">If</var> <var class="Ar">idx</var> <span class="No">is not
+      specified,</span> <var class="Ar">char</var> <span class="No">must have a
+      single value, which is returned.</span></td>
+  </tr>
+</table>
+<p class="Pp">Note that indexes count starting from 0 at the beginning, or from
+    -1 at the end. The characters of a string are counted by
+    &#x2018;<code class="Li">STRLEN</code>&#x2019;; the charmap entries of a
+    string are counted by &#x2018;<code class="Li">CHARLEN</code>&#x2019;; and
+    the values of a charmap entry are counted by
+    &#x2018;<code class="Li">CHARSIZE</code>&#x2019;.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Character_maps"><a class="permalink" href="#Character_maps">Character
+  maps</a></h3>
+<p class="Pp">When writing text strings that are meant to be displayed on the
+    Game Boy, the character encoding in the ROM may need to be different than
+    the source file encoding. For example, the tiles used for uppercase letters
+    may be placed starting at tile index 128, which differs from ASCII starting
+    at 65.</p>
+<p class="Pp">Character maps allow mapping strings or character literals to
+    arbitrary sequences of numbers:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>CHARMAP &quot;A&quot;, 42
+CHARMAP ':)', 39
+CHARMAP &quot;&lt;br&gt;&quot;, 13, 10
+CHARMAP '&amp;euro;', $20ac</pre>
+</div>
+<p class="Pp">This would result in &#x2018;<code class="Li">db &quot;Amen
+    :)&lt;br&gt;&quot;</code>&#x2019; being equivalent to
+    &#x2018;<code class="Li">db 42, 109, 101, 110, 32, 39, 13,
+    10</code>&#x2019;, and &#x2018;<code class="Li">dw
+    &quot;25&amp;euro;&quot;</code>&#x2019; being equivalent to
+    &#x2018;<code class="Li">dw 50, 53, $20ac</code>&#x2019;.</p>
+<p class="Pp">Character mappings are matched greedily, so the longest applicable
+    one will be mapped in a string. Any characters in the string without defined
+    mappings will be copied directly, using the source file's encoding of
+    characters to bytes.</p>
+<p class="Pp">It is possible to create multiple character maps and then switch
+    between them as desired. This can be used to encode debug information in
+    ASCII and use a different encoding for other purposes, for example.
+    Initially, there is one character map called &#x2018;main&#x2019; and it is
+    automatically selected as the current character map from the beginning.
+    There is also a character map stack that can be used to save and restore
+    which character map is currently active.</p>
+<table class="Bl-column">
+  <tr id="Command">
+    <td><a class="permalink" href="#Command"><b class="Sy">Command</b></a></td>
+    <td><a class="permalink" href="#Meaning~4"><b class="Sy" id="Meaning~4">Meaning</b></a></td>
+  </tr>
+  <tr id="NEWCHARMAP">
+    <td><a class="permalink" href="#NEWCHARMAP"><code class="Ic">NEWCHARMAP</code></a>
+      <var class="Ar">name</var></td>
+    <td>Creates a new, empty character map called <var class="Ar">name</var>
+      <span class="No">and switches to it</span>.</td>
+  </tr>
+  <tr id="NEWCHARMAP~2">
+    <td><a class="permalink" href="#NEWCHARMAP~2"><code class="Ic">NEWCHARMAP</code></a>
+      <var class="Ar">name</var>, <var class="Ar">basename</var></td>
+    <td>Creates a new character map called <var class="Ar">name</var>,
+      <span class="No">copied from character map</span>
+      <var class="Ar">basename</var>, <span class="No">and switches to
+      it</span>.</td>
+  </tr>
+  <tr id="SETCHARMAP">
+    <td><a class="permalink" href="#SETCHARMAP"><code class="Ic">SETCHARMAP</code></a>
+      <var class="Ar">name</var></td>
+    <td>Switch to character map <var class="Ar">name</var>.</td>
+  </tr>
+  <tr id="PUSHC">
+    <td><a class="permalink" href="#PUSHC"><code class="Ic">PUSHC</code></a></td>
+    <td>Push the current character map onto the stack.</td>
+  </tr>
+  <tr id="PUSHC~2">
+    <td><a class="permalink" href="#PUSHC~2"><code class="Ic">PUSHC</code></a>
+      <var class="Ar">name</var></td>
+    <td>Push the current character map onto the stack and switch to character
+      map <var class="Ar">name</var>.</td>
+  </tr>
+  <tr id="POPC">
+    <td><a class="permalink" href="#POPC"><code class="Ic">POPC</code></a></td>
+    <td>Pop a character map off the stack and switch to it.</td>
+  </tr>
+</table>
+<p class="Pp" id="Note"><a class="permalink" href="#Note"><b class="Sy">Note</b></a>:
+    Modifications to a character map take effect immediately from that point
+    onward.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Other_functions"><a class="permalink" href="#Other_functions">Other
+  functions</a></h3>
+<p class="Pp">There are a few other functions that do things beyond numeric or
+    string operations:</p>
+<table class="Bl-column">
+  <tr id="Name~5">
+    <td><a class="permalink" href="#Name~5"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Operation~5"><b class="Sy" id="Operation~5">Operation</b></a></td>
+  </tr>
+  <tr id="DEF">
+    <td><a class="permalink" href="#DEF"><code class="Fn">DEF</code></a>(<var class="Fa">symbol</var>)</td>
+    <td>Returns 1 if <var class="Ar">symbol</var> has been defined, 0 otherwise.
+      String constants are not expanded within the parentheses.</td>
+  </tr>
+  <tr id="ISCONST">
+    <td><a class="permalink" href="#ISCONST"><code class="Fn">ISCONST</code></a>(<var class="Fa">arg</var>)</td>
+    <td>Returns 1 if <var class="Ar">arg</var>'s value is known by RGBASM (e.g.
+      if it can be an argument to <code class="Ic">IF</code>), or 0 if only
+      RGBLINK can compute its value.</td>
+  </tr>
+  <tr>
+    <td><code class="Fn">BANK</code>(<var class="Fa">arg</var>)</td>
+    <td>Returns a bank number. If <var class="Ar">arg</var> is the symbol
+      <code class="Ic">@</code>, this function returns the bank of the current
+      section. If <var class="Ar">arg</var> is a string, it returns the bank of
+      the section that has that name. If <var class="Ar">arg</var> is a label,
+      it returns the bank number the label is in. The result may be constant if
+      <code class="Nm">rgbasm</code> is able to compute it.</td>
+  </tr>
+  <tr id="SECTION">
+    <td><a class="permalink" href="#SECTION"><code class="Fn">SECTION</code></a>(<var class="Fa">symbol</var>)</td>
+    <td>Returns the name of the section that <var class="Ar">symbol</var> is in.
+      <var class="Ar">symbol</var> must have been defined already.</td>
+  </tr>
+  <tr id="SIZEOF">
+    <td><a class="permalink" href="#SIZEOF"><code class="Fn">SIZEOF</code></a>(<var class="Fa">arg</var>)</td>
+    <td>If <var class="Ar">arg</var> is a string, this function returns the size
+      of the section named <var class="Ar">arg</var>. If
+      <var class="Ar">arg</var> is a section type keyword, it returns the size
+      of that section type. The result is not constant, since only RGBLINK can
+      compute its value. If <var class="Ar">arg</var> is an 8-bit or 16-bit
+      register, it returns the size of that register.</td>
+  </tr>
+  <tr id="STARTOF">
+    <td><a class="permalink" href="#STARTOF"><code class="Fn">STARTOF</code></a>(<var class="Fa">arg</var>)</td>
+    <td>If <var class="Ar">arg</var> is a string, this function returns the
+      starting address of the section named <var class="Ar">arg</var>. If
+      <var class="Ar">arg</var> is a section type keyword, it returns the
+      starting address of that section type. The result is not constant, since
+      only RGBLINK can compute its value.</td>
+  </tr>
+</table>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SECTIONS"><a class="permalink" href="#SECTIONS">SECTIONS</a></h2>
+<p class="Pp">Before you can start writing code, you must define a section. This
+    tells the assembler what kind of information follows and where to put
+  it.</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
+  <var class="Ar">type</var></code></div>
+<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
+  <var class="Ar">type</var>, <var class="Ar">options</var></code></div>
+<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
+  <var class="Ar">type</var>[<var class="Ar">addr</var>]</code></div>
+<div class="Bd Bd-indent"><code class="Li">SECTION <var class="Ar">name</var>,
+  <var class="Ar">type</var>[<var class="Ar">addr</var>],
+  <var class="Ar">options</var></code></div>
+<p class="Pp"><var class="Ar">name</var> is a string enclosed in double quotes,
+    which is the name of the section. If the type doesn't match, an error
+    occurs. Each section must have a unique name, even across different source
+    files, or the linker will treat it as an error.</p>
+<p class="Pp">Possible section <var class="Ar">type</var>s are as follows:</p>
+<dl class="Bl-tag">
+  <dt id="ROM0"><a class="permalink" href="#ROM0"><code class="Ic">ROM0</code></a></dt>
+  <dd>A ROM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$0000</span> to <span class="Ad">$3FFF</span>, or
+      <span class="Ad">$0000</span> to <span class="Ad">$7FFF</span> if tiny ROM
+      mode is enabled in the linker.</dd>
+  <dt id="ROMX"><a class="permalink" href="#ROMX"><code class="Ic">ROMX</code></a></dt>
+  <dd>A banked ROM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$4000</span> to <span class="Ad">$7FFF</span>. Becomes an
+      alias for <code class="Ic">ROM0</code> if tiny ROM mode is enabled in the
+      linker.</dd>
+  <dt id="VRAM"><a class="permalink" href="#VRAM"><code class="Ic">VRAM</code></a></dt>
+  <dd>A banked video RAM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$8000</span> to <span class="Ad">$9FFF</span>.
+      <var class="Ar">bank</var> can be 0 or 1, but bank 1 is unavailable if DMG
+      mode is enabled in the linker.</dd>
+  <dt id="SRAM"><a class="permalink" href="#SRAM"><code class="Ic">SRAM</code></a></dt>
+  <dd>A banked external (save) RAM section. <var class="Ar">addr</var> can range
+      from <span class="Ad">$A000</span> to <span class="Ad">$BFFF</span>.</dd>
+  <dt id="WRAM0"><a class="permalink" href="#WRAM0"><code class="Ic">WRAM0</code></a></dt>
+  <dd>A general-purpose RAM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$C000</span> to <span class="Ad">$CFFF</span>, or
+      <span class="Ad">$C000</span> to <span class="Ad">$DFFF</span> if WRAM0
+      mode is enabled in the linker.</dd>
+  <dt id="WRAMX"><a class="permalink" href="#WRAMX"><code class="Ic">WRAMX</code></a></dt>
+  <dd>A banked general-purpose RAM section. <var class="Ar">addr</var> can range
+      from <span class="Ad">$D000</span> to <span class="Ad">$DFFF</span>.
+      <var class="Ar">bank</var> can range from 1 to 7. Becomes an alias for
+      <code class="Ic">WRAM0</code> if WRAM0 mode is enabled in the linker.</dd>
+  <dt id="OAM"><a class="permalink" href="#OAM"><code class="Ic">OAM</code></a></dt>
+  <dd>An object attribute RAM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$FE00</span> to <span class="Ad">$FE9F</span>.</dd>
+  <dt id="HRAM"><a class="permalink" href="#HRAM"><code class="Ic">HRAM</code></a></dt>
+  <dd>A high RAM section. <var class="Ar">addr</var> can range from
+      <span class="Ad">$FF80</span> to <span class="Ad">$FFFE</span>.</dd>
+</dl>
+<p class="Pp">RGBDS produces ROMs, which means that code and data can only be
+    placed in <code class="Ic">ROM0</code> and <code class="Ic">ROMX</code>
+    sections. The other RAM section types are for statically allocated labels.
+    If you need code or data in RAM, you will need to copy it from ROM to RAM
+    yourself. See <a class="Sx" href="#RAM_code">RAM code</a> for an example of
+    how to conveniently do that with a <code class="Ic">LOAD</code> block.</p>
+<p class="Pp"><var class="Ar">option</var>s are comma-separated and may
+  include:</p>
+<dl class="Bl-tag">
+  <dt id="BANK"><a class="permalink" href="#BANK"><code class="Ic">BANK</code></a>[<var class="Ar">bank</var>]</dt>
+  <dd>Specify which <var class="Ar">bank</var> for the linker to place the
+      section in. See above for possible values for <var class="Ar">bank</var>,
+      depending on <var class="Ar">type</var>.</dd>
+  <dt id="ALIGN"><a class="permalink" href="#ALIGN"><code class="Ic">ALIGN</code></a>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>]</dt>
+  <dd>Place the section at an address whose <var class="Ar">align</var>
+      least-significant bits are equal to <var class="Ar">offset</var>. Note
+      that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a
+      shorthand for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+      <span class="No">0</span>]. This option can be used with
+      [<var class="Ar">addr</var>], as long as they don't contradict each other.
+      It's also possible to request alignment in the middle of a section; see
+      <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
+    below.</dd>
+</dl>
+<p class="Pp">If [<var class="Ar">addr</var>] is not specified, the section is
+    considered &#x201C;floating&#x201D;; the linker will automatically calculate
+    an appropriate address for the section. Similarly, if
+    <code class="Ic">BANK</code>[<var class="Ar">bank</var>] is not specified,
+    the linker will automatically find a bank with enough space.</p>
+<p class="Pp">Sections can also be placed by using a linker script file. The
+    format is described in <a class="Xr" href="./rgblink.5">rgblink(5)</a>. They
+    allow the user to place floating sections in the desired bank in the order
+    specified in the script. This is useful if the sections can't be placed at
+    an address manually because the size may change, but they have to be
+    together.</p>
+<p class="Pp">Section examples:</p>
+<ul class="Bl-item">
+  <li>
+    <div class="Bd Pp Bd-indent Li">
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX</pre>
+    </div>
+    <p class="Pp">This switches to the section called &#x201C;CoolStuff&#x201D;,
+        creating it if it doesn't already exist. It can end up in any ROM bank.
+        Code and data may follow.</p>
+  </li>
+  <li>If it is needed, the base address of the section can be specified:
+    <div class="Bd Pp Bd-indent Li">
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567]</pre>
+    </div>
+  </li>
+  <li>An example with a fixed bank:
+    <div class="Bd Pp Bd-indent Li">
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX[$4567], BANK[3]</pre>
+    </div>
+  </li>
+  <li>And if you want to force only the section's bank, and not its position
+      within the bank, that's also possible:
+    <div class="Bd Pp Bd-indent Li">
+    <pre>SECTION &quot;Cool Stuff&quot;, ROMX, BANK[7]</pre>
+    </div>
+  </li>
+  <li>Alignment examples: The first one could be useful for defining an OAM
+      buffer to be DMA'd, since it must be aligned to 256 bytes. The second
+      could also be appropriate for GBC HDMA, or for an optimized copy code that
+      requires alignment.
+    <div class="Bd Pp Bd-indent Li">
+    <pre>SECTION &quot;OAM Data&quot;, WRAM0, ALIGN[8] ;&#x00A0;align to 256 bytes
+SECTION &quot;VRAM Data&quot;, ROMX, BANK[2], ALIGN[4] ;&#x00A0;align to 16 bytes</pre>
+    </div>
+  </li>
+</ul>
+<p class="Pp">The current section can be ended without starting a new section by
+    using <code class="Ic">ENDSECTION</code>. This directive will clear the
+    section context, so you can no longer write code until you start another
+    section. It can be useful to avoid accidentally defining code or data in the
+    wrong section.</p>
+<section class="Ss">
+<h3 class="Ss" id="Section_stack"><a class="permalink" href="#Section_stack">Section
+  stack</a></h3>
+<p class="Pp"><code class="Ic">POPS</code> and <code class="Ic">PUSHS</code>
+    provide the interface to the section stack. The number of entries in the
+    stack is limited only by the amount of memory in your machine.</p>
+<p class="Pp"><code class="Ic">PUSHS</code> will push the current section
+    context on the section stack. <code class="Ic">POPS</code> can then later be
+    used to restore it. Useful for defining sections in included files when you
+    don't want to override the section context at the point the file was
+    included.</p>
+<p class="Pp"><code class="Ic">PUSHS</code> can also take the same arguments as
+    <code class="Ic">SECTION</code>, in order to push the current section
+    context and define a new section at the same time:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;Code&quot;, ROM0
+Function:
+    ld a, 42
+    PUSHS &quot;Variables&quot;, WRAM0
+        wAnswer: db
+    POPS
+    ld [wAnswer], a</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="RAM_code"><a class="permalink" href="#RAM_code">RAM
+  code</a></h3>
+<p class="Pp">Sometimes you want to have some code (or data) in RAM, e.g. for
+    self-modifying code. But you can't just put it directly in a RAM section;
+    you have to store it in ROM and copy it to RAM at some point. This means
+    that the code will be executed at a different address range than where it's
+    defined, which can be inconvenient for references to labels within that
+    code. This situation is what <code class="Ic">LOAD</code> blocks are
+    designed for. Here's an example of how to use them:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;LOAD example&quot;, ROMX
+CopyCode:
+    ld de, RAMCode
+    ld hl, RAMLocation
+    ld c, RAMCode.end - RAMCode
+.loop
+    ld a, [de]
+    inc de
+    ld [hli], a
+    dec c
+    jr nz, .loop
+    ret
+
+RAMCode:
+  LOAD &quot;RAM code&quot;, WRAM0
+RAMLocation:
+    ld hl, .string
+    ld de, $9864
+.copy
+    ld a, [hli]
+    ld [de], a
+    inc de
+    and a
+    jr nz, .copy
+    ret
+
+.string
+    db &quot;Hello World!\0&quot;
+  ENDL
+.end</pre>
+</div>
+<p class="Pp">A <code class="Ic">LOAD</code> block feels similar to a
+    <code class="Ic">SECTION</code> declaration because it creates a new one.
+    All data and code generated within such a block is placed in the current
+    section like usual, but all labels are created as if they were placed in
+    this newly-created section.</p>
+<p class="Pp">In the example above, all of the code and data will end up in the
+    &#x201C;LOAD example&#x201D; section. You will notice the
+    &#x2018;RAMCode&#x2019; and &#x2018;RAMLocation&#x2019; labels. The former
+    is situated in ROM, where the code is stored, the latter in RAM, where the
+    code will be loaded.</p>
+<p class="Pp">You cannot nest <code class="Ic">LOAD</code> blocks, nor can you
+    change or stop the current section within them.</p>
+<p class="Pp">The current <code class="Ic">LOAD</code> block can be ended by
+    using <code class="Ic">ENDL</code>. This directive is only necessary if you
+    want to resume writing code in its containing ROM section. Any of
+    <code class="Ic">LOAD</code>, <code class="Ic">SECTION</code>,
+    <code class="Ic">ENDSECTION</code>, or <code class="Ic">POPS</code> will end
+    the current <code class="Ic">LOAD</code> block before performing its own
+    function.</p>
+<p class="Pp"><code class="Ic">LOAD</code> blocks can use the
+    <code class="Ic">UNION</code> or <code class="Ic">FRAGMENT</code> modifiers
+    as described in <a class="Sx" href="#Unionized_sections">Unionized
+    sections</a> below.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Unionized_sections"><a class="permalink" href="#Unionized_sections">Unionized
+  sections</a></h3>
+<p class="Pp">When you're tight on RAM, you may want to define overlapping
+    static memory allocations, as explained in the
+    <a class="Sx" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+    overlapping spaces in RAM</a> section. However, a
+    <code class="Ic">UNION</code> only works within a single file, so it can't
+    be used e.g. to define temporary variables across several files, all of
+    which use the same statically allocated memory. Unionized sections solve
+    this problem. To declare a unionized section, add a
+    <code class="Ic">UNION</code> keyword after the
+    <code class="Ic">SECTION</code> one; the declaration is otherwise not
+    different. Unionized sections follow some different rules from normal
+    sections:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>The same unionized section (i.e. having the same name) can be declared
+      several times per <code class="Nm">rgbasm</code> invocation, and across
+      several invocations. Different declarations are treated and merged
+      identically whether within the same invocation, or different ones.</li>
+  <li>If one section has been declared as unionized, all sections with the same
+      name must be declared unionized as well.</li>
+  <li>All declarations must have the same type. For example, even if
+      <a class="Xr" href="./rgblink.1">rgblink(1)</a>'s
+      <code class="Fl">-w</code> flag is used, <code class="Ic">WRAM0</code> and
+      <code class="Ic">WRAMX</code> types are still considered different.</li>
+  <li>Different constraints (alignment, bank, etc.) can be specified for each
+      unionized section declaration, but they must all be compatible. For
+      example, alignment must be compatible with any fixed address, all
+      specified banks must be the same, etc.</li>
+  <li>Unionized sections cannot have type <code class="Ic">ROM0</code> or
+      <code class="Ic">ROMX</code>.</li>
+</ul>
+<p class="Pp">Different declarations of the same unionized section are not
+    appended, but instead overlaid on top of each other, just like
+    <a class="Sx" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+    overlapping spaces in RAM</a>. Similarly, the size of an unionized section
+    is the largest of all its declarations.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Section_fragments"><a class="permalink" href="#Section_fragments">Section
+  fragments</a></h3>
+<p class="Pp">Section fragments are sections with a small twist: when several
+    fragments with the same name are encountered, they are concatenated into one
+    section instead of producing an error, even across multiple object files.
+    This works within the same file (paralleling the behavior &quot;plain&quot;
+    sections has in previous versions), but also across object files. To declare
+    a section fragment, add a <code class="Ic">FRAGMENT</code> keyword after the
+    <code class="Ic">SECTION</code> one; the declaration is otherwise not
+    different. However, similarly to
+    <a class="Sx" href="#Unionized_sections">Unionized sections</a>, some rules
+    must be followed:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>If one section has been declared as fragment, all sections with the same
+      name must be declared fragments as well.</li>
+  <li>All declarations must have the same type. For example, even if
+      <a class="Xr" href="./rgblink.1">rgblink(1)</a>'s
+      <code class="Fl">-w</code> flag is used, <code class="Ic">WRAM0</code> and
+      <code class="Ic">WRAMX</code> types are still considered different.</li>
+  <li>Different constraints (alignment, bank, etc.) can be specified for each
+      section fragment declaration, but they must all be compatible. For
+      example, alignment must be compatible with any fixed address, all
+      specified banks must be the same, etc.</li>
+  <li>A section fragment may not be unionized; after all, that wouldn't make
+      much sense.</li>
+</ul>
+<p class="Pp">When RGBASM merges two fragments, the one encountered later is
+    appended to the one encountered earlier.</p>
+<p class="Pp">When RGBLINK merges two fragments, the one whose file was
+    specified last is appended to the one whose file was specified first. For
+    example, assuming &#x2018;<code class="Li">bar.o</code>&#x2019;,
+    &#x2018;<code class="Li">baz.o</code>&#x2019;, and
+    &#x2018;<code class="Li">foo.o</code>&#x2019; all contain a fragment with
+    the same name, the command</p>
+<div class="Bd Bd-indent"><code class="Li">rgblink -o rom.gb baz.o foo.o
+  bar.o</code></div>
+would produce the fragment from &#x2018;<code class="Li">baz.o</code>&#x2019;
+  first, followed by the one from &#x2018;<code class="Li">foo.o</code>&#x2019;,
+  and the one from &#x2018;<code class="Li">bar.o</code>&#x2019; last.
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Fragment_literals"><a class="permalink" href="#Fragment_literals">Fragment
+  literals</a></h3>
+<p class="Pp">Fragment literals are useful for short blocks of code or data that
+    are only referenced once. They are section fragments created by surrounding
+    instructions or directives with &#x2018;<code class="Li">[[</code>&#x2019;
+    double brackets &#x2018;<code class="Li">]]</code>&#x2019;, without a
+    separate <code class="Ic">SECTION FRAGMENT</code> declaration.</p>
+<p class="Pp">The content of a fragment literal becomes a
+    <code class="Ic">SECTION FRAGMENT</code>, sharing the same name and bank as
+    its parent ROM section, but without any other constraints. The parent
+    section also becomes a <code class="Ic">FRAGMENT</code> if it was not one
+    already, so that it can be merged with its fragment literals. RGBLINK merges
+    the fragments in no particular order.</p>
+<p class="Pp">A fragment literal can take the place of any 16-bit integer
+    constant &#x2018;<code class="Li">n16</code>&#x2019; from the
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a> documentation, as well as a
+    <code class="Ic">DW</code> item. The fragment literal then evaluates to its
+    starting address. For example, you can <code class="Ic">CALL</code> or
+    <code class="Ic">JP</code> to a fragment literal.</p>
+<p class="Pp">This code using named labels:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DataTable:
+    dw First
+    dw Second
+    dw Third
+First:  db 1
+Second: db 4
+Third:  db 9
+Routine:
+    push hl
+    ld hl, Left
+    jr z, .got_it
+    ld hl, Right
+.got_it
+    call .print
+    pop hl
+    ret
+.print:
+    ld de, $1003
+    ld bc, STARTOF(VRAM)
+    jp Print
+Left:  db &quot;left\0&quot;
+Right: db &quot;right\0&quot;</pre>
+</div>
+<p class="Pp">is equivalent to this code using fragment literals:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DataTable:
+    dw [[ db 1 ]]
+    dw [[ db 4 ]]
+    dw [[ db 9 ]]
+Routine:
+    push hl
+    ld hl, [[ db &quot;left\0&quot; ]]
+    jr z, .got_it
+    ld hl, [[ db &quot;right\0&quot; ]]
+.got_it
+    call [[
+        ld de, $1003
+        ld bc, STARTOF(VRAM)
+        jp Print
+    ]]
+    pop hl
+    ret</pre>
+</div>
+<p class="Pp">The difference is that the example using fragment literals does
+    not declare a particular order for its pieces.</p>
+<p class="Pp" id="technically">Fragment literals can be arbitrarily nested, so
+    extreme use cases are
+    <a class="permalink" href="#technically"><i class="Em">technically</i></a>
+    possible. This code using named labels:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>dw FortyTwo
+FortyTwo:
+    call Sub1
+    jr Sub2
+Sub1:
+    ld a, [Twenty]
+    ret
+Twenty: db 20
+Sub2:
+    jp Sub3
+Sub3:
+    call Sub1
+    inc a
+    add a
+    ret</pre>
+</div>
+<p class="Pp">is equivalent to this code using fragment literals:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>dw [[
+    call [[
+        Sub1: ld a, [ [[db 20]] ] :: ret
+    ]]
+    jr [[
+        jp [[ call Sub1 :: inc a :: add a :: ret ]]
+    ]]
+]]</pre>
+</div>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SYMBOLS"><a class="permalink" href="#SYMBOLS">SYMBOLS</a></h2>
+<p class="Pp">RGBDS supports several types of symbols:</p>
+<dl class="Bl-hang">
+  <dt id="Label"><a class="permalink" href="#Label"><b class="Sy">Label</b></a></dt>
+  <dd>Numeric symbol designating a memory location. May or may not have a value
+      known at assembly time.</dd>
+  <dt id="Constant"><a class="permalink" href="#Constant"><b class="Sy">Constant</b></a></dt>
+  <dd>Numeric symbol whose value has to be known at assembly time.</dd>
+  <dt id="Macro"><a class="permalink" href="#Macro"><b class="Sy">Macro</b></a></dt>
+  <dd>A block of <code class="Nm">rgbasm</code> code that can be invoked
+    later.</dd>
+  <dt id="String"><a class="permalink" href="#String"><b class="Sy">String</b></a></dt>
+  <dd>A text string that can be expanded later, similarly to a macro.</dd>
+</dl>
+<p class="Pp">Symbol names can contain ASCII letters, numbers, underscores
+    &#x2018;_&#x2019;, hashes &#x2018;#&#x2019;, dollar signs &#x2018;$&#x2019;,
+    and at signs &#x2018;@&#x2019;. However, they must begin with either a
+    letter or an underscore. Additionally, label names can contain up to a
+    single dot &#x2018;<code class="Li">.</code>&#x2019;, which may not be the
+    first character.</p>
+<p class="Pp">A symbol cannot have the same name as a reserved keyword, unless
+    its name is a &#x201C;raw identifier&#x201D; prefixed by a hash
+    &#x2018;#&#x2019;. For example,
+    &#x2018;<code class="Li">#load</code>&#x2019; denotes a symbol named
+    &#x2018;<code class="Li">load</code>&#x2019;, and
+    &#x2018;<code class="Li">#LOAD</code>&#x2019; denotes a different symbol
+    named &#x2018;<code class="Li">LOAD</code>&#x2019;; in both cases the
+    &#x2018;#&#x2019; prevents them from being treated as the keyword
+    <code class="Ic">LOAD</code>.</p>
+<section class="Ss">
+<h3 class="Ss" id="Labels"><a class="permalink" href="#Labels">Labels</a></h3>
+<p class="Pp">One of the assembler's main tasks is to keep track of addresses
+    for you, so you can work with meaningful names instead of
+    &#x201C;magic&#x201D; numbers. Labels enable just that: a label ties a name
+    to a specific location within a section. A label resolves to a bank and
+    address, determined at the same time as its parent section's (see further in
+    this section).</p>
+<p class="Pp">A label is defined by writing its name at the beginning of a line,
+    followed by one or two colons, without any whitespace between the label name
+    and the colon(s). Declaring a label (global or local) with two colons
+    &#x2018;<code class="Li">::</code>&#x2019; will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below). When defining a local label, the colon can be
+    omitted, and <code class="Nm">rgbasm</code> will act as if there was only
+    one.</p>
+<p class="Pp" id="local">A label is said to be
+    <a class="permalink" href="#local"><i class="Em">local</i></a> if its name
+    contains a dot &#x2018;<code class="Li">.</code>&#x2019;; otherwise, it is
+    said to be
+    <a class="permalink" href="#global"><i class="Em" id="global">global</i></a>
+    (not to be mistaken with &#x201C;exported&#x201D;, explained in
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below). More than one dot in label names is not
+    allowed.</p>
+<p class="Pp">For convenience, local labels can use a shorthand syntax: when a
+    symbol name starting with a dot is found (for example, inside an expression,
+    or when declaring a label), then the current &#x201C;label scope&#x201D; is
+    implicitly prepended.</p>
+<p class="Pp">Defining a global label sets it as the current &#x201C;label
+    scope&#x201D;, until the next global label definition, or the end of the
+    current section.</p>
+<p class="Pp">Here are some examples of label definitions:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>GlobalLabel:
+AnotherGlobal:
+.locallabel ;&#x00A0;This defines &quot;AnotherGlobal.locallabel&quot;
+.another_local:
+AnotherGlobal.with_another_local:
+ThisWillBeExported:: ;&#x00A0;Note the two colons
+ThisWillBeExported.too::</pre>
+</div>
+<p class="Pp">In a numeric expression, a label evaluates to its address in
+    memory. (To obtain its bank, use the
+    &#x2018;<code class="Li">BANK()</code>&#x2019; function described in
+    <a class="Sx" href="#Other_functions">Other functions</a>). For example,
+    given the following, &#x2018;<code class="Li">ld de,
+    vPlayerTiles</code>&#x2019; would be equivalent to
+    &#x2018;<code class="Li">ld de, $80C0</code>&#x2019; assuming the section
+    ends up at <span class="Ad">$80C0</span>:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>SECTION &quot;Player tiles&quot;, VRAM
+vPlayerTiles:
+    ds 6 * 16
+.end</pre>
+</div>
+<p class="Pp">A label's location (and thus value) is usually not determined
+    until the linking stage, so labels usually cannot be used as constants.
+    However, if the section in which the label is defined has a fixed base
+    address, its value is known at assembly time.</p>
+<p class="Pp">Also, while <code class="Nm">rgbasm</code> obviously can compute
+    the difference between two labels if both are constant, it is also able to
+    compute the difference between two non-constant labels if they both belong
+    to the same section, such as
+    &#x2018;<code class="Li">PlayerTiles</code>&#x2019; and
+    &#x2018;<code class="Li">PlayerTiles.end</code>&#x2019; above.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Anonymous_labels"><a class="permalink" href="#Anonymous_labels">Anonymous
+  labels</a></h3>
+<p class="Pp">Anonymous labels are useful for short blocks of code. They are
+    defined like normal labels, but without a name before the colon. Anonymous
+    labels are independent of label scoping, so defining one does not change the
+    scoped label, and referencing one is not affected by the current scoped
+    label.</p>
+<p class="Pp">Anonymous labels are referenced using a colon
+    &#x2018;<code class="Li">:</code>&#x2019; followed by pluses
+    &#x2018;<code class="Li">+</code>&#x2019; or minuses
+    &#x2018;<code class="Li">-</code>&#x2019;. Thus <code class="Ic">:+</code>
+    references the next one after the expression, <code class="Ic">:++</code>
+    the one after that; <code class="Ic">:-</code> references the one before the
+    expression; and so on.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    ld hl, :++
+:   ld a, [hli] ; referenced by &quot;jr nz&quot;
+    ldh [c], a
+    dec c
+    jr nz, :-
+    ret
+
+:   ; referenced by &quot;ld hl&quot;
+    dw $7FFF, $1061, $03E0, $58A5</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Variables"><a class="permalink" href="#Variables">Variables</a></h3>
+<p class="Pp">An equal sign &#x2018;=&#x2019; is used to define mutable numeric
+    symbols. Unlike the other symbols described below, variables can be
+    redefined. This is useful for internal symbols in macros, for counters,
+  etc.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF ARRAY_SIZE EQU 4
+DEF COUNT = 2
+DEF COUNT = 3
+DEF COUNT = ARRAY_SIZE + COUNT
+DEF COUNT *= 2
+;&#x00A0;COUNT now has the value 14</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp">Variables can be conveniently redefined by compound assignment
+    operators like in C:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Operator~2">
+    <td><a class="permalink" href="#Operator~2"><b class="Sy">Operator</b></a></td>
+    <td><a class="permalink" href="#Meaning~5"><b class="Sy" id="Meaning~5">Meaning</b></a></td>
+  </tr>
+  <tr id="+=">
+    <td><a class="permalink" href="#+="><code class="Li">+= -=</code></a></td>
+    <td>Compound plus/minus</td>
+  </tr>
+  <tr id="*=">
+    <td><a class="permalink" href="#*="><code class="Li">*= /=
+      %=</code></a></td>
+    <td>Compound multiply/divide/modulo</td>
+  </tr>
+  <tr id="__=">
+    <td><a class="permalink" href="#__="><code class="Li">&lt;&lt;=
+      &gt;&gt;=</code></a></td>
+    <td>Compound shift left/right</td>
+  </tr>
+  <tr id="&amp;=">
+    <td><a class="permalink" href="#&amp;="><code class="Li">&amp;= |=
+      ^=</code></a></td>
+    <td>Compound and/or/xor</td>
+  </tr>
+</table>
+<p class="Pp">Examples:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF x = 10
+DEF x += 1    ; x == 11
+DEF y = x - 1 ; y == 10
+DEF y *= 2    ; y == 20
+DEF y &gt;&gt;= 1   ; y == 10
+DEF x ^= y    ; x == 1</pre>
+</div>
+<p class="Pp">Declaring a variable with <code class="Ic">EXPORT DEF</code> or
+    <code class="Ic">EXPORT REDEF</code> will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below).</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Numeric_constants"><a class="permalink" href="#Numeric_constants">Numeric
+  constants</a></h3>
+<p class="Pp"><code class="Ic">EQU</code> is used to define numeric constant
+    symbols. Unlike &#x2018;=&#x2019; above, constants defined this way cannot
+    be redefined. These constants can be used for unchanging values such as
+    properties of the hardware.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>def SCREEN_WIDTH  equ 160 ;&#x00A0;In pixels
+def SCREEN_HEIGHT equ 144</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp" id="really">If you
+    <a class="permalink" href="#really"><i class="Em">really</i></a> need to,
+    the <code class="Ic">REDEF</code> keyword will define or redefine a numeric
+    constant symbol. (It can also be used for variables, although it's not
+    necessary since they are mutable.) This can be used, for example, to update
+    a constant using a macro, without making it mutable in general.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    def NUM_ITEMS equ 0
+MACRO add_item
+    redef NUM_ITEMS equ NUM_ITEMS + 1
+    def ITEM_{02x:NUM_ITEMS} equ \1
+ENDM
+    add_item 1
+    add_item 4
+    add_item 9
+    add_item 16
+    assert NUM_ITEMS == 4
+    assert ITEM_04 == 16</pre>
+</div>
+<p class="Pp">Declaring a numeric constant with <code class="Ic">EXPORT
+    DEF</code> or <code class="Ic">EXPORT REDEF</code> will define and
+    <code class="Ic">EXPORT</code> it at the same time. (See
+    <a class="Sx" href="#Exporting_and_importing_symbols">Exporting and
+    importing symbols</a> below).</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Offset_constants"><a class="permalink" href="#Offset_constants">Offset
+  constants</a></h3>
+<p class="Pp">The RS group of commands is a handy way of defining structure
+    offsets:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>               RSRESET
+DEF str_pStuff RW   1
+DEF str_tData  RB   256
+DEF str_bCount RB   1
+DEF str_SIZEOF RB   0</pre>
+</div>
+<p class="Pp">The example defines four constants as if by:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF str_pStuff EQU 0
+DEF str_tData  EQU 2
+DEF str_bCount EQU 258
+DEF str_SIZEOF EQU 259</pre>
+</div>
+<p class="Pp">There are five commands in the RS group of commands:</p>
+<table class="Bl-column">
+  <tr id="Command~2">
+    <td><a class="permalink" href="#Command~2"><b class="Sy">Command</b></a></td>
+    <td><a class="permalink" href="#Meaning~6"><b class="Sy" id="Meaning~6">Meaning</b></a></td>
+  </tr>
+  <tr id="RSRESET">
+    <td><a class="permalink" href="#RSRESET"><code class="Ic">RSRESET</code></a></td>
+    <td>Equivalent to &#x2018;<code class="Li">RSSET 0</code>&#x2019;.</td>
+  </tr>
+  <tr id="RSSET">
+    <td><a class="permalink" href="#RSSET"><code class="Ic">RSSET</code></a>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets the <code class="Ic">_RS</code> <span class="No">counter to</span>
+      <var class="Ar">constexpr</var>.</td>
+  </tr>
+  <tr id="DEF~2">
+    <td><a class="permalink" href="#DEF~2"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RB</code>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">to</span>
+      <code class="Ic">_RS</code>.</td>
+  </tr>
+  <tr id="DEF~3">
+    <td><a class="permalink" href="#DEF~3"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RW</code>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">* 2 to</span>
+      <code class="Ic">_RS</code>.</td>
+  </tr>
+  <tr id="DEF~4">
+    <td><a class="permalink" href="#DEF~4"><code class="Ic">DEF</code></a>
+      <var class="Ar">name</var> <code class="Ic">RL</code>
+      <var class="Ar">constexpr</var></td>
+    <td>Sets <var class="Ar">name</var> <span class="No">to</span>
+      <code class="Ic">_RS</code> <span class="No">and then adds</span>
+      <var class="Ar">constexpr</var> <span class="No">* 4 to</span>
+      <code class="Ic">_RS</code>.</td>
+  </tr>
+</table>
+<p class="Pp">If the <var class="Ar">constexpr</var> argument to
+    <code class="Ic">RB</code>, <code class="Ic">RW</code>, or
+    <code class="Ic">RL</code> is omitted, it's assumed to be 1.</p>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp">Declaring an offset constant with <code class="Ic">EXPORT
+    DEF</code> will define and <code class="Ic">EXPORT</code> it at the same
+    time. (See <a class="Sx" href="#Exporting_and_importing_symbols">Exporting
+    and importing symbols</a> below).</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="String_constants"><a class="permalink" href="#String_constants">String
+  constants</a></h3>
+<p class="Pp"><code class="Ic">EQUS</code> is used to define string constant
+    symbols. Wherever the assembler reads a string constant, it gets
+    <a class="permalink" href="#expanded"><i class="Em" id="expanded">expanded</i></a>:
+    the symbol's name is replaced with its contents, similarly to
+    <code class="Ic">#define</code> in the C programming language. This
+    expansion is disabled in a few contexts:
+    &#x2018;<code class="Li">DEF(name)</code>&#x2019;,
+    &#x2018;<code class="Li">DEF name EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">REDEF name EQU/=/EQUS/etc ...</code>&#x2019;,
+    &#x2018;<code class="Li">FOR name, ...</code>&#x2019;,
+    &#x2018;<code class="Li">PURGE name</code>&#x2019;, and
+    &#x2018;<code class="Li">MACRO name</code>&#x2019; will not expand string
+    constants in their names. Expansion is also disabled if the string
+    constant's name is a raw identifier prefixed by a hash
+  &#x2018;#&#x2019;.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF COUNTREG EQUS &quot;[hl+]&quot;
+    ld a, COUNTREG
+
+DEF PLAYER_NAME EQUS &quot;\&quot;John\&quot;&quot;
+    db PLAYER_NAME</pre>
+</div>
+<p class="Pp">This will be interpreted as:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    ld a, [hl+]
+    db &quot;John&quot;</pre>
+</div>
+<p class="Pp">String constants can also be used to define small one-line
+  macros:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF pusha EQUS &quot;push af\npush bc\npush de\npush hl\n&quot;</pre>
+</div>
+<p class="Pp">Note that colons &#x2018;<code class="Li">:</code>&#x2019;
+    following the name are not allowed.</p>
+<p class="Pp">String constants, like numeric constants, cannot be redefined.
+    However, the <code class="Ic">REDEF</code> keyword will define or redefine a
+    string constant symbol. For example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF s EQUS &quot;Hello, &quot;
+REDEF s EQUS &quot;{s}world!&quot;
+; prints &quot;Hello, world!&quot;
+PRINTLN &quot;{s}\n&quot;</pre>
+</div>
+<p class="Pp">String constants can't be exported or imported.</p>
+<p class="Pp"><b class="Sy">Important note</b>: When a string constant is
+    expanded, its expansion may contain another string constant, which will be
+    expanded as well, and may be recursive. If this creates an infinite loop,
+    <code class="Nm">rgbasm</code> will error out once a certain depth is
+    reached (see the <code class="Fl">-r</code> command-line option in
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>). The same problem can occur
+    if the expansion of a string constant invokes a macro, which itself
+  expands.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Macros"><a class="permalink" href="#Macros">Macros</a></h3>
+<p class="Pp">One of the best features of an assembler is the ability to write
+    macros for it. Macros can be called with arguments, and can react depending
+    on input using <code class="Ic">IF</code> constructs.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO my_macro
+    ld a, 80
+    call MyFunc
+ENDM</pre>
+</div>
+<p class="Pp">The example above defines
+    &#x2018;<code class="Li">my_macro</code>&#x2019; as a new macro. String
+    constants are not expanded within the name of the macro.</p>
+<p class="Pp">Macros can't be exported or imported.</p>
+<p class="Pp">Nesting macro definitions is not possible, so this won't work:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO outer
+    MACRO inner
+        PRINTLN &quot;Hello!&quot;
+    ENDM ; this actually ends the 'outer' macro...
+ENDM     ; ...and then this is a syntax error!</pre>
+</div>
+<p class="Pp">But you can work around this limitation using
+    <code class="Ic">EQUS</code>, so this will work:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO outer
+    DEF definition EQUS &quot;MACRO inner\nPRINTLN \&quot;Hello!\&quot;\nENDM&quot;
+    definition
+    PURGE definition
+ENDM</pre>
+</div>
+<p class="Pp">More about how to define and invoke macros is described in
+    <a class="Sx" href="#THE_MACRO_LANGUAGE">THE MACRO LANGUAGE</a> below.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Exporting_and_importing_symbols"><a class="permalink" href="#Exporting_and_importing_symbols">Exporting
+  and importing symbols</a></h3>
+<p class="Pp">Importing and exporting of symbols is a feature that is very
+    useful when your project spans many source files and, for example, you need
+    to jump to a routine defined in another file.</p>
+<p class="Pp">Exporting of symbols has to be done manually, importing is done
+    automatically if <code class="Nm">rgbasm</code> finds a symbol it does not
+    know about.</p>
+<p class="Pp">The following will cause <var class="Ar">symbol1</var>,
+    <var class="Ar">symbol2</var> and so on to be accessible to other files
+    during the link process:</p>
+<div class="Bd Bd-indent"><code class="Li"><code class="Ic">EXPORT</code>
+  <var class="Ar">symbol1</var> [, <var class="Ar">symbol2</var>,
+  <span class="No">...</span>]</code></div>
+<p class="Pp">For example, if you have the following three files:</p>
+<p class="Pp">&#x2018;<code class="Li">a.asm</code>&#x2019;:</p>
+<div class="Bd Bd-indent Li">
+<pre>SECTION &quot;a&quot;, WRAM0
+LabelA:</pre>
+</div>
+<p class="Pp">&#x2018;<code class="Li">b.asm</code>&#x2019;:</p>
+<div class="Bd Bd-indent Li">
+<pre>SECTION &quot;b&quot;, WRAM0
+ExportedLabelB1::
+ExportedLabelB2:
+    EXPORT ExportedLabelB2</pre>
+</div>
+<p class="Pp">&#x2018;<code class="Li">c.asm</code>&#x2019;:</p>
+<div class="Bd Bd-indent Li">
+<pre>SECTION &quot;C&quot;, ROM0[0]
+    dw LabelA
+    dw ExportedLabelB1
+    dw ExportedLabelB2</pre>
+</div>
+<p class="Pp">Then &#x2018;<code class="Li">c.asm</code>&#x2019; can use
+    &#x2018;<code class="Li">ExportedLabelB1</code>&#x2019; and
+    &#x2018;<code class="Li">ExportedLabelB2</code>&#x2019;, but not
+    &#x2018;<code class="Li">LabelA</code>&#x2019;, so linking them together
+    will fail:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbasm -o a.o a.asm
+$ rgbasm -o b.o b.asm
+$ rgbasm -o c.o c.asm
+$ rgblink a.o b.o c.o
+error: Undefined symbol &quot;LabelA&quot;
+    at c.asm(2)
+Linking failed with 1 error</pre>
+</div>
+<p class="Pp">Note also that only exported symbols will appear in symbol and map
+    files produced by <a class="Xr" href="./rgblink.1">rgblink(1)</a>.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Purging_symbols"><a class="permalink" href="#Purging_symbols">Purging
+  symbols</a></h3>
+<p class="Pp"><code class="Ic">PURGE</code> allows you to completely remove a
+    symbol from the symbol table, as if it had never been defined.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF value EQU 42
+PURGE value
+DEF value EQUS &quot;I'm a string now&quot;
+ASSERT DEF(value)
+PURGE value
+ASSERT !DEF(value)</pre>
+</div>
+<p class="Pp" id="very">Be
+    <a class="permalink" href="#very"><i class="Em">very</i></a> careful when
+    purging symbols that have been referenced in section data, or that have been
+    exported, because it could result in unpredictable errors if something
+    depends on the missing symbol (for example, expressions the linker needs to
+    calculate). Purging labels at all is
+    <a class="permalink" href="#not"><i class="Em" id="not">not</i></a>
+    recommended.</p>
+<p class="Pp">String constants are not expanded within the symbol names.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Predeclared_symbols"><a class="permalink" href="#Predeclared_symbols">Predeclared
+  symbols</a></h3>
+<p class="Pp">The following symbols are defined by the assembler:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Name~6">
+    <td><a class="permalink" href="#Name~6"><b class="Sy">Name</b></a></td>
+    <td><a class="permalink" href="#Type~2"><b class="Sy" id="Type~2">Type</b></a></td>
+    <td><a class="permalink" href="#Contents"><b class="Sy" id="Contents">Contents</b></a></td>
+  </tr>
+  <tr id="@">
+    <td><a class="permalink" href="#@"><code class="Dv">@</code></a></td>
+    <td><a class="permalink" href="#EQU"><code class="Ic" id="EQU">EQU</code></a></td>
+    <td>PC value (essentially, the current memory address)</td>
+  </tr>
+  <tr id="EQUS">
+    <td>.</td>
+    <td><a class="permalink" href="#EQUS"><code class="Ic">EQUS</code></a></td>
+    <td>The current global label scope</td>
+  </tr>
+  <tr id="..">
+    <td><a class="permalink" href="#.."><code class="Dv">..</code></a></td>
+    <td><a class="permalink" href="#EQUS~2"><code class="Ic" id="EQUS~2">EQUS</code></a></td>
+    <td>The current local label scope</td>
+  </tr>
+  <tr id="__SCOPE__">
+    <td><a class="permalink" href="#__SCOPE__"><code class="Dv">__SCOPE__</code></a></td>
+    <td><a class="permalink" href="#EQUS~3"><code class="Ic" id="EQUS~3">EQUS</code></a></td>
+    <td>The innermost current label scope level (empty,., or ..)</td>
+  </tr>
+  <tr id="_RS">
+    <td><a class="permalink" href="#_RS"><code class="Dv">_RS</code></a></td>
+    <td><a class="permalink" href="#="><code class="Ic" id="=">=</code></a></td>
+    <td>_RS Counter</td>
+  </tr>
+  <tr id="_NARG">
+    <td><a class="permalink" href="#_NARG"><code class="Dv">_NARG</code></a></td>
+    <td><a class="permalink" href="#EQU~2"><code class="Ic" id="EQU~2">EQU</code></a></td>
+    <td>Number of arguments passed to macro, updated by
+      <code class="Ic">SHIFT</code></td>
+  </tr>
+  <tr id="__ISO_8601_LOCAL__">
+    <td><a class="permalink" href="#__ISO_8601_LOCAL__"><code class="Dv">__ISO_8601_LOCAL__</code></a></td>
+    <td><a class="permalink" href="#EQUS~4"><code class="Ic" id="EQUS~4">EQUS</code></a></td>
+    <td>ISO 8601 timestamp (local)</td>
+  </tr>
+  <tr id="__ISO_8601_UTC__">
+    <td><a class="permalink" href="#__ISO_8601_UTC__"><code class="Dv">__ISO_8601_UTC__</code></a></td>
+    <td><a class="permalink" href="#EQUS~5"><code class="Ic" id="EQUS~5">EQUS</code></a></td>
+    <td>ISO 8601 timestamp (UTC)</td>
+  </tr>
+  <tr id="__UTC_YEAR__">
+    <td><a class="permalink" href="#__UTC_YEAR__"><code class="Dv">__UTC_YEAR__</code></a></td>
+    <td><a class="permalink" href="#EQU~3"><code class="Ic" id="EQU~3">EQU</code></a></td>
+    <td>Today's year</td>
+  </tr>
+  <tr id="__UTC_MONTH__">
+    <td><a class="permalink" href="#__UTC_MONTH__"><code class="Dv">__UTC_MONTH__</code></a></td>
+    <td><a class="permalink" href="#EQU~4"><code class="Ic" id="EQU~4">EQU</code></a></td>
+    <td>Today's month number, 1&#x2013;12</td>
+  </tr>
+  <tr id="__UTC_DAY__">
+    <td><a class="permalink" href="#__UTC_DAY__"><code class="Dv">__UTC_DAY__</code></a></td>
+    <td><a class="permalink" href="#EQU~5"><code class="Ic" id="EQU~5">EQU</code></a></td>
+    <td>Today's day of the month, 1&#x2013;31</td>
+  </tr>
+  <tr id="__UTC_HOUR__">
+    <td><a class="permalink" href="#__UTC_HOUR__"><code class="Dv">__UTC_HOUR__</code></a></td>
+    <td><a class="permalink" href="#EQU~6"><code class="Ic" id="EQU~6">EQU</code></a></td>
+    <td>Current hour, 0&#x2013;23</td>
+  </tr>
+  <tr id="__UTC_MINUTE__">
+    <td><a class="permalink" href="#__UTC_MINUTE__"><code class="Dv">__UTC_MINUTE__</code></a></td>
+    <td><a class="permalink" href="#EQU~7"><code class="Ic" id="EQU~7">EQU</code></a></td>
+    <td>Current minute, 0&#x2013;59</td>
+  </tr>
+  <tr id="__UTC_SECOND__">
+    <td><a class="permalink" href="#__UTC_SECOND__"><code class="Dv">__UTC_SECOND__</code></a></td>
+    <td><a class="permalink" href="#EQU~8"><code class="Ic" id="EQU~8">EQU</code></a></td>
+    <td>Current second, 0&#x2013;59</td>
+  </tr>
+  <tr id="__RGBDS_MAJOR__">
+    <td><a class="permalink" href="#__RGBDS_MAJOR__"><code class="Dv">__RGBDS_MAJOR__</code></a></td>
+    <td><a class="permalink" href="#EQU~9"><code class="Ic" id="EQU~9">EQU</code></a></td>
+    <td>Major version number of RGBDS</td>
+  </tr>
+  <tr id="__RGBDS_MINOR__">
+    <td><a class="permalink" href="#__RGBDS_MINOR__"><code class="Dv">__RGBDS_MINOR__</code></a></td>
+    <td><a class="permalink" href="#EQU~10"><code class="Ic" id="EQU~10">EQU</code></a></td>
+    <td>Minor version number of RGBDS</td>
+  </tr>
+  <tr id="__RGBDS_PATCH__">
+    <td><a class="permalink" href="#__RGBDS_PATCH__"><code class="Dv">__RGBDS_PATCH__</code></a></td>
+    <td><a class="permalink" href="#EQU~11"><code class="Ic" id="EQU~11">EQU</code></a></td>
+    <td>Patch version number of RGBDS</td>
+  </tr>
+  <tr id="__RGBDS_RC__">
+    <td><a class="permalink" href="#__RGBDS_RC__"><code class="Dv">__RGBDS_RC__</code></a></td>
+    <td><a class="permalink" href="#EQU~12"><code class="Ic" id="EQU~12">EQU</code></a></td>
+    <td>Release candidate ID of RGBDS, not defined for final releases</td>
+  </tr>
+  <tr id="__RGBDS_VERSION__">
+    <td><a class="permalink" href="#__RGBDS_VERSION__"><code class="Dv">__RGBDS_VERSION__</code></a></td>
+    <td><a class="permalink" href="#EQUS~6"><code class="Ic" id="EQUS~6">EQUS</code></a></td>
+    <td>Version of RGBDS, as printed by &#x2018;<code class="Li">rgbasm
+      --version</code>&#x2019;</td>
+  </tr>
+</table>
+<p class="Pp">The current time values will be taken from the
+    <code class="Dv">SOURCE_DATE_EPOCH</code> environment variable if that is
+    defined as a UNIX timestamp. Refer to the spec at
+    <a class="Lk" href="https://reproducible-builds.org/docs/source-date-epoch/">reproducible-builds.org</a>.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DEFINING_DATA"><a class="permalink" href="#DEFINING_DATA">DEFINING
+  DATA</a></h2>
+<section class="Ss">
+<h3 class="Ss" id="Defining_constant_data_in_ROM"><a class="permalink" href="#Defining_constant_data_in_ROM">Defining
+  constant data in ROM</a></h3>
+<p class="Pp"><code class="Ic">DB</code> defines a list of bytes that will be
+    stored in the final image. Ideal for tables and text.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DB 1,2,3,4,&quot;This is a string&quot;</pre>
+</div>
+<p class="Pp">Alternatively, you can use <code class="Ic">DW</code> to store a
+    list of words (16-bit) or <code class="Ic">DL</code> to store a list of
+    double-words/longs (32-bit). Both of these write their data in little-endian
+    byte order; for example, &#x2018;<code class="Li">dw $CAFE</code>&#x2019; is
+    equivalent to &#x2018;<code class="Li">db $FE, $CA</code>&#x2019; and not
+    &#x2018;<code class="Li">db $CA, $FE</code>&#x2019;.</p>
+<p class="Pp">Strings are handled a little specially: they first undergo charmap
+    conversion (see <a class="Sx" href="#Character_maps">Character maps</a>),
+    then each resulting character is output individually. For example, under the
+    default charmap, the following two lines are identical:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DW &quot;Hello!&quot;
+DW &quot;H&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot;, &quot;!&quot;</pre>
+</div>
+<p class="Pp">If you do not want this special handling, enclose the string in
+    parentheses.</p>
+<p class="Pp"><code class="Ic">DS</code> can also be used to fill a region of
+    memory with some repeated values. For example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>; outputs 3 bytes: $AA, $AA, $AA
+DS 3, $AA
+; outputs 7 bytes: $BB, $CC, $BB, $CC, $BB, $CC, $BB
+DS 7, $BB, $CC</pre>
+</div>
+<p class="Pp">You can also use <code class="Ic">DB</code>,
+    <code class="Ic">DW</code> and <code class="Ic">DL</code> without arguments.
+    This works exactly like <code class="Ic">DS 1</code>, <code class="Ic">DS
+    2</code> and <code class="Ic">DS 4</code> respectively. Consequently,
+    no-argument <code class="Ic">DB</code>, <code class="Ic">DW</code> and
+    <code class="Ic">DL</code> can be used in a <code class="Ic">WRAM0</code> /
+    <code class="Ic">WRAMX</code> / <code class="Ic">HRAM</code> /
+    <code class="Ic">VRAM</code> / <code class="Ic">SRAM</code> section.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Including_binary_data_files"><a class="permalink" href="#Including_binary_data_files">Including
+  binary data files</a></h3>
+<p class="Pp">You probably have some graphics, level data, etc. you'd like to
+    include. Use <code class="Ic">INCBIN</code> to include a raw binary file as
+    it is. If the file isn't found in the current directory, the include-path
+    list passed to <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s
+    <code class="Fl">-I</code> option on the command line will be searched.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>INCBIN &quot;titlepic.bin&quot;
+INCBIN &quot;sprites/hero.bin&quot;</pre>
+</div>
+<p class="Pp">You can also include only part of a file with
+    <code class="Ic">INCBIN</code>. The example below includes 256 bytes from
+    data.bin, starting from byte 78.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>INCBIN &quot;data.bin&quot;, 78, 256</pre>
+</div>
+<p class="Pp">The length argument is optional. If only the start position is
+    specified, the bytes from the start position until the end of the file will
+    be included.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Statically_allocating_space_in_RAM"><a class="permalink" href="#Statically_allocating_space_in_RAM">Statically
+  allocating space in RAM</a></h3>
+<p class="Pp"><code class="Ic">DS</code> statically allocates a number of empty
+    bytes. This is the preferred method of allocating space in a RAM section.
+    You can also use <code class="Ic">DB</code>, <code class="Ic">DW</code> and
+    <code class="Ic">DL</code> without any arguments instead (see
+    <a class="Sx" href="#Defining_constant_data_in_ROM">Defining constant data
+    in ROM</a> below).</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DS 42 ;&#x00A0;Allocates 42 bytes</pre>
+</div>
+<p class="Pp">Empty space in RAM sections will not be initialized. In ROM
+    sections, it will be filled with the value passed to the
+    <code class="Fl">-p</code> command-line option, except when using overlays
+    with <code class="Fl">-O</code>.</p>
+<p class="Pp">Instead of an exact number of bytes, you can specify
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>] to allocate however many bytes are required to
+    align the subsequent data. Thus, &#x2018;<code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>],
+    <span class="No">...</span>&#x2019; is equivalent to
+    &#x2018;<code class="Ic">DS</code> <var class="Ar">n</var>,
+    <span class="No">...</span>&#x2019; followed by
+    &#x2018;<code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <var class="Ar">offset</var>]&#x2019;, where <var class="Ar">n</var> is the
+    minimum value needed to satisfy the <code class="Ic">ALIGN</code> constraint
+    (see <a class="Sx" href="#Requesting_alignment">Requesting alignment</a>
+    below). Note that <code class="Ic">ALIGN</code>[<var class="Ar">align</var>]
+    is a shorthand for
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Allocating_overlapping_spaces_in_RAM"><a class="permalink" href="#Allocating_overlapping_spaces_in_RAM">Allocating
+  overlapping spaces in RAM</a></h3>
+<p class="Pp">Unions allow multiple static memory allocations to overlap, like
+    unions in C. This does not increase the amount of memory available, but
+    allows re-using the same memory region for different purposes.</p>
+<p class="Pp">A union starts with a <code class="Ic">UNION</code> keyword, and
+    ends at the corresponding <code class="Ic">ENDU</code> keyword.
+    <code class="Ic">NEXTU</code> separates each block of allocations, and you
+    may use it as many times within a union as necessary.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>; Let's say PC == $C0DE here
+UNION
+    ; Here, PC == $C0DE
+    wName:: ds 10
+    ; Now, PC == $C0E8
+    wNickname:: ds 10
+    ; PC == $C0F2
+NEXTU
+    ; PC is back to $C0DE
+    wHealth:: dw
+    ; PC == $C0E0
+    wLives:: db
+    ; PC == $C0E1
+    ds 7
+    ; PC == $C0E8
+    wBonus:: db
+    ; PC == $C0E9
+NEXTU
+    ; PC is back to $C0DE again
+    wVideoBuffer: ds 16
+    ; PC == $C0EE
+ENDU
+; Afterward, PC == $C0F2</pre>
+</div>
+<p class="Pp">In the example above, &#x2018;wName, wHealth&#x2019;, and
+    &#x2018;wVideoBuffer&#x2019; all have the same value; so do
+    &#x2018;wNickname&#x2019; and &#x2018;wBonus&#x2019;. Thus, keep in mind
+    that &#x2018;<code class="Li">ld [wHealth], a</code>&#x2019; assembles to
+    the exact same instruction as &#x2018;<code class="Li">ld [wName],
+    a</code>&#x2019;.</p>
+<p class="Pp">This whole union's total size is 20 bytes, the size of the largest
+    block (the first one, containing &#x2018;wName&#x2019; and
+    &#x2018;wNickname&#x2019;).</p>
+<p class="Pp">Unions may be nested, with each inner union's size being
+    determined as above, and affecting its outer union like any other
+    allocation.</p>
+<p class="Pp">Unions may be used in any section, but they may only contain
+    space-allocating directives like <code class="Ic">DS</code> (see
+    <a class="Sx" href="#Statically_allocating_space_in_RAM">Statically
+    allocating space in RAM</a>).</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Requesting_alignment"><a class="permalink" href="#Requesting_alignment">Requesting
+  alignment</a></h3>
+<p class="Pp">While <code class="Ic">ALIGN</code> as presented in
+    <a class="Sx" href="#SECTIONS">SECTIONS</a> is often useful as-is, sometimes
+    you instead want a particular piece of data (or code) in the middle of the
+    section to be aligned. This is made easier through the use of mid-section
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
+    <var class="Ar">offset</var>. It will retroactively alter the section's
+    attributes to ensure that the location the <code class="Ic">ALIGN</code>
+    directive is at, has its <var class="Ar">align</var> lower bits equal to
+    <var class="Ar">offset</var>.</p>
+<p class="Pp">If the constraint cannot be met (for example because the section
+    is fixed at an incompatible address), an error is produced. Note that
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var> is a shorthand for
+    <code class="Ic">ALIGN</code> <var class="Ar">align</var>,
+    <span class="No">0</span>.</p>
+<p class="Pp">There may be times when you don't just want to specify an
+    alignment constraint at the current location, but also skip ahead until the
+    constraint can be satisfied. In that case, you can use <code class="Ic">DS
+    ALIGN</code>[<var class="Ar">align</var>, <var class="Ar">offset</var>] to
+    allocate however many bytes are required to align the subsequent data.</p>
+<p class="Pp">If the constraint cannot be met by skipping any amount of space,
+    an error is produced. Note that
+    <code class="Ic">ALIGN</code>[<var class="Ar">align</var>] is a shorthand
+    for <code class="Ic">ALIGN</code>[<var class="Ar">align</var>,
+    <span class="No">0</span>].</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="THE_MACRO_LANGUAGE"><a class="permalink" href="#THE_MACRO_LANGUAGE">THE
+  MACRO LANGUAGE</a></h2>
+<section class="Ss">
+<h3 class="Ss" id="Invoking_macros"><a class="permalink" href="#Invoking_macros">Invoking
+  macros</a></h3>
+<p class="Pp">A macro is invoked by using its name at the beginning of a line,
+    like a directive, followed by any comma-separated arguments.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    add a, b
+    ld sp, hl
+    my_macro      ;&#x00A0;This will be expanded
+    sub a, 87
+    my_macro 42   ;&#x00A0;So will this
+    ret c
+    my_macro 1, 2 ;&#x00A0;And this</pre>
+</div>
+<p class="Pp">After <code class="Nm">rgbasm</code> has read the macro invocation
+    line, it will expand the body of the macro (the lines between
+    <code class="Ic">MACRO</code> and <code class="Ic">ENDM</code>) in its
+    place.</p>
+<p class="Pp"><b class="Sy">Important note</b>: When a macro body is expanded,
+    its expansion may contain another macro invocation, which will be expanded
+    as well, and may be recursive. If this creates an infinite loop,
+    <code class="Nm">rgbasm</code> will error out once a certain depth is
+    reached (see the <code class="Fl">-r</code> command-line option in
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>). The same problem can occur
+    if the expansion of a macro then expands a string constant, which itself
+    expands.</p>
+<p class="Pp">It's possible to pass arguments to macros as well!</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO lb
+    ld \1, (\2) &lt;&lt; 8 | (\3)
+ENDM
+    lb hl, 20, 18        ; Expands to &quot;ld hl, ((20) &lt;&lt; 8) | (18)&quot;
+    lb de, 3 + 1, NUM**2 ; Expands to &quot;ld de, ((3 + 1) &lt;&lt; 8) | (NUM**2)&quot;</pre>
+</div>
+<p class="Pp">You expand the arguments inside the macro body by using the escape
+    sequences <code class="Ic">\1</code> through <code class="Ic">\9</code>,
+    <code class="Ic">\1</code> being the first argument,
+    <code class="Ic">\2</code> being the second, and so on. Since there are only
+    nine digits, you can only use the first nine macro arguments that way. To
+    use the rest, you put the argument number in angle brackets, like
+    <code class="Ic">\&lt;10&gt;</code>.</p>
+<p class="Pp">This bracketed syntax supports decimal numbers and numeric
+    symbols, where negative values count from the last argument. For example,
+    &#x2018;<code class="Li">\&lt;_NARG&gt;</code>&#x2019; or
+    &#x2018;<code class="Li">\&lt;-1&gt;</code>&#x2019; will get the last
+    argument.</p>
+<p class="Pp">Other macro arguments and symbol interpolations will also be
+    expanded inside the angle brackets. For example, if
+    &#x2018;<code class="Li">\1</code>&#x2019; is
+    &#x2018;<code class="Li">13</code>&#x2019;, then
+    &#x2018;<code class="Li">\&lt;\1&gt;</code>&#x2019; inside the macro body
+    will expand to &#x2018;<code class="Li">\&lt;13&gt;</code>&#x2019;. Or if
+    &#x2018;<code class="Li">DEF v10 = 42</code>&#x2019; and
+    &#x2018;<code class="Li">DEF x = 10</code>&#x2019;, then
+    &#x2018;<code class="Li">\&lt;v{d:x}&gt;</code>&#x2019; will expand to
+    &#x2018;<code class="Li">\&lt;42&gt;</code>&#x2019;.</p>
+<p class="Pp">Macro arguments are passed as string constants, although there's
+    no need to enclose them in quotes. Thus, arguments are not evaluated as
+    expressions, but instead are expanded directly inside the macro body. This
+    means that they support all the escape sequences of strings (see
+    <a class="Sx" href="#String_expressions">String expressions</a> above), as
+    well as some of their own:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Sequence~2">
+    <td><a class="permalink" href="#Sequence~2"><b class="Sy">Sequence</b></a></td>
+    <td><a class="permalink" href="#Meaning~7"><b class="Sy" id="Meaning~7">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\,</code>&#x2019;</td>
+    <td>Comma (does not terminate the argument)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\(</code>&#x2019;</td>
+    <td>Open parenthesis (does not start enclosing argument contents)</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\)</code>&#x2019;</td>
+    <td>Close parenthesis (does not end enclosing argument contents)</td>
+  </tr>
+</table>
+<p class="Pp">Line continuations work as usual inside macros or lists of macro
+    arguments. However, some characters need to be escaped, as in the following
+    example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO PrintMacro1
+    PRINTLN STRCAT(\1)
+ENDM
+    PrintMacro1 &quot;Hello &quot;\, \
+                &quot;world&quot;
+MACRO PrintMacro2
+    PRINT \1
+ENDM
+    PrintMacro2 STRCAT(&quot;Hello &quot;, \
+                       &quot;world\n&quot;)</pre>
+</div>
+<p class="Pp">The comma in &#x2018;<code class="Li">PrintMacro1</code>&#x2019;
+    needs to be escaped to prevent it from starting another macro argument. The
+    comma in &#x2018;<code class="Li">PrintMacro2</code>&#x2019; does not need
+    escaping because it is inside parentheses, similar to macro arguments in the
+    C programming language. The backslash in
+    &#x2018;<code class="Li">\n</code>&#x2019; also does not need escaping
+    because quoted string literals work as usual inside macro arguments.</p>
+<p class="Pp">Since macro arguments are expanded directly, it's often a good
+    idea to put parentheses around them if they're meant as part of a numeric
+    expression. For instance, consider the following:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO print_double
+    PRINTLN \1 * 3
+ENDM
+    print_double 1 + 2</pre>
+</div>
+<p class="Pp">The body will expand to &#x2018;<code class="Li">PRINTLN 1 + 2 *
+    3</code>&#x2019;, which will print 7 and not 9 as you might have
+  expected.</p>
+<p class="Pp">The <code class="Ic">SHIFT</code> directive is only available
+    inside macro bodies. It shifts the argument numbers by one to the left, so
+    what was <code class="Ic">\2</code> is now <code class="Ic">\1</code>, what
+    was <code class="Ic">\3</code> is now <code class="Ic">\2</code>, and so
+    forth. (What was <code class="Ic">\1</code> is no longer accessible, so
+    <code class="Dv">_NARG</code> is decreased by 1.)</p>
+<p class="Pp"><code class="Ic">SHIFT</code> can also take an integer parameter
+    to shift that many times instead of once. A negative parameter will shift
+    the arguments to the right, which can regain access to previously shifted
+    ones.</p>
+<p class="Pp"><code class="Ic">SHIFT</code> is especially useful in
+    <code class="Ic">REPT</code> loops to iterate over different arguments,
+    evaluating the same loop body each time.</p>
+<p class="Pp">There are some escape sequences which are only valid inside the
+    body of a macro:</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Sequence~3">
+    <td><a class="permalink" href="#Sequence~3"><b class="Sy">Sequence</b></a></td>
+    <td><a class="permalink" href="#Meaning~8"><b class="Sy" id="Meaning~8">Meaning</b></a></td>
+  </tr>
+  <tr>
+    <td>&#x2018;\1&#x2019; &#x2013; &#x2018;\9&#x2019;</td>
+    <td>The 1st&#x2013;9th macro argument</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\&lt;...&gt;</code>&#x2019;</td>
+    <td>Further macro arguments</td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\#</code>&#x2019;</td>
+    <td>All <code class="Dv">_NARG</code> <span class="No">macro arguments,
+      separated by commas</span></td>
+  </tr>
+  <tr>
+    <td>&#x2018;<code class="Li">\@</code>&#x2019;</td>
+    <td>Unique symbol name affix (see below)</td>
+  </tr>
+</table>
+<p class="Pp">The <code class="Ic">\@</code> escape sequence is often useful in
+    macros which define symbols. Suppose your macro expands to a loop of
+    assembly code:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO loop_c_times
+    xor a, a
+.loop
+    ld [hl+], a
+    dec c
+    jr nz, .loop
+ENDM</pre>
+</div>
+<p class="Pp">If you use this macro more than once in the same label scope, it
+    will define &#x2018;<code class="Li">.loop</code>&#x2019; twice, which is an
+    error. To work around this problem, you can use <code class="Ic">\@</code>
+    as a label suffix:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO loop_c_times_fixed
+    xor a, a
+.loop\@
+    ld [hl+], a
+    dec c
+    jr nz, .loop\@
+ENDM</pre>
+</div>
+<p class="Pp">This will expand to a different value in each invocation, similar
+    to <code class="Ic">gensym</code> in the Lisp programming language.</p>
+<p class="Pp"><code class="Ic">\@</code> also works in
+    <code class="Ic">REPT</code> blocks, expanding to a different value in each
+    iteration.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Automatically_repeating_blocks_of_code"><a class="permalink" href="#Automatically_repeating_blocks_of_code">Automatically
+  repeating blocks of code</a></h3>
+<p class="Pp">Suppose you want to unroll a time-consuming loop without
+    copy-pasting it. <code class="Ic">REPT</code> is here for that purpose.
+    Everything between <code class="Ic">REPT</code> and the matching
+    <code class="Ic">ENDR</code> will be repeated a number of times just as if
+    you had done a copy/paste operation yourself. The following example will
+    assemble &#x2018;<code class="Li">add a, c</code>&#x2019; four times:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>REPT 4
+    add a, c
+ENDR</pre>
+</div>
+<p class="Pp">You can also use <code class="Ic">REPT</code> to generate tables
+    on the fly:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>; Generate a table of square values from 0**2 = 0 to 100**2 = 10000
+DEF x = 0
+REPT 101
+    dw x * x
+    DEF x += 1
+ENDR</pre>
+</div>
+<p class="Pp">As in macros, you can also use the escape sequence
+    <code class="Ic">\@</code>. <code class="Ic">REPT</code> blocks can be
+    nested.</p>
+<p class="Pp">A common pattern is to repeat a block for each value in some
+    range. <code class="Ic">FOR</code> is simpler than
+    <code class="Ic">REPT</code> for that purpose. Everything between
+    <code class="Ic">FOR</code> and the matching <code class="Ic">ENDR</code>
+    will be repeated for each value of a given symbol. String constants are not
+    expanded within the symbol name. For example, this code will produce a table
+    of squared values from 0 to 255:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>FOR N, 256
+    dw N * N
+ENDR</pre>
+</div>
+<p class="Pp">It acts just as if you had done:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>DEF N = 0
+    dw N * N
+DEF N = 1
+    dw N * N
+DEF N = 2
+    dw N * N
+; ...
+DEF N = 255
+    dw N * N
+DEF N = 256</pre>
+</div>
+<p class="Pp">You can customize the range of <code class="Ic">FOR</code> values,
+    similarly to the &#x2018;<code class="Li">range</code>&#x2019; function in
+    the Python programming language:</p>
+<table class="Bl-column">
+  <tr id="Code">
+    <td><a class="permalink" href="#Code"><b class="Sy">Code</b></a></td>
+    <td><a class="permalink" href="#Range"><b class="Sy" id="Range">Range</b></a></td>
+  </tr>
+  <tr id="FOR">
+    <td><a class="permalink" href="#FOR"><code class="Ic">FOR</code></a>
+      <var class="Ar">V</var>, <var class="Ar">stop</var></td>
+    <td><var class="Ar">V</var> <span class="No">increments from 0 to</span>
+      <var class="Ar">stop</var></td>
+  </tr>
+  <tr id="FOR~2">
+    <td><a class="permalink" href="#FOR~2"><code class="Ic">FOR</code></a>
+      <var class="Ar">V</var>, <var class="Ar">start</var>,
+      <var class="Ar">stop</var></td>
+    <td><var class="Ar">V</var> <span class="No">increments from</span>
+      <var class="Ar">start</var> <span class="No">to</span>
+      <var class="Ar">stop</var></td>
+  </tr>
+  <tr id="FOR~3">
+    <td><a class="permalink" href="#FOR~3"><code class="Ic">FOR</code></a>
+      <var class="Ar">V</var>, <var class="Ar">start</var>,
+      <var class="Ar">stop</var>, <var class="Ar">step</var></td>
+    <td><var class="Ar">V</var> <span class="No">goes from</span>
+      <var class="Ar">start</var> <span class="No">to</span>
+      <var class="Ar">stop</var> <span class="No">by</span>
+      <var class="Ar">step</var></td>
+  </tr>
+</table>
+<p class="Pp">The <code class="Ic">FOR</code> value will be updated by
+    <var class="Ar">step</var> until it reaches or exceeds
+    <var class="Ar">stop</var>, i.e. it covers the half-open range from
+    <var class="Ar">start</var> (inclusive) to <var class="Ar">stop</var>
+    (exclusive). The variable <var class="Ar">V</var> will be assigned this
+    value at the beginning of each new iteration; any changes made to it within
+    the <code class="Ic">FOR</code> loop's body will be overwritten. So the
+    symbol <var class="Ar">V</var> need not be already defined before any
+    iterations of the <code class="Ic">FOR</code> loop, but it must be a
+    variable (<a class="Sx" href="#Variables">Variables</a>) if so. For
+  example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>FOR V, 4, 25, 5
+    PRINT &quot;{d:V} &quot;
+    DEF V *= 2
+ENDR
+    PRINTLN &quot;done {d:V}&quot;</pre>
+</div>
+<p class="Pp">This will print:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>4 9 14 19 24 done 29</pre>
+</div>
+<p class="Pp">Just like with <code class="Ic">REPT</code> blocks, you can use
+    the escape sequence <code class="Ic">\@</code> inside of
+    <code class="Ic">FOR</code> blocks, and they can be nested.</p>
+<p class="Pp">You can stop a repeating block with the
+    <code class="Ic">BREAK</code> command. A <code class="Ic">BREAK</code>
+    inside of a <code class="Ic">REPT</code> or <code class="Ic">FOR</code>
+    block will interrupt the current iteration and not repeat any more. It will
+    continue running code after the block's <code class="Ic">ENDR</code>. For
+    example:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>FOR V, 1, 100
+    PRINT &quot;{d:V}&quot;
+    IF V == 5
+        PRINT &quot; stop! &quot;
+        BREAK
+    ENDC
+    PRINT &quot;, &quot;
+ENDR
+    PRINTLN &quot;done {d:V}&quot;</pre>
+</div>
+<p class="Pp">This will print:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>1, 2, 3, 4, 5 stop! done 5</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Conditionally_assembling_blocks_of_code"><a class="permalink" href="#Conditionally_assembling_blocks_of_code">Conditionally
+  assembling blocks of code</a></h3>
+<p class="Pp">The four commands <code class="Ic">IF</code>,
+    <code class="Ic">ELIF</code>, <code class="Ic">ELSE</code>, and
+    <code class="Ic">ENDC</code> let you have <code class="Nm">rgbasm</code>
+    skip over parts of your code depending on a condition. This is a powerful
+    feature commonly used in macros.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>IF NUM &lt; 0
+  PRINTLN &quot;NUM &lt; 0&quot;
+ELIF NUM == 0
+  PRINTLN &quot;NUM == 0&quot;
+ELSE
+  PRINTLN &quot;NUM &gt; 0&quot;
+ENDC</pre>
+</div>
+<p class="Pp">The <code class="Ic">ELIF</code> (standing for &quot;else
+    if&quot;) and <code class="Ic">ELSE</code> blocks are optional.
+    <code class="Ic">IF</code> / <code class="Ic">ELIF</code> /
+    <code class="Ic">ELSE</code> / <code class="Ic">ENDC</code> blocks can be
+    nested.</p>
+<p class="Pp">Note that if an <code class="Ic">ELSE</code> block is found before
+    an <code class="Ic">ELIF</code> block, the <code class="Ic">ELIF</code>
+    block will be ignored. All <code class="Ic">ELIF</code> blocks must go
+    before the <code class="Ic">ELSE</code> block. Also, if there is more than
+    one <code class="Ic">ELSE</code> block, all of them but the first one are
+    ignored.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Including_other_source_files"><a class="permalink" href="#Including_other_source_files">Including
+  other source files</a></h3>
+<p class="Pp">Use <code class="Ic">INCLUDE</code> to process another assembler
+    file and then return to the current file when done. If the file isn't found
+    in the current directory, the include-path list passed to
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>'s <code class="Fl">-I</code>
+    option on the command line will be searched. You may nest
+    <code class="Ic">INCLUDE</code> calls infinitely (or until you run out of
+    memory, whichever comes first).</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    INCLUDE &quot;irq.inc&quot;</pre>
+</div>
+<p class="Pp">You may also implicitly <code class="Ic">INCLUDE</code> a file
+    before the source file with the <code class="Fl">-P</code> option of
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Printing_things_during_assembly"><a class="permalink" href="#Printing_things_during_assembly">Printing
+  things during assembly</a></h3>
+<p class="Pp">The <code class="Ic">PRINT</code> and
+    <code class="Ic">PRINTLN</code> commands print text and values to the
+    standard output. Useful for debugging macros, or wherever you may feel the
+    need to tell yourself some important information.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>PRINT &quot;Hello world!\n&quot;
+PRINTLN &quot;Hello world!&quot;
+PRINT _NARG, &quot; arguments\n&quot;
+PRINTLN &quot;sum: &quot;, 2+3, &quot; product: &quot;, 2*3
+PRINTLN STRFMT(&quot;E = %f&quot;, 2.718)</pre>
+</div>
+<dl class="Bl-inset">
+  <dt id="PRINT"><a class="permalink" href="#PRINT"><code class="Ic">PRINT</code></a></dt>
+  <dd>prints out each of its comma-separated arguments. Numbers are printed as
+      unsigned uppercase hexadecimal with a leading &#x2018;$&#x2019;. For
+      different formats, use <code class="Ic">STRFMT</code>.</dd>
+  <dt id="PRINTLN"><a class="permalink" href="#PRINTLN"><code class="Ic">PRINTLN</code></a></dt>
+  <dd>prints out each of its comma-separated arguments, if any, followed by a
+      newline (&#x2018;<code class="Li">\n</code>&#x2019;).</dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Aborting_the_assembly_process"><a class="permalink" href="#Aborting_the_assembly_process">Aborting
+  the assembly process</a></h3>
+<p class="Pp"><code class="Ic">FAIL</code> and <code class="Ic">WARN</code> can
+    be used to print errors and warnings respectively during the assembly
+    process. This is especially useful for macros that get an invalid argument.
+    <code class="Ic">FAIL</code> and <code class="Ic">WARN</code> take a string
+    as the only argument and they will print this string out as a normal error
+    with a line number.</p>
+<p class="Pp"><code class="Ic">FAIL</code> stops assembling immediately while
+    <code class="Ic">WARN</code> shows the message but continues afterwards.</p>
+<p class="Pp">If you need to ensure some assumption is correct when compiling,
+    you can use <code class="Ic">ASSERT</code> and
+    <code class="Ic">STATIC_ASSERT</code>. Syntax examples are given below:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>Function:
+    xor a
+ASSERT LOW(MyByte) == 0
+    ld h, HIGH(MyByte)
+    ld l, a
+    ld a, [hli]
+; You can also indent this!
+    ASSERT BANK(OtherFunction) == BANK(Function)
+    call OtherFunction
+; Lowercase also works
+    ld hl, FirstByte
+    ld a, [hli]
+assert FirstByte + 1 == SecondByte
+    ld b, [hl]
+    ret
+.end
+    ; If you specify one, a message will be printed
+    STATIC_ASSERT .end - Function &lt; 256, &quot;Function is too large!&quot;</pre>
+</div>
+<p class="Pp">First, the difference between <code class="Ic">ASSERT</code> and
+    <code class="Ic">STATIC_ASSERT</code> is that the former is evaluated by
+    RGBASM if it can, otherwise by RGBLINK; but the latter is only ever
+    evaluated by RGBASM. If RGBASM cannot compute the value of the argument to
+    <code class="Ic">STATIC_ASSERT</code>, it will produce an error.</p>
+<p class="Pp">Second, as shown above, a string can be optionally added at the
+    end, to give insight into what the assertion is checking.</p>
+<p class="Pp">Finally, you can add one of <code class="Ic">WARN</code>,
+    <code class="Ic">FAIL</code> or <code class="Ic">FATAL</code> as the first
+    optional argument to either <code class="Ic">ASSERT</code> or
+    <code class="Ic">STATIC_ASSERT</code>. If the assertion fails,
+    <code class="Ic">WARN</code> will cause a simple warning (controlled by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a> flag
+    <code class="Fl">-Wassert</code>) to be emitted;
+    <code class="Ic">FAIL</code> (the default) will cause a non-fatal error; and
+    <code class="Ic">FATAL</code> immediately aborts.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="MISCELLANEOUS"><a class="permalink" href="#MISCELLANEOUS">MISCELLANEOUS</a></h2>
+<section class="Ss">
+<h3 class="Ss" id="Changing_options_while_assembling"><a class="permalink" href="#Changing_options_while_assembling">Changing
+  options while assembling</a></h3>
+<p class="Pp"><code class="Ic">OPT</code> can be used to change some of the
+    options during assembling from within the source, instead of defining them
+    on the command-line. (See
+  <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>).</p>
+<p class="Pp"><code class="Ic">OPT</code> takes a comma-separated list of
+    options as its argument:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>PUSHO
+    OPT g.oOX, Wdiv       ; acts like command-line `-g.oOX -Wdiv`
+    OPT -Wdiv             ; dashes before the options are optional
+    DW `..ooOOXX          ; uses the graphics constant characters from OPT g
+    PRINTLN $80000000/-1  ; prints a warning about division
+POPO
+    DW `00112233          ; uses the default graphics constant characters
+    PRINTLN $80000000/-1  ; no warning by default</pre>
+</div>
+<p class="Pp"><code class="Ic">OPT</code> can modify the options
+    <code class="Cm">b</code>, <code class="Cm">g</code>,
+    <code class="Cm">p</code>, <code class="Cm">Q</code>,
+    <code class="Cm">r</code>, and <code class="Cm">W</code>.</p>
+<p class="Pp"><code class="Ic">POPO</code> and <code class="Ic">PUSHO</code>
+    provide the interface to the option stack. <code class="Ic">PUSHO</code>
+    will push the current set of options on the option stack.
+    <code class="Ic">POPO</code> can then later be used to restore them. Useful
+    if you want to change some options in an include file and you don't want to
+    destroy the options set by the program that included your file. The stack's
+    number of entries is limited only by the amount of memory in your
+  machine.</p>
+<p class="Pp"><code class="Ic">PUSHO</code> can also take a comma-separated list
+    of options, to push the current set and apply the argument set at the same
+    time:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>PUSHO b.X, g.oOX
+    DB %..XXXX..
+    DW `..ooOOXX
+POPO</pre>
+</div>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Excluding_locations_from_backtraces"><a class="permalink" href="#Excluding_locations_from_backtraces">Excluding
+  locations from backtraces</a></h3>
+<p class="Pp">Errors and warnings print
+    <a class="permalink" href="#backtraces"><i class="Em" id="backtraces">backtraces</i></a>
+    showing the location in the source file where the problem occurred, tracing
+    the origin of the problem even through a chain of
+    <code class="Ic">REPT</code>, <code class="Ic">FOR</code>,
+    <code class="Ic">MACRO</code>, and <code class="Ic">INCLUDE</code>
+    locations. Sometimes there are locations you would like to ignore; for
+    example, a common utility macro when you only care about the line where the
+    macro is used, or an <code class="Ic">INCLUDE</code> file that only serves
+    to include other files and is just filler in the backtrace.</p>
+<p class="Pp" id="silence">In those cases, you can
+    <a class="permalink" href="#silence"><i class="Em">silence</i></a> a
+    location with a question mark &#x2018;?&#x2019; after the token: all of the
+    locations created by a &#x2018;REPT?&#x2019;, &#x2018;FOR?&#x2019;, or
+    &#x2018;MACRO?&#x2019; will not be printed, and any location created by a
+    &#x2018;INCLUDE?&#x2019;, or a macro invocation whose name is immediately
+    followed by a &#x2018;?&#x2019;, will not be printed. For example, if this
+    were assembled as &#x2018;<code class="Li">example.asm</code>&#x2019;:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>MACRO lb
+    assert -128 &lt;= (\2) &amp;&amp; (\2) &lt; 256, &quot;\2 is not a byte&quot;
+    assert -128 &lt;= (\3) &amp;&amp; (\3) &lt; 256, &quot;\3 is not a byte&quot;
+    ld \1, (LOW(\2) &lt;&lt; 8) | LOW(\3)
+ENDM
+SECTION &quot;Code&quot;, ROM0
+    lb hl, $123, $45</pre>
+</div>
+<p class="Pp">This would print an error backtrace:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>error: Assertion failed: $123 is not a byte
+    at example.asm::lb(2)
+    &lt;- example.asm(7)</pre>
+</div>
+<p class="Pp">But if &#x2018;<code class="Li">MACRO</code>&#x2019; were changed
+    to &#x2018;<code class="Li">MACRO?</code>&#x2019;, or
+    &#x2018;<code class="Li">lb hl</code>&#x2019; were changed to
+    &#x2018;<code class="Li">lb? hl</code>&#x2019;, then the error backtrace
+    would not mention the location within the
+    &#x2018;<code class="Li">lb</code>&#x2019; macro:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>error: Assertion failed: $123 is not a byte
+    at example.asm(7)</pre>
+</div>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgblink.5">rgblink(5)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbasm-old.5">rgbasm-old(5)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a> was originally
+    written by <span class="An">Carsten S&#x00F8;rensen</span> as part of the
+    ASMotor package, and was later repackaged in RGBDS by
+    <span class="An">Justin Lloyd</span>. It is now maintained by a number of
+    contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>

@@ -1,0 +1,878 @@
+<section class="Sh">
+<h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm">rgbgfx</code></td>
+    <td>[<code class="Fl"><a href="#C">-C</a><a href="#m">m</a><a href="#h">h</a><a href="#O">O</a><a href="#u">u</a><a href="#V">V</a><a href="#w">w</a><a href="#X">X</a><a href="#Y">Y</a><a href="#Z">Z</a></code>] [<code class="Fl"><a href="#v">-v</a></code>
+      [<code class="Fl"><a href="#v">-v</a></code> <span class="No">...</span>]]
+      [<code class="Fl"><a href="#a">-a</a></code> <var class="Ar">attrmap</var> |
+      <code class="Fl"><a href="#A">-A</a></code>] [<code class="Fl"><a href="#b">-b</a></code>
+      <var class="Ar">base_ids</var>] [<code class="Fl"><a href="#c">-c</a></code>
+      <var class="Ar">pal_spec</var>] [<code class="Fl">--color</code>
+      <var class="Ar">when</var>] [<code class="Fl"><a href="#d">-d</a></code>
+      <var class="Ar">depth</var>] [<code class="Fl"><a href="#i">-i</a></code>
+      <var class="Ar">input_tiles</var>] [<code class="Fl"><a href="#L">-L</a></code>
+      <var class="Ar">slice</var>] [<code class="Fl"><a href="#l">-l</a></code>
+      <var class="Ar">base_pal</var>] [<code class="Fl"><a href="#N">-N</a></code>
+      <var class="Ar">nb_tiles</var>] [<code class="Fl"><a href="#n">-n</a></code>
+      <var class="Ar">nb_pals</var>] [<code class="Fl"><a href="#o">-o</a></code>
+      <var class="Ar">out_file</var>] [<code class="Fl"><a href="#p">-p</a></code>
+      <var class="Ar">pal_file</var> | <code class="Fl"><a href="#P">-P</a></code>]
+      [<code class="Fl"><a href="#q">-q</a></code> <var class="Ar">pal_map</var> |
+      <code class="Fl"><a href="#Q">-Q</a></code>] [<code class="Fl"><a href="#r">-r</a></code>
+      <var class="Ar">width</var>] [<code class="Fl"><a href="#s">-s</a></code>
+      <var class="Ar">nb_colors</var>] [<code class="Fl"><a href="#t">-t</a></code>
+      <var class="Ar">tilemap</var> | <code class="Fl"><a href="#T">-T</a></code>]
+      [<code class="Fl"><a href="#W">-W</a></code> <var class="Ar">warning</var>]
+      [<code class="Fl"><a href="#x">-x</a></code> <var class="Ar">quantity</var>]
+      <var class="Ar">file</var></td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">The <code class="Nm">rgbgfx</code> program converts PNG images
+    into data suitable for display on the Game Boy and Game Boy Color, or
+    vice-versa.</p>
+<p class="Pp" id="squares">The main function of <code class="Nm">rgbgfx</code>
+    is to divide the input PNG into 8&#x00D7;8 pixel
+    <a class="permalink" href="#squares"><i class="Em">squares</i></a>, convert
+    each of those squares into 1bpp or 2bpp tile data, and save all of the tile
+    data in a file. It also has options to generate a tile map, attribute map,
+    and/or palette set as well; more on that and how the conversion process can
+    be tweaked below.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="ARGUMENTS"><a class="permalink" href="#ARGUMENTS">ARGUMENTS</a></h2>
+<p class="Pp"><code class="Nm">rgbgfx</code> accepts the usual short and long
+    options, such as <code class="Fl">-V</code> and
+    <code class="Fl">--version</code>. Options later in the command line
+    override those set earlier, except for when duplicate options are considered
+    an error. Options can be abbreviated as long as the abbreviation is
+    unambiguous: <code class="Fl">--verb</code> is
+    <code class="Fl">--verbose</code>, but <code class="Fl">--ver</code> is
+    invalid because it could also be <code class="Fl">--version</code>.</p>
+<p class="Pp">Unless otherwise noted, passing
+    &#x2018;<code class="Li">-</code>&#x2019; (a single dash) as a file name
+    makes <code class="Nm">rgbgfx</code> use standard input (for input files) or
+    standard output (for output files). To suppress this behavior, and open a
+    file in the current directory actually called
+    &#x2018;<code class="Li">-</code>&#x2019;, pass
+    &#x2018;<code class="Li">./-</code>&#x2019; instead. Using standard input or
+    output for more than one file in a single command may produce unexpected
+    results.</p>
+<p class="Pp"><code class="Nm">rgbgfx</code> accepts decimal, hexadecimal,
+    octal, and binary for numeric option arguments. Decimal numbers are written
+    as usual; hexadecimal numbers must be prefixed with either
+    &#x2018;<code class="Li">$</code>&#x2019; or
+    &#x2018;<code class="Li">0x</code>&#x2019;; octal numbers must be prefixed
+    with either &#x2018;<code class="Li">&amp;</code>&#x2019; or
+    &#x2018;<code class="Li">0o</code>&#x2019;; and binary numbers must be
+    prefixed with either &#x2018;<code class="Li">%</code>&#x2019; or
+    &#x2018;<code class="Li">0b</code>&#x2019;. (The prefixes
+    &#x2018;<code class="Li">$</code>&#x2019; and
+    &#x2018;<code class="Li">&amp;</code>&#x2019; will likely need escaping or
+    quoting to avoid being interpreted by the shell.) Leading zeros (after the
+    base prefix, if any) are accepted, and letters are not case-sensitive. For
+    example, all of these are equivalent:
+    &#x2018;<code class="Li">42</code>&#x2019;,
+    &#x2018;<code class="Li">042</code>&#x2019;,
+    &#x2018;<code class="Li">0x2A</code>&#x2019;,
+    &#x2018;<code class="Li">0X2A</code>&#x2019;,
+    &#x2018;<code class="Li">0x2a</code>&#x2019;,
+    &#x2018;<code class="Li">&amp;52</code>&#x2019;,
+    &#x2018;<code class="Li">0o52</code>&#x2019;,
+    &#x2018;<code class="Li">0O052</code>&#x2019;,
+    &#x2018;<code class="Li">0b00101010</code>&#x2019;,
+    &#x2018;<code class="Li">0B101010</code>&#x2019;.</p>
+<p class="Pp">The following options are accepted:</p>
+<dl class="Bl-tag">
+  <dt id="a"><a class="permalink" href="#a"><code class="Fl">-a</code></a>
+    <var class="Ar">attrmap</var>, <code class="Fl">--attr-map</code>
+    <var class="Ar">attrmap</var></dt>
+  <dd>Generate an attribute map, which is a file containing tile
+      &#x201C;attributes&#x201D;. For each square of the input image, its
+      corresponding attribute map byte contains the mirroring bits (if
+      <code class="Fl">-m</code> was specified), the bank bit (see
+      <code class="Fl">-N</code>), and the palette index. See
+      <a class="Lk" href="https://gbdev.io/pandocs/Tile_Maps#bg-map-attributes-cgb-mode-only">Pan
+      Docs</a> for the individual bytes' format. The output is written just like
+      the tile map (see <code class="Fl">-t</code>), follows the same order
+      (<code class="Fl">-Z</code>), and has the same size.</dd>
+  <dt id="A"><a class="permalink" href="#A"><code class="Fl">-A</code></a>,
+    <code class="Fl">--auto-attr-map</code></dt>
+  <dd>Same as <code class="Fl">-a</code> <var class="Ar">base_path</var>.attrmap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
+  <dt id="B"><a class="permalink" href="#B"><code class="Fl">-B</code></a>
+    <var class="Ar">color</var>, <code class="Fl">--background-color</code>
+    <var class="Ar">color</var></dt>
+  <dd>Set a background color to be omitted from output. Colors are accepted in
+      &#x2018;<code class="Li">#rgb</code>&#x2019; or
+      &#x2018;<code class="Li">#rrggbb</code>&#x2019; format, or as
+      &#x2018;<code class="Li">transparent</code>&#x2019;. Input tiles which are
+      entirely the specified background color are ignored and will not be output
+      in tile data file. The tilemap, atrribute map, or palette map files
+      <a class="permalink" href="#will"><i class="Em" id="will">will</i></a> use
+      placeholder values where background tiles were. If a background color is
+      specified, it cannot be used within tiles which are not ignored.</dd>
+  <dt id="b"><a class="permalink" href="#b"><code class="Fl">-b</code></a>
+    <var class="Ar">base_ids</var>, <code class="Fl">--base-tiles</code>
+    <var class="Ar">base_ids</var></dt>
+  <dd>Set the base IDs for tile map output. <var class="Ar">base_ids</var>
+      should be one or two numbers between 0 and 255, separated by a comma; they
+      are for bank 0 and bank 1 respectively. Both default to 0.</dd>
+  <dt id="C"><a class="permalink" href="#C"><code class="Fl">-C</code></a>,
+    <code class="Fl">--color-curve</code></dt>
+  <dd>When generating palettes, use a color curve mimicking the Game Boy Color's
+      screen. The resulting colors may look closer to the input image's
+      <a class="permalink" href="#on"><b class="Sy" id="on">on hardware and
+      accurate emulators</b></a>.</dd>
+  <dt id="c"><a class="permalink" href="#c"><code class="Fl">-c</code></a>
+    <var class="Ar">pal_spec</var>, <code class="Fl">--colors</code>
+    <var class="Ar">pal_spec</var></dt>
+  <dd>Use the specified color palettes instead of having
+      <code class="Nm">rgbgfx</code> automatically determine some.
+      <var class="Ar">pal_spec</var> can be one of the following:
+    <dl class="Bl-tag">
+      <dt id="inline"><a class="permalink" href="#inline"><b class="Sy">inline
+        palette spec</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> begins with a hash character
+          &#x2018;<code class="Li">#</code>&#x2019;, it is treated as an inline
+          palette specification. It should contain a comma-separated list of
+          hexadecimal colors, each beginning with a hash. Colors are accepted in
+          &#x2018;<code class="Li">#rgb</code>&#x2019; or
+          &#x2018;<code class="Li">#rrggbb</code>&#x2019; format. To leave one
+          or more gaps in the palette,
+          &#x2018;<code class="Li">#none</code>&#x2019; can be used instead of
+          any color. Palettes must be separated by a colon or semicolon (the
+          latter may require quoting to avoid special handling by the shell),
+          and spaces are allowed around colons, semicolons and commas; trailing
+          commas and semicolons are allowed. See
+          <a class="Sx" href="#EXAMPLES">EXAMPLES</a> for an example of an
+          inline palette specification.</dd>
+      <dt id="embedded"><a class="permalink" href="#embedded"><b class="Sy">embedded
+        palette spec</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> is the case-insensitive word
+          <code class="Cm">embedded</code>, then the first four colors of the
+          input PNG's embedded palette are used. It is an error if the PNG is
+          not indexed, or if colors other than these 4 are used. (This is
+          different from the default behavior of indexed PNGs, as then unused
+          entries in the embedded palette are ignored, whereas they are not with
+          <code class="Fl">-c</code> <code class="Cm">embedded</code>).</dd>
+      <dt id="DMG"><a class="permalink" href="#DMG"><b class="Sy">DMG palette
+        spec</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> starts with case-insensitive
+          <code class="Cm">dmg=</code>, then the following two-digit hexadecimal
+          number specifies four grayscale DMG color indexes. The number
+          functions like the DMG's $FF47
+          <a class="permalink" href="#BGP"><b class="Sy" id="BGP">BGP</b></a>
+          register (see
+          <a class="Lk" href="https://gbdev.io/pandocs/Palettes.html">Pan
+          Docs</a> for more information): the low two bits 0-1 specify which
+          gray shade goes in color index 0, the next two bits 2-3 specify which
+          gray shade goes in color index 1, and so on. Gray shade 0 is the
+          lightest (white), 3 is the darkest (black). If
+          <var class="Ar">pal_spec</var> is the case-insensitive word
+          <code class="Cm">dmg</code>, then it acts like
+          <code class="Cm">dmg=E4</code>, i.e. the darkest gray will end up in
+          color index 0, and so on. The same gray shade cannot go in two color
+          indexes. To specify a DMG palette, the input PNG must have all its
+          colors in shades of gray, without any transparent colors.</dd>
+      <dt id="automatic"><a class="permalink" href="#automatic"><b class="Sy">automatic
+        palette generation</b></a></dt>
+      <dd>If <var class="Ar">pal_spec</var> is the case-insensitive word
+          <code class="Cm">auto</code>, then a palette is automatically
+          generated using the procedure described in
+          <a class="Sx" href="#PALETTE_GENERATION">PALETTE GENERATION</a>. This
+          is the default behavior if <code class="Fl">-c</code> was not
+          specified.</dd>
+      <dt id="external"><a class="permalink" href="#external"><b class="Sy">external
+        palette spec</b></a></dt>
+      <dd>Otherwise, <var class="Ar">pal_spec</var> is assumed to be an external
+          palette specification. The expected format is
+          &#x2018;<code class="Li">format:path</code>&#x2019;, where
+          <var class="Ar">path</var> is a path to a file
+          (&#x2018;<code class="Li">-</code>&#x2019; is not treated specially),
+          which will be processed according to the <var class="Ar">format</var>.
+          See <a class="Sx" href="#PALETTE_SPECIFICATION_FORMATS">PALETTE
+          SPECIFICATION FORMATS</a> for a list of formats and their
+          descriptions.</dd>
+    </dl>
+  </dd>
+  <dt id="color"><a class="permalink" href="#color"><code class="Fl">--color</code></a>
+    <var class="Ar">when</var></dt>
+  <dd>Specify when to highlight warning and error messages with color:
+      &#x2018;<code class="Li">always</code>&#x2019;,
+      &#x2018;<code class="Li">never</code>&#x2019;, or
+      &#x2018;<code class="Li">auto</code>&#x2019;.
+      &#x2018;<code class="Li">auto</code>&#x2019; determines whether to use
+      colors based on the
+      &#x2018;<code class="Li"><a class="Lk" href="https://no-color.org/">NO_COLOR</a></code>&#x2019;
+      or
+      &#x2018;<code class="Li"><a class="Lk" href="https://force-color.org/">FORCE_COLOR</a></code>&#x2019;
+      environment variables, or whether the output is to a TTY.</dd>
+  <dt id="d"><a class="permalink" href="#d"><code class="Fl">-d</code></a>
+    <var class="Ar">depth</var>, <code class="Fl">--depth</code>
+    <var class="Ar">depth</var></dt>
+  <dd>Set the bit depth of the output tile data, in bits per pixel (bpp), either
+      1 or 2 (the default). This changes how tile data is output, and the
+      maximum number of colors per palette (2 and 4 respectively).</dd>
+  <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
+    <code class="Fl">--help</code></dt>
+  <dd>Print help text for the program and exit.</dd>
+  <dt id="i"><a class="permalink" href="#i"><code class="Fl">-i</code></a>
+    <var class="Ar">input_tiles</var>, <code class="Fl">--input-tileset</code>
+    <var class="Ar">input_tiles</var></dt>
+  <dd>Use the specified input tiles in addition to having
+      <code class="Nm">rgbgfx</code> automatically determine some. The input
+      tiles will always be first in the <code class="Fl">-o</code> image output,
+      and will always get the first IDs in the <code class="Fl">-t</code>
+      tilemap output. <var class="Ar">input_tiles</var> must contain 1bpp or
+      2bpp tile data (whichever matches the <code class="Fl">-d</code>
+      <span class="No">option used here</span>), as could be previously
+      generated with the <code class="Fl">-o</code> option.
+    <p class="Pp" id="not">If the <code class="Fl">-o</code> option is also
+        specified, then the input tiles will be assigned the first tile IDs, and
+        any tiles from the input image that are not in the input tileset will be
+        assigned subsequent IDs. But if the <code class="Fl">-o</code> option is
+        <a class="permalink" href="#not"><i class="Em">not</i></a> specified,
+        then the tile map can
+        <a class="permalink" href="#only"><i class="Em" id="only">only</i></a>
+        use tiles from the input tileset. Using <code class="Fl">-o</code> with
+        <code class="Fl">-i</code> is useful if you want to precisely control
+        the tile IDs of its tile map. Using <code class="Fl">-i</code> alone is
+        more useful if you want several images to use a subset of shared
+      tiles.</p>
+    <p class="Pp" id="strongly">If the image will use more than one color
+        palette, it is
+        <a class="permalink" href="#strongly"><i class="Em">strongly</i></a>
+        advised to generate the palette set along with the input tile data, and
+        pass <code class="Fl">-c</code>
+        <code class="Cm">gbc:</code><var class="Ar">input_palette</var> along
+        with <code class="Fl">-i</code> <var class="Ar">input_tiles</var>. This
+        is because <code class="Nm">rgbgfx</code> might not generate the same
+        palette set for this image as it did for its input tileset.</p>
+    <p class="Pp">See <a class="Sx" href="#EXAMPLES">EXAMPLES</a> for examples
+        of how to use this option.</p>
+    <p class="Pp">This option is ignored in
+        <a class="Sx" href="#REVERSE_MODE">REVERSE MODE</a>.</p>
+  </dd>
+  <dt id="L"><a class="permalink" href="#L"><code class="Fl">-L</code></a>
+    <var class="Ar">slice</var>, <code class="Fl">--slice</code>
+    <var class="Ar">slice</var></dt>
+  <dd>Only process a given rectangle of the image. This is useful for example if
+      the input image is a sheet of some sort, and you want to convert each cel
+      individually. The default is to process the whole image as-is.
+    <p class="Pp"><var class="Ar">slice</var> must be two number pairs,
+        separated by a colon. The numbers must be separated by commas; space is
+        allowed around all punctuation. The first number pair specifies the X
+        and Y coordinates of the top-left pixel that will be processed (anything
+        above it or to its left will be ignored). The second number pair
+        specifies how many tiles to process horizontally and vertically,
+        respectively.</p>
+    <p class="Pp" id="is"><code class="Fl">-L</code>
+        <a class="permalink" href="#is"><b class="Sy">is ignored in reverse
+        mode</b></a>, <span class="No">no padding is inserted</span>.</p>
+  </dd>
+  <dt id="l"><a class="permalink" href="#l"><code class="Fl">-l</code></a>
+    <var class="Ar">base_pal</var>, <code class="Fl">--base-palette</code>
+    <var class="Ar">base_pal</var></dt>
+  <dd>Set the base ID for attribute map and palette map output.
+      <var class="Ar">base_pal</var> should be a number between 0 and 255. It
+      defaults to 0.</dd>
+  <dt id="m"><a class="permalink" href="#m"><code class="Fl">-m</code></a>,
+    <code class="Fl">--mirror-tiles</code></dt>
+  <dd>Deduplicate tiles that are horizontally and/or vertically symmetrical
+      mirror images of each other. Only one of each unique tile will be saved in
+      the tile data file, with mirror images counting as duplicates. Useful with
+      a tile map and attribute map together (see <code class="Fl">-a</code> and
+      <code class="Fl">-t</code>) to keep track of the duplicated tiles and the
+      dimension(s) mirrored. Implies <code class="Fl">-u</code>. Equivalent to
+      <code class="Fl">-XY</code>.</dd>
+  <dt id="N"><a class="permalink" href="#N"><code class="Fl">-N</code></a>
+    <var class="Ar">nb_tiles</var>, <code class="Fl">--nb-tiles</code>
+    <var class="Ar">nb_tiles</var></dt>
+  <dd>Set a maximum number of tiles that can be placed in each VRAM bank.
+      <var class="Ar">nb_tiles</var> should be one or two numbers between 0 and
+      256, separated by a comma; if the latter is omitted, it defaults to 0.
+      Setting either number to 0 prevents any tiles from being output in that
+      bank.
+    <p class="Pp">If more tiles are generated than can fit in the two banks
+        combined, <code class="Nm">rgbgfx</code> will abort. If
+        <code class="Fl">-N</code> is not specified, no limit will be set on the
+        amount of tiles placed in bank 0, and tiles will not be placed in bank
+        1.</p>
+  </dd>
+  <dt id="n"><a class="permalink" href="#n"><code class="Fl">-n</code></a>
+    <var class="Ar">nb_pals</var>, <code class="Fl">--nb-palettes</code>
+    <var class="Ar">nb_pals</var></dt>
+  <dd>Abort if more than <var class="Ar">nb_pals</var> palettes are generated.
+      This may not be more than 256.
+    <p class="Pp">Note that attribute map output only has 3 bits for the palette
+        ID, so a limit higher than 8 may yield incomplete data unless relying on
+        a palette map (see <code class="Fl">-q</code>).</p>
+  </dd>
+  <dt id="O"><a class="permalink" href="#O"><code class="Fl">-O</code></a>,
+    <code class="Fl">--group-outputs</code></dt>
+  <dd>Sets the &#x2018;base path&#x2019; to be the output tile data path from
+      <code class="Fl">-o</code> instead of the input image path (see
+      <a class="Sx" href="#Automatic_output_paths">Automatic output
+    paths</a>).</dd>
+  <dt id="o"><a class="permalink" href="#o"><code class="Fl">-o</code></a>
+    <var class="Ar">out_file</var>, <code class="Fl">--output</code>
+    <var class="Ar">out_file</var></dt>
+  <dd>Output the tile data in native 2bpp format or in 1bpp (depending on
+      <code class="Fl">-d</code>) to this file.</dd>
+  <dt id="p"><a class="permalink" href="#p"><code class="Fl">-p</code></a>
+    <var class="Ar">pal_file</var>, <code class="Fl">--palette</code>
+    <var class="Ar">pal_file</var></dt>
+  <dd>Output the image's palette set to this file.</dd>
+  <dt id="P"><a class="permalink" href="#P"><code class="Fl">-P</code></a>,
+    <code class="Fl">--auto-palette</code></dt>
+  <dd>Same as <code class="Fl">-p</code> <var class="Ar">base_path</var>.pal
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
+  <dt id="q"><a class="permalink" href="#q"><code class="Fl">-q</code></a>
+    <var class="Ar">pal_map</var>, <code class="Fl">--palette-map</code>
+    <var class="Ar">pal_map</var></dt>
+  <dd>Output the image's palette map to this file. This is useful if the input
+      image contains more than 8 palettes, as the attribute map only contains
+      the lower 3 bits of the palette indices.</dd>
+  <dt id="Q"><a class="permalink" href="#Q"><code class="Fl">-Q</code></a>,
+    <code class="Fl">--auto-palette-map</code></dt>
+  <dd>Same as <code class="Fl">-q</code> <var class="Ar">base_path</var>.palmap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
+  <dt id="r"><a class="permalink" href="#r"><code class="Fl">-r</code></a>
+    <var class="Ar">width</var>, <code class="Fl">--reverse</code>
+    <var class="Ar">width</var></dt>
+  <dd>Switches <code class="Nm">rgbgfx</code> into
+      &#x201C;<a class="permalink" href="#reverse"><b class="Sy" id="reverse">reverse</b></a>&#x201D;
+      mode. In this mode, instead of converting a PNG image into Game Boy data,
+      <code class="Nm">rgbgfx</code> will attempt to reverse the process, and
+      render Game Boy data into an image. See
+      <a class="Sx" href="#REVERSE_MODE">REVERSE MODE</a> below for details.
+    <p class="Pp"><var class="Ar">width</var> is the width of the image to
+        generate, in tiles. <code class="Fl">-r</code>
+        <code class="Fl">-0</code> chooses a width to make the image as square
+        as possible. This is useful if you do not know the original width.</p>
+  </dd>
+  <dt id="s"><a class="permalink" href="#s"><code class="Fl">-s</code></a>
+    <var class="Ar">nb_colors</var>, <code class="Fl">--palette-size</code>
+    <var class="Ar">nb_colors</var></dt>
+  <dd>Specify how many colors each palette contains, including the transparent
+      one if any. <var class="Ar">nb_colors</var> cannot be more than
+      &#x2018;<code class="Li">1 &lt;&lt;
+      <var class="Ar">depth</var></code>&#x2019; (see
+      <code class="Fl">-d</code>).</dd>
+  <dt id="t"><a class="permalink" href="#t"><code class="Fl">-t</code></a>
+    <var class="Ar">tilemap</var>, <code class="Fl">--tilemap</code>
+    <var class="Ar">tilemap</var></dt>
+  <dd>Generate a file of tile indices. For each square of the input image, its
+      corresponding tile map byte contains the index of the associated tile in
+      the tile data file. The IDs wrap around from 255 back to 0, and do not
+      include the bank bit; use <code class="Fl">-a</code> for that. Useful in
+      combination with <code class="Fl">-u</code> and/or
+      <code class="Fl">-m</code> to keep track of duplicate tiles.</dd>
+  <dt id="T"><a class="permalink" href="#T"><code class="Fl">-T</code></a>,
+    <code class="Fl">--auto-tilemap</code></dt>
+  <dd>Same as <code class="Fl">-t</code> <var class="Ar">base_path</var>.tilemap
+      (see <a class="Sx" href="#Automatic_output_paths">Automatic output
+      paths</a>).</dd>
+  <dt id="u"><a class="permalink" href="#u"><code class="Fl">-u</code></a>,
+    <code class="Fl">--unique-tiles</code></dt>
+  <dd>Deduplicate identical tiles. Only one of each unique tile will be saved in
+      the tile data file. Useful with a tile map (see
+      <code class="Fl">-t</code>) to keep track of the duplicated tiles.
+    <p class="Pp" id="should">Note that if this option is enabled, no guarantee
+        is made on the order in which tiles are output; while it
+        <a class="permalink" href="#should"><i class="Em">should</i></a> be
+        consistent across identical runs of a given
+        <code class="Nm">rgbgfx</code> release, the same is not true for
+        different releases.</p>
+  </dd>
+  <dt id="V"><a class="permalink" href="#V"><code class="Fl">-V</code></a>,
+    <code class="Fl">--version</code></dt>
+  <dd>Print the version of the program and exit.</dd>
+  <dt id="v"><a class="permalink" href="#v"><code class="Fl">-v</code></a>,
+    <code class="Fl">--verbose</code></dt>
+  <dd>Be verbose. The verbosity level is increased by one each time the flag is
+      specified, with each level including the previous:
+    <ol class="Bl-enum Bl-compact">
+      <li>Print the <code class="Nm">rgbgfx</code> configuration before taking
+          actions.</li>
+      <li>Print a notice before significant actions.</li>
+      <li>Print some of the actions' intermediate results.</li>
+      <li>Print some internal debug information.</li>
+      <li>Print detailed internal information.</li>
+    </ol>
+    The verbosity level does not go past 6.
+    <p class="Pp">Note that verbose output is only intended to be consumed by
+        humans, and may change without notice between RGBDS releases; relying on
+        those for scripts is not advised.</p>
+  </dd>
+  <dt id="W"><a class="permalink" href="#W"><code class="Fl">-W</code></a>
+    <var class="Ar">warning</var>, <code class="Fl">--warning</code>
+    <var class="Ar">warning</var></dt>
+  <dd>Set warning flag <var class="Ar">warning</var>. A warning message will be
+      printed if <var class="Ar">warning</var> is an unknown warning flag. See
+      the <a class="Sx" href="#DIAGNOSTICS">DIAGNOSTICS</a> section for a list
+      of warnings.</dd>
+  <dt id="w"><a class="permalink" href="#w"><code class="Fl">-w</code></a></dt>
+  <dd>Disable all warning output, even when turned into errors.</dd>
+  <dt id="X"><a class="permalink" href="#X"><code class="Fl">-X</code></a>,
+    <code class="Fl">--mirror-x</code></dt>
+  <dd>Deduplicate tiles that are horizontally symmetrical mirror images of each
+      other across the X axis. Implies <code class="Fl">-u</code>.</dd>
+  <dt id="x"><a class="permalink" href="#x"><code class="Fl">-x</code></a>
+    <var class="Ar">quantity</var>, <code class="Fl">--trim-end</code>
+    <var class="Ar">quantity</var></dt>
+  <dd>Do not output the last <var class="Ar">quantity</var> tiles to the tile
+      data file; no other output is affected. This is useful for trimming
+      &#x201C;filler&#x201D; / blank squares at the end of an image. If fewer
+      than <var class="Ar">quantity</var> tiles would have been emitted, the
+      file will be empty.
+    <p class="Pp" id="after">Note that this is done
+        <a class="permalink" href="#after"><i class="Em">after</i></a>
+        deduplication if <code class="Fl">-u</code> was enabled, so you probably
+        don't want to use this option in combination with
+        <code class="Fl">-u</code>. Note also that the tiles that don't get
+        output will not count towards <code class="Fl">-N</code>'s limit.</p>
+  </dd>
+  <dt id="Y"><a class="permalink" href="#Y"><code class="Fl">-Y</code></a>,
+    <code class="Fl">--mirror-y</code></dt>
+  <dd>Deduplicate tiles that are vertically symmetrical mirror images of each
+      other across the Y axis. Implies <code class="Fl">-u</code>.</dd>
+  <dt id="Z"><a class="permalink" href="#Z"><code class="Fl">-Z</code></a>,
+    <code class="Fl">--columns</code></dt>
+  <dd>Read squares from the PNG in column-major order (column by column),
+      instead of the default row-major order (line by line). This primarily
+      affects tile map and attribute map output, although it may also change
+      generated tile data and palettes.</dd>
+  <dt>@<var class="Ar">at_file</var></dt>
+  <dd>Read more options and arguments from a file, as if its contents were given
+      on the command line. Arguments are separated by whitespace or newlines.
+      Lines starting with a hash sign
+      (&#x2018;<code class="Li">#</code>&#x2019;) are considered comments and
+      ignored.
+    <p class="Pp" id="inside">No shell processing is performed, such as wildcard
+        or variable expansion. There is no support for escaping or quoting
+        whitespace to be included in arguments. The standard
+        &#x2018;<code class="Li">--</code>&#x2019; to stop option processing
+        also disables at-file processing. Note that while
+        &#x2018;<code class="Li">--</code>&#x2019; can be used
+        <a class="permalink" href="#inside"><i class="Em">inside</i></a> an
+        at-file, it only disables option processing within that at-file, and
+        processing continues in the parent scope.</p>
+    <p class="Pp">See <a class="Sx" href="#At_files">At-files</a> below for an
+        explanation of how this can be useful.</p>
+  </dd>
+</dl>
+<section class="Ss">
+<h3 class="Ss" id="At-files"><a class="permalink" href="#At-files">At-files</a></h3>
+<p class="Pp">In a given project, many images are to be converted with different
+    flags. The traditional way of solving this problem has been to specify the
+    different flags for each image in the Makefile or build script; this can be
+    inconvenient, as it centralizes all those flags away from the images they
+    concern.</p>
+<p class="Pp">To avoid these drawbacks, you can use &#x201C;at-files&#x201D;:
+    any command-line argument that begins with an at sign
+    (&#x2018;<code class="Li">@</code>&#x2019;) is interpreted as one, as
+    documented above. At-files can be stored right next to the corresponding
+    image, for example:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -o image.2bpp -t
+  image.tilemap @image.flags image.png</code></div>
+<p class="Pp">This will read additional flags from the file
+    &#x2018;<code class="Li">image.flags</code>&#x2019;, which could contain,
+    for example, &#x2018;<code class="Li">-b 128</code>&#x2019; to specify a
+    base offset for the image's tiles. The above command could be generated from
+    the following
+    <a class="Xr" href="https://man7.org/linux/man-pages/man1/make.1.html">make(1)</a>
+    rule:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>%.2bpp %.tilemap: %.flags %.png
+        rgbgfx -o $*.2bpp -t $*.tilemap @$*.flags $*.png</pre>
+</div>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="PALETTE_SPECIFICATION_FORMATS"><a class="permalink" href="#PALETTE_SPECIFICATION_FORMATS">PALETTE
+  SPECIFICATION FORMATS</a></h2>
+<p class="Pp">The following formats are supported:</p>
+<dl class="Bl-tag">
+  <dt id="act"><a class="permalink" href="#act"><code class="Cm">act</code></a></dt>
+  <dd><a class="Lk" href="https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1070626">Adobe
+      Photoshop color table</a>.</dd>
+  <dt id="aco"><a class="permalink" href="#aco"><code class="Cm">aco</code></a></dt>
+  <dd><a class="Lk" href="https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577411_pgfId-1055819">Adobe
+      Photoshop color swatch</a>.</dd>
+  <dt id="gbc"><a class="permalink" href="#gbc"><code class="Cm">gbc</code></a></dt>
+  <dd>A GBC palette memory dump, as emitted by <code class="Nm">rgbgfx</code>
+      <code class="Fl">-p</code>. Useful to force several images to share the
+      same palette.</dd>
+  <dt id="gpl"><a class="permalink" href="#gpl"><code class="Cm">gpl</code></a></dt>
+  <dd><a class="Lk" href="https://docs.gimp.org/2.10/en/gimp-concepts-palettes.html">GIMP
+      palette</a>.</dd>
+  <dt id="hex"><a class="permalink" href="#hex"><code class="Cm">hex</code></a></dt>
+  <dd>Plaintext lines of hexadecimal colors in
+      &#x2018;<code class="Li">rrggbb</code>&#x2019; format.</dd>
+  <dt id="png"><a class="permalink" href="#png"><code class="Cm">png</code></a></dt>
+  <dd>An image of square color swatches, with each row defining the colors for
+      one palette. Color swatches can be any square size.</dd>
+  <dt id="psp"><a class="permalink" href="#psp"><code class="Cm">psp</code></a></dt>
+  <dd><a class="Lk" href="https://www.selapa.net/swatches/colors/fileformats.php#psp_pal">Paint
+      Shop Pro palette</a>.</dd>
+</dl>
+<p class="Pp">If you wish for another format to be supported, please open an
+    issue (see <a class="Sx" href="#BUGS">BUGS</a> below) or contact us, and
+    supply a few sample files.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="PALETTE_GENERATION"><a class="permalink" href="#PALETTE_GENERATION">PALETTE
+  GENERATION</a></h2>
+<p class="Pp"><code class="Nm">rgbgfx</code> must generate palettes from the
+    colors in the input image, unless <code class="Fl">-c</code> was used; in
+    that case, the provided palettes will be used.
+    <a class="permalink" href="#If"><b class="Sy" id="If">If the order of colors
+    in the palettes is important to you</b></a>, for example because you want to
+    use palette swaps, please use <code class="Fl">-c</code> to specify the
+    palette explicitly.</p>
+<p class="Pp" id="any">First, if the image contains
+    <a class="permalink" href="#any"><i class="Em">any</i></a> transparent
+    pixel, color #0 of <i class="Em">all</i> palettes will be allocated to it.
+    This is done <a class="permalink" href="#even"><b class="Sy" id="even">even
+    if palettes were explicitly specified using</b></a>
+    <code class="Fl">-c</code>; then the specification only covers color #1
+    onwards. (If you do not want this, ask your image editor to remove the alpha
+    channel.)</p>
+<p class="Pp">After generating palettes, <code class="Nm">rgbgfx</code> sorts
+    colors within those palettes using the following rules:</p>
+<ul class="Bl-bullet Bd-indent">
+  <li>If the PNG file internally contains a palette (often dubbed an
+      &#x201C;indexed&#x201D; PNG), then colors in each output palette will be
+      sorted according to their order in the PNG's palette. Any unused entries
+      will be ignored, and only the first entry is considered if there are any
+      duplicates. (If you want a given color to appear more than once, or an
+      unused color to appear at all, you should specify the palettes explicitly
+      instead using <code class="Fl">-c</code>; <code class="Fl">-c</code>
+      <code class="Cm">embedded</code> may be appropriate.)</li>
+  <li>Otherwise, if the PNG only contains shades of gray, they will be
+      categorized into as many &#x201C;bins&#x201D; as there are colors per
+      palette, and the palette is set to these bins. The darkest gray will end
+      up in bin #0, and so on; note that this is the opposite of the RGB method
+      below. This is equivalent to having specified a DMG palette of
+      <code class="Fl">-c</code> <code class="Cm">dmg=E4</code>. If two distinct
+      grays end up in the same bin, the RGB method is used instead.
+    <p class="Pp" id="exactly">Be careful that <code class="Nm">rgbgfx</code> is
+        picky about what it considers &#x201C;grays&#x201D;: the red, green, and
+        blue components of each color must <i class="Em">all</i> be
+        <a class="permalink" href="#exactly"><i class="Em">exactly</i></a> the
+        same.</p>
+  </li>
+  <li>If none of the above apply, colors are sorted from lightest (first) to
+      darkest (last). The definition of luminance that
+      <code class="Nm">rgbgfx</code> uses is &#x201C;
+    <math class="eqn">
+      <mrow><mn>2126</mn><mo>&#x00D7;</mo><mi fontstyle="italic">red</mi><mo>+</mo><mn>7152</mn><mo>&#x00D7;</mo><mi fontstyle="italic">green</mi><mo>+</mo><mn>722</mn><mo>&#x00D7;</mo><mi fontstyle="italic">blue</mi></mrow>
+    </math>
+    &#x201D;.</li>
+</ul>
+<p class="Pp">Note that the &#x201C;indexed&#x201D; behavior depends on an
+    internal detail of how the PNG is saved, specifically its
+    &#x2018;<code class="Li">PLTE</code>&#x2019; chunk. Since few image editors
+    (such as GIMP) expose that detail, this behavior is only kept for
+    compatibility and should be considered deprecated.</p>
+<p class="Pp">It turns out that palette generation is an NP-complete problem
+    known as &quot;pagination&quot;, so <code class="Nm">rgbgfx</code> does not
+    attempt to find the optimal solution, but instead uses an
+    &quot;overload-and-remove&quot; heuristic to find a good one in a reasonable
+    amount of time. (There are no guarantees about how this algorithm will
+    generate palettes, apart from the constraints documented above.) It is
+    possible to compute the optimal solution externally (using a solver, for
+    example), and then provide it to <code class="Nm">rgbgfx</code> via
+    <code class="Fl">-c</code>.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="OUTPUT_FILES"><a class="permalink" href="#OUTPUT_FILES">OUTPUT
+  FILES</a></h2>
+<p class="Pp">All files output by <code class="Nm">rgbgfx</code> are binary
+    files, and designed to follow the Game Boy and Game Boy Color's native
+    formats. What follows is succinct descriptions of those formats, including
+    <code class="Nm">rgbgfx</code>-specific details. For more complete,
+    beginner-friendly descriptions of the native formats with illustrations,
+    please check out <a class="Lk" href="https://gbdev.io/pandocs/Graphics">Pan
+    Docs</a>.</p>
+<section class="Ss">
+<h3 class="Ss" id="Tile_data"><a class="permalink" href="#Tile_data">Tile
+  data</a></h3>
+<p class="Pp">Tile data is output like a binary dump of VRAM, with no padding
+    between tiles. Each tile is 16 bytes, 2 per row of 8 pixels; the bits of
+    color IDs are split into each byte (or &#x201C;bitplane&#x201D;). The
+    leftmost pixel's color ID is stored in the two bytes' most significant bits,
+    and the rightmost pixel's color ID in their least significant bits.</p>
+<p class="Pp">When the bit depth (<code class="Fl">-d</code>) is set to 1, the
+    most significant bitplane (second byte) of each row, being all zeros, is
+    simply not output.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Palette_data"><a class="permalink" href="#Palette_data">Palette
+  data</a></h3>
+<p class="Pp">Palette data is output like a dump of palette memory. Each color
+    is written as GBC-native little-endian RGB555, with the unused bit 15 set to
+    0. There is no padding between colors, nor between palettes; however, empty
+    colors in the palettes are output as 0xFFFF. For example, if 5 palettes are
+    generated with <code class="Fl">-s</code> <code class="Cm">4</code>, the
+    palette data file will be
+  <math class="eqn">
+    <mrow><mn>2</mn><mo>&#x00D7;</mo><mn>4</mn><mo>&#x00D7;</mo><mn>5</mn><mo>=</mo><mn>40</mn></mrow>
+  </math>
+   bytes long, even if some palettes contain less than 3 colors. Note that
+    <code class="Fl">-n</code> only caps how many palettes are generated (and
+    thus this file's size), but fewer may be generated still.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Tile_map_data"><a class="permalink" href="#Tile_map_data">Tile
+  map data</a></h3>
+<p class="Pp">A tile map is an array of tile IDs, with one byte per tile ID. The
+    first byte always corresponds to the ID of the tile in top-left corner of
+    the input image; the second byte is either the ID of the tile to its right
+    (by default), or below it (with <code class="Fl">-Z</code>); and so on,
+    continuing in the same direction. Rows / columns (respectively) are stored
+    consecutively, with no padding.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Attribute_map_data"><a class="permalink" href="#Attribute_map_data">Attribute
+  map data</a></h3>
+<p class="Pp">Attribute maps mirror the format of tile maps, like on the GBC,
+    especially the order in which bytes are output. The contents of individual
+    bytes follows the GBC's native format:</p>
+<table class="Bl-column">
+  <tr>
+    <td>Bit 7</td>
+    <td>BG-to-OAM Priority</td>
+    <td>Set to 0</td>
+  </tr>
+  <tr>
+    <td>Bit 6</td>
+    <td>Vertical Flip</td>
+    <td>0=Normal, 1=Mirror vertically</td>
+  </tr>
+  <tr>
+    <td>Bit 5</td>
+    <td>Horizontal Flip</td>
+    <td>0=Normal, 1=Mirror horizontally</td>
+  </tr>
+  <tr>
+    <td>Bit 4</td>
+    <td>Not used</td>
+    <td>Set to 0</td>
+  </tr>
+  <tr>
+    <td>Bit 3</td>
+    <td>Tile VRAM Bank number</td>
+    <td>0=Bank 0, 1=Bank 1</td>
+  </tr>
+  <tr>
+    <td>Bit 2&#x2013;0</td>
+    <td>Background Palette number</td>
+    <td>BGP0-7</td>
+  </tr>
+</table>
+<p class="Pp">Note that if more than 8 palettes are used, only the lowest 3 bits
+    of the palette ID are output.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Automatic_output_paths"><a class="permalink" href="#Automatic_output_paths">Automatic
+  output paths</a></h3>
+<p class="Pp">For convenience, <code class="Nm">rgbgfx</code> provides shortcuts
+    to generate all files in the same directory. This is done by using the
+    uppercase version of a flag (for example, <code class="Fl">-A</code>
+    <span class="No">instead of</span> <code class="Fl">-a</code>). The
+    <var class="Ar">base_path</var> is the input image path (or the output tile
+    data path from <code class="Fl">-o</code>, <span class="No">if</span>
+    <code class="Fl">-O</code> <span class="No">was given</span>) with its
+    extension, if any, removed.</p>
+<p class="Pp">For example, these two commands are equivalent:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbgfx img/player.png -o build/player.2bpp -P
+$ rgbgfx img/player.png -o build/player.2bpp -p img/player.pal</pre>
+</div>
+<p class="Pp">And so are these two:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbgfx img/player.png -o build/player.2bpp -O -P
+$ rgbgfx img/player.png -o build/player.2bpp -p build/player.pal</pre>
+</div>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="REVERSE_MODE"><a class="permalink" href="#REVERSE_MODE">REVERSE
+  MODE</a></h2>
+<p class="Pp"><code class="Nm">rgbgfx</code> can produce a PNG image from valid
+    data. This may be useful for ripping graphics, recovering lost source
+    images, etc. An important caveat on that last one, though: the conversion
+    process is
+    <a class="permalink" href="#lossy"><b class="Sy" id="lossy">lossy</b></a>
+    both ways, so the &#x201C;reversed&#x201D; image won't be perfectly
+    identical to the original&#x2014;but it should be close to a Game Boy's
+    output. (Keep in mind that many of consoles output different colors, so
+    there is no true reference rendering.)</p>
+<p class="Pp">When using reverse mode, make sure to pass the same flags that
+    were given when generating the data, especially <code class="Fl">-C</code>,
+    <code class="Fl">-d</code>, <code class="Fl">-N</code>,
+    <code class="Fl">-s</code>, <code class="Fl">-x</code>, and
+    <code class="Fl">-Z</code>.
+    &#x201C;<a class="Sx" href="#At_files">At-files</a>&#x201D; may help with
+    this. <code class="Nm">rgbgfx</code> will warn about any inconsistencies it
+    detects.</p>
+<p class="Pp">Files that are normally outputs (<code class="Fl">-a</code>,
+    <code class="Fl">-p</code>, <code class="Fl">-t</code>) become inputs, and
+    <var class="Ar">file</var> will be written to instead of read from, and thus
+    needs not exist beforehand. Any of these inputs not passed is assumed to be
+    some default:</p>
+<table class="Bl-column">
+  <tr>
+    <td>palettes</td>
+    <td>Unspecified palette data makes <code class="Nm">rgbgfx</code> assume DMG
+      (monochrome Game Boy) mode: a single palette of 4 grays. It is possible to
+      pass palettes using <code class="Fl">-c</code> instead of
+      <code class="Fl">-p</code>.</td>
+  </tr>
+  <tr>
+    <td>tile data</td>
+    <td>Tile data must be provided, as there is no reasonable assumption to fall
+      back on.</td>
+  </tr>
+  <tr>
+    <td>tile map</td>
+    <td>A missing tile map makes <code class="Nm">rgbgfx</code> assume that
+      tiles were not deduplicated, and should be laid out in the order they are
+      stored.</td>
+  </tr>
+  <tr>
+    <td>attribute map</td>
+    <td>Without an attribute map, <code class="Nm">rgbgfx</code> assumes that no
+      tiles were mirrored.</td>
+  </tr>
+</table>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DIAGNOSTICS"><a class="permalink" href="#DIAGNOSTICS">DIAGNOSTICS</a></h2>
+<p class="Pp">Warnings are diagnostic messages that indicate possibly erroneous
+    behavior that does not necessarily compromise the conversion process. The
+    following options alter the way warnings are processed.</p>
+<dl class="Bl-tag">
+  <dt id="Werror"><a class="permalink" href="#Werror"><code class="Fl">-Werror</code></a></dt>
+  <dd>Make all warnings into errors. This can be negated as
+      <code class="Fl">-Wno-error</code> to prevent turning all warnings into
+      errors.</dd>
+  <dt id="Werror="><a class="permalink" href="#Werror="><code class="Fl">-Werror=</code></a></dt>
+  <dd>Make the specified warning or meta warning into an error. A warning's name
+      is appended (example: <code class="Fl">-Werror=obsolete</code>), and this
+      warning is implicitly enabled and turned into an error. This can be
+      negated as <code class="Fl">-Wno-error=</code> to prevent turning a
+      specified warning into an error, even if <code class="Fl">-Werror</code>
+      is in effect.</dd>
+</dl>
+<p class="Pp">The following warnings are &#x201C;meta&#x201D; warnings, that
+    enable a collection of other warnings. If a specific warning is toggled via
+    a meta flag and a specific one, the more specific one takes priority. The
+    position on the command-line acts as a tie breaker, the last one taking
+    effect.</p>
+<dl class="Bl-tag">
+  <dt id="Wall"><a class="permalink" href="#Wall"><code class="Fl">-Wall</code></a></dt>
+  <dd>This enables warnings that are likely to indicate an error or undesired
+      behavior, and that can easily be fixed.</dd>
+  <dt id="Weverything"><a class="permalink" href="#Weverything"><code class="Fl">-Weverything</code></a></dt>
+  <dd>Enables literally every warning.</dd>
+</dl>
+<p class="Pp">The following warnings are actual warning flags; with each
+    description, the corresponding warning flag is included. Note that each of
+    these flags also has a negation (for example,
+    <code class="Fl">-Wobsolete</code> enables the warning that
+    <code class="Fl">-Wno-obsolete</code> disables; and
+    <code class="Fl">-Wall</code> enables every warning that
+    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
+    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
+    alphabetically.</p>
+<dl class="Bl-tag">
+  <dt id="Wembedded"><a class="permalink" href="#Wembedded"><code class="Fl">-Wembedded</code></a></dt>
+  <dd>Warn when a generated palette is sorted according to the input PNG's
+      embedded palette but <code class="Fl">-c</code>
+      <code class="Cm">embedded</code> was not provided. This warning is enabled
+      by <code class="Fl">-Weverything</code>.</dd>
+  <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
+  <dd>Warn when obsolete features are encountered, which have been deprecated
+      and may later be removed.</dd>
+  <dt id="Wtrim-nonempty"><a class="permalink" href="#Wtrim-nonempty"><code class="Fl">-Wtrim-nonempty</code></a></dt>
+  <dd>Warn when <code class="Fl">-x</code> trims a nonempty tile. An
+      &quot;empty&quot; tile uses entirely color 0 of its palette. This warning
+      is enabled by <code class="Fl">-Wall</code>.</dd>
+</dl>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<p class="Pp">The following will only validate the
+    &#x2018;<code class="Li">tileset.png</code>&#x2019; image (check its size,
+    that all tiles have a suitable amount of colors, etc.), but output
+  nothing:</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx
+  src/res/maps/overworld/tileset.png</code></div>
+<p class="Pp">The following will convert the
+    &#x2018;<code class="Li">tileset.png</code>&#x2019; image using the two
+    given palettes (and only those), and store the generated 2bpp tile data in
+    &#x2018;<code class="Li">tileset.2bpp</code>&#x2019;, and the attribute map
+    in &#x2018;<code class="Li">tileset.attrmap</code>&#x2019;.</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -c '#ffffff,#8d05de,
+  #dc7905,#000000; #fff,#8d05de, #7e0000 , #000' -A -o tileset.2bpp
+  tileset.png</code></div>
+<p class="Pp">The following will deduplicate the tiles in the
+    &#x2018;<code class="Li">title_screen.png</code>&#x2019; image, keeping only
+    one of each unique tile, and store the generated 2bpp tile data in
+    &#x2018;<code class="Li">title_screen.2bpp</code>&#x2019;, and the tile map
+    in &#x2018;<code class="Li">title_screen.tilemap</code>&#x2019;.</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -u title_screen.png -o
+  title_screen.2bpp -t title_screen.tilemap</code></div>
+<p class="Pp">The following will convert the given inline palette specification
+    to a palette set, and store the palette set in
+    &#x2018;<code class="Li">colors.pal</code>&#x2019;, without needing an input
+    image.</p>
+<p class="Pp"></p>
+<div class="Bd Bd-indent"><code class="Li">$ rgbgfx -c '#fff,#ff0,#f80,#000' -p
+  colors.pal</code></div>
+<p class="Pp">The following will convert two level images using the same
+    tileset, and error out if any of them contain tiles not in the tileset.</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>$ rgbgfx tileset.png -o tileset.2bpp -O -P
+$ rgbgfx level1.png -i tileset.2bpp -c gbc:tileset.pal -t level1.tilemap -a level1.attrmap
+$ rgbgfx level2.png -i tileset.2bpp -c gbc:tileset.pal -t level2.tilemap -a level2.attrmap</pre>
+</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="BUGS"><a class="permalink" href="#BUGS">BUGS</a></h2>
+<p class="Pp">Please report bugs or mistakes in this documentation on
+    <a class="Lk" href="https://github.com/gbdev/rgbds/issues">GitHub</a>.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+<p class="Pp">The Game Boy hardware reference
+    <a class="Lk" href="https://gbdev.io/pandocs/Graphics">Pan Docs</a>,
+    particularly the section about graphics.</p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><code class="Nm">rgbgfx</code> was originally written by stag019
+    as a program to be packaged in RGBDS. It was later rewritten by
+    <span class="An">ISSOtm</span>, and is now maintained by a number of
+    contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>
