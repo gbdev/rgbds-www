@@ -124,10 +124,17 @@
       are for bank 0 and bank 1 respectively. Both default to 0.</dd>
   <dt id="C"><a class="permalink" href="#C"><code class="Fl">-C</code></a>,
     <code class="Fl">--color-curve</code></dt>
-  <dd>When generating palettes, use a color curve mimicking the Game Boy Color's
-      screen. The resulting colors may look closer to the input image's
-      <a class="permalink" href="#on"><b class="Sy" id="on">on hardware and
-      accurate emulators</b></a>.</dd>
+  <dd>Modifies the color palettes (whether they are generated from the input
+      image or taken from an input palette specification) with a color curve
+      mimicking the Game Boy Color's screen. This adjusts the
+      <a class="permalink" href="#absolute"><i class="Em" id="absolute">absolute</i></a>
+      RGB color values so that the
+      <a class="permalink" href="#perceived"><i class="Em" id="perceived">perceived</i></a>
+      colors, when displayed on Game Boy Color hardware (or an emulator with an
+      accurate display filter), will look like the original colors as displayed
+      on a backlit computer screen. Note that GBC displays can look very
+      different depending on the ambient light and their exact hardware model,
+      so this color curve is only a &quot;best effort&quot;.</dd>
   <dt id="c"><a class="permalink" href="#c"><code class="Fl">-c</code></a>
     <var class="Ar">pal_spec</var>, <code class="Fl">--colors</code>
     <var class="Ar">pal_spec</var></dt>
