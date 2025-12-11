@@ -5,6 +5,10 @@
     description, the number of bytes needed to encode them and the number of CPU
     cycles at 1MHz (or 2MHz in GBC double speed mode) needed to complete
   them.</p>
+<p class="Pp">Instructons are documented according to the syntax accepted by
+    <a class="Xr" href="./rgbasm.1">rgbasm(1)</a>, which does not always match
+    one-to-one with the way instructions are
+    <a class="Lk" href="encoded">https://gbdev.io/gb-opcodes/optables/</a>.</p>
 <p class="Pp">Note: All arithmetic and logic instructions that use register
     <b class="Sy">A</b> as a destination can omit the destination, since it is
     assumed to be register <b class="Sy">A</b> by default. So the following two
@@ -842,11 +846,11 @@
 <section class="Ss">
 <h3 class="Ss" id="JR_n16"><a class="permalink" href="#JR_n16">JR n16</a></h3>
 <p class="Pp">Relative Jump to address <var class="Ar">n16</var>.</p>
-<p class="Pp">The address is encoded as a signed 8-bit offset from the address
-    immediately following the <code class="Ic">JR</code> instruction, so the
-    target address <var class="Ar">n16</var> must be between
-    <b class="Sy">-128</b> and <b class="Sy">127</b> bytes away. For
-  example:</p>
+<p class="Pp">The target address <var class="Ar">n16</var> is
+    <i class="Em">encoded</i> as a signed 8-bit offset from the address
+    immediately following the <code class="Ic">JR</code> instruction, so it must
+    be between <b class="Sy">-128</b> and <b class="Sy">127</b> bytes away. For
+    example:</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>    JR Label  ; no-op; encoded offset of 0
 Label:
@@ -861,6 +865,10 @@ Label:
   cc,n16</a></h3>
 <p class="Pp">Relative Jump to address <var class="Ar">n16</var> if condition
     <var class="Ar">cc</var> is met.</p>
+<p class="Pp">The target address <var class="Ar">n16</var> is
+    <i class="Em">encoded</i> as a signed 8-bit offset from the address
+    immediately following the <code class="Ic">JR</code> instruction, so it must
+    be between <b class="Sy">-128</b> and <b class="Sy">127</b> bytes away.</p>
 <p class="Pp">Cycles: 3 taken / 2 untaken</p>
 <p class="Pp">Bytes: 2</p>
 <p class="Pp">Flags: None affected.</p>
@@ -945,7 +953,10 @@ Label:
 <h3 class="Ss" id="LDH__n16_,A"><a class="permalink" href="#LDH__n16_,A">LDH
   [n16],A</a></h3>
 <p class="Pp">Copy the value in register <b class="Sy">A</b> into the byte at
-    address <var class="Ar">n16</var>, provided the address is between
+    address <var class="Ar">n16</var>.</p>
+<p class="Pp">The destination address <var class="Ar">n16</var> is
+    <i class="Em">encoded</i> as its 8-bit low byte and assumes a high byte of
+    <span class="Ad">$FF</span>, so it must be between
     <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
@@ -984,7 +995,10 @@ Label:
 <h3 class="Ss" id="LDH_A,_n16_"><a class="permalink" href="#LDH_A,_n16_">LDH
   A,[n16]</a></h3>
 <p class="Pp">Copy the byte at address <var class="Ar">n16</var> into register
-    <b class="Sy">A</b>, provided the address is between
+    <b class="Sy">A</b>.</p>
+<p class="Pp">The source address <var class="Ar">n16</var> is
+    <i class="Em">encoded</i> as its 8-bit low byte and assumes a high byte of
+    <span class="Ad">$FF</span>, so it must be between
     <span class="Ad">$FF00</span> and <span class="Ad">$FFFF</span>.</p>
 <p class="Pp">Cycles: 3</p>
 <p class="Pp">Bytes: 2</p>
