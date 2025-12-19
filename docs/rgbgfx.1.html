@@ -271,8 +271,9 @@
   <dd>Only process a given rectangle of the image. This is useful for example if
       the input image is a sheet of some sort, and you want to convert each cel
       individually. The default is to process the whole image as-is.
-    <p class="Pp"><var class="Ar">slice</var> must be two number pairs,
-        separated by a colon. The numbers must be separated by commas; space is
+    <p class="Pp"><var class="Ar">slice</var> must be formatted as
+        &#x2018;<code class="Li"><var class="Ar">X</var>,<var class="Ar">Y</var>:<var class="Ar">W</var>,<var class="Ar">H</var></code>&#x2019;:
+        two comma-separated number pairs, separated by a colon. Whitespace is
         allowed around all punctuation. The first number pair specifies the X
         and Y coordinates of the top-left pixel that will be processed (anything
         above it or to its left will be ignored). The second number pair
