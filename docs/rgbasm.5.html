@@ -1077,8 +1077,10 @@ CHARMAP '&amp;euro;', $20ac</pre>
   </tr>
   <tr id="SECTION">
     <td><a class="permalink" href="#SECTION"><code class="Fn">SECTION</code></a>(<var class="Fa">symbol</var>)</td>
-    <td>Returns the name of the section that <var class="Ar">symbol</var> is in.
-      <var class="Ar">symbol</var> must have been defined already.</td>
+    <td>Returns the name of the section that <var class="Ar">symbol</var> is
+      defined in. <var class="Ar">symbol</var> must have been defined already.
+      If <var class="Ar">arg</var> is the symbol <code class="Ic">@</code>, this
+      function returns the name of the current section.</td>
   </tr>
   <tr id="SIZEOF">
     <td><a class="permalink" href="#SIZEOF"><code class="Fn">SIZEOF</code></a>(<var class="Fa">arg</var>)</td>
