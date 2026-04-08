@@ -11,4 +11,3 @@ updates:
     groups:
       actions:
         patterns: [ "*" ]
-    labels: [ builds ] # Since those are CI-related updates...
