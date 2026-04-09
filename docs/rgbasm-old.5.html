@@ -114,6 +114,32 @@ ENDM
 <p class="Pp">Deprecated in 0.9.0, removed in 1.0.0.</p>
 <p class="Pp">Instead, use a multi-value <code class="Ic">CHARMAP</code>, or
     explicitly combine the values of individual characters.</p>
+<p class="Pp">For example, instead of a multi-character string like:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    CHARMAP &quot;X&quot;, $12
+    CHARMAP &quot;Y&quot;, $34
+    LD BC, &quot;XY&quot;</pre>
+</div>
+<p class="Pp">Either use a multi-value <code class="Ic">CHARMAP</code>:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    CHARMAP &quot;X&quot;, $12
+    CHARMAP &quot;Y&quot;, $34
+    CHARMAP &quot;&lt;XY&gt;&quot;, 'X', 'Y'
+    LD BC, CHARVAL(&quot;&lt;XY&gt;&quot;, 0) &lt;&lt; 8 | CHARVAL(&quot;&lt;XY&gt;&quot;, 1)</pre>
+</div>
+<p class="Pp">Or combine the individual characters:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    CHARMAP &quot;X&quot;, $12
+    CHARMAP &quot;Y&quot;, $34
+    LD BC, 'X' &lt;&lt; 8 | 'Y'</pre>
+</div>
+<p class="Pp">Or use a single-value character:</p>
+<div class="Bd Pp Bd-indent Li">
+<pre>    CHARMAP &quot;X&quot;, $12
+    CHARMAP &quot;Y&quot;, $34
+    CHARMAP &quot;&lt;XY&gt;&quot;, 'X' &lt;&lt; 8 | 'Y'
+    LD BC, '&lt;XY&gt;'</pre>
+</div>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="Treating_strings_as_numbers"><a class="permalink" href="#Treating_strings_as_numbers">Treating
@@ -121,6 +147,14 @@ ENDM
 <p class="Pp">Deprecated in 1.0.0.</p>
 <p class="Pp">Instead, use character constants or the
     <code class="Ic">CHARVAL</code> function.</p>
+<p class="Pp">For example, instead of a string literal like
+    &#x2018;<code class="Li">LD A, &quot;R&quot;</code>&#x2019;, use a numeric
+    character literal &#x2018;<code class="Li">LD A, 'R'</code>&#x2019;.</p>
+<p class="Pp">And instead of a string expression like
+    &#x2018;<code class="Li">CP STRUPR(&quot;\1&quot;)</code>&#x2019;, use a
+    numeric <code class="Ic">CHARVAL</code> expression
+    &#x2018;<code class="Li">CP
+  CHARVAL(STRUPR(&quot;\1&quot;))</code>&#x2019;.</p>
 </section>
 <section class="Ss">
 <h3 class="Ss" id="rgbgfx_-f/--fix_and_-F/--fix-and-save"><a class="permalink" href="#rgbgfx_-f/--fix_and_-F/--fix-and-save">rgbgfx
