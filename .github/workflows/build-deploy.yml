@@ -22,7 +22,7 @@ jobs:
     name: Build docusaurus app
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           node-version: 18.x
@@ -32,7 +32,7 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: build/
   deploy:
@@ -47,5 +47,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         
