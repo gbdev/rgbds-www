@@ -246,23 +246,27 @@
     NP-complete problem known as &quot;bin packing&quot;, so
     <code class="Nm">rgblink</code> does not attempt to find the optimal
     solution, but instead uses a &quot;first-fit&quot; heuristic to find a good
-    one in a reasonable amount of time. There are no guarantees about where this
-    algorithm will place sections, apart from the bank, address, and alignment
-    constraints manually specified for the sections.)</p>
+    one in a reasonable amount of time.) There are no guarantees about where
+    this algorithm will place sections, apart from the bank, address, and
+    alignment constraints manually specified for the sections.</p>
 <p class="Pp">&#x201C;Scrambling&#x201D; instead places sections into a given
     pool of banks, trying to minimize the number of sections sharing a given
     bank. This is useful to catch broken bank assumptions, such as expecting two
     different sections to land in the same bank (that is not guaranteed unless
-    both are manually assigned the same bank number).</p>
+    both are manually assigned the same bank number). There are still no
+    guarantees about where this algorithm will place sections, apart from the
+    bank pool size and any manually specified section constraints.</p>
 <p class="Pp">A scrambling spec is a comma-separated list of region specs. A
     trailing comma is allowed, as well as whitespace between all specs and their
     components. Each region spec has the following form:</p>
 <div class="Bd
   Bd-indent"><var class="Ar">region</var>[=<var class="Ar">size</var>]</div>
-<var class="Ar">region</var> must be one of the following (case-insensitive),
-  while <var class="Ar">size</var> must be a positive decimal integer between 1
-  and the corresponding maximum. Certain regions allow omitting the size, in
-  which case it defaults to its max value.
+<var class="Ar">region</var> specifies the section type, and
+  <var class="Ar">size</var> specifies the number of banks in the pool for that
+  section type. <var class="Ar">region</var> must be one of the following
+  (case-insensitive), while <var class="Ar">size</var> must be a positive
+  decimal integer between 1 and the corresponding maximum. Certain regions allow
+  omitting the size, in which case it defaults to its maximum value.
 <table class="Bl-column">
   <tr>
     <td>Region name</td>
@@ -288,10 +292,10 @@
 <p class="Pp">A <var class="Ar">size</var> of 0 disables scrambling for that
     region.</p>
 <p class="Pp">For example,
-    &#x2018;<code class="Li">romx=64,wramx=4</code>&#x2019; will scramble
+    &#x2018;<code class="Li">romx=64,wramx,sram=4</code>&#x2019; will scramble
     <code class="Ic">ROMX</code> sections among ROM banks 1 to 64,
-    <code class="Ic">WRAMX</code> sections among RAM banks 1 to 4, and will not
-    scramble <code class="Ic">SRAM</code> sections.</p>
+    <code class="Ic">WRAMX</code> sections among RAM banks 1 to 7, and
+    <code class="Ic">SRAM</code> sections among SRAM banks 0 to 3.</p>
 <p class="Pp">Later region specs override earlier ones; for example,
     &#x2018;<code class="Li">romx=42, Romx=0</code>&#x2019; disables scrambling
     for <code class="Cm">romx</code>.</p>
