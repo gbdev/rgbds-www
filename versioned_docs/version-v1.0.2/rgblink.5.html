@@ -1,0 +1,199 @@
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<p class="Pp">The linker script is a file that allows specifying attributes for
+    sections at link time, and in a centralized manner. There can only be one
+    linker script per invocation of <code class="Nm">rgblink</code>, but it can
+    be split into several files (using the <code class="Ic">INCLUDE</code>
+    <span class="No">directive</span>).</p>
+<section class="Ss">
+<h3 class="Ss" id="Basic_syntax"><a class="permalink" href="#Basic_syntax">Basic
+  syntax</a></h3>
+<p class="Pp">The linker script syntax is line-based. Each line may have a
+    directive or section name, a comment, both, or neither. Whitespace (space
+    and tab characters) is used to separate syntax elements, but is otherwise
+    ignored.</p>
+<p class="Pp">Comments begin with a semicolon
+    &#x2018;<code class="Li">;</code>&#x2019; character, until the end of the
+    line. They are simply ignored.</p>
+<p class="Pp">Keywords are composed of letters and digits (but they can't start
+    with a digit); they are all case-insensitive.</p>
+<p class="Pp">Numbers can be written in a number of formats.</p>
+<table class="Bl-column Bd-indent">
+  <tr id="Format">
+    <td><a class="permalink" href="#Format"><b class="Sy">Format
+      type</b></a></td>
+    <td><a class="permalink" href="#Possible"><b class="Sy" id="Possible">Possible
+      prefixes</b></a></td>
+    <td><a class="permalink" href="#Accepted"><b class="Sy" id="Accepted">Accepted
+      characters</b></a></td>
+  </tr>
+  <tr>
+    <td>Decimal</td>
+    <td>none</td>
+    <td>0123456789</td>
+  </tr>
+  <tr id="$">
+    <td>Hexadecimal</td>
+    <td><a class="permalink" href="#$"><code class="Li">$</code></a>,
+      <code class="Li">0x</code>, <code class="Li">0X</code></td>
+    <td>0123456789ABCDEF</td>
+  </tr>
+  <tr id="&amp;">
+    <td>Octal</td>
+    <td><a class="permalink" href="#&amp;"><code class="Li">&amp;</code></a>,
+      <code class="Li">0o</code>, <code class="Li">0O</code></td>
+    <td>01234567</td>
+  </tr>
+  <tr id="_">
+    <td>Binary</td>
+    <td><a class="permalink" href="#_"><code class="Li">%</code></a>,
+      <code class="Li">0b</code>, <code class="Li">0B</code></td>
+    <td>01</td>
+  </tr>
+</table>
+<p class="Pp">Underscores are also accepted in numbers, except at the beginning
+    of one. This can be useful for grouping digits, like
+    &#x2018;<code class="Li">1_234</code>&#x2019; or
+    &#x2018;<code class="Li">$ff_80</code>&#x2019;.</p>
+<p class="Pp">Strings begin with a double quote, and end at the next
+    (non-escaped) double quote. Strings must not contain literal newline
+    characters. Most of the same character escapes as
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are supported, specifically
+    &#x2018;<code class="Li">\\</code>&#x2019;,
+    &#x2018;<code class="Li">\&quot;</code>&#x2019;,
+    &#x2018;<code class="Li">\n</code>&#x2019;,
+    &#x2018;<code class="Li">\r</code>&#x2019;,
+    &#x2018;<code class="Li">\t</code>&#x2019;, and
+    &#x2018;<code class="Li">\0</code>&#x2019;. Other backslash escape sequences
+    in <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> are only relevant to
+    assembly code and do not apply in linker scripts.</p>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Directives"><a class="permalink" href="#Directives">Directives</a></h3>
+<dl class="Bl-tag">
+  <dt>Including other files</dt>
+  <dd>&#x2018;<code class="Li"><code class="Ic">INCLUDE</code>
+      <var class="Ar">path</var></code>&#x2019; acts as if the contents of the
+      file at <var class="Ar">path</var> were copy-pasted in place of the
+      <code class="Ic">INCLUDE</code> directive. <var class="Ar">path</var> must
+      be a string.</dd>
+  <dt>Specifying the active bank</dt>
+  <dd>The active bank can be set by specifying its type (memory region) and
+      number. The possible types are: <code class="Ic">ROM0</code>,
+      <code class="Ic">ROMX</code>, <code class="Ic">VRAM</code>,
+      <code class="Ic">SRAM</code>, <code class="Ic">WRAM0</code>,
+      <code class="Ic">WRAMX</code>, <code class="Ic">OAM</code>, and
+      <code class="Ic">HRAM</code>. The bank number can be omitted from the
+      types that only contain a single bank, which are:
+      <code class="Ic">ROM0</code>, <code class="Ic">ROMX</code>
+      <span class="No">if</span> <code class="Fl">-t</code> <span class="No">is
+      passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">VRAM</code> <span class="No">if</span>
+      <code class="Fl">-d</code> <span class="No">is passed to</span>
+      <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">WRAM0</code>, <code class="Ic">WRAMX</code>
+      <span class="No">if</span> <code class="Fl">-w</code> <span class="No">is
+      passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+      <code class="Ic">OAM</code>, and <code class="Ic">HRAM</code>.
+      (<code class="Ic">SRAM</code> <span class="No">is the only type that can
+      never have its bank number omitted.</span>)
+    <p class="Pp">After a bank specification, the &#x201C;current
+        address&#x201D; is set to the last value it had for that bank. If the
+        bank has never been active thus far, the &#x201C;current address&#x201D;
+        defaults to the beginning of the bank (e.g.
+        <span class="Ad">$4000</span> <span class="No">for</span>
+        <code class="Ic">ROMX</code> <span class="No">sections</span>).</p>
+    <p class="Pp">Instead of giving a bank number, the keyword
+        <code class="Ic">FLOATING</code> can be used instead; this sets the type
+        of the subsequent sections without binding them to a particular bank.
+        (If the type only allows a single bank, e.g.
+        <code class="Ic">ROM0</code>, then <code class="Ic">FLOATING</code> is
+        valid but redundant and has no effect.) Since no particular section is
+        active, the &#x201C;current address&#x201D; is made floating (as if by a
+        &#x2018;<code class="Li"><code class="Ic">FLOATING</code></code>&#x2019;
+        directive), and <code class="Ic">ORG</code> is not allowed.</p>
+  </dd>
+  <dt>Changing the current address</dt>
+  <dd>A bank must be active for any of these directives to be used.
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">ORG</code>
+        <var class="Ar">addr</var></code>&#x2019; sets the &#x201C;current
+        address&#x201D; to <var class="Ar">addr</var>. This directive cannot be
+        used to move the address backwards: <var class="Ar">addr</var> must be
+        greater than or equal to the &#x201C;current address&#x201D;.</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">FLOATING</code></code>&#x2019;
+        causes all sections between it and the next <code class="Ic">ORG</code>
+        or bank specification to be placed at addresses automatically determined
+        by <code class="Nm">rgblink</code>. (It is, however, compatible with
+        <code class="Ic">ALIGN</code> <span class="No">below.</span>)</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">ALIGN</code>
+        <var class="Ar">addr</var>, <var class="Ar">offset</var></code>&#x2019;
+        increases the &#x201C;current address&#x201D; until it is aligned to the
+        specified boundary (i.e. the <var class="Ar">align</var> lowest bits of
+        the address are equal to <var class="Ar">offset</var>). If
+        <var class="Ar">offset</var> is omitted, it is implied to be 0. For
+        example, if the &#x201C;current address&#x201D; is $0007,
+        &#x2018;<code class="Li">ALIGN 8</code>&#x2019; would set it to $0100,
+        and &#x2018;<code class="Li">ALIGN 8, 10</code>&#x2019; would set it to
+        $000A.</p>
+    <p class="Pp">&#x2018;<code class="Li"><code class="Ic">DS</code>
+        <var class="Ar">size</var></code>&#x2019; increases the &#x201C;current
+        address&#x201D; by <var class="Ar">size</var>. The gap is not allocated,
+        so smaller floating sections can later be placed there.</p>
+  </dd>
+</dl>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Section_placement"><a class="permalink" href="#Section_placement">Section
+  placement</a></h3>
+<p class="Pp">A section can be placed simply by naming it (with a string). Its
+    bank is set to the active bank, and its address to the &#x201C;current
+    address&#x201D;. Any constraints the section already possesses (whether from
+    earlier in the linker script, or from the object files being linked) must be
+    consistent with what the linker script specifies: the section's type must
+    match, the section's bank number (if set) must match the active bank, etc.
+    In particular, if the section has an alignment constraint, the address at
+    which it is placed by the linker script must obey that constraint;
+    otherwise, an error will occur.</p>
+<p class="Pp">After a section is placed, the &#x201C;current address&#x201D; is
+    increased by the section's size. This must not increase it past the end of
+    the active memory region.</p>
+<p class="Pp">The section must have been defined in the object files being
+    linked, unless the section name is followed by the keyword
+    <code class="Ic">OPTIONAL</code>.</p>
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h2>
+<div class="Bd Bd-indent Li">
+<pre>; This line contains only a comment
+ROMX $F            ; start a bank
+  &quot;Some functions&quot; ; a section name
+  ALIGN 8          ; a directive
+  &quot;Some \&quot;array\&quot;&quot;
+
+WRAMX 2            ; start another bank
+  org $d123        ; another directive
+  &quot;Some variables&quot;</pre>
+</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h2>
+<p class="Pp"><a class="Xr" href="./rgbasm.1">rgbasm(1)</a>,
+    <a class="Xr" href="./rgbasm.5">rgbasm(5)</a>,
+    <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
+    <a class="Xr" href="./rgbfix.1">rgbfix(1)</a>,
+    <a class="Xr" href="./rgbgfx.1">rgbgfx(1)</a>,
+    <a class="Xr" href="./gbz80.7">gbz80(7)</a>,
+    <a class="Xr" href="./rgbds.5">rgbds(5)</a>,
+    <a class="Xr" href="./rgbds.7">rgbds(7)</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="HISTORY"><a class="permalink" href="#HISTORY">HISTORY</a></h2>
+<p class="Pp"><a class="Xr" href="./rgblink.1">rgblink(1)</a> was originally
+    written by <span class="An">Carsten S&#x00F8;rensen</span> as part of the
+    ASMotor package, and was later repackaged in RGBDS by
+    <span class="An">Justin Lloyd</span>. It is now maintained by a number of
+    contributors at
+    <a class="Lk" href="https://github.com/gbdev/rgbds">https://github.com/gbdev/rgbds</a>.</p>
+</section>
