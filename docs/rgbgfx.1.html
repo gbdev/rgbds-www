@@ -228,7 +228,10 @@
       maximum number of colors per palette (2 and 4 respectively).</dd>
   <dt id="h"><a class="permalink" href="#h"><code class="Fl">-h</code></a>,
     <code class="Fl">--help</code></dt>
-  <dd>Print help text for the program and exit.</dd>
+  <dd>Print help text for the program and exit. (Help text wraps to the value of
+      the <code class="Dv">COLUMNS</code> environment variable if that is
+      defined as nonzero; or else to the console window width if output is to a
+      TTY.)</dd>
   <dt id="i"><a class="permalink" href="#i"><code class="Fl">-i</code></a>
     <var class="Ar">input_tiles</var>, <code class="Fl">--input-tileset</code>
     <var class="Ar">input_tiles</var></dt>
