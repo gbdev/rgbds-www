@@ -6,8 +6,10 @@ sidebar_label: Linux
 
 ## Using your package manager
 
-Check if RGBDS is available in your distribution's software center or package manager repositories.
+Check if RGBDS is available in your distribution's software center or package manager repositories; some known ones are listed below.
 If a satisfactory version is available, it is a good idea to install from there.
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/rgbds.svg?columns=2&exclude_unsupported=1)](https://repology.org/project/rgbds/versions)
 
 ## Using our pre-built binaries
 
