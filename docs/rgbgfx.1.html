@@ -551,14 +551,9 @@
     in the palettes is important to you</b></a>, for example because you want to
     use palette swaps, please use <code class="Fl">-c</code> to specify the
     palette explicitly.</p>
-<p class="Pp" id="any">First, if the image contains
+<p class="Pp" id="any">Note that if the image contains
     <a class="permalink" href="#any"><i class="Em">any</i></a> transparent
-    pixel, color #0 of <i class="Em">all</i> palettes will be allocated to it.
-    This is done <a class="permalink" href="#even"><b class="Sy" id="even">even
-    if palettes were explicitly specified using</b></a>
-    <code class="Fl">-c</code>; then the specification only covers color #1
-    onwards. (If you do not want this, ask your image editor to remove the alpha
-    channel.)</p>
+    pixels, color #0 of <i class="Em">all</i> palettes will be transparent.</p>
 <p class="Pp">After generating palettes, <code class="Nm">rgbgfx</code> sorts
     colors within those palettes using the following rules:</p>
 <ul class="Bl-bullet Bd-indent">
