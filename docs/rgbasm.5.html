@@ -2292,8 +2292,8 @@ ENDU
 <pre>MACRO lb
     ld \1, (\2) &lt;&lt; 8 | (\3)
 ENDM
-    lb hl, 20, 18        ; Expands to &quot;ld hl, ((20) &lt;&lt; 8) | (18)&quot;
-    lb de, 3 + 1, NUM**2 ; Expands to &quot;ld de, ((3 + 1) &lt;&lt; 8) | (NUM**2)&quot;</pre>
+    lb hl, 20, 18        ; Expands to &quot;ld hl, (20) &lt;&lt; 8 | (18)&quot;
+    lb de, 3 + 1, NUM**2 ; Expands to &quot;ld de, (3 + 1) &lt;&lt; 8 | (NUM**2)&quot;</pre>
 </div>
 <p class="Pp">You expand the arguments inside the macro body by using the escape
     sequences <code class="Ic">\1</code> through <code class="Ic">\9</code>,
