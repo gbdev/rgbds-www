@@ -304,6 +304,13 @@
 <p class="Pp">Later region specs override earlier ones; for example,
     &#x2018;<code class="Li">romx=42, Romx=0</code>&#x2019; disables scrambling
     for <code class="Cm">romx</code>.</p>
+<p class="Pp">The arguments to multiple <code class="Fl">-S</code> options are
+    processed as if concatenated; for example, <code class="Fl">-S</code>
+    <code class="Cm">romx=16</code> <code class="Fl">-S</code>
+    <code class="Cm">wramx=8</code> <code class="Fl">-S</code>
+    <code class="Cm">sram=4</code> will work the same as
+    <code class="Fl">-S</code>
+  <code class="Cm">romx=16,wramx=8,sram=4</code>.</p>
 <p class="Pp"><code class="Cm">wramx</code> scrambling is silently ignored if
     <code class="Fl">-w</code> is passed (including if implied by
     <code class="Fl">-d</code>), as <code class="Ic">WRAMX</code> sections will
