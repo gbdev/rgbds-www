@@ -85,18 +85,11 @@
       <code class="Ic">WRAMX</code>, <code class="Ic">OAM</code>, and
       <code class="Ic">HRAM</code>. The bank number can be omitted from the
       types that only contain a single bank, which are:
-      <code class="Ic">ROM0</code>, <code class="Ic">ROMX</code>
-      <span class="No">if</span> <code class="Fl">-t</code> <span class="No">is
+      <code class="Ic">ROM0</code>, <code class="Ic">VRAM</code>
+      <span class="No">if</span> <code class="Fl">-d</code> <span class="No">is
       passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
-      <code class="Ic">VRAM</code> <span class="No">if</span>
-      <code class="Fl">-d</code> <span class="No">is passed to</span>
-      <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
-      <code class="Ic">WRAM0</code>, <code class="Ic">WRAMX</code>
-      <span class="No">if</span> <code class="Fl">-w</code> <span class="No">is
-      passed to</span> <a class="Xr" href="./rgblink.1">rgblink(1)</a>,
-      <code class="Ic">OAM</code>, and <code class="Ic">HRAM</code>.
-      (<code class="Ic">SRAM</code> <span class="No">is the only type that can
-      never have its bank number omitted.</span>)
+      <code class="Ic">WRAM0</code>, <code class="Ic">OAM</code>, and
+      <code class="Ic">HRAM</code>.
     <p class="Pp">After a bank specification, the &#x201C;current
         address&#x201D; is set to the last value it had for that bank. If the
         bank has never been active thus far, the &#x201C;current address&#x201D;
