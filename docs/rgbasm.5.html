@@ -1068,12 +1068,17 @@ CHARMAP '&amp;euro;', $20ac</pre>
   </tr>
   <tr>
     <td><code class="Fn">BANK</code>(<var class="Fa">arg</var>)</td>
-    <td>Returns a bank number. If <var class="Ar">arg</var> is the symbol
-      <code class="Ic">@</code>, this function returns the bank of the current
-      section. If <var class="Ar">arg</var> is a string, it returns the bank of
-      the section that has that name. If <var class="Ar">arg</var> is a label,
-      it returns the bank number the label is in. The result may be constant if
-      <code class="Nm">rgbasm</code> is able to compute it.</td>
+    <td>Returns a bank number.
+    <p class="Pp">If <var class="Ar">arg</var> is the symbol
+        <code class="Ic">@</code>, this function returns the bank of the current
+        section.</p>
+    <p class="Pp">If <var class="Ar">arg</var> is a string, it returns the bank
+        of the section that has that name.</p>
+    <p class="Pp">If <var class="Ar">arg</var> is a label, it returns the bank
+        number the label is in.</p>
+    <p class="Pp">The result may be constant if <code class="Nm">rgbasm</code>
+        is able to compute it.</p>
+    </td>
   </tr>
   <tr id="SECTION">
     <td><a class="permalink" href="#SECTION"><code class="Fn">SECTION</code></a>(<var class="Fa">symbol</var>)</td>
@@ -1085,19 +1090,26 @@ CHARMAP '&amp;euro;', $20ac</pre>
   <tr id="SIZEOF">
     <td><a class="permalink" href="#SIZEOF"><code class="Fn">SIZEOF</code></a>(<var class="Fa">arg</var>)</td>
     <td>If <var class="Ar">arg</var> is a string, this function returns the size
-      of the section named <var class="Ar">arg</var>. If
-      <var class="Ar">arg</var> is a section type keyword, it returns the size
-      of that section type. The result is not constant, since only RGBLINK can
-      compute its value. If <var class="Ar">arg</var> is an 8-bit or 16-bit
-      register, it returns the size of that register.</td>
+      of the section named <var class="Ar">arg</var>. The result is a known
+      constant if the section is already &quot;completed&quot; (i.e. not a
+      <code class="Ic">UNION</code> or <code class="Ic">FRAGMENT</code> and no
+      longer the current section).
+    <p class="Pp">If <var class="Ar">arg</var> is a section type keyword, it
+        returns the size of that section type. The result is not constant, since
+        only RGBLINK can compute its value.</p>
+    <p class="Pp">If <var class="Ar">arg</var> is an 8-bit or 16-bit register,
+        it returns the size of that register.</p>
+    </td>
   </tr>
   <tr id="STARTOF">
     <td><a class="permalink" href="#STARTOF"><code class="Fn">STARTOF</code></a>(<var class="Fa">arg</var>)</td>
     <td>If <var class="Ar">arg</var> is a string, this function returns the
-      starting address of the section named <var class="Ar">arg</var>. If
-      <var class="Ar">arg</var> is a section type keyword, it returns the
-      starting address of that section type. The result is not constant, since
-      only RGBLINK can compute its value.</td>
+      starting address of the section named <var class="Ar">arg</var>. The
+      result is a known constant if the section has a fixed address.
+    <p class="Pp">If <var class="Ar">arg</var> is a section type keyword, it
+        returns the starting address of that section type. The result is not
+        constant, since only RGBLINK can compute its value.</p>
+    </td>
   </tr>
 </table>
 </section>
