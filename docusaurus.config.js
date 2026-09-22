@@ -25,11 +25,16 @@ const config = {
   url: "https://rgbds.gbdev.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "gbdev",
   projectName: "rgbds-www",
   trailingSlash: false,
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "throw",
+    }
+  },
 
   presets: [
     [
