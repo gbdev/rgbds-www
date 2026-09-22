@@ -100,7 +100,7 @@ The address must be in 16-bit range (0 to $FFFF inclusive), the bank must be in 
 Implementations may accept bank numbers higher than $FFFFFFFF.
 
 Two locations are considered identical if they have the same bank (including none) and the same address.
-Two distinct symbols can have identical locations; in particular, <LatestStableLink to="rgbasm.5#Unions">unions</LatestStableLink> facilitate this.
+Two distinct symbols can have identical locations; in particular, <LatestStableLink to="rgbasm.5#Allocating_overlapping_spaces_in_RAM">unions</LatestStableLink> facilitate this.
 
 Sym files may or may not be sorted by location; implementations must be able to handle both.
 (For example, RGBLINK before v0.4.0 output symbols in the same order that it read them from its input files.)
@@ -156,7 +156,7 @@ The following heuristics are suggested:
 **This section is non-normative.**
 
 Note that banking for addresses $0000-7FFF is defined by the ROM's mapper, so implementations should be flexible: the bank number for $0000-3FFF can be different from 0 ([MBC1M](https://gbdev.io/pandocs/MBC1#mbc1m-1-mib-multi-game-compilation-carts), [MMM01](https://gbdev.io/pandocs/MMM01), ...), the bank number for $4000-7FFF may be 0 ([mapper-less ROMs](https://gbdev.io/pandocs/nombc)), etc.
-Note also that while most ROMs never have more than 256 banks for anything, at least one commercial GBC game ([Densha De Go! 2](https://github.com/gbdev/awesome-gbdev/blob/b8ead97724757651e393be951bfac238ab1f4d64/CartridgeList.csv#L496)) has more than 256 ROM banks, and homebrew mappers (such as the [TPP1](https://github.com/TwitchPlaysPokemon/tpp1)) may support many more.
+Note also that while most ROMs never have more than 256 banks for anything, at least one commercial GBC game ([Densha De Go! 2](https://github.com/gbdev/awesome-gbdev/blob/b8ead97724757651e393be951bfac238ab1f4d64/CartridgeList.csv#L496)) has more than 256 ROM banks, and homebrew mappers (such as the [TPP1](https://github.com/aaaaaa123456789/tpp1)) may support many more.
 
 Sym files generally do not contain symbols for the hardware registers ($FF00-FF7F and $FFFF), so implementations are encouraged to provide separate support for those.
 [hardware.inc](https://github.com/gbdev/hardware.inc) is a good starting point.
