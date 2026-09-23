@@ -1,10 +1,5 @@
 # rgbds(7) — Rednex Game Boy Development System
 
-import RenderedManual from '@site/src/components/RenderedManual';
-import generated from './rgbds.7.html';
-
-<RenderedManual html={generated} />
-
 export const toc = [
 {
 	"value": "EXAMPLES",
@@ -22,3 +17,9 @@ export const toc = [
 	"level": 2,
 },
 ];
+
+import RenderedManual from '@site/src/components/RenderedManual';
+import generated from './rgbds.7.html';
+
+<RenderedManual html={generated} toc={toc} />
+

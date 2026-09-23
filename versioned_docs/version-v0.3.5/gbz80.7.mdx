@@ -1,10 +1,5 @@
 # gbz80(7) — CPU opcode reference
 
-import RenderedManual from '@site/src/components/RenderedManual';
-import generated from './gbz80.7.html';
-
-<RenderedManual html={generated} />
-
 export const toc = [
 {
 	"value": "DESCRIPTION",
@@ -612,3 +607,9 @@ export const toc = [
 	"level": 2,
 },
 ];
+
+import RenderedManual from '@site/src/components/RenderedManual';
+import generated from './gbz80.7.html';
+
+<RenderedManual html={generated} toc={toc} />
+

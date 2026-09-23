@@ -40,11 +40,6 @@ process_file() {
 		awk '/\.Dt/ { page = tolower($2) "(" $3 ")" } /\.Nd/ { sub(/\.Nd /, ""); print "# " page " — " $0 }' <"$1"
 		cat <<EOF
 
-import RenderedManual from '@site/src/components/RenderedManual';
-import generated from './$basename.html';
-
-<RenderedManual html={generated} />
-
 export const toc = [
 EOF
 		# Docusaurus does not parse HTML injected like above, so generate the ToC manually.
@@ -74,7 +69,14 @@ EOF
 				heading 3 "${line#.Ss }"
 			fi
 		done <"$1"
-		echo '];'
+		cat <<EOF
+'];'
+
+import RenderedManual from '@site/src/components/RenderedManual';
+import generated from './$basename.html';
+
+<RenderedManual html={generated} />
+EOF
 	} >"$out_dir/$basename.mdx"
 }
 

@@ -1,10 +1,5 @@
 # rgbgfx(1) — Game Boy graphics converter
 
-import RenderedManual from '@site/src/components/RenderedManual';
-import generated from './rgbgfx.1.html';
-
-<RenderedManual html={generated} />
-
 export const toc = [
 {
 	"value": "SYNOPSIS",
@@ -42,3 +37,9 @@ export const toc = [
 	"level": 2,
 },
 ];
+
+import RenderedManual from '@site/src/components/RenderedManual';
+import generated from './rgbgfx.1.html';
+
+<RenderedManual html={generated} toc={toc} />
+
