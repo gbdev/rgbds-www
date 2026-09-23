@@ -76,7 +76,7 @@ None of these definitions shall be ignored, nor shall they cause parsing to fail
 Implementations may warn about such cases, not necessarily when the sym file is loaded; if a warning is displayed when loading the file, no more than one warning should be produced per unique name.
 Implementations may later handle ambiguous references to symbols by name in any way they see fit, including by producing a warning or an error.
 
-:::note Rationale
+:::note[Rationale]
 
 For example, "displaying symbol names instead of memory addresses" accomodates ambiguities just fine, however a "go to symbol by name" feature wouldn't.
 
