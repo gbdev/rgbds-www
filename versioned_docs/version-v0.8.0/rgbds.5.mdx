@@ -1,8 +1,9 @@
 # rgbds(5) — object file format documentation
 
+import RenderedManual from '@site/src/components/RenderedManual';
 import generated from '!!raw-loader!./rgbds.5.html';
 
-<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<RenderedManual html={generated} />
 
 export const toc = [
 {

@@ -40,9 +40,10 @@ process_file() {
 		awk '/\.Dt/ { page = tolower($2) "(" $3 ")" } /\.Nd/ { sub(/\.Nd /, ""); print "# " page " — " $0 }' <"$1"
 		cat <<EOF
 
+import RenderedManual from '@site/src/components/RenderedManual';
 import generated from '!!raw-loader!./$basename.html';
 
-<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<RenderedManual html={generated} />
 
 export const toc = [
 EOF

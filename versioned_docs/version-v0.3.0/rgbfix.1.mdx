@@ -1,8 +1,9 @@
 # rgbfix(1) — Game Boy checksum fixer
 
+import RenderedManual from '@site/src/components/RenderedManual';
 import generated from '!!raw-loader!./rgbfix.1.html';
 
-<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<RenderedManual html={generated} />
 
 export const toc = [
 {

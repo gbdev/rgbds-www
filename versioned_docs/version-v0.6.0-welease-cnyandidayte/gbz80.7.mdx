@@ -1,8 +1,9 @@
 # gbz80(7) — CPU opcode reference uwu
 
+import RenderedManual from '@site/src/components/RenderedManual';
 import generated from '!!raw-loader!./gbz80.7.html';
 
-<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<RenderedManual html={generated} />
 
 export const toc = [
 {

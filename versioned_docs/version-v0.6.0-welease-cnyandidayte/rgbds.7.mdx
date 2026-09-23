@@ -1,8 +1,9 @@
 # rgbds(7) — Rednex Game Boy Development System
 
+import RenderedManual from '@site/src/components/RenderedManual';
 import generated from '!!raw-loader!./rgbds.7.html';
 
-<div className="manual-text" dangerouslySetInnerHTML={{ __html: generated }} />
+<RenderedManual html={generated} />
 
 export const toc = [
 {
