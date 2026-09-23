@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 20.x
           cache: yarn
-      - uses: actions/cache@v6
+      - uses: actions/cache/restore@v6
         with:
           path: node_modules/.cache
           key: rspack-persistent-cache
@@ -37,6 +37,11 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+      - uses: actions/cache/save@v6
+        if: always() # Even on failure, and (unlike default) even if the cache was restored successfully.
+        with:
+          path: node_modules/.cache
+          key: rspack-persistent-cache
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
