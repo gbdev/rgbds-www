@@ -32,6 +32,8 @@ jobs:
           path: node_modules/.cache
           key: rspack-persistent-cache
       - name: Build website
+        env:
+          FORCE_COLOR: true # Enable Yarn's colour despite not emitting to a TTY.
         run: |
           yarn install --frozen-lockfile
           yarn build
