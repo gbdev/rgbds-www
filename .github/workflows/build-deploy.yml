@@ -27,6 +27,10 @@ jobs:
         with:
           node-version: 20.x
           cache: yarn
+      - uses: actions/cache@v6
+        with:
+          path: node_modules/.cache
+          key: rspack-persistent-cache
       - name: Build website
         run: |
           yarn install --frozen-lockfile
