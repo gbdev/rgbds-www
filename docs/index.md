@@ -1,7 +1,7 @@
 
 # Release information
 
-## What is `master`? {#master}
+## What is `master`? {/* #master */}
 
 `master` is the name of RGBDS' main development branch.
 It's used to refer to "bleeding-edge" RGBDS, containing the latest changes as they are pushed.
