@@ -31,6 +31,7 @@ const config = {
   trailingSlash: false,
 
   markdown: {
+    format: 'detect',
     hooks: {
       onBrokenMarkdownLinks: "throw",
     }
@@ -56,7 +57,7 @@ const config = {
           sidebarCollapsible: false,
           // The upstream source of these pages' actual content is the man pages in the main repo, not the renders
           editUrl: function (info) {
-            const match = /^(.+\.[157])\.md$/i.exec(info.docPath);
+            const match = /^(.+\.[157])\.mdx$/i.exec(info.docPath);
             return match
               ? `https://github.com/gbdev/rgbds/edit/master/man/${match[1]}` // It's only possible to edit on a branch
               : `https://github.com/gbdev/rgbds-www/edit/master/${info.versionDocsDirPath}/${info.docPath}`;

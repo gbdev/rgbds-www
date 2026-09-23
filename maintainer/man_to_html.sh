@@ -23,8 +23,8 @@ if [[ $1 = master ]]; then
 else
 	out_dir="$script_dir/../versioned_docs/version-$1"
 	mkdir -p "$out_dir"
-	cp "$script_dir"/support/feedback.md "$out_dir"
-	sed "s/@RELEASE_NAME@/$1/g" "$script_dir"/support/index.md >"$out_dir/index.md"
+	cp "$script_dir"/support/feedback.mdx "$out_dir"
+	sed "s/@RELEASE_NAME@/$1/g" "$script_dir"/support/index.mdx >"$out_dir/index.mdx"
 fi
 
 process_file() {
@@ -74,7 +74,7 @@ EOF
 			fi
 		done <"$1"
 		echo '];'
-	} >"$out_dir/$basename.md"
+	} >"$out_dir/$basename.mdx"
 }
 
 while [ $# -ge 2 ]; do
