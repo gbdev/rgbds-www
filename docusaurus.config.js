@@ -24,7 +24,6 @@ const config = {
     "A free assembler/linker package for the Game Boy and Game Boy Color",
   url: "https://rgbds.gbdev.io",
   baseUrl: "/",
-  onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "gbdev",
   projectName: "rgbds-www",
