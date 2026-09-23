@@ -41,7 +41,7 @@ process_file() {
 		cat <<EOF
 
 import RenderedManual from '@site/src/components/RenderedManual';
-import generated from '!!raw-loader!./$basename.html';
+import generated from './$basename.html';
 
 <RenderedManual html={generated} />
 

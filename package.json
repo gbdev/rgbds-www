@@ -23,7 +23,7 @@
     "clsx": "^1.1.1",
     "docusaurus-plugin-matomo": "^0.0.8",
     "prism-react-renderer": "^2.4.1",
-    "raw-loader": "^4.0.2",
+    "html-loader": "^5.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

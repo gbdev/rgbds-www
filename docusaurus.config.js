@@ -80,6 +80,30 @@ const config = {
   ],
 
   plugins: [
+    function rspackConfig(context, options) {
+      return {
+        name: 'Rspack custom config',
+        configureWebpack(config, isServer, utils, content) {
+          return {
+            module: {
+              rules: [
+                { // Pre-rendered man pages.
+                  test: /\.[0-9]\.html$/,
+                  sideEffects: false,
+                  use: [
+                    {
+                      loader: 'html-loader',
+                      options: {},
+                      parallel: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          };
+        },
+      };
+    },
     [
       "@docusaurus/plugin-content-docs",
       {
