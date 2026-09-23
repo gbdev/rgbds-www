@@ -27,10 +27,13 @@ jobs:
         with:
           node-version: 20.x
           cache: yarn
-      - uses: actions/cache/restore@v6
+      - name: Update Rspack persistent cache
+        id: restore-rspack-cache
+        uses: actions/cache/restore@v6
         with:
-          path: node_modules/.cache
-          key: rspack-persistent-cache
+          path: node_modules/.cache/
+          key: rspack-${{ github.run_id }}
+          restore-keys: rspack
       - name: Build website
         env:
           FORCE_COLOR: true # Enable Yarn's colour despite not emitting to a TTY.
@@ -38,10 +41,10 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
       - uses: actions/cache/save@v6
-        if: always() # Even on failure, and (unlike default) even if the cache was restored successfully.
+        if: always() # Even on failure.
         with:
-          path: node_modules/.cache
-          key: rspack-persistent-cache
+          path: node_modules/.cache/
+          key: ${{ steps.restore-rspack-cache.outputs.cache-primary-key }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
