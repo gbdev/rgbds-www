@@ -21,37 +21,38 @@ code, pre {
   font-weight: 500;
 }
 
-
-:root {
-  --ifm-heading-font-family: "Akshar", sans-serif;
-  --ifm-font-family-monospace: "JetBrains Mono", monospace;
-  --ifm-color-primary: #332fd0;
-  --ifm-color-primary-dark: #2e2abb;
-  --ifm-color-primary-darker: #2b28b1;
-  --ifm-color-primary-darkest: #242192;
-  --ifm-color-primary-light: #4744d5;
-  --ifm-color-primary-lighter: #524ed7;
-  --ifm-color-primary-lightest: #706dde;
-  --ifm-background-color: #f6f5f4;
-  --ifm-h2-font-size: 2rem;
-  --ifm-h3-font-size: 1.75rem;
-  --ifm-h4-font-size: 1.5rem;
-  --ifm-h5-font-size: 1.25rem;
+@layer docusaurus.infima {
+  :root {
+    --ifm-heading-font-family: "Akshar", sans-serif;
+    --ifm-font-family-monospace: "JetBrains Mono", monospace;
+    --ifm-color-primary: #332fd0;
+    --ifm-color-primary-dark: #2e2abb;
+    --ifm-color-primary-darker: #2b28b1;
+    --ifm-color-primary-darkest: #242192;
+    --ifm-color-primary-light: #4744d5;
+    --ifm-color-primary-lighter: #524ed7;
+    --ifm-color-primary-lightest: #706dde;
+    --ifm-background-color: #f6f5f4;
+    --ifm-h2-font-size: 2rem;
+    --ifm-h3-font-size: 1.75rem;
+    --ifm-h4-font-size: 1.5rem;
+    --ifm-h5-font-size: 1.25rem;
+  }
+  
+  [data-theme="dark"] {
+    --ifm-color-primary: #7cd5f1;
+    --ifm-color-primary-dark: #5bcaed;
+    --ifm-color-primary-darker: #4bc5ec;
+    --ifm-color-primary-darkest: #19b5e6;
+    --ifm-color-primary-light: #9de0f5;
+    --ifm-color-primary-lighter: #ade5f6;
+    --ifm-color-primary-lightest: #dff5fc;
+  }
 }
 
 /* Since the footer has always a dark background, user the dark-theme colors for links to ensure decent contrast */
 [data-theme="light"] .footer__link-item:hover, .footer a:hover, .footer__copyright a{
   color: #7cd5f1 !important;
-}
-
-[data-theme="dark"] {
-  --ifm-color-primary: #7cd5f1;
-  --ifm-color-primary-dark: #5bcaed;
-  --ifm-color-primary-darker: #4bc5ec;
-  --ifm-color-primary-darkest: #19b5e6;
-  --ifm-color-primary-light: #9de0f5;
-  --ifm-color-primary-lighter: #ade5f6;
-  --ifm-color-primary-lightest: #dff5fc;
 }
 
 .docusaurus-highlight-code-line {

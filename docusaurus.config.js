@@ -39,7 +39,7 @@ const config = {
   future: {
     v4: {
       removeLegacyPostBuildHeadAttribute: true,
-      useCssCascadeLayers: false, // Our custom CSS' Infima overrides need upgrading.
+      useCssCascadeLayers: true,
       siteStorageNamespacing: true,
       fasterByDefault: true,
       mdx1CompatDisabledByDefault: true,
