@@ -28,6 +28,6 @@ section {
 
 h2 {
   text-align: center;
-  font-family: "Akshar Medium";
+  font-family: "Akshar Medium", sans-serif;
   font-size: 2rem;
 }
