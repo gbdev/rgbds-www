@@ -353,25 +353,24 @@
     <code class="Fl">-Wobsolete</code> enables the warning that
     <code class="Fl">-Wno-obsolete</code> disables; and
     <code class="Fl">-Wall</code> enables every warning that
-    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
-    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
-    alphabetically.</p>
+    <code class="Fl">-Wno-all</code> disables). The flags are listed
+    alphabetically below.</p>
 <dl class="Bl-tag">
-  <dt id="Wno-assert"><a class="permalink" href="#Wno-assert"><code class="Fl">-Wno-assert</code></a></dt>
+  <dt id="Wassert"><a class="permalink" href="#Wassert"><code class="Fl">-Wassert</code></a></dt>
   <dd>Warn when <code class="Ic">WARN</code><span class="No">-type</span>
       assertions fail. (See &#x201C;Aborting the assembly process&#x201D; in
       <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for
-      <code class="Ic">ASSERT</code>).</dd>
+      <code class="Ic">ASSERT</code>). This warning is enabled by default.</dd>
   <dt id="Wdiv"><a class="permalink" href="#Wdiv"><code class="Fl">-Wdiv</code></a></dt>
   <dd>Warn when dividing the smallest negative integer (-2**31) by -1, which
       yields itself due to integer overflow. This warning is enabled by
       <code class="Fl">-Wall</code>.</dd>
-  <dt id="Wno-large-constant"><a class="permalink" href="#Wno-large-constant"><code class="Fl">-Wno-large-constant</code></a></dt>
+  <dt id="Wlarge-constant"><a class="permalink" href="#Wlarge-constant"><code class="Fl">-Wlarge-constant</code></a></dt>
   <dd>Warn when a constant too large to fit in a signed 32-bit integer is
-      encountered.</dd>
-  <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
+      encountered. This warning is enabled by default.</dd>
+  <dt id="Wobsolete"><a class="permalink" href="#Wobsolete"><code class="Fl">-Wobsolete</code></a></dt>
   <dd>Warn when obsolete features are encountered, which have been deprecated
-      and may later be removed.</dd>
+      and may later be removed. This warning is enabled by default.</dd>
   <dt id="Wshift"><a class="permalink" href="#Wshift"><code class="Fl">-Wshift</code></a></dt>
   <dd>Warn when shifting right a negative value. Use a division by 2**N instead.
       This warning is enabled by <code class="Fl">-Wall</code>.</dd>
@@ -384,9 +383,9 @@
       or <code class="Fl">-Wno-truncation</code> disables this warning.
       <code class="Fl">-Wtruncation=1</code> or just
       <code class="Fl">-Wtruncation</code> warns when an N-bit value is 2**N or
-      greater, or less than -2**N. <code class="Fl">-Wtruncation=2</code> also
-      warns when an N-bit value is less than -2**(N-1), which will not fit in
-      two's complement encoding.</dd>
+      greater, or less than -2**N. This warning level is enabled by default.
+      <code class="Fl">-Wtruncation=2</code> also warns when an N-bit value is
+      less than -2**(N-1), which will not fit in two's complement encoding.</dd>
 </dl>
 </section>
 <section class="Sh">

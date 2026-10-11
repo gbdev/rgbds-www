@@ -379,15 +379,14 @@
     <code class="Fl">-Wobsolete</code> enables the warning that
     <code class="Fl">-Wno-obsolete</code> disables; and
     <code class="Fl">-Wall</code> enables every warning that
-    <code class="Fl">-Wno-all</code> disables). Only the non-default flag is
-    listed here. Ignoring the &#x201C;no-&#x201D; prefix, entries are listed
-    alphabetically.</p>
+    <code class="Fl">-Wno-all</code> disables). The flags are listed
+    alphabetically below.</p>
 <dl class="Bl-tag">
-  <dt id="Wno-assert"><a class="permalink" href="#Wno-assert"><code class="Fl">-Wno-assert</code></a></dt>
+  <dt id="Wassert"><a class="permalink" href="#Wassert"><code class="Fl">-Wassert</code></a></dt>
   <dd>Warn when <code class="Ic">WARN</code><span class="No">-type</span>
       assertions fail. (See &#x201C;Aborting the assembly process&#x201D; in
       <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for
-      <code class="Ic">ASSERT</code>).</dd>
+      <code class="Ic">ASSERT</code>). This warning is enabled by default.</dd>
   <dt id="Wbackwards-for"><a class="permalink" href="#Wbackwards-for"><code class="Fl">-Wbackwards-for</code></a></dt>
   <dd>Warn when <code class="Ic">FOR</code> loops have their start and stop
       values switched according to the step value. This warning is enabled by
@@ -416,21 +415,21 @@
   <dt id="Wexport-undefined"><a class="permalink" href="#Wexport-undefined"><code class="Fl">-Wexport-undefined</code></a></dt>
   <dd>Warn when exporting an undefined symbol. This warning is enabled by
       <code class="Fl">-Wall</code>.</dd>
-  <dt id="Wno-large-constant"><a class="permalink" href="#Wno-large-constant"><code class="Fl">-Wno-large-constant</code></a></dt>
+  <dt id="Wlarge-constant"><a class="permalink" href="#Wlarge-constant"><code class="Fl">-Wlarge-constant</code></a></dt>
   <dd>Warn when a constant too large to fit in a signed 32-bit integer is
-      encountered.</dd>
+      encountered. This warning is enabled by default.</dd>
   <dt id="Wmacro-shift"><a class="permalink" href="#Wmacro-shift"><code class="Fl">-Wmacro-shift</code></a></dt>
   <dd>Warn when shifting macro arguments past their limits. This warning is
       enabled by <code class="Fl">-Wextra</code>.</dd>
-  <dt id="Wno-nested-comment"><a class="permalink" href="#Wno-nested-comment"><code class="Fl">-Wno-nested-comment</code></a></dt>
+  <dt id="Wnested-comment"><a class="permalink" href="#Wnested-comment"><code class="Fl">-Wnested-comment</code></a></dt>
   <dd>Warn when the block comment start sequence
       &#x2018;<code class="Li">/*</code>&#x2019; is found inside of a block
       comment. Block comments cannot be nested, so the first
-      &#x2018;<code class="Li">*/</code>&#x2019; will end the whole
-    comment.</dd>
-  <dt id="Wno-obsolete"><a class="permalink" href="#Wno-obsolete"><code class="Fl">-Wno-obsolete</code></a></dt>
+      &#x2018;<code class="Li">*/</code>&#x2019; will end the whole comment.
+      This warning is enabled by default.</dd>
+  <dt id="Wobsolete"><a class="permalink" href="#Wobsolete"><code class="Fl">-Wobsolete</code></a></dt>
   <dd>Warn when obsolete features are encountered, which have been deprecated
-      and may later be removed.</dd>
+      and may later be removed. This warning is enabled by default.</dd>
   <dt id="Wnumeric-string="><a class="permalink" href="#Wnumeric-string="><code class="Fl">-Wnumeric-string=</code></a></dt>
   <dd>Warn when a multi-character string is treated as a number.
       <code class="Fl">-Wnumeric-string=0</code> or
@@ -444,9 +443,11 @@
   <dd>Warn when purging symbols which are likely to have been necessary.
       <code class="Fl">-Wpurge=0</code> or <code class="Fl">-Wno-purge</code>
       disables this warning. <code class="Fl">-Wpurge=1</code> warns when
-      purging any exported symbol (regardless of type).
-      <code class="Fl">-Wpurge=2</code> or just <code class="Fl">-Wpurge</code>
-      also warns when purging any label (even if not exported).</dd>
+      purging any exported symbol (regardless of type). This warning level is
+      enabled by default. <code class="Fl">-Wpurge=2</code> or just
+      <code class="Fl">-Wpurge</code> also warns when purging any label (even if
+      not exported). This warning level is enabled by
+      <code class="Fl">-Wall</code>.</dd>
   <dt id="Wshift"><a class="permalink" href="#Wshift"><code class="Fl">-Wshift</code></a></dt>
   <dd>Warn when shifting right a negative value. Use a division by 2**N
     instead.</dd>
@@ -458,18 +459,20 @@
       or <code class="Fl">-Wno-truncation</code> disables this warning.
       <code class="Fl">-Wtruncation=1</code> or just
       <code class="Fl">-Wtruncation</code> warns when an N-bit value is 2**N or
-      greater, or less than -2**N. <code class="Fl">-Wtruncation=2</code> also
-      warns when an N-bit value is less than -2**(N-1), which will not fit in
-      two's complement encoding.</dd>
+      greater, or less than -2**N. This warning level is enabled by default.
+      <code class="Fl">-Wtruncation=2</code> also warns when an N-bit value is
+      less than -2**(N-1), which will not fit in two's complement encoding. This
+      warning level is enabled by <code class="Fl">-Wextra</code>.</dd>
   <dt id="Wunmapped-char="><a class="permalink" href="#Wunmapped-char="><code class="Fl">-Wunmapped-char=</code></a></dt>
   <dd>Warn when a character goes through charmap conversion but has no defined
       mapping. <code class="Fl">-Wunmapped-char=0</code> or
       <code class="Fl">-Wno-unmapped-char</code> disables this warning.
       <code class="Fl">-Wunmapped-char=1</code> or just
       <code class="Fl">-Wunmapped-char</code> only warns if the active charmap
-      is not empty. <code class="Fl">-Wunmapped-char=2</code> warns if the
-      active charmap is empty, and/or is not the default charmap
-      &#x2018;main&#x2019;.</dd>
+      is not empty. This warning level is enabled by default.
+      <code class="Fl">-Wunmapped-char=2</code> warns if the active charmap is
+      empty, and/or is not the default charmap &#x2018;main&#x2019;. This
+      warning level is enabled by <code class="Fl">-Wall</code>.</dd>
   <dt id="Wunmatched-directive"><a class="permalink" href="#Wunmatched-directive"><code class="Fl">-Wunmatched-directive</code></a></dt>
   <dd>Warn when a <code class="Ic">PUSHC</code>, <code class="Ic">PUSHO</code>,
       or <code class="Ic">PUSHS</code> directive does not have a corresponding
@@ -480,11 +483,11 @@
   <dd>Warn when a <code class="Ic">LOAD</code> block is not terminated by an
       <code class="Ic">ENDL</code>. This warning is enabled by
       <code class="Fl">-Wextra</code>.</dd>
-  <dt id="Wno-user"><a class="permalink" href="#Wno-user"><code class="Fl">-Wno-user</code></a></dt>
+  <dt id="Wuser"><a class="permalink" href="#Wuser"><code class="Fl">-Wuser</code></a></dt>
   <dd>Warn when the <code class="Ic">WARN</code> built-in is executed. (See
       &#x201C;Aborting the assembly process&#x201D; in
       <a class="Xr" href="./rgbasm.5">rgbasm(5)</a> for
-      <code class="Ic">WARN</code>).</dd>
+      <code class="Ic">WARN</code>). This warning is enabled by default.</dd>
 </dl>
 </section>
 <section class="Sh">
