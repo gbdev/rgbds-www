@@ -70,12 +70,12 @@ EOF
 			fi
 		done <"$1"
 		cat <<EOF
-'];'
+];
 
 import RenderedManual from '@site/src/components/RenderedManual';
 import generated from './$basename.html';
 
-<RenderedManual html={generated} />
+<RenderedManual html={generated} toc={toc} />
 EOF
 	} >"$out_dir/$basename.mdx"
 }
