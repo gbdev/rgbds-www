@@ -2148,10 +2148,12 @@ INCBIN &quot;sprites/hero.bin&quot;</pre>
 </div>
 <p class="Pp">You can also include only part of a file with
     <code class="Ic">INCBIN</code>. The example below includes 256 bytes from
-    data.bin, starting from byte 78.</p>
+    &#x2018;<code class="Li">data.bin</code>&#x2019;, starting from byte 78.</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>INCBIN &quot;data.bin&quot;, 78, 256</pre>
 </div>
+It is an error for &#x2018;<code class="Li">data.bin</code>&#x2019; to contain
+  fewer than 78 + 256 = 334 bytes.
 <p class="Pp">The length argument is optional. If only the start position is
     specified, the bytes from the start position until the end of the file will
     be included.</p>
