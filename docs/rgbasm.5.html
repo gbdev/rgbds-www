@@ -236,7 +236,7 @@ PURGE topic, meaning, {meaning}</pre>
   <tr>
     <td>&#x2018;<code class="Li">s</code>&#x2019;</td>
     <td>String</td>
-    <td>string contents</td>
+    <td>String contents</td>
   </tr>
 </table>
 <p class="Pp">Examples:</p>
@@ -2148,7 +2148,8 @@ INCBIN &quot;sprites/hero.bin&quot;</pre>
 </div>
 <p class="Pp">You can also include only part of a file with
     <code class="Ic">INCBIN</code>. The example below includes 256 bytes from
-    &#x2018;<code class="Li">data.bin</code>&#x2019;, starting from byte 78.</p>
+    &#x2018;<code class="Li">data.bin</code>&#x2019;, starting from byte 78
+    (byte positions start from 0).</p>
 <div class="Bd Pp Bd-indent Li">
 <pre>INCBIN &quot;data.bin&quot;, 78, 256</pre>
 </div>
@@ -2693,13 +2694,13 @@ assert FirstByte + 1 == SecondByte
     ; If you specify one, a message will be printed
     STATIC_ASSERT .end - Function &lt; 256, &quot;Function is too large!&quot;</pre>
 </div>
-<p class="Pp">First, the difference between <code class="Ic">ASSERT</code> and
-    <code class="Ic">STATIC_ASSERT</code> is that the former is evaluated by
-    RGBASM if it can, otherwise by RGBLINK; but the latter is only ever
-    evaluated by RGBASM. If RGBASM cannot compute the value of the argument to
-    <code class="Ic">STATIC_ASSERT</code>, it will produce an error.</p>
-<p class="Pp">Second, as shown above, a string can be optionally added at the
-    end, to give insight into what the assertion is checking.</p>
+<p class="Pp">An <code class="Ic">ASSERT</code> is evaluated by RGBASM if it
+    can, otherwise by RGBLINK; but a <code class="Ic">STATIC_ASSERT</code> that
+    RGBASM cannot evaluate will raise an error. If RGBASM cannot compute the
+    value of the argument to <code class="Ic">STATIC_ASSERT</code>, it will
+    produce an error.</p>
+<p class="Pp">As shown above, a message string can be optionally added as the
+    last argument, to give insight into what the assertion is checking.</p>
 <p class="Pp">Finally, you can add one of <code class="Ic">WARN</code>,
     <code class="Ic">FAIL</code> or <code class="Ic">FATAL</code> as the first
     optional argument to either <code class="Ic">ASSERT</code> or
