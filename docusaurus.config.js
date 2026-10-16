@@ -1,7 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-import { latestStable } from "./src/components/versions.js";
+import { readFile } from "node:fs/promises";
+import { latestStable, versions as versionIds } from "./src/components/versions.js";
 
 const versions = {
   current: {
@@ -101,6 +102,32 @@ const config = {
               ],
             },
           };
+        },
+      };
+    },
+    function releaseDates(context, options) {
+      // The version history table is the single source of truth for release dates
+      const historyPath = `${context.siteDir}/src/pages/versions.mdx`;
+      return {
+        name: "release-dates",
+        getPathsToWatch() {
+          return [historyPath];
+        },
+        async loadContent() {
+          const history = await readFile(historyPath, "utf8");
+          const dates = {};
+          for (const [, version, date] of history.matchAll(/^\| \[([^\]]+)\]\([^)]*\) \| (\d{4}-\d{2}-\d{2}) \|/gm)) {
+            dates[`v${version}`] = date;
+          }
+          for (const version of versionIds) {
+            if (!(version in dates)) {
+              console.warn(`[release-dates] No release date found for ${version} in ${historyPath}`);
+            }
+          }
+          return dates;
+        },
+        async contentLoaded({ content, actions }) {
+          actions.setGlobalData(content);
         },
       };
     },
