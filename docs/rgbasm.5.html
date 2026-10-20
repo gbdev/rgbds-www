@@ -2227,12 +2227,12 @@ NEXTU
 ENDU
 ; Afterward, PC == $C0F2</pre>
 </div>
-<p class="Pp">In the example above, &#x2018;wName, wHealth&#x2019;, and
-    &#x2018;wVideoBuffer&#x2019; all have the same value; so do
-    &#x2018;wNickname&#x2019; and &#x2018;wBonus&#x2019;. Thus, keep in mind
-    that &#x2018;<code class="Li">ld [wHealth], a</code>&#x2019; assembles to
-    the exact same instruction as &#x2018;<code class="Li">ld [wName],
-    a</code>&#x2019;.</p>
+<p class="Pp">In the example above, &#x2018;wName&#x2019;,
+    &#x2018;wHealth&#x2019;, and &#x2018;wVideoBuffer&#x2019; all have the same
+    value; so do &#x2018;wNickname&#x2019; and &#x2018;wBonus&#x2019;. Thus,
+    keep in mind that &#x2018;<code class="Li">ld [wHealth], a</code>&#x2019;
+    assembles to the exact same instruction as &#x2018;<code class="Li">ld
+    [wName], a</code>&#x2019;.</p>
 <p class="Pp">This whole union's total size is 20 bytes, the size of the largest
     block (the first one, containing &#x2018;wName&#x2019; and
     &#x2018;wNickname&#x2019;).</p>
