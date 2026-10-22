@@ -4,13 +4,21 @@ hide_table_of_contents: true
 ---
 
 import Link from '@docusaurus/Link';
+import { usePluginData } from '@docusaurus/useGlobalData';
 import { versions, latestStable } from '@site/src/components/versions.js';
 
 export const VersionList = ({children}) => {
+  const releaseDates = usePluginData('release-dates');
   const VersionLink = (version) => <Link to={`/docs/${version}`}>{version}</Link>;
-  return versions.map((version) => <li key={version}>{
-    version == latestStable ? [<b>{VersionLink(version)}</b>, ' (latest stable)'] : VersionLink(version)
-  }</li>);
+  return versions.map((version) => {
+    const date = releaseDates[version];
+    const isLatest = version == latestStable;
+    return <li key={version}>
+      {isLatest ? <b>{VersionLink(version)}</b> : VersionLink(version)}
+      {date && <> (released <time dateTime={date}>{date}</time>{isLatest && ', latest stable'})</>}
+      {!date && isLatest && ' (latest stable)'}
+    </li>;
+  });
 }
 
 # Online manual — version index
