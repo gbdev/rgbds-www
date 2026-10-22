@@ -183,7 +183,7 @@
           lightest (white), 3 is the darkest (black). If
           <var class="Ar">pal_spec</var> is the case-insensitive word
           <code class="Cm">dmg</code>, then it acts like
-          <code class="Cm">dmg=E4</code>, i.e. the darkest gray will end up in
+          <code class="Cm">dmg=E4</code>, i.e. the lightest gray will end up in
           color index 0, and so on. The same gray shade cannot go in two color
           indexes. To specify a DMG palette, the input PNG must have all its
           colors in shades of gray, without any transparent colors.</dd>
@@ -574,9 +574,9 @@
       <code class="Cm">embedded</code> may be appropriate.)</li>
   <li>Otherwise, if the PNG only contains shades of gray, they will be
       categorized into as many &#x201C;bins&#x201D; as there are colors per
-      palette, and the palette is set to these bins. The darkest gray will end
-      up in bin #0, and so on; note that this is the opposite of the RGB method
-      below. This is equivalent to having specified a DMG palette of
+      palette, and the palette is set to these bins. The lightest gray will end
+      up in bin #0, and so on; this is the same luminance ordering as the RGB
+      method below. This is equivalent to having specified a DMG palette of
       <code class="Fl">-c</code> <code class="Cm">dmg=E4</code>. If two distinct
       grays end up in the same bin, the RGB method is used instead.
     <p class="Pp" id="exactly">Be careful that <code class="Nm">rgbgfx</code> is
